@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\PengajuanProposalController;
+use App\Http\Controllers\TambahPengajuanProposal;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ReviewController;
 
@@ -8,6 +10,12 @@ Route::get('/', function () {
 });
 // Route ANNISA DIAN FADILLAH
 Route::get('/manajemen-review', [ReviewController::class, 'index']);
+
+//Route M. HARISH AL-R.
+Route::get('/pengajuan-proposal', [PengajuanProposalController::class, 'index']);
+
+Route::get('/tambah-pengajuan-proposal', [TambahPengajuanProposal::class, 'index']);
+Route::post('/add', [TambahPengajuanProposal::class, 'add']);
 
 // Route TEMPLATE
 Route::get('/profile', function () {
