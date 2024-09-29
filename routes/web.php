@@ -1,10 +1,11 @@
 <?php
 
-use App\Http\Controllers\PengajuanProposalController;
-use App\Http\Controllers\TambahPengajuanProposal;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\OrmawaController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\ProposalController;
+use App\Http\Controllers\TambahPengajuanProposal;
+use App\Http\Controllers\PengajuanProposalController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -17,17 +18,14 @@ Route::get('/manajemen-review', [ReviewController::class, 'index']);
 Route::get('/modal', function () {
     return view('proposal_kegiatan.komponen-modal'); // Pastikan ini benar
 });
-Route::get('/modal', [ProposalController::class, 'index']) 
-->name('pengajuan.kegiatan');
-
-Route::get('/pengajuan-kegiatan', [ProposalController::class, 'index']) 
-->name('pengajuan.kegiatan');
-
+// Route::get('/modal', [ProposalController::class, 'index']) 
+// ->name('pengajuan.kegiatan');
 
 //Route M. HARISH AL-R.
 Route::get('/pengajuan-proposal', [PengajuanProposalController::class, 'index']);
 
 Route::get('/tambah-pengajuan-proposal', [TambahPengajuanProposal::class, 'index']);
+Route::get('/tambah-pengajuan-proposal', [OrmawaController::class, 'create']);
 Route::post('/add', [TambahPengajuanProposal::class, 'add']);
 
 

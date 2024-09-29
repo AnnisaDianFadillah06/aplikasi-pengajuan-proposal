@@ -13,4 +13,9 @@ class PengajuanProposal extends Model
     protected $guarded = ['id_proposal'];
     protected $primaryKey = 'id_proposal';
 
+    public function pengguna()
+    {
+        return $this->belongsTo(Pengguna::class, 'id_pengguna');
+    }
+
 }

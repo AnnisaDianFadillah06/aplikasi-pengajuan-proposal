@@ -20,7 +20,7 @@ class TambahPengajuanProposal extends Controller
             'tempat_kegiatan'=>'required',
             'tanggal_kegiatan'=>'required',
             'jenis_kegiatan'=>'required',
-            'ormawa'=>'required',
+            'id_ormawa'=>'required',        //sudah id, karena pada saat form menggunakan akses ke db langsung untuk ormawa
             'file' => 'required|file|mimes:pdf',
         ]);
 
@@ -48,19 +48,21 @@ class TambahPengajuanProposal extends Controller
             'nama_kegiatan' => $request->input('nama_kegiatan'),
             'tmpt_kegiatan' => $request->input('tempat_kegiatan'),
             'tgl_kegiatan' => $request->input('tanggal_kegiatan'),
-            'id_jenis_kegiatan' => $id_jenis_kegiatan,
-            // 'id_ormawa' => $request->input('ormawa'),
-            'id_ormawa' => 1, //sample
-            'id_pengguna' => 1, //sample
             'file_proposal' => $filePath,
+            'id_jenis_kegiatan' => $id_jenis_kegiatan,
+            'id_ormawa' => $request->input('id_ormawa'),
+            'id_pengguna' => 1, //sample
             'created_at' => now(),  // Menyimpan nilai waktu saat ini
-            'updated_at' => now()   // Menyimpan nilai waktu saat ini
+            'updated_at' => now(),   // Menyimpan nilai waktu saat ini
+            'status' => 0 //awal mengumpulan diberi status 0 (menunggu)
         ]);
 
         if($query) {
-            return back()->with('sukses','Data berhasil tersimpan');
+            // return back()->with('sukses','Data berhasil tersimpan');
+            return redirect('/pengajuan-proposal')->with('sukses', 'Data berhasil tersimpan');
         }else{
-            return back()->with('Gagal','Terjadi kesalahan');
+            // return back()->with('Gagal','Terjadi kesalahan');
+            return redirect('/pengajuan-proposal')->with('Gagal','Terjadi kesalahan');
         }
         
     }

@@ -8,35 +8,6 @@
             <h3 class="text-2xl font-bold text-center text-gray-700">Form Input</h3>
             <p class="text-center text-gray-500">Silakan isi form di bawah ini</p>
             
-            {{-- alert sukses kirim form --}}
-            @if(Session::get('sukses'))
-                <div id="alert-sukses" class="bg-green-500 text-white px-4 py-2 rounded">
-                    {{ Session::get('sukses') }}
-                </div>
-            @endif
-                        
-            @if(Session::get('gagal'))
-                <div id="alert-gagal" class="bg-red-500 text-white px-4 py-2 rounded">
-                    {{ Session::get('gagal') }}
-                </div>
-            @endif
-
-            <script>
-                // Fungsi untuk menghilangkan alert setelah 3 detik
-                setTimeout(() => {
-                    const suksesAlert = document.getElementById('alert-sukses');
-                    const gagalAlert = document.getElementById('alert-gagal');
-                    if (suksesAlert) {
-                        suksesAlert.style.display = 'none';
-                    }
-                    if (gagalAlert) {
-                        gagalAlert.style.display = 'none';
-                    }
-                }, 3000); // 3000 ms = 3 detik
-            </script>
-
-
-            
             <form class="mt-6" action="add" method="post" enctype="multipart/form-data">
                 @csrf <!-- Token CSRF Laravel -->
                 
@@ -78,12 +49,13 @@
                     <!-- Dropdown Ormawa -->
                     <li class="flex flex-col">
                         <label for="ormawa" class="mb-2 font-semibold text-gray-700">Asal Ormawa</label>
-                        <select id="ormawa" name="ormawa" class="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
-                            <option value="">--Pilih --</option>
-                            <option value="himakom">HIMAKOM</option>
-                            <option value="himatel">HIMATEL</option>
+                        <select id="ormawa" name="id_ormawa" class="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
+                            <option value="">--Pilih--</option>
+                            @foreach($ormawas as $ormawa)
+                                <option value="{{ $ormawa->id_ormawa }}">{{ $ormawa->nama_ormawa }}</option>
+                            @endforeach
                         </select>
-                        <span style="color:red">@error('ormawa') {{ $message }} @enderror</span>
+                        <span style="color:red">@error('id_ormawa') {{ $message }} @enderror</span>
                     </li>
             
                     <!-- Input Attach File -->
