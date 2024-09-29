@@ -11,3 +11,8 @@ class ReviewController extends Controller
         return view('proposal_kegiatan.manajemen_review');
     }
 }
+
+// class komponenController extends Controller
+// {
+
+// }
