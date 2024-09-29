@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\PengajuanProposalController;
+use App\Http\Controllers\TambahPengajuanProposal;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\ProposalController;
@@ -10,6 +12,7 @@ Route::get('/', function () {
 // Route ANNISA DIAN FADILLAH
 Route::get('/manajemen-review', [ReviewController::class, 'index']);
 
+
 // Route DHEA PUTRI ANANDA
 Route::get('/modal', function () {
     return view('proposal_kegiatan.komponen-modal'); // Pastikan ini benar
@@ -19,6 +22,13 @@ Route::get('/modal', [ProposalController::class, 'index'])
 
 Route::get('/pengajuan-kegiatan', [ProposalController::class, 'index']) 
 ->name('pengajuan.kegiatan');
+
+
+//Route M. HARISH AL-R.
+Route::get('/pengajuan-proposal', [PengajuanProposalController::class, 'index']);
+
+Route::get('/tambah-pengajuan-proposal', [TambahPengajuanProposal::class, 'index']);
+Route::post('/add', [TambahPengajuanProposal::class, 'add']);
 
 
 // Route TEMPLATE
