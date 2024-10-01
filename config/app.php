@@ -2,6 +2,7 @@
 
 return [
     Davcpas1234\LaravelPdfViewer\LaravelPdfViewerServiceProvider::class,
+    Barryvdh\DomPDF\ServiceProvider::class,
     /*
     |--------------------------------------------------------------------------
     | Application Name

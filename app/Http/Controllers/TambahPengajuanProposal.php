@@ -32,7 +32,16 @@ class TambahPengajuanProposal extends Controller
         ]);
         
         // Simpan file yang di-upload
-        $filePath = $request->file('file')->store('proposals', 'public');
+        // $filePath = $request->file('file')->store('proposals', 'public');
+        // Ambil file yang di-upload
+        $file = $request->file('file');
+
+        // Tentukan nama file dan path untuk menyimpan
+        $fileName = time().'_'.$file->getClientOriginalName(); // Generate nama file unik
+        $filePath = 'laraview/' . $fileName; // Path untuk disimpan di public/laraview
+
+        // Simpan file langsung ke folder public/laraview
+        $file->move(public_path('laraview'), $fileName);
 
         //insert ke database
         $query = DB::table('proposal_kegiatan')->insert([

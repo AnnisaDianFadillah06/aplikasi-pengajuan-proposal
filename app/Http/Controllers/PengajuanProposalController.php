@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+
 use App\Models\PengajuanProposal;
+
 use Illuminate\Http\Request;
 
 class PengajuanProposalController extends Controller
@@ -28,3 +30,4 @@ class PengajuanProposalController extends Controller
     }
 
 }
+
