@@ -17,15 +17,16 @@ class PengajuanProposal extends Model
     {
         return $this->belongsTo(Pengguna::class, 'id_pengguna');
     }
+
     public function jenisKegiatan()
     {
-        return $this->belongsTo(JenisKegiatan::class, 'id_jenis_kegiatan');
+        return $this->belongsTo(JenisKegiatan::class, 'id_jenis_kegiatan', 'id_jenis_kegiatan');
     }
 
     // Relasi dengan ormawa
     public function ormawa()
     {
-        return $this->belongsTo(Ormawa::class, 'id_ormawa');
+        return $this->belongsTo(Ormawa::class, 'id_ormawa', 'id_ormawa');
     }
 
 }
