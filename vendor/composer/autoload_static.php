@@ -4,7 +4,6 @@
 
 namespace Composer\Autoload;
 
-
 class ComposerStaticInit7e8c3c14ff33b199b4a0838993eb8423
 {
     public static $files = array (
@@ -539,19 +538,15 @@ class ComposerStaticInit7e8c3c14ff33b199b4a0838993eb8423
 
     public static $classMap = array (
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
-<<<<<<< HEAD
-=======
         'App\\Http\\Controllers\\HistoriPengajuanController' => __DIR__ . '/../..' . '/app/Http/Controllers/HistoriPengajuanController.php',
->>>>>>> b670dc09e4e2a1fdea39a3f14778c065f3158267
         'App\\Http\\Controllers\\JenisKegiatanController' => __DIR__ . '/../..' . '/app/Http/Controllers/JenisKegiatanController.php',
-        'App\\Http\\Controllers\\OrganisasiMahasiswaController' => __DIR__ . '/../..' . '/app/Http/Controllers/OrganisasiMahasiswaController.php',
+        'App\\Http\\Controllers\\OrmawaController' => __DIR__ . '/../..' . '/app/Http/Controllers/OrmawaController.php',
         'App\\Http\\Controllers\\PengajuanProposalController' => __DIR__ . '/../..' . '/app/Http/Controllers/PengajuanProposalController.php',
         'App\\Http\\Controllers\\ReviewController' => __DIR__ . '/../..' . '/app/Http/Controllers/ReviewController.php',
         'App\\Http\\Controllers\\TambahPengajuanProposal' => __DIR__ . '/../..' . '/app/Http/Controllers/TambahPengajuanProposal.php',
         'App\\Models\\Dosen' => __DIR__ . '/../..' . '/app/Models/Dosen.php',
         'App\\Models\\JenisKegiatan' => __DIR__ . '/../..' . '/app/Models/JenisKegiatan.php',
         'App\\Models\\Mahasiswa' => __DIR__ . '/../..' . '/app/Models/Mahasiswa.php',
-        'App\\Models\\OrganisasiMahasiswa' => __DIR__ . '/../..' . '/app/Models/OrganisasiMahasiswa.php',
         'App\\Models\\Ormawa' => __DIR__ . '/../..' . '/app/Models/Ormawa.php',
         'App\\Models\\PengajuanProposal' => __DIR__ . '/../..' . '/app/Models/PengajuanProposal.php',
         'App\\Models\\Pengguna' => __DIR__ . '/../..' . '/app/Models/Pengguna.php',
@@ -6689,10 +6684,9 @@ class ComposerStaticInit7e8c3c14ff33b199b4a0838993eb8423
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInita9eb338749f0d6f82b32da3db6e9fc90::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInita9eb338749f0d6f82b32da3db6e9fc90::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInita9eb338749f0d6f82b32da3db6e9fc90::$classMap;
-
+            $loader->prefixLengthsPsr4 = ComposerStaticInit7e8c3c14ff33b199b4a0838993eb8423::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit7e8c3c14ff33b199b4a0838993eb8423::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit7e8c3c14ff33b199b4a0838993eb8423::$classMap;
 
         }, null, ClassLoader::class);
     }

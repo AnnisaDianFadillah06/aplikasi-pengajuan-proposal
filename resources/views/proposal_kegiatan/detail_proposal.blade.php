@@ -162,7 +162,7 @@
             </tr>
             <tr>
                 <th class="text-left px-4 py-2">Kategori</th>
-                <td class="px-4 py-2">{{ $proposal->jenis_kegiatan->nama_jenis_kegiatan }}</td> <!--  ada relasi dengan tabel jenis kegiatan -->
+                <td class="px-4 py-2">{{ $proposal->jenisKegiatan->nama_jenis_kegiatan }}</td> <!--  ada relasi dengan tabel jenis kegiatan -->
             </tr>
             <tr>
                 <th class="text-left px-4 py-2">Asal Ormawa</th>

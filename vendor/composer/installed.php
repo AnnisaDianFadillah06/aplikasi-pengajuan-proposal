@@ -3,7 +3,7 @@
         'name' => 'laravel/laravel',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => 'b1e8788752ce83c457adb8d2f6dfa62b0a3b0df7',
+        'reference' => '933f206b09778b7b072c13a3ffe03c75c2635d11',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -427,14 +427,10 @@
         'laravel/laravel' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => 'b1e8788752ce83c457adb8d2f6dfa62b0a3b0df7',
+            'reference' => '933f206b09778b7b072c13a3ffe03c75c2635d11',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-<<<<<<< HEAD
-            'reference' => '2ed33d2a03c627c716aef76a7e67c3737e185697',
-=======
->>>>>>> b670dc09e4e2a1fdea39a3f14778c065f3158267
             'dev_requirement' => false,
         ),
         'laravel/pint' => array(
@@ -1123,21 +1119,12 @@
             'dev_requirement' => false,
         ),
         'symfony/mime' => array(
-<<<<<<< HEAD
             'pretty_version' => 'v7.1.5',
             'version' => '7.1.5.0',
-            'type' => 'library',
-            'install_path' => __DIR__ . '/../symfony/mime',
-            'aliases' => array(),
             'reference' => '711d2e167e8ce65b05aea6b258c449671cdd38ff',
-=======
-            'pretty_version' => 'v7.1.4',
-            'version' => '7.1.4.0',
-            'reference' => 'ccaa6c2503db867f472a587291e764d6a1e58758',
             'type' => 'library',
             'install_path' => __DIR__ . '/../symfony/mime',
             'aliases' => array(),
->>>>>>> b670dc09e4e2a1fdea39a3f14778c065f3158267
             'dev_requirement' => false,
         ),
         'symfony/polyfill-ctype' => array(
@@ -1242,10 +1229,10 @@
         'symfony/string' => array(
             'pretty_version' => 'v7.1.5',
             'version' => '7.1.5.0',
+            'reference' => 'd66f9c343fa894ec2037cc928381df90a7ad4306',
             'type' => 'library',
             'install_path' => __DIR__ . '/../symfony/string',
             'aliases' => array(),
-            'reference' => 'd66f9c343fa894ec2037cc928381df90a7ad4306',
             'dev_requirement' => false,
         ),
         'symfony/translation' => array(
