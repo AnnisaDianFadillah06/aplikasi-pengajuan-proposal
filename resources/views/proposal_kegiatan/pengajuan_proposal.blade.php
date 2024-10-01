@@ -97,9 +97,10 @@
                             <a href="javascript:;" class="text-xs font-semibold leading-tight text-slate-400"> </a>
                         </td>
                         <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                          <p class="mb-0 text-xs font-semibold leading-tight">Edit</p>
-                          <!-- <p class="mb-0 text-xs leading-tight text-slate-400">Organization</p> -->
-                        </td>
+                            <a href="{{ route('proposal.detail', $item->id_proposal) }}" class="text-xs font-semibold leading-tight text-blue-600">
+                                Detail
+                            </a>
+                        </td>                        
                     </tr>
                 </tr>
                       

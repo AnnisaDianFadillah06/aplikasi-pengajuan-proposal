@@ -37,11 +37,11 @@
                     <!-- Dropdown Jenis Kegiatan -->
                     <li class="flex flex-col">
                         <label for="jenis_kegiatan" class="mb-2 font-semibold text-gray-700">Jenis Kegiatan</label>
-                        <select id="jenis_kegiatan" name="jenis_kegiatan" class="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
+                        <select id="jenis_kegiatan" name="id_jenis_kegiatan" class="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
                             <option value="">--Pilih Jenis Kegiatan --</option>
-                            <option value="Penalaran dan Keilmuan">Penalaran dan Keilmuan</option>
-                            <option value="Pengabdian">Pengabdian</option>
-                            <option value="Peminatan">Peminatan</option>
+                            @foreach($jenis_kegiatans as $jk)
+                                <option value="{{ $jk->id_jenis_kegiatan }}">{{ $jk->nama_jenis_kegiatan }}</option>
+                            @endforeach
                         </select>
                         <span style="color:red">@error('jenis_kegiatan') {{ $message }} @enderror</span>
                     </li>

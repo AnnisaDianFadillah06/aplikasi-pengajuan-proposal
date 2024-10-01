@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\OrmawaController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\ProposalController;
 use App\Http\Controllers\TambahPengajuanProposal;
@@ -25,9 +24,9 @@ Route::get('/modal', function () {
 Route::get('/pengajuan-proposal', [PengajuanProposalController::class, 'index']);
 
 Route::get('/tambah-pengajuan-proposal', [TambahPengajuanProposal::class, 'index']);
-Route::get('/tambah-pengajuan-proposal', [OrmawaController::class, 'create']);
 Route::post('/add', [TambahPengajuanProposal::class, 'add']);
 
+Route::get('/detail-proposal/{id_proposal}', [PengajuanProposalController::class, 'show'])->name('proposal.detail'); //route untuk detail_proposal
 
 // Route TEMPLATE
 Route::get('/profile', function () {
