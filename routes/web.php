@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ReviewController;
 
 use App\Http\Controllers\JenisKegiatanController;
-use App\Http\Controllers\OrganisasiMahasiswaController;
+use App\Http\Controllers\OrmawaController;
 
 use App\Http\Controllers\ProposalController;
 use App\Http\Controllers\TambahPengajuanProposal;
@@ -20,7 +20,7 @@ Route::get('/manajemen-review', [ReviewController::class, 'index'])->name('propo
 Route::get('/detail-review/{reviewProposal}', [ReviewController::class, 'show'])->name('proposal.show');
 // Rute untuk menyimpan data revisi ke dalam tabel revisi_file
 Route::post('/manajemen-review/store', [ReviewController::class, 'store'])->name('proposal.store');
-Route::get('/organisasi-mahasiswa', [OrganisasiMahasiswaController::class, 'index']);
+Route::get('/organisasi-mahasiswa', [OrmawaController::class, 'index']);
 
 
 // Route DHEA PUTRI ANANDA

@@ -589,7 +589,7 @@
     <script src="{{ asset('js/soft-ui-dashboard-tailwind.js') }}" async></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css"/>
-<script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+
 
   <!-- github button -->
   <script async defer src="https://buttons.github.io/buttons.js"></script>

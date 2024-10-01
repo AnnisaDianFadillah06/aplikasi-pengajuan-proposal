@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit14bc67506e1bd806169b7c9156d29f86
+class ComposerStaticInita9eb338749f0d6f82b32da3db6e9fc90
 {
     public static $files = array (
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
@@ -508,8 +508,20 @@ class ComposerStaticInit14bc67506e1bd806169b7c9156d29f86
 
     public static $classMap = array (
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
+        'App\\Http\\Controllers\\JenisKegiatanController' => __DIR__ . '/../..' . '/app/Http/Controllers/JenisKegiatanController.php',
+        'App\\Http\\Controllers\\OrganisasiMahasiswaController' => __DIR__ . '/../..' . '/app/Http/Controllers/OrganisasiMahasiswaController.php',
         'App\\Http\\Controllers\\PengajuanProposalController' => __DIR__ . '/../..' . '/app/Http/Controllers/PengajuanProposalController.php',
         'App\\Http\\Controllers\\ReviewController' => __DIR__ . '/../..' . '/app/Http/Controllers/ReviewController.php',
+        'App\\Http\\Controllers\\TambahPengajuanProposal' => __DIR__ . '/../..' . '/app/Http/Controllers/TambahPengajuanProposal.php',
+        'App\\Models\\Dosen' => __DIR__ . '/../..' . '/app/Models/Dosen.php',
+        'App\\Models\\JenisKegiatan' => __DIR__ . '/../..' . '/app/Models/JenisKegiatan.php',
+        'App\\Models\\Mahasiswa' => __DIR__ . '/../..' . '/app/Models/Mahasiswa.php',
+        'App\\Models\\OrganisasiMahasiswa' => __DIR__ . '/../..' . '/app/Models/OrganisasiMahasiswa.php',
+        'App\\Models\\Ormawa' => __DIR__ . '/../..' . '/app/Models/Ormawa.php',
+        'App\\Models\\PengajuanProposal' => __DIR__ . '/../..' . '/app/Models/PengajuanProposal.php',
+        'App\\Models\\Pengguna' => __DIR__ . '/../..' . '/app/Models/Pengguna.php',
+        'App\\Models\\Proposal' => __DIR__ . '/../..' . '/app/Models/Proposal.php',
+        'App\\Models\\ReviewProposal' => __DIR__ . '/../..' . '/app/Models/ReviewProposal.php',
         'App\\Models\\User' => __DIR__ . '/../..' . '/app/Models/User.php',
         'App\\Providers\\AppServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AppServiceProvider.php',
         'Attribute' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
@@ -629,6 +641,7 @@ class ComposerStaticInit14bc67506e1bd806169b7c9156d29f86
         'Cron\\HoursField' => __DIR__ . '/..' . '/dragonmantank/cron-expression/src/Cron/HoursField.php',
         'Cron\\MinutesField' => __DIR__ . '/..' . '/dragonmantank/cron-expression/src/Cron/MinutesField.php',
         'Cron\\MonthField' => __DIR__ . '/..' . '/dragonmantank/cron-expression/src/Cron/MonthField.php',
+        'Database\\Factories\\PengajuanProposalFactory' => __DIR__ . '/../..' . '/database/factories/PengajuanProposalFactory.php',
         'Database\\Factories\\UserFactory' => __DIR__ . '/../..' . '/database/factories/UserFactory.php',
         'Database\\Seeders\\DatabaseSeeder' => __DIR__ . '/../..' . '/database/seeders/DatabaseSeeder.php',
         'DateError' => __DIR__ . '/..' . '/symfony/polyfill-php83/Resources/stubs/DateError.php',
@@ -6430,9 +6443,9 @@ class ComposerStaticInit14bc67506e1bd806169b7c9156d29f86
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit14bc67506e1bd806169b7c9156d29f86::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit14bc67506e1bd806169b7c9156d29f86::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit14bc67506e1bd806169b7c9156d29f86::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInita9eb338749f0d6f82b32da3db6e9fc90::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInita9eb338749f0d6f82b32da3db6e9fc90::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInita9eb338749f0d6f82b32da3db6e9fc90::$classMap;
 
         }, null, ClassLoader::class);
     }
