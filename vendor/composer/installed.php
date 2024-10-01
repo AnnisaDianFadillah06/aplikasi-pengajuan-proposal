@@ -1,11 +1,11 @@
 <?php return array(
     'root' => array(
-        'pretty_version' => 'v11.1.5',
-        'version' => '11.1.5.0',
+        'pretty_version' => 'dev-main',
+        'version' => 'dev-main',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => NULL,
+        'reference' => 'b1d65ac8f27adf65f99e77ff9ae5acfc8a5653f6',
         'name' => 'laravel/laravel',
         'dev' => true,
     ),
@@ -33,6 +33,15 @@
             'replaced' => array(
                 0 => '*',
             ),
+        ),
+        'davcpas1234/laravelpdfviewer' => array(
+            'pretty_version' => '1.0.1',
+            'version' => '1.0.1.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../davcpas1234/laravelpdfviewer',
+            'aliases' => array(),
+            'reference' => 'be0a3a8ff9719708cc62a12db091551ba91c2f5f',
+            'dev_requirement' => false,
         ),
         'davedevelopment/hamcrest-php' => array(
             'dev_requirement' => true,
@@ -380,12 +389,12 @@
             'dev_requirement' => false,
         ),
         'laravel/laravel' => array(
-            'pretty_version' => 'v11.1.5',
-            'version' => '11.1.5.0',
+            'pretty_version' => 'dev-main',
+            'version' => 'dev-main',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => NULL,
+            'reference' => 'b1d65ac8f27adf65f99e77ff9ae5acfc8a5653f6',
             'dev_requirement' => false,
         ),
         'laravel/pint' => array(

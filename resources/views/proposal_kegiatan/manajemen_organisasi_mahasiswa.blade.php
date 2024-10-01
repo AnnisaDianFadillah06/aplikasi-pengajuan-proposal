@@ -1,25 +1,37 @@
 @extends('welcome')
 @section('konten')
-@php
-    $filePath = $reviewProposal->file_proposal; // Ambil path dari reviewProposal
-@endphp
-<div class="w-full p-6 mx-auto">
         <div class="flex flex-wrap -mx-3">
           <div class="flex-none w-full max-w-full px-3">
-            <!-- <div class="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-soft-xl rounded-2xl bg-clip-border">
-              <div class="p-6 pb-0 mb-0 bg-white border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
-                <h6>Authors table</h6>
+            <div class="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-soft-xl rounded-2xl bg-clip-border">
+            <div class="p-4 pb-0 mb-0 bg-white border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
+                    <div class="flex flex-wrap -mx-3">
+                      <div class="flex items-center flex-none w-1/2 max-w-full px-3">
+                        <h6>Tabel Organisasi Mahasiswa</h6>
+                      </div>
+                      <div class="flex-none w-1/2 max-w-full px-3 text-right">
+                      <button type="button" data-toggle="modal" data-target="#create-ormawa" class="inline-block px-8 py-2 font-bold text-center uppercase align-middle transition-all bg-transparent border border-solid rounded-lg shadow-none cursor-pointer active:opacity-85 leading-pro text-xs ease-soft-in tracking-tight-soft bg-150 bg-x-25 hover:scale-102 active:shadow-soft-xs border-fuchsia-500 text-fuchsia-500 hover:text-fuchsia-500 hover:opacity-75 hover:shadow-none active:scale-100 active:border-fuchsia-500 active:bg-fuchsia-500 active:text-white hover:active:border-fuchsia-500 hover:active:bg-transparent hover:active:text-fuchsia-500 hover:active:opacity-75">Tambah Baru</button>
+                      </div>
+                    </div>
+                  </div>
+              <!-- <div class="p-6 pb-0 mb-0 bg-white border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
+                <h6>Tabel Organisasi Mahasiswa</h6>
               </div>
+              <div class="flex-none w-1/2 max-w-full px-3 text-right">
+                <a class="inline-block px-6 py-3 font-bold text-center text-white uppercase align-middle transition-all bg-transparent rounded-lg cursor-pointer leading-pro text-xs ease-soft-in shadow-soft-md bg-150 bg-gradient-to-tl from-gray-900 to-slate-800 hover:shadow-soft-xs active:opacity-85 hover:scale-102 tracking-tight-soft bg-x-25" href="javascript:;"> <i class="fas fa-plus"> </i>&nbsp;&nbsp;Tambah Ormawa</a>
+              </div> -->
               <div class="flex-auto px-0 pt-0 pb-2">
                 <div class="p-0 overflow-x-auto">
                   <table class="items-center w-full mb-0 align-top border-gray-200 text-slate-500">
                     <thead class="align-bottom">
                       <tr>
-                        <th class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Author</th>
-                        <th class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Function</th>
+                        <th class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">ID</th>
+                        <th class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Organisasi Mahasiswa</th>
                         <th class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Status</th>
-                        <th class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Employed</th>
-                        <th class="px-6 py-3 font-semibold capitalize align-middle bg-transparent border-b border-gray-200 border-solid shadow-none tracking-none whitespace-nowrap text-slate-400 opacity-70"></th>
+                        <th class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Dibuat Oleh</th>
+                        <th class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Diedit Oleh</th>
+                        <th class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Tanggal Dibuat</th>
+                        <th class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Tanggal Diedit</th>
+                        <th class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Aksi</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -27,7 +39,7 @@
                         <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
                           <div class="flex px-2 py-1">
                             <div>
-                              <img src="../assets/img/team-2.jpg" class="inline-flex items-center justify-center mr-4 text-sm text-white transition-all duration-200 ease-soft-in-out h-9 w-9 rounded-xl" alt="user1" />
+                              <img src="{{ asset('img/team-2.jpg') }}" class="inline-flex items-center justify-center mr-4 text-sm text-white transition-all duration-200 ease-soft-in-out h-9 w-9 rounded-xl" alt="user1" />
                             </div>
                             <div class="flex flex-col justify-center">
                               <h6 class="mb-0 text-sm leading-normal">John Michael</h6>
@@ -183,94 +195,62 @@
                   </table>
                 </div>
               </div>
-            </div> -->
-            <iframe src ="{{ asset($filePath) }}" width="1000px" height="600px"></iframe>
-          </div>
-        </div>
-        </div>
-        <section>
-        <div class="w-full p-6 mx-auto">
-        <div class="flex flex-wrap -mx-3">
-        <div class="w-full max-w-full px-3 lg-max:mt-6 xl:w-5/12">
-            <div class="relative flex flex-col h-full min-w-0 break-words bg-white border-0 shadow-soft-xl rounded-2xl bg-clip-border">
-              <div class="p-4 pb-0 mb-0 bg-white border-b-0 rounded-t-2xl">
-                <div class="flex flex-wrap -mx-3">
-                  <div class="flex items-center w-full max-w-full px-3 shrink-0 md:w-8/12 md:flex-none">
-                    <h6 class="mb-0">Informasi Kegiatan</h6>
-                  </div>
-                  <div class="w-full max-w-full px-3 text-right shrink-0 md:w-4/12 md:flex-none">
-                    <a href="javascript:;" data-target="tooltip_trigger" data-placement="top">
-                      <i class="leading-normal fas fa-user-edit text-sm text-slate-400"></i>
-                    </a>
-                    <div data-target="tooltip" class="hidden px-2 py-1 text-center text-white bg-black rounded-lg text-sm" role="tooltip">
-                      Edit Profile
-                      <div class="invisible absolute h-2 w-2 bg-inherit before:visible before:absolute before:h-2 before:w-2 before:rotate-45 before:bg-inherit before:content-['']" data-popper-arrow></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="flex-auto p-4">
-                <ul class="flex flex-col pl-0 mb-0 rounded-lg">
-                  <li class="relative block px-4 py-2 pt-0 pl-0 leading-normal bg-white border-0 rounded-t-lg text-sm text-inherit"><strong class="text-slate-700">Nama Kegiatan:</strong> &nbsp; {{ $reviewProposal->nama_kegiatan }}</li>
-                  <li class="relative block px-4 py-2 pl-0 leading-normal bg-white border-0 border-t-0 text-sm text-inherit"><strong class="text-slate-700">Tanggal Kegiatan:</strong> &nbsp; {{ $reviewProposal->tgl_kegiatan }}</li>
-                  <li class="relative block px-4 py-2 pl-0 leading-normal bg-white border-0 border-t-0 text-sm text-inherit"><strong class="text-slate-700">Tempat Kegiatan:</strong> &nbsp; {{ $reviewProposal->tmpt_kegiatan }}</li>
-                  <li class="relative block px-4 py-2 pl-0 leading-normal bg-white border-0 border-t-0 text-sm text-inherit"><strong class="text-slate-700">Jenis Kegiatan:</strong> &nbsp; {{ $reviewProposal->jenisKegiatan->nama_jenis_kegiatan ?? 'Tidak Diketahui' }}</li>
-                  <li class="relative block px-4 py-2 pl-0 leading-normal bg-white border-0 border-t-0 text-sm text-inherit"><strong class="text-slate-700">Ormawa:</strong> &nbsp; {{ $reviewProposal->ormawa->nama_ormawa ?? 'Tidak Diketahui' }}</li>
-                  <li class="relative block px-4 py-2 pl-0 leading-normal bg-white border-0 border-t-0 text-sm text-inherit"><strong class="text-slate-700">Nama Penyelenggara:</strong> &nbsp; {{ $reviewProposal->pengguna->nama_pengguna ?? 'Tidak Diketahui' }}</li>
-                </ul>
-              </div>
             </div>
           </div>
+        </div>
 
-          <div class="w-full max-w-full px-3 lg-max:mt-6 xl:w-7/12">
-            <div class="relative flex flex-col h-full min-w-0 break-words bg-white border-0 shadow-soft-xl rounded-2xl bg-clip-border">
-              <div class="p-4 pb-0 mb-0 bg-white border-b-0 rounded-t-2xl">
-                <div class="flex flex-wrap -mx-3">
-                  <div class="flex items-center w-full max-w-full px-3 shrink-0 md:w-8/12 md:flex-none">
-                    <h6 class="mb-0">Review Proposal Kegiatan</h6>
-                  </div>
-                  <div class="w-full max-w-full px-3 text-right shrink-0 md:w-4/12 md:flex-none">
-                    <a href="javascript:;" data-target="tooltip_trigger" data-placement="top">
-                      <i class="leading-normal fas fa-user-edit text-sm text-slate-400"></i>
-                    </a>
-                    <div data-target="tooltip" class="hidden px-2 py-1 text-center text-white bg-black rounded-lg text-sm" role="tooltip">
-                      Edit Profile
-                      <div class="invisible absolute h-2 w-2 bg-inherit before:visible before:absolute before:h-2 before:w-2 before:rotate-45 before:bg-inherit before:content-['']" data-popper-arrow></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="flex-auto p-4">
-              <form action="{{ route('proposal.store') }}" method="POST">
-    @csrf
-    <input type="hidden" name="id_proposal" value="{{ $reviewProposal->id_proposal }}">
-                      <label class="mb-2 ml-1 font-bold text-xs text-slate-700" for="catatan_revisi">Revisi</label>
+<!-- Modal -->
+<div class="fixed top-0 left-0 hidden w-full h-full overflow-x-hidden overflow-y-auto transition-opacity ease-linear opacity-0 z-sticky outline-0" id="create-ormawa" aria-hidden="true">
+  <div class="relative max-w-md w-full m-2 transition-transform duration-300 pointer-events-none sm:m-7 sm:max-w-125 sm:mx-auto lg:mt-48 ease-soft-out -translate-y-13">
+    <div class="relative flex flex-col w-full bg-white border border-solid pointer-events-auto dark:bg-gray-950 bg-clip-padding border-black/20 rounded-xl outline-0">
+      <div class="flex items-center justify-between p-4 border-b border-solid shrink-0 border-slate-100 rounded-t-xl">
+        <h5 class="mb-0 leading-normal dark:text-white" id="ModalLabel">Create Ormawa Baru</h5>
+        <button type="button" data-toggle="modal" data-target="#create-ormawa" class="fa fa-close w-4 h-4 ml-auto box-content p-2 text-black dark:text-white border-0 rounded-1.5 opacity-50 cursor-pointer -m-2 " data-dismiss="modal"></button>
+      </div>
+      <div class="relative flex-auto p-4">
+      <form role="form">
+                      <label class="mb-2 ml-1 font-bold text-xs text-slate-700">Email</label>
                       <div class="mb-4">
-                      <textarea name="catatan_revisi" id="catatan_revisi"  rows="5" placeholder="Write your thoughts here..." class="focus:shadow-soft-primary-outline min-h-unset text-sm leading-5.6 ease-soft block h-auto w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-fuchsia-300 focus:outline-none"></textarea>
+                        <input type="email" class="focus:shadow-soft-primary-outline text-sm leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:outline-none focus:transition-shadow" placeholder="Email" aria-label="Email" aria-describedby="email-addon" />
+                      </div>
+                      <label class="mb-2 ml-1 font-bold text-xs text-slate-700">Password</label>
+                      <div class="mb-4">
+                        <input type="email" class="focus:shadow-soft-primary-outline text-sm leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:outline-none focus:transition-shadow" placeholder="Password" aria-label="Password" aria-describedby="password-addon" />
                       </div>
                       <div class="relative mb-4">
-  <label class="mb-2 ml-1 font-bold text-xs text-slate-700" for="status_revisi">Status</label>
-  <select id="status_revisi" name="status_revisi"  class="focus:shadow-soft-primary-outline text-sm leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:outline-none focus:transition-shadow">
+  <label class="mb-2 ml-1 font-bold text-xs text-slate-700">Status</label>
+  <select id="statusSelect" class="focus:shadow-soft-primary-outline text-sm leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:outline-none focus:transition-shadow">
     <option value="">Pilih Status</option>
-    <option value="1">Lolos</option>
-    <option value="0">Revisi</option>
-    <option value="-1">Tolak</option>
+    <option value="1">Aktif</option>
+    <option value="0">Tidak Aktif</option>
   </select>
 </div>
 
       <div class="flex flex-wrap items-center justify-end p-3 border-t border-solid shrink-0 border-slate-100 rounded-b-xl">
-        <button type="button"  class="inline-block px-8 py-2 m-1 mb-4 text-xs font-bold text-center text-white uppercase align-middle transition-all border-0 rounded-lg cursor-pointer ease-soft-in leading-pro tracking-tight-soft bg-gradient-to-tl from-slate-600 to-slate-300 shadow-soft-md bg-150 bg-x-25 hover:scale-102 active:opacity-85">Close</button>
-        <button type="submit" class="inline-block px-8 py-2 m-1 mb-4 text-xs font-bold text-center text-white uppercase align-middle transition-all border-0 rounded-lg cursor-pointer ease-soft-in leading-pro tracking-tight-soft bg-gradient-to-tl from-purple-700 to-pink-500 shadow-soft-md bg-150 bg-x-25 hover:scale-102 active:opacity-85">Simpan</button>
+        <button type="button" data-toggle="modal" data-target="#create-ormawa" class="inline-block px-8 py-2 m-1 mb-4 text-xs font-bold text-center text-white uppercase align-middle transition-all border-0 rounded-lg cursor-pointer ease-soft-in leading-pro tracking-tight-soft bg-gradient-to-tl from-slate-600 to-slate-300 shadow-soft-md bg-150 bg-x-25 hover:scale-102 active:opacity-85">Close</button>
+        <button type="button" data-toggle="modal" data-target="#create-ormawa" class="inline-block px-8 py-2 m-1 mb-4 text-xs font-bold text-center text-white uppercase align-middle transition-all border-0 rounded-lg cursor-pointer ease-soft-in leading-pro tracking-tight-soft bg-gradient-to-tl from-purple-700 to-pink-500 shadow-soft-md bg-150 bg-x-25 hover:scale-102 active:opacity-85">Upload</button>
       </div>
 </form>
-              </div>
-            </div>
-          </div>
+    </div>
+  </div>
 </div>
-</div>
-      </section>
-      <!-- <script>
-    var filePath = "{{ asset($filePath) }}"; // Menghasilkan URL penuh ke file
-    console.log('File path:', filePath); // Menampilkan path di console
-    </script> -->
+
+<script>
+    // Function to open the modal
+    function openModal() {
+        const modal = document.getElementById('create-ormawa');
+        modal.classList.remove('hidden');
+        modal.classList.add('opacity-100');
+    }
+
+    // Function to close the modal
+    function closeModal() {
+        const modal = document.getElementById('create-ormawa');
+        modal.classList.add('hidden');
+    }
+
+    // Add event listener to the button for opening modal
+    document.querySelector('[data-target="#create-ormawa"]').addEventListener('click', openModal);
+</script>
+
 @endsection

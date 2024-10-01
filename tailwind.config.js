@@ -2,7 +2,11 @@ const plugin = require("tailwindcss/plugin");
 
 module.exports = {
   mode: "jit",
-  content: ["./public/**/*.{html,js}"],
+  content: [
+    './resources/**/*.blade.php', // untuk file Blade
+    './resources/js/**/*.js',      // untuk file JavaScript
+    './resources/**/*.vue',        // jika ada file HTML biasa
+  ],
   presets: [],
   darkMode: "class",
   theme: {

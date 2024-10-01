@@ -7,6 +7,8 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'App\\Http\\Controllers\\Controller' => $baseDir . '/app/Http/Controllers/Controller.php',
+    'App\\Http\\Controllers\\PengajuanProposalController' => $baseDir . '/app/Http/Controllers/PengajuanProposalController.php',
+    'App\\Http\\Controllers\\ReviewController' => $baseDir . '/app/Http/Controllers/ReviewController.php',
     'App\\Models\\User' => $baseDir . '/app/Models/User.php',
     'App\\Providers\\AppServiceProvider' => $baseDir . '/app/Providers/AppServiceProvider.php',
     'Attribute' => $vendorDir . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
@@ -137,6 +139,8 @@ return array(
     'DateMalformedStringException' => $vendorDir . '/symfony/polyfill-php83/Resources/stubs/DateMalformedStringException.php',
     'DateObjectError' => $vendorDir . '/symfony/polyfill-php83/Resources/stubs/DateObjectError.php',
     'DateRangeError' => $vendorDir . '/symfony/polyfill-php83/Resources/stubs/DateRangeError.php',
+    'Davcpas1234\\LaravelPdfViewer\\Facade\\LaravelPdfViewer' => $vendorDir . '/davcpas1234/laravelpdfviewer/src/Facade/LaravelPdfViewer.php',
+    'Davcpas1234\\LaravelPdfViewer\\LaravelPdfViewerServiceProvider' => $vendorDir . '/davcpas1234/laravelpdfviewer/src/LaravelPdfViewerServiceProvider.php',
     'DeepCopy\\DeepCopy' => $vendorDir . '/myclabs/deep-copy/src/DeepCopy/DeepCopy.php',
     'DeepCopy\\Exception\\CloneException' => $vendorDir . '/myclabs/deep-copy/src/DeepCopy/Exception/CloneException.php',
     'DeepCopy\\Exception\\PropertyException' => $vendorDir . '/myclabs/deep-copy/src/DeepCopy/Exception/PropertyException.php',

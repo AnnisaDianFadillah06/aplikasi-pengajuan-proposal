@@ -1,7 +1,7 @@
 <?php
 
 return [
-
+    Davcpas1234\LaravelPdfViewer\LaravelPdfViewerServiceProvider::class,
     /*
     |--------------------------------------------------------------------------
     | Application Name
