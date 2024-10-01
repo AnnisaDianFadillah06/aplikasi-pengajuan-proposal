@@ -12,17 +12,17 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('t_proposal', function (Blueprint $table) {
-            $table->id();
-            $table->string('id_proposal','15')->unique();
-            $table->string('nama_kegiatan', '50');
+            $table->id(); // Primary key
+            $table->string('id_proposal', 15)->unique();
+            $table->string('nama_kegiatan', 50);
             $table->date('tgl_kegiatan');
             $table->date('tgl_pengajuan');
-            $table->string('status_proposal', '50');
-            $table->string('tmpt_kegiatan', '50');
-            $table->string('file_proposal', '70');
-            $table->string('kategori_kegiatan', '50');
-            $table->string('asal_ormawa', '50');
-            $table->integer('id_pengguna', '15');
+            $table->string('status_proposal', 50);
+            $table->string('tmpt_kegiatan', 50);
+            $table->string('file_proposal', 70);
+            $table->string('kategori_kegiatan', 50);
+            $table->string('asal_ormawa', 50);
+            $table->unsignedBigInteger('id_pengguna'); // Kolom id_pengguna tanpa foreign key
             $table->timestamps();
         });
     }
