@@ -55,9 +55,16 @@ Route::get('/billing', function () {
     return view('billing');
 });
 
+// Route Timothy Elroy
 Route::get('/dashboard', function () {
     return view('dashboard');
 });
+
+Route::get('/dashboard-reviewer', function () {
+    return view('dashboard-reviewer');
+});
+
+//--------------
 
 Route::get('/rtl', function () {
     return view('rtl');
