@@ -3,12 +3,17 @@
 
 @php
     use App\Models\Pengguna;
+    use App\Models\Ormawa;
 
     // Ambil model pengguna berdasarkan id_pengguna dari updated_by
     $pengguna = Pengguna::find($proposal->updated_by);
+    $ormawa = Ormawa::find($proposal->id_ormawa);
 
-        // Inisialisasi variabel currentStep
-        $currentStep = 0; // Default step adalah 0 untuk "Submit Proposal"
+    // Inisialisasi variabel currentStep
+    $currentStep = 0; // Default step adalah 0 untuk "Submit Proposal"
+
+     // Nama ormawa yang diambil dari relasi tabel
+     $nama_ormawa = $ormawa->nama_ormawa ?? '';
 
     if ($pengguna) {
         // Cek apakah pengguna merupakan dosen
@@ -46,6 +51,8 @@
 
     // Output untuk debugging
     // echo "Nama Jabatan: " . ($nama_jabatan ?? 'Tidak ada jabatan');
+    // echo "Nama Ormawa: " . ($nama_ormawa ?? 'Tidak ada ormawa');
+
 @endphp
 <div class="flex justify-center items-center">
     <ol class="flex items-center w-full max-w-4xl mx-auto">
@@ -102,17 +109,19 @@
         </li>
 
         {{-- Step 4 --}}
-        <li class="relative w-full mb-6">
-            <div class="flex items-center">
-                <div class="z-10 flex items-center justify-center w-6 h-6 {{ $currentStep >= 4 ? 'bg-blue-600' : 'bg-gray-200' }} rounded-full ring-0 ring-white sm:ring-8 shrink-0">
-                    <span class="flex w-3 h-3 {{ $currentStep >= 4 ? 'bg-blue-600' : 'bg-gray-900' }} rounded-full"></span>
+        @if (!str_contains($nama_ormawa, 'UKM') && !str_contains($nama_ormawa, 'BEM') && !str_contains($nama_ormawa, 'MPM'))
+            <li class="relative w-full mb-6">
+                <div class="flex items-center">
+                    <div class="z-10 flex items-center justify-center w-6 h-6 {{ $currentStep >= 4 ? 'bg-blue-600' : 'bg-gray-200' }} rounded-full ring-0 ring-white sm:ring-8 shrink-0">
+                        <span class="flex w-3 h-3 {{ $currentStep >= 4 ? 'bg-blue-600' : 'bg-gray-900' }} rounded-full"></span>
+                    </div>
+                    <div class="flex w-full bg-gray-200 h-0.5"></div>
                 </div>
-                <div class="flex w-full bg-gray-200 h-0.5"></div>
-            </div>
-            <div class="mt-3">
-                <h3 class="font-medium text-gray-900">Ketua Jurusan</h3>
-            </div>
-        </li>
+                <div class="mt-3">
+                    <h3 class="font-medium text-gray-900">Ketua Jurusan</h3>
+                </div>
+            </li>
+        @endif
 
         {{-- Step 5 --}}
         <li class="relative w-full mb-6">

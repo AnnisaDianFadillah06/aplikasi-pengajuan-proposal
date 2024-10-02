@@ -584,13 +584,15 @@
 
     <!-- main script file -->
 
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
     <script src="{{ asset('js/soft-ui-dashboard-tailwind.js') }}" async></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css"/>
-
-    <script src="{{ asset('js/soft-ui-dashboard-tailwind.js?v=1.0.5') }}" async></script>
-
-
+    <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+    
   <!-- github button -->
   <script async defer src="https://buttons.github.io/buttons.js"></script>
 </html>
