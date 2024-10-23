@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PengajuanProposalController;
 use App\Http\Controllers\HistoriPengajuanController;
 use App\Http\Controllers\ReviewController;
-
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\JenisKegiatanController;
 use App\Http\Controllers\OrmawaController;
 
@@ -22,6 +22,7 @@ Route::get('/detail-review/{reviewProposal}', [ReviewController::class, 'show'])
 // Rute untuk menyimpan data revisi ke dalam tabel revisi_file
 Route::post('/manajemen-review/store', [ReviewController::class, 'store'])->name('proposal.store');
 Route::get('/organisasi-mahasiswa', [OrmawaController::class, 'index']);
+Route::get('/dashboard/chart-data', [DashboardController::class, 'getChartData'])->name('proposal_kegiatan.getChartData');
 
 
 // Route DHEA PUTRI ANANDA
@@ -60,9 +61,7 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 });
 
-Route::get('/dashboard-reviewer', function () {
-    return view('dashboard-reviewer');
-});
+Route::get('/dashboard-reviewer', [DashboardController::class, 'index']);
 
 //--------------
 

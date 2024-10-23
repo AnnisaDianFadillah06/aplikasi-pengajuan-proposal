@@ -4,7 +4,7 @@
 
 <!-- Link Tailwind CSS dan FontAwesome untuk ikon -->
 <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-<link rel="stylesheet" href="//cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+<link rel="stylesheet" href="//cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
 
 <div class="container mx-auto mt-4">
     <!-- Heading dan Tombol Add New -->
@@ -100,13 +100,9 @@
     </div>
 </div>
 
-<!-- Link jQuery dan DataTables JS -->
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-<script src="//cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
-
 <!-- Script DataTables -->
 <script>
-    $(document).ready( function (){
+    $(document).ready(function() {
         $('#myTable').DataTable({
             "paging": true,
             "searching": true,
@@ -115,10 +111,10 @@
             "lengthMenu": [5, 10, 25, 50],
             "language": {
                 "search": "Cari:",
-                "lengthMenu": "Tampilkan _MENU_ entri",
-                "info": "Menampilkan _START_ hingga _END_ dari _TOTAL_ entri",
+                "lengthMenu": "Tampilkan MENU entri",
+                "info": "Menampilkan START hingga END dari TOTAL entri",
                 "infoEmpty": "Menampilkan 0 hingga 0 dari 0 entri",
-                "infoFiltered": "(disaring dari _MAX_ total entri)",
+                "infoFiltered": "(disaring dari MAX total entri)",
                 "paginate": {
                     "first": "Pertama",
                     "last": "Terakhir",
@@ -127,6 +123,19 @@
                 }
             }
         });
+
+        // Script untuk menyesuaikan ukuran dropdown secara otomatis
+        function adjustSelectWidth() {
+            var select = $('.dataTables_length select');
+            select.each(function() {
+                var text = $(this).find('option:selected').text();
+                $(this).css('width', (text.length + 4) + 'ch'); // +2 untuk padding tambahan
+            });
+        }
+
+        // Panggil fungsi saat halaman dimuat dan saat dropdown berubah
+        adjustSelectWidth();
+        $('.dataTables_length select').change(adjustSelectWidth);
     });
 </script>
 
