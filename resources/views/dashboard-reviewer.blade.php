@@ -1,302 +1,321 @@
 @extends('welcome')
 @section('konten')
 
-<!DOCTYPE html>
-<html lang="en">
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Dashboard Kegiatan</title>
-    <!-- CDN Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- CDN Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-</head>
 
-<body class="bg-gray-100">
-    <!-- Container utama -->
-    <div class="flex justify-center py-5">
-  <div class="relative z-20 flex flex-col min-w-0 break-words bg-white border-0 border-solid border-black-125 shadow-soft-xl rounded-2xl bg-clip-border">
-    <div class="flex-auto p-4">
-      <div class="py-4 pr-1 mb-4 bg-gradient-to-tl from-gray-900 to-blue-900 rounded-xl">
-        <div>
-          <canvas id="chart-bars" class="chart-canvas" height="170"></canvas>
-        </div>
-      </div>
-      <h6 class="mt-6 mb-0 ml-2 dark:text-white">Active Users</h6>
-      <p class="ml-2 leading-normal text-sm ">(<span class="font-bold">+23%</span>) than last week</p>
-      <div class="w-full px-6 mx-auto max-w-screen-2xl rounded-xl">
-        <div class="flex flex-wrap mt-0 -mx-3">
-          <div class="flex-none w-1/4 max-w-full py-4 pl-0 pr-3 mt-0">
-            <div class="flex mb-2">
-              <div class="flex items-center justify-center w-5 h-5 mr-2 text-center bg-center rounded fill-current shadow-soft-2xl bg-gradient-to-tl from-purple-700 to-pink-500 text-neutral-900">
-                <svg width="10px" height="10px" viewBox="0 0 40 44" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                  <title>document</title>
-                  <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                    <g transform="translate(-1870.000000, -591.000000)" fill="#FFFFFF" fill-rule="nonzero">
-                      <g transform="translate(1716.000000, 291.000000)">
-                        <g transform="translate(154.000000, 300.000000)">
-                          <path class="color-background" d="M40,40 L36.3636364,40 L36.3636364,3.63636364 L5.45454545,3.63636364 L5.45454545,0 L38.1818182,0 C39.1854545,0 40,0.814545455 40,1.81818182 L40,40 Z" opacity="0.603585379"></path>
-                          <path class="color-background" d="M30.9090909,7.27272727 L1.81818182,7.27272727 C0.814545455,7.27272727 0,8.08727273 0,9.09090909 L0,41.8181818 C0,42.8218182 0.814545455,43.6363636 1.81818182,43.6363636 L30.9090909,43.6363636 C31.9127273,43.6363636 32.7272727,42.8218182 32.7272727,41.8181818 L32.7272727,9.09090909 C32.7272727,8.08727273 31.9127273,7.27272727 30.9090909,7.27272727 Z M18.1818182,34.5454545 L7.27272727,34.5454545 L7.27272727,30.9090909 L18.1818182,30.9090909 L18.1818182,34.5454545 Z M25.4545455,27.2727273 L7.27272727,27.2727273 L7.27272727,23.6363636 L25.4545455,23.6363636 L25.4545455,27.2727273 Z M25.4545455,20 L7.27272727,20 L7.27272727,16.3636364 L25.4545455,16.3636364 L25.4545455,20 Z"></path>
-                        </g>
-                      </g>
-                    </g>
-                  </g>
-                </svg>
-              </div>
-              <p class="mt-1 mb-0 font-semibold leading-tight text-xs dark:opacity-60">Users</p>
-            </div>
-            <h4 class="font-bold dark:text-white">36K</h4>
-            <div class="text-xs h-0.75 flex w-3/4 overflow-visible rounded-lg bg-gray-200">
-              <div class="duration-600 ease-soft -mt-0.4 -ml-px flex h-1.5 w-3/5 flex-col justify-center overflow-hidden whitespace-nowrap rounded-lg bg-slate-700 text-center text-white transition-all" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
-            </div>
-          </div>
-          <div class="flex-none w-1/4 max-w-full py-4 pl-0 pr-3 mt-0">
-            <div class="flex mb-2">
-              <div class="flex items-center justify-center w-5 h-5 mr-2 text-center bg-center rounded fill-current shadow-soft-2xl bg-gradient-to-tl from-blue-600 to-cyan-400 text-neutral-900">
-                <svg width="10px" height="10px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                  <title>spaceship</title>
-                  <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                    <g transform="translate(-1720.000000, -592.000000)" fill="#FFFFFF" fill-rule="nonzero">
-                      <g transform="translate(1716.000000, 291.000000)">
-                        <g transform="translate(4.000000, 301.000000)">
-                          <path
-                            class="color-background"
-                            d="M39.3,0.706666667 C38.9660984,0.370464027 38.5048767,0.192278529 38.0316667,0.216666667 C14.6516667,1.43666667 6.015,22.2633333 5.93166667,22.4733333 C5.68236407,23.0926189 5.82664679,23.8009159 6.29833333,24.2733333 L15.7266667,33.7016667 C16.2013871,34.1756798 16.9140329,34.3188658 17.535,34.065 C17.7433333,33.98 38.4583333,25.2466667 39.7816667,1.97666667 C39.8087196,1.50414529 39.6335979,1.04240574 39.3,0.706666667 Z M25.69,19.0233333 C24.7367525,19.9768687 23.3029475,20.2622391 22.0572426,19.7463614 C20.8115377,19.2304837 19.9992882,18.0149658 19.9992882,16.6666667 C19.9992882,15.3183676 20.8115377,14.1028496 22.0572426,13.5869719 C23.3029475,13.0710943 24.7367525,13.3564646 25.69,14.31 C26.9912731,15.6116662 26.9912731,17.7216672 25.69,19.0233333 L25.69,19.0233333 Z"
-                          ></path>
-                          <path class="color-background" d="M1.855,31.4066667 C3.05106558,30.2024182 4.79973884,29.7296005 6.43969145,30.1670277 C8.07964407,30.6044549 9.36054508,31.8853559 9.7979723,33.5253085 C10.2353995,35.1652612 9.76258177,36.9139344 8.55833333,38.11 C6.70666667,39.9616667 0,40 0,40 C0,40 0,33.2566667 1.855,31.4066667 Z"></path>
-                          <path class="color-background" d="M17.2616667,3.90166667 C12.4943643,3.07192755 7.62174065,4.61673894 4.20333333,8.04166667 C3.31200265,8.94126033 2.53706177,9.94913142 1.89666667,11.0416667 C1.5109569,11.6966059 1.61721591,12.5295394 2.155,13.0666667 L5.47,16.3833333 C8.55036617,11.4946947 12.5559074,7.25476565 17.2616667,3.90166667 L17.2616667,3.90166667 Z" opacity="0.598539807"></path>
-                          <path class="color-background" d="M36.0983333,22.7383333 C36.9280725,27.5056357 35.3832611,32.3782594 31.9583333,35.7966667 C31.0587397,36.6879974 30.0508686,37.4629382 28.9583333,38.1033333 C28.3033941,38.4890431 27.4704606,38.3827841 26.9333333,37.845 L23.6166667,34.53 C28.5053053,31.4496338 32.7452344,27.4440926 36.0983333,22.7383333 L36.0983333,22.7383333 Z" opacity="0.598539807"></path>
-                        </g>
-                      </g>
-                    </g>
-                  </g>
-                </svg>
-              </div>
-              <p class="mt-1 mb-0 font-semibold leading-tight text-xs dark:opacity-60">Clicks</p>
-            </div>
-            <h4 class="font-bold dark:text-white">2m</h4>
-            <div class="text-xs h-0.75 flex w-3/4 overflow-visible rounded-lg bg-gray-200">
-              <div class="duration-600 ease-soft -mt-0.4 w-9/10 -ml-px flex h-1.5 flex-col justify-center overflow-hidden whitespace-nowrap rounded-lg bg-slate-700 text-center text-white transition-all" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
-            </div>
-          </div>
-          <div class="flex-none w-1/4 max-w-full py-4 pl-0 pr-3 mt-0">
-            <div class="flex mb-2">
-              <div class="flex items-center justify-center w-5 h-5 mr-2 text-center bg-center rounded fill-current shadow-soft-2xl bg-gradient-to-tl from-red-500 to-yellow-400 text-neutral-900">
-                <svg width="10px" height="10px" viewBox="0 0 43 36" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                  <title>credit-card</title>
-                  <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                    <g transform="translate(-2169.000000, -745.000000)" fill="#FFFFFF" fill-rule="nonzero">
-                      <g transform="translate(1716.000000, 291.000000)">
-                        <g transform="translate(453.000000, 454.000000)">
-                          <path class="color-background" d="M43,10.7482083 L43,3.58333333 C43,1.60354167 41.3964583,0 39.4166667,0 L3.58333333,0 C1.60354167,0 0,1.60354167 0,3.58333333 L0,10.7482083 L43,10.7482083 Z" opacity="0.593633743"></path>
-                          <path class="color-background" d="M0,16.125 L0,32.25 C0,34.2297917 1.60354167,35.8333333 3.58333333,35.8333333 L39.4166667,35.8333333 C41.3964583,35.8333333 43,34.2297917 43,32.25 L43,16.125 L0,16.125 Z M19.7083333,26.875 L7.16666667,26.875 L7.16666667,23.2916667 L19.7083333,23.2916667 L19.7083333,26.875 Z M35.8333333,26.875 L28.6666667,26.875 L28.6666667,23.2916667 L35.8333333,23.2916667 L35.8333333,26.875 Z"></path>
-                        </g>
-                      </g>
-                    </g>
-                  </g>
-                </svg>
-              </div>
-              <p class="mt-1 mb-0 font-semibold leading-tight text-xs dark:opacity-60">Sales</p>
-            </div>
-            <h4 class="font-bold dark:text-white">435$</h4>
-            <div class="text-xs h-0.75 flex w-3/4 overflow-visible rounded-lg bg-gray-200">
-              <div class="duration-600 ease-soft -mt-0.4 w-3/10 -ml-px flex h-1.5 flex-col justify-center overflow-hidden whitespace-nowrap rounded-lg bg-slate-700 text-center text-white transition-all" role="progressbar" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
-            </div>
-          </div>
-          <div class="flex-none w-1/4 max-w-full py-4 pl-0 pr-3 mt-0">
-            <div class="flex mb-2">
-              <div class="flex items-center justify-center w-5 h-5 mr-2 text-center bg-center rounded fill-current shadow-soft-2xl bg-gradient-to-tl from-red-600 to-rose-400 text-neutral-900">
-                <svg width="10px" height="10px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                  <title>settings</title>
-                  <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                    <g transform="translate(-2020.000000, -442.000000)" fill="#FFFFFF" fill-rule="nonzero">
-                      <g transform="translate(1716.000000, 291.000000)">
-                        <g transform="translate(304.000000, 151.000000)">
-                          <polygon class="color-background" opacity="0.596981957" points="18.0883333 15.7316667 11.1783333 8.82166667 13.3333333 6.66666667 6.66666667 0 0 6.66666667 6.66666667 13.3333333 8.82166667 11.1783333 15.315 17.6716667"></polygon>
-                          <path class="color-background" d="M31.5666667,23.2333333 C31.0516667,23.2933333 30.53,23.3333333 30,23.3333333 C29.4916667,23.3333333 28.9866667,23.3033333 28.48,23.245 L22.4116667,30.7433333 L29.9416667,38.2733333 C32.2433333,40.575 35.9733333,40.575 38.275,38.2733333 L38.275,38.2733333 C40.5766667,35.9716667 40.5766667,32.2416667 38.275,29.94 L31.5666667,23.2333333 Z" opacity="0.596981957"></path>
-                          <path class="color-background" d="M33.785,11.285 L28.715,6.215 L34.0616667,0.868333333 C32.82,0.315 31.4483333,0 30,0 C24.4766667,0 20,4.47666667 20,10 C20,10.99 20.1483333,11.9433333 20.4166667,12.8466667 L2.435,27.3966667 C0.95,28.7083333 0.0633333333,30.595 0.00333333333,32.5733333 C-0.0583333333,34.5533333 0.71,36.4916667 2.11,37.89 C3.47,39.2516667 5.27833333,40 7.20166667,40 C9.26666667,40 11.2366667,39.1133333 12.6033333,37.565 L27.1533333,19.5833333 C28.0566667,19.8516667 29.01,20 30,20 C35.5233333,20 40,15.5233333 40,10 C40,8.55166667 39.685,7.18 39.1316667,5.93666667 L33.785,11.285 Z"></path>
-                        </g>
-                      </g>
-                    </g>
-                  </g>
-                </svg>
-              </div>
-              <p class="mt-1 mb-0 font-semibold leading-tight text-xs dark:opacity-60">Items</p>
-            </div>
-            <h4 class="font-bold dark:text-white">43</h4>
-            <div class="text-xs h-0.75 flex w-3/4 overflow-visible rounded-lg bg-gray-200">
-              <div class="duration-600 ease-soft -mt-0.4 -ml-px flex h-1.5 w-1/2 flex-col justify-center overflow-hidden whitespace-nowrap rounded-lg bg-slate-700 text-center text-white transition-all" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
 
-        <!-- Baris 2 - Daftar Kegiatan dan Ringkasan Laporan -->
-        <div class="flex space-x-8">
-            <!-- Wrapper Daftar Kegiatan -->
-            <div class="w-2/3 bg-white p-6 rounded-3xl shadow-xl">
-                <!-- Header Daftar Kegiatan -->
-                <div class="flex items-center justify-between mb-4">
-                    <h1 class="text-2xl font-semibold">Daftar Kegiatan</h1>
-                    <!-- Search Box -->
-                    <div class="relative">
-                        <input type="text" placeholder="Cari Kegiatan ..." class="bg-gray-100 rounded-full pl-4 pr-10 py-2 focus:outline-none focus:ring-2 focus:ring-gray-300" />
-                        <span class="absolute inset-y-0 right-0 flex items-center pr-4">
-                            <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M15 11a4 4 0 11-8 0 4 4 0 018 0z"></path>
+    <div class="p-4 sm:p-6 lg:p-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Statistik Waktu Pelaksanaan Card -->
+            <div class="bg-white rounded-lg shadow dark:bg-gray-800 p-4 md:p-6">
+                <div class="flex justify-between pb-4 mb-4 border-b border-gray-200 dark:border-gray-700">
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 rounded-lg bg-gray-100 dark:bg-gray-700 flex items-center justify-center me-3">
+                            <svg class="w-6 h-6 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 19">
+                                <path d="M14.5 0A3.987 3.987 0 0 0 11 2.1a4.977 4.977 0 0 1 3.9 5.858A3.989 3.989 0 0 0 14.5 0ZM9 13h2a4 4 0 0 1 4 4v2H5v-2a4 4 0 0 1 4-4Z"/>
+                                <path d="M5 19h10v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2ZM5 7a5.008 5.008 0 0 1 4-4.9 3.988 3.988 0 1 0-3.9 5.859A4.974 4.974 0 0 1 5 7Zm5 3a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm5-1h-.424a5.016 5.016 0 0 1-1.942 2.232A6.007 6.007 0 0 1 17 17h2a1 1 0 0 0 1-1v-2a5.006 5.006 0 0 0-5-5ZM5.424 9H5a5.006 5.006 0 0 0-5 5v2a1 1 0 0 0 1 1h2a6.007 6.007 0 0 1 4.366-5.768A5.016 5.016 0 0 1 5.424 9Z"/>
                             </svg>
+                        </div>
+                        <div>
+                            <h5 class="leading-none text-2xl font-bold text-gray-900 dark:text-white pb-1">20</h5>
+                            <p class="text-sm font-normal text-gray-500 dark:text-gray-400">Kegiatan Minggu Ini</p>
+                        </div>
+                    </div>
+                    <div>
+                        <span class="bg-green-100 text-green-800 text-xs font-medium inline-flex items-center px-2.5 py-1 rounded-md dark:bg-green-900 dark:text-green-300">
+                            <svg class="w-2.5 h-2.5 me-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 14">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13V1m0 0L1 5m4-4 4 4"/>
+                            </svg>
+                            42.5%
                         </span>
                     </div>
                 </div>
 
-                <!-- Table Header -->
-                <div class="grid grid-cols-4 gap-4 text-left font-semibold text-gray-600 mb-2">
-                    <div>Nama Kegiatan</div>
-                    <div>Tanggal Dibuka</div>
-                    <div>Status</div>
-                    <div>Detail</div>
+                <div class="grid grid-cols-2">
+                    <dl class="flex items-center">
+                        <dt class="text-gray-500 dark:text-gray-400 text-sm font-normal me-1">Total Kegiatan:</dt>
+                        <dd class="text-gray-900 text-sm dark:text-white font-semibold">85</dd>
+                    </dl>
+                    <dl class="flex items-center justify-end">
+                        <dt class="text-gray-500 dark:text-gray-400 text-sm font-normal me-1">Rata-rata/bulan:</dt>
+                        <dd class="text-gray-900 text-sm dark:text-white font-semibold">21.25</dd>
+                    </dl>
                 </div>
 
-                <!-- Table Rows -->
-                <div class="space-y-4">
-                    <!-- Row 1 -->
-                    <div class="grid grid-cols-4 gap-4 items-center">
-                        <div class="flex items-center space-x-4">
-                            <img src="path/to/image1.jpg" alt="Kegiatan 1" class="w-10 h-10 rounded-full">
-                            <span>Kegiatan 1</span>
-                        </div>
-                        <div>29 April 2024</div>
-                        <div><span class="bg-green-100 text-green-600 px-4 py-1 rounded-full">Direview</span></div>
-                        <button class="bg-gray-300 text-gray-600 px-4 py-2 rounded-lg">Lihat</button>
-                    </div>
+                <div id="column-chart"></div>
 
-                    <!-- Row 2 -->
-                    <div class="grid grid-cols-4 gap-4 items-center">
-                        <div class="flex items-center space-x-4">
-                            <img src="path/to/image2.jpg" alt="Kegiatan 2" class="w-10 h-10 rounded-full">
-                            <span>Kegiatan 2</span>
+                <div class="grid grid-cols-1 items-center border-gray-200 border-t dark:border-gray-700 justify-between">
+                    <div class="flex justify-between items-center pt-5">
+                        <button
+                            id="dropdownDefaultButton"
+                            data-dropdown-toggle="lastDaysdropdown"
+                            class="text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-gray-900 text-center inline-flex items-center dark:hover:text-white"
+                            type="button">
+                            Last 7 days
+                            <svg class="w-2.5 m-2.5 ms-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+                            </svg>
+                        </button>
+                        <div id="lastDaysdropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+                            <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
+                                <li><a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Yesterday</a></li>
+                                <li><a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Today</a></li>
+                                <li><a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Last 7 days</a></li>
+                                <li><a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Last 30 days</a></li>
+                                <li><a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Last 90 days</a></li>
+                            </ul>
                         </div>
-                        <div>20 April 2024</div>
-                        <div><span class="bg-green-100 text-green-600 px-4 py-1 rounded-full">Direview</span></div>
-                        <button class="bg-gray-300 text-gray-600 px-4 py-2 rounded-lg">Lihat</button>
-                    </div>
-
-                    <!-- Row 3 -->
-                    <div class="grid grid-cols-4 gap-4 items-center">
-                        <div class="flex items-center space-x-4">
-                            <img src="path/to/image3.jpg" alt="Kegiatan 3" class="w-10 h-10 rounded-full">
-                            <span>Kegiatan 3</span>
-                        </div>
-                        <div>20 April 2024</div>
-                        <div><span class="bg-green-100 text-green-600 px-4 py-1 rounded-full">Direview</span></div>
-                        <button class="bg-gray-300 text-gray-600 px-4 py-2 rounded-lg">Lihat</button>
-                    </div>
-
-                    <!-- Row 4 -->
-                    <div class="grid grid-cols-4 gap-4 items-center">
-                        <div class="flex items-center space-x-4">
-                            <img src="path/to/image4.jpg" alt="Kegiatan 4" class="w-10 h-10 rounded-full">
-                            <span>Kegiatan 4</span>
-                        </div>
-                        <div>20 April 2024</div>
-                        <div><span class="bg-green-100 text-green-600 px-4 py-1 rounded-full">Direview</span></div>
-                        <button class="bg-gray-300 text-gray-600 px-4 py-2 rounded-lg">Lihat</button>
+                        <a href="#" class="uppercase text-sm font-semibold inline-flex items-center rounded-lg text-blue-600 hover:text-blue-700 dark:hover:text-blue-500 hover:bg-gray-100 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 px-3 py-2">
+                            Laporan Lengkap
+                            <svg class="w-2.5 h-2.5 ms-1.5 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
+                            </svg>
+                        </a>
                     </div>
                 </div>
             </div>
 
-            <!-- Wrapper Ringkasan Laporan -->
-            <div class="w-1/3 p-6 rounded-3xl flex flex-col space-y-8 bg-white shadow-lg">
-                <!-- Heading dan Subheading -->
-                <div class="mb-4 text-center">
-                    <h2 class="text-2xl font-semibold text-gray-700">Ringkasan Laporan</h2>
-                    <p class="text-gray-500">Ringkasan Laporan Pengajuan Kegiatan Polban</p>
+            <!-- Statistik Kegiatan Ormawa -->
+            <div class="bg-gray-100 rounded-lg shadow-sm p-6">
+                <h2 class="text-lg font-semibold mb-4">Statistik Kegiatan Ormawa</h2>
+                <div class="relative" style="height: 300px;">
+                    <canvas id="ormawaChart"></canvas>
                 </div>
+            </div>
+        </div>
 
-                <!-- Konten Ringkasan Pengajuan dan Kegiatan Disetujui -->
-                <div class="flex space-x-4">
-                    <!-- Jumlah Pengajuan Kegiatan -->
-                    <div class="bg-gradient-to-b from-blue-500 to-blue-600 rounded-xl p-6 w-1/2 text-center shadow-lg">
-                        <h3 class="text-white mb-4">Jumlah Pengajuan Kegiatan</h3>
-                        <div class="flex justify-center items-center">
-                            <div class="bg-blue-400 rounded-full w-24 h-24 flex justify-center items-center">
-                                <p class="text-white text-3xl font-bold">85</p>
-                            </div>
-                        </div>
-                        <span class="text-white mt-2 block">Pengajuan</span>
-                    </div>
-
-                    <!-- Jumlah Kegiatan Disetujui -->
-                    <div class="bg-gradient-to-b from-blue-500 to-blue-600 rounded-lg p-6 w-1/2 text-center shadow-lg">
-                        <h3 class="text-white mb-4">Jumlah Kegiatan Disetujui</h3>
-                        <div class="flex justify-center items-center">
-                            <div class="bg-blue-400 rounded-full w-24 h-24 flex justify-center items-center">
-                                <p class="text-white text-3xl font-bold">25</p>
-                            </div>
-                        </div>
-                        <span class="text-white mt-2 block">Kegiatan</span>
+        <!-- Tabel Menunggu Review -->
+        <!-- Tabel Menunggu Review -->
+<div class="mt-6 bg-white rounded-lg shadow-sm">
+    <div class="p-6">
+        <div class="flex justify-between items-center mb-4">
+            <h2 class="text-lg font-semibold">Menunggu Review</h2>
+            <div class="flex items-center space-x-4">
+                <!-- Show entries dropdown -->
+                <div class="flex items-center space-x-2">
+                    <span class="text-sm text-gray-500">Show</span>
+                    <select class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2">
+                        <option value="10">10</option>
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                    </select>
+                    <span class="text-sm text-gray-500">entries</span>
+                </div>
+                <!-- Search input -->
+                <div class="relative">
+                    <input type="text" placeholder="Search" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2">
+                    <div class="absolute inset-y-0 right-0 flex items-center pr-3">
+                        <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Baris 3 - Grafik -->
+        <!-- Table -->
+        <div class="relative overflow-x-auto">
+            <table class="w-full text-sm text-left text-gray-500">
+                <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                    <tr>
+                        <th scope="col" class="px-6 py-3">Tanggal Diajukan</th>
+                        <th scope="col" class="px-6 py-3">Tanggal Review</th>
+                        <th scope="col" class="px-6 py-3">Nama Kegiatan</th>
+                        <th scope="col" class="px-6 py-3">Ormawa</th>
+                        <th scope="col" class="px-6 py-3">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for ($i = 0; $i < 7; $i++)
+                    <tr class="bg-white border-b hover:bg-gray-50">
+                        <td class="px-6 py-4">11/01/2024</td>
+                        <td class="px-6 py-4">3 hari</td>
+                        <td class="px-6 py-4">Studi Banding</td>
+                        <td class="px-6 py-4">UKM Robotika</td>
+                        <td class="px-6 py-4">
+                            <div class="flex items-center space-x-3">
+                                <button class="text-gray-500 hover:text-gray-700">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                    </svg>
+                                </button>
+                                <button class="text-gray-500 hover:text-gray-700">
+                                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                        <path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    @endfor
+                </tbody>
+            </table>
+        </div>
 
+        <!-- Pagination -->
+        <div class="flex items-center justify-between pt-4">
+            <div class="text-sm text-gray-700">
+                Showing data 1 to 8 of 255k entries
+            </div>
+            <div class="flex items-center space-x-2">
+                <button class="px-3 py-1 bg-blue-500 text-white rounded-lg">1</button>
+                <button class="px-3 py-1 text-gray-500 hover:bg-gray-100 rounded-lg">2</button>
+                <button class="px-3 py-1 text-gray-500 hover:bg-gray-100 rounded-lg">3</button>
+                <button class="px-3 py-1 text-gray-500 hover:bg-gray-100 rounded-lg">4</button>
+                <button class="px-3 py-1 text-gray-500 hover:bg-gray-100 rounded-lg">Selanjutnya</button>
+            </div>
+        </div>
+    </div>
+</div>
 
+    <!-- ApexCharts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/apexcharts/3.44.0/apexcharts.min.js"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
     <script>
-        // Mengambil data dari controller
-        const proposalData = [{ id_ormawa: 'Himpunan A', count: 10 }, { id_ormawa: 'Himpunan B', count: 15 }, { id_ormawa: 'Himpunan C', count: 5 }, { id_ormawa: 'Himpunan D', count: 8 }, { id_ormawa: 'Himpunan E', count: 12 }];
+        // Konfigurasi ApexCharts
+        const options = {
+            colors: ["#1A56DB", "#FDBA8C"],
+            series: [
+                {
+                    name: "Terlaksana",
+                    color: "#1A56DB",
+                    data: [
+                        { x: "Jan", y: 15 },
+                        { x: "Feb", y: 12 },
+                        { x: "Mar", y: 18 },
+                        { x: "Apr", y: 21 },
+                        { x: "Mei", y: 12 },
+                        { x: "Jun", y: 23 },
+                        { x: "Jul", y: 11 },
+                    ],
+                },
+                {
+                    name: "Menunggu",
+                    color: "#FDBA8C",
+                    data: [
+                        { x: "Jan", y: 12 },
+                        { x: "Feb", y: 13 },
+                        { x: "Mar", y: 11 },
+                        { x: "Apr", y: 14 },
+                        { x: "Mei", y: 22 },
+                        { x: "Jun", y: 11 },
+                        { x: "Jul", y: 13 },
+                    ],
+                },
+            ],
+            chart: {
+                type: "bar",
+                height: "320px",
+                fontFamily: "Inter, sans-serif",
+                toolbar: {
+                    show: false,
+                },
+            },
+            plotOptions: {
+                bar: {
+                    horizontal: false,
+                    columnWidth: "70%",
+                    borderRadiusApplication: "end",
+                    borderRadius: 8,
+                },
+            },
+            tooltip: {
+                shared: true,
+                intersect: false,
+                style: {
+                    fontFamily: "Inter, sans-serif",
+                },
+            },
+            states: {
+                hover: {
+                    filter: {
+                        type: "darken",
+                        value: 1,
+                    },
+                },
+            },
+            stroke: {
+                show: true,
+                width: 0,
+                colors: ["transparent"],
+            },
+            grid: {
+                show: false,
+                strokeDashArray: 4,
+                padding: {
+                    left: 2,
+                    right: 2,
+                    top: -14
+                },
+            },
+            dataLabels: {
+                enabled: false,
+            },
+            legend: {
+                show: false,
+            },
+            xaxis: {
+                floating: false,
+                labels: {
+                    show: true,
+                    style: {
+                        fontFamily: "Inter, sans-serif",
+                        cssClass: 'text-xs font-normal fill-gray-500 dark:fill-gray-400'
+                    }
+                },
+                axisBorder: {
+                    show: false,
+                },
+                axisTicks: {
+                    show: false,
+                },
+            },
+            yaxis: {
+                show: false,
+            },
+            fill: {
+                opacity: 1,
+            },
+        };
 
-        // Membuat chart bars menggunakan Chart.js
-        const ctx = document.getElementById('chart-bars').getContext('2d');
-        ctx.canvas.width = 900;  // Lebarkan canvas
-        ctx.canvas.height = 400; // Sesuaikan tinggi canvas
+        // Inisialisasi ApexCharts
+        if(document.getElementById("column-chart") && typeof ApexCharts !== 'undefined') {
+            const chart = new ApexCharts(document.getElementById("column-chart"), options);
+            chart.render();
+        }
 
-        new Chart(ctx, {
-            type: 'bar',
+        // Chart Kegiatan Ormawa (Chart.js)
+        const ormawaCtx = document.getElementById('ormawaChart').getContext('2d');
+        new Chart(ormawaCtx, {
+            type: 'doughnut',
             data: {
-                labels: proposalData.map(item => item.id_ormawa),
+                labels: ['HMJ_Teknik Kimia', 'UKM Robotika', 'BEM'],
                 datasets: [{
-                    label: 'Jumlah Proposal',
-                    data: proposalData.map(item => item.count),
-                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                    borderColor: 'rgba(54, 162, 235, 1)',
-                    borderWidth: 1
+                    data: [60, 20, 20],
+                    backgroundColor: [
+                        '#3B82F6',
+                        '#FB7185',
+                        '#F97316'
+                    ],
+                    borderWidth: 0
                 }]
             },
             options: {
                 responsive: true,
-                scales: {
-                    y: {
-                        beginAtZero: true
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
                     }
                 }
             }
         });
     </script>
 
-    <!-- var ctx = document.getElementById('chart-bars').getContext('2d');
-ctx.canvas.width = 600;  // Lebarkan canvas
-ctx.canvas.height = 300; // Sesuaikan tinggi canvas
 
-var chart = new Chart(ctx, {
-    type: 'bar',  // Ganti dengan tipe grafik yang Anda gunakan
-    data: {
-        // Data dan konfigurasi grafik
-    },
-    options: {
-        responsive: true, // Pastikan grafik responsive
-        maintainAspectRatio: false, // Agar proporsi lebar dan tinggi fleksibel
-    }
-}); -->
-
-</body>
-
-</html>
 @endsection
