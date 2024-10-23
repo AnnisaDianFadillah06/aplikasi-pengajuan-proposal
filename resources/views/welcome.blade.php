@@ -54,6 +54,8 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     {{-- tailwind-flowbite --}}
     @vite(['resources/css/app.css','resources/js/app.js'])
+
+    
   </head>
 
   <body class="m-0 font-sans text-base antialiased font-normal leading-default bg-gray-50 text-slate-500">
