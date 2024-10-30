@@ -28,8 +28,23 @@ Route::get('/organisasi-mahasiswa', [OrmawaController::class, 'index']);
 Route::get('/modal', function () {
     return view('proposal_kegiatan.komponen-modal'); // Pastikan ini benar
 });
-// Route::get('/modal', [ProposalController::class, 'index']) 
-// ->name('pengajuan.kegiatan');
+
+Route::get('/profil-pengaju', function () {
+    return view('proposal_kegiatan.profil_pengaju'); // Pastikan ini benar
+});
+
+Route::get('/daftar-ormawa', function () {
+    return view('proposal_kegiatan.daftar_ormawa'); // Pastikan ini benar
+});
+Route::get('/bidang-kegiatan', function () {
+    return view('proposal_kegiatan.bidang_kegiatan'); // Pastikan ini benar
+});
+Route::get('/daftar-pedoman', function () {
+    return view('proposal_kegiatan.daftar_pedoman'); // Pastikan ini benar
+});
+Route::get('/notifikasi', function () {
+    return view('proposal_kegiatan.notifikasi'); // Pastikan ini benar
+});
 
 //Route M. HARISH AL-R.
 Route::get('/pengajuan-proposal', [PengajuanProposalController::class, 'index']);
