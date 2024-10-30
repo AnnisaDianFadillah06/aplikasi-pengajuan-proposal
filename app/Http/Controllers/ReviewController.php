@@ -44,6 +44,13 @@ class ReviewController extends Controller
             'status_revisi' => $request->input('status_revisi'),
         ]);
 
+        // Mengubah status di tabel proposal_pengajuan
+        $proposal = PengajuanProposal::find($request->input('id_proposal'));
+        if ($proposal) {
+            $proposal->status = $request->input('status_revisi'); // Ubah status sesuai input
+            $proposal->save();
+        }
+
         // Redirect ke halaman yang sesuai, misalnya halaman daftar proposal
         return redirect()->route('proposal.index')->with('success', 'Revisi berhasil disimpan dan status proposal telah diperbarui.');
     }

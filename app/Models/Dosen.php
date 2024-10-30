@@ -3,11 +3,30 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 
-class Dosen extends Model
+class Dosen extends Authenticatable
 {
-    use HasFactory;
-    protected $table = 'dosen';
-    protected $primaryKey = 'id_dosen';
+    use HasFactory, Notifiable;
+
+    protected $connection = 'users'; // Menggunakan koneksi 'users'
+    protected $table = 'dosen';      // Menentukan tabel 'dosen'
+    protected $primaryKey = 'id';  // Primary key
+
+    protected $fillable = [
+        'username',
+        'email',
+        'password',
+    ];
+
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
+
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+        'password' => 'hashed',
+    ];
 }
