@@ -71,11 +71,11 @@ Route::controller(AuthController::class)->group(function () {
     // Route::get('/login', 'index')->name('login');
     Route::get('/login-mahasiswa', [AuthController::class, 'showLoginFormMahasiswa'])->name('login.mahasiswa');
     Route::get('/login-dosen', [AuthController::class, 'showLoginFormDosen'])->name('login.dosen');
-    Route::get('/check-reviewer', [ReviewerAuthController::class, 'checkReviewer'])->name('check.reviewer');
-
+    
     // Route::post('/login', 'login')->name('login.submit');
     Route::post('/login-mahasiswa', [AuthController::class, 'loginMahasiswa'])->name('login.mahasiswa.submit');
     Route::post('/login-dosen', [AuthController::class, 'loginDosen'])->name('login.dosen.submit');
+    Route::get('/check-reviewer', [ReviewerAuthController::class, 'checkReviewer'])->name('check.reviewer');
 
     // Forgot password process
     Route::post('/forgot-password', 'forgotPassword')->name('password.forgot');
