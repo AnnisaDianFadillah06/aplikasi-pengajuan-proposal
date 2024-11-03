@@ -20,6 +20,7 @@ return new class extends Migration
             $table->integer('id_jenis_kegiatan')->nullable();
             $table->integer('id_ormawa')->nullable();
             $table->integer('id_pengguna')->nullable()->index('fki_fk_pengguna');
+            $table->integer('id_bidang_kegiatan')->nullable();
             $table->string('file_lpj')->nullable();
             $table->timestamp('created_at')->nullable()->useCurrent();
             $table->timestamp('updated_at')->nullable()->useCurrent();

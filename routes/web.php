@@ -88,6 +88,21 @@ Route::controller(AuthController::class)->group(function () {
 });
 //---------------------------------------------------------------------------------------
 
+// ================================================================================ Untuk ngebatasin akses antar user (masi dikomen biar ga ganggu pengembangan)
+// ============= Penggunaan Middleware untuk Pembatasan Akses =====================
+// // Protected routes for mahasiswa
+// Route::middleware(['auth:mahasiswa'])->group(function () {
+//     Route::get('/dashboard-pengaju', function () {
+//         return view('dashboard-pengaju');
+//     });
+// });
+
+// // Protected routes for dosen
+// Route::middleware(['auth:dosen'])->group(function () {
+//     Route::get('/dashboard-reviewer', [DashboardController::class, 'index']);
+// });
+
+
 Route::get('/rtl', function () {
     return view('rtl');
 }); 

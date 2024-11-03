@@ -15,6 +15,7 @@ return new class extends Migration
             $table->foreign(['id_jenis_kegiatan'], 'fk_jenis_kegiatan')->references(['id_jenis_kegiatan'])->on('jenis_kegiatan')->onUpdate('no action')->onDelete('cascade');
             $table->foreign(['id_ormawa'], 'fk_ormawa')->references(['id_ormawa'])->on('ormawa')->onUpdate('no action')->onDelete('cascade');
             $table->foreign(['id_pengguna'], 'fk_pengguna')->references(['id'])->on('pengaju')->onUpdate('no action')->onDelete('no action');
+            $table->foreign(['id_bidang_kegiatan'], 'fk_bidang_kegiatan')->references(['id'])->on('bidang_kegiatan')->onUpdate('no action')->onDelete('cascade'); // Aturan ketika bidang kegiatan dihapus
         });
     }
 
@@ -27,6 +28,7 @@ return new class extends Migration
             $table->dropForeign('fk_jenis_kegiatan');
             $table->dropForeign('fk_ormawa');
             $table->dropForeign('fk_pengguna');
+            $table->dropForeign('fk_bidang_kegiatan');
         });
     }
 };
