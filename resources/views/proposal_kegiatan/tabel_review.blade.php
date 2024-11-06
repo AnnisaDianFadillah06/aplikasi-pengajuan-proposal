@@ -1,12 +1,11 @@
 @extends('welcome')
 @section('konten')
 
-
-<!-- Link Tailwind CSS dan FontAwesome untuk ikon -->
-<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-<link rel="stylesheet" href="//cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
-
 <div class="container mx-auto mt-4">
+<div class="flex flex-wrap -mx-3">
+  <div class="flex-none w-full max-w-full px-3">
+    <div class="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-soft-xl rounded-2xl bg-clip-border">
+      <div class="p-6 pb-0 mb-0 bg-white border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
     <!-- Heading dan Tombol Add New -->
     <div class="flex justify-between items-center mb-4">
         <h3 class="text-xl font-bold">List Proposal</h3>
@@ -41,6 +40,7 @@
         <table id="myTable" class="items-center w-full mb-0 align-top border-gray-200 text-slate-500">
                     <thead class="align-bottom">
                     <tr class="w-full bg-gray-100 text-gray-700 uppercase text-sm leading-normal">
+                        <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">No</th>       
                         <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Penyelenggara</th>
                         <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Nama kegiatan</th>
                         <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Status</th>
@@ -53,10 +53,12 @@
                     @foreach ($proposal as $item)
                       <tr>
                         <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
+                          <p class="mb-0 text-xs font-semibold leading-tight">{{ $loop->iteration }}</p>
+                        </td>
+                        <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
                           <div class="flex px-2 py-1">
                             <div class="flex flex-col justify-center">
-                              <h6 class="mb-0 text-sm leading-normal">{{ $item->id_pengguna }} {{ $item->pengguna->nama_pengguna }}</h6>
-                              <!-- <p class="mb-0 text-xs leading-tight text-slate-400">john@creative-tim.com</p> -->
+                              <h6 class="mb-0 text-sm leading-normal">{{ $item->pengguna->nama_pengguna }}</h6>
                             </div>
                           </div>
                         </td>
@@ -99,7 +101,7 @@
         </table>
     </div>
 </div>
-
+</div></div>
 <!-- Script DataTables -->
 <script>
     $(document).ready(function() {
@@ -111,8 +113,8 @@
             "lengthMenu": [5, 10, 25, 50],
             "language": {
                 "search": "Cari:",
-                "lengthMenu": "Tampilkan MENU entri",
-                "info": "Menampilkan START hingga END dari TOTAL entri",
+                "lengthMenu": "Tampilkan _MENU_ entri",
+                "info": "Menampilkan _START_ hingga _END_ dari _TOTAL_ entri",
                 "infoEmpty": "Menampilkan 0 hingga 0 dari 0 entri",
                 "infoFiltered": "(disaring dari MAX total entri)",
                 "paginate": {

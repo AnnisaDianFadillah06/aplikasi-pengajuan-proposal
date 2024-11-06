@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PengajuanProposalController;
 use App\Http\Controllers\HistoriPengajuanController;
+use App\Http\Controllers\PedomanKemahasiswaanController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\JenisKegiatanController;
@@ -23,7 +24,14 @@ Route::get('/detail-review/{reviewProposal}', [ReviewController::class, 'show'])
 Route::post('/manajemen-review/store', [ReviewController::class, 'store'])->name('proposal.store');
 Route::get('/organisasi-mahasiswa', [OrmawaController::class, 'index']);
 Route::get('/dashboard/chart-data', [DashboardController::class, 'getChartData'])->name('proposal_kegiatan.getChartData');
+Route::get('/pedoman-kemahasiswaan', [PedomanKemahasiswaanController::class, 'index'])->name('pedoman.index'); // Untuk menampilkan data
+Route::post('/pedoman', [PedomanKemahasiswaanController::class, 'store'])->name('pedoman.store'); // Untuk menyimpan data baru
+Route::put('/pedoman/{id}', [PedomanKemahasiswaanController::class, 'update'])->name('pedoman.update'); // Untuk memperbarui data
+Route::delete('/pedoman/{id}', [PedomanKemahasiswaanController::class, 'destroy'])->name('pedoman.destroy'); // Untuk menghapus data
 
+Route::get('/countdown', function () {
+    return view('proposal_kegiatan.countdown_form');
+});
 
 // Route DHEA PUTRI ANANDA
 Route::get('/modal', function () {
@@ -57,12 +65,8 @@ Route::get('/billing', function () {
 });
 
 // Route Timothy Elroy
-Route::get('/dashboard-pengaju', function () {
-    return view('dashboard-pengaju');
-});
-
-Route::get('/dashboard-reviewer', [DashboardController::class, 'index']);
-
+Route::get('/dashboard-pengaju', [DashboardController::class, 'index_pengaju'])->name('proposal_kegiatan.dashboard-pengaju');
+Route::get('/dashboard-reviewer', [DashboardController::class, 'index'])->name('proposal_kegiatan.dashboard-reviewer');
 //--------------
 
 Route::get('/rtl', function () {

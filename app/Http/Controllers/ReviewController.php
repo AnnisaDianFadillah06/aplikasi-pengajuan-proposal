@@ -56,8 +56,3 @@ class ReviewController extends Controller
     }
 
 }
-
-// class komponenController extends Controller
-// {
-
-// }
