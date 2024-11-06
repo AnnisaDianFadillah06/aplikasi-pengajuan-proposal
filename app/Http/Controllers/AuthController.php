@@ -73,7 +73,9 @@ class AuthController extends Controller
 
         if (Auth::guard('mahasiswa')->attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect()->intended('/dashboard-pengaju');
+            // return redirect()->intended('/dashboard-pengaju');
+            // Mengarahkan ke route pengecekan pengaju
+            return redirect()->route('check.pengaju');
         }
 
         return back()->withErrors(['email' => 'Email atau password salah.'])->onlyInput('email');

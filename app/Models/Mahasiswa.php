@@ -12,7 +12,7 @@ class Mahasiswa extends Authenticatable
 
     protected $connection = 'users';   // Menentukan koneksi 'users'
     protected $table = 'mahasiswa';    // Tabel 'mahasiswa'
-    protected $primaryKey = 'id_mhs';  // Primary key
+    protected $primaryKey = 'id';  // Primary key
 
     /**
      * The attributes that are mass assignable.

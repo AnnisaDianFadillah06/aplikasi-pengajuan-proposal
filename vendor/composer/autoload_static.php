@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitdce2354294cc315c6c152d81956c79d6
+class ComposerStaticInitc1364831c1821333008a3cb8ba8976ea
 {
     public static $files = array (
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
@@ -352,8 +352,8 @@ class ComposerStaticInitdce2354294cc315c6c152d81956c79d6
         ),
         'Psr\\Http\\Message\\' => 
         array (
-            0 => __DIR__ . '/..' . '/psr/http-message/src',
-            1 => __DIR__ . '/..' . '/psr/http-factory/src',
+            0 => __DIR__ . '/..' . '/psr/http-factory/src',
+            1 => __DIR__ . '/..' . '/psr/http-message/src',
         ),
         'Psr\\Http\\Client\\' => 
         array (
@@ -689,9 +689,14 @@ class ComposerStaticInitdce2354294cc315c6c152d81956c79d6
         'Cron\\MonthField' => __DIR__ . '/..' . '/dragonmantank/cron-expression/src/Cron/MonthField.php',
         'Database\\Factories\\PengajuanProposalFactory' => __DIR__ . '/../..' . '/database/factories/PengajuanProposalFactory.php',
         'Database\\Factories\\UserFactory' => __DIR__ . '/../..' . '/database/factories/UserFactory.php',
+        'Database\\Seeders\\BidangKegiatanSeeder' => __DIR__ . '/../..' . '/database/seeders/BidangKegiatanSeeder.php',
         'Database\\Seeders\\DatabaseSeeder' => __DIR__ . '/../..' . '/database/seeders/DatabaseSeeder.php',
+        'Database\\Seeders\\DosenSeeder' => __DIR__ . '/../..' . '/database/seeders/DosenSeeder.php',
+        'Database\\Seeders\\JenisKegiatanSeeder' => __DIR__ . '/../..' . '/database/seeders/JenisKegiatanSeeder.php',
+        'Database\\Seeders\\MahasiswaSeeder' => __DIR__ . '/../..' . '/database/seeders/MahasiswaSeeder.php',
+        'Database\\Seeders\\OrmawaSeeder' => __DIR__ . '/../..' . '/database/seeders/OrmawaSeeder.php',
         'Database\\Seeders\\ProposalSeeder' => __DIR__ . '/../..' . '/database/seeders/ProposalSeeder.php',
-        'Database\\Seeders\\UserSeeder' => __DIR__ . '/../..' . '/database/seeders/UserSeeder.php',
+        'Database\\Seeders\\ReviewerSeeder' => __DIR__ . '/../..' . '/database/seeders/ReviewerSeeder.php',
         'DateError' => __DIR__ . '/..' . '/symfony/polyfill-php83/Resources/stubs/DateError.php',
         'DateException' => __DIR__ . '/..' . '/symfony/polyfill-php83/Resources/stubs/DateException.php',
         'DateInvalidOperationException' => __DIR__ . '/..' . '/symfony/polyfill-php83/Resources/stubs/DateInvalidOperationException.php',
@@ -6870,9 +6875,9 @@ class ComposerStaticInitdce2354294cc315c6c152d81956c79d6
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitdce2354294cc315c6c152d81956c79d6::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitdce2354294cc315c6c152d81956c79d6::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInitdce2354294cc315c6c152d81956c79d6::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitc1364831c1821333008a3cb8ba8976ea::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitc1364831c1821333008a3cb8ba8976ea::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInitc1364831c1821333008a3cb8ba8976ea::$classMap;
 
         }, null, ClassLoader::class);
     }

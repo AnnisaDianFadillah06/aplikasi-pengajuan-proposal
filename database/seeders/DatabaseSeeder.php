@@ -19,6 +19,8 @@ class DatabaseSeeder extends Seeder
             MahasiswaSeeder::class,
             OrmawaSeeder::class,
             ReviewerSeeder::class,
+            PengajuSeeder::class,
+            ProposalKegiatanSeeder::class,
         ]);
     }
 }

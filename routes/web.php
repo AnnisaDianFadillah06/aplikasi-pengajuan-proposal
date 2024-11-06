@@ -4,10 +4,11 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\OrmawaController;
 use App\Http\Controllers\ReviewController;
-use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProposalController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ReviewerAuthController;
 use App\Http\Controllers\JenisKegiatanController;
+use App\Http\Controllers\MahasiswaAuthController;
 use App\Http\Controllers\TambahPengajuanProposal;
 use App\Http\Controllers\HistoriPengajuanController;
 use App\Http\Controllers\PengajuanProposalController;
@@ -89,6 +90,7 @@ Route::controller(AuthController::class)->group(function () {
     
     // Route::post('/login', 'login')->name('login.submit');
     Route::post('/login-mahasiswa', [AuthController::class, 'loginMahasiswa'])->name('login.mahasiswa.submit');
+    Route::get('/check-pengaju', [MahasiswaAuthController::class, 'checkPengaju'])->name('check.pengaju');
     Route::post('/login-dosen', [AuthController::class, 'loginDosen'])->name('login.dosen.submit');
     Route::get('/check-reviewer', [ReviewerAuthController::class, 'checkReviewer'])->name('check.reviewer');
 

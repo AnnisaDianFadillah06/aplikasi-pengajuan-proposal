@@ -33,6 +33,18 @@
                         <input type="date" id="tanggal_kegiatan" name="tanggal_kegiatan" class="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" value="{{ old('tanggal_kegiatan') }}"/>
                         <span style="color:red">@error('tanggal_kegiatan') {{ $message }} @enderror</span>
                     </li>
+
+                    <!-- Dropdown Bidang Kegiatan -->
+                    <li class="flex flex-col">
+                        <label for="bidang_kegiatan" class="mb-2 font-semibold text-gray-700">Bidang Kegiatan</label>
+                        <select id="bidang_kegiatan" name="id_bidang_kegiatan" class="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
+                            <option value="">--Pilih Bidang Kegiatan --</option>
+                            @foreach($bidang_kegiatans as $bk)
+                                <option value="{{ $bk->id}}">{{ $bk->nama_bidang_kegiatan }}</option>
+                            @endforeach
+                        </select>
+                        <span style="color:red">@error('bidang_kegiatan') {{ $message }} @enderror</span>
+                    </li>
             
                     <!-- Dropdown Jenis Kegiatan -->
                     <li class="flex flex-col">
