@@ -40,6 +40,14 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+        'mahasiswa' => [
+        'driver' => 'session',
+        'provider' => 'mahasiswa', // Guard khusus mahasiswa
+        ],
+        'dosen' => [
+        'driver' => 'session',
+        'provider' => 'dosen', // Guard khusus dosen
+        ],
     ],
 
     /*
@@ -63,6 +71,14 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => env('AUTH_MODEL', App\Models\User::class),
+        ],
+        'mahasiswa' => [
+        'driver' => 'eloquent',
+        'model' => App\Models\Mahasiswa::class, // Provider untuk model Mahasiswa
+        ],
+        'dosen' => [
+        'driver' => 'eloquent',
+        'model' => App\Models\Dosen::class, // Provider untuk model Dosen
         ],
 
         // 'users' => [

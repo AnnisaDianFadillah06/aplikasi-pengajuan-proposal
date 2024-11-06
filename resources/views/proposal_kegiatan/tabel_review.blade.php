@@ -95,7 +95,6 @@
                             <a href="{{ route('proposal.show', ['reviewProposal' => $item->id_proposal]) }}" onclick="logProposalId({{ $item->id }})" class="mb-0 text-xs font-semibold leading-tight text-blue-500 hover:underline">Review</a>
                         </td>
                     </tr>
-                      
                       @endforeach
                     </tbody>
         </table>

@@ -1,5 +1,9 @@
 @extends('welcome')
 @section('konten')
+<h1>Selamat datang di Dashboard Dosen</h1>
+
+<h1>Welcome to the Dashboard, {{ $username }}</h1>
+<p>Your role is: {{ $role }}</p>
 
 <!-- Link Tailwind CSS dan FontAwesome untuk ikon -->
 <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
@@ -99,7 +103,7 @@
                         <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
                           <div class="flex px-2 py-1">
                             <div class="flex flex-col justify-center">
-                              <h6 class="mb-0 text-sm leading-normal">{{ $item->pengguna->nama_pengguna }}</h6>
+                              {{-- <h6 class="mb-0 text-sm leading-normal">{{ $item->pengguna->nama_pengguna }}</h6> --}}
                               <!-- <p class="mb-0 text-xs leading-tight text-slate-400">john@creative-tim.com</p> -->
                             </div>
                           </div>

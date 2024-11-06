@@ -17,6 +17,10 @@ class DashboardController extends Controller
     // dashboard untuk reviewer
     public function index(Request $request)
     {
+        // Mendapatkan username dan role dari sesi ===checking session===
+        $username = session('username');
+        $role = session('role');
+
         // Get the selected year from the request or default to the current year
         $year = $request->input('year', date('Y'));
     
@@ -98,7 +102,9 @@ class DashboardController extends Controller
             'selectedYear' => $year, // Kirimkan tahun yang dipilih ke view
             'totalDisetujui' => $totalDisetujui,  // Total disetujui
             'totalDitolak' => $totalDitolak,      // Total ditolak
-            'proposal' => $proposal
+            'proposal' => $proposal,
+            'username' => $username, // Tambahkan ke view ===checking session===
+            'role' => $role,         // Tambahkan ke view ===checking session===
         ]);
     }
 }

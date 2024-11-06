@@ -11,9 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('jenis_kegiatans', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+        Schema::connection('pgsql')->create('pengaju', function (Blueprint $table) {
+            $table->integer('id')->primary();
+            $table->string('username', 100);
+            $table->string('email', 50);
         });
     }
 
@@ -22,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('jenis_kegiatans');
+        Schema::connection('pgsql')->dropIfExists('pengaju');
     }
 };
