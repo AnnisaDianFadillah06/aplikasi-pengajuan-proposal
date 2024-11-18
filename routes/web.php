@@ -71,6 +71,12 @@ Route::get('/histori-pengajuan', [HistoriPengajuanController::class, 'index'])
 Route::get('/download-pdf', [HistoriPengajuanController::class, 'downloadPDF'])
 ->name('download.pdf');
 
+// Rute untuk CRUD Jenis Kegiatan
+Route::get('/jenis-kegiatan', [JenisKegiatanController::class, 'index'])->name('jenis-kegiatan.index');
+Route::post('/jenis-kegiatan/store', [JenisKegiatanController::class, 'store'])->name('jenis-kegiatan.store');
+Route::put('/update-jenis-kegiatan/{id}', [JenisKegiatanController::class, 'update'])->name('jenis-kegiatan.update');
+
+
 
 // Route TEMPLATE
 Route::get('/profile', function () {

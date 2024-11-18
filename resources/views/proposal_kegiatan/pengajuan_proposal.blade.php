@@ -96,10 +96,13 @@
                         <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
                             <a href="javascript:;" class="text-xs font-semibold leading-tight text-slate-400"> </a>
                         </td>
-                        <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                            <a href="{{ route('proposal.detail', $item->id_proposal) }}" class="text-xs font-semibold leading-tight text-blue-600">
-                                Detail
-                            </a>
+                        <td class="p-2 text-sm leading-normal text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
+                        <button class="bg-blue-500 text-white px-2 py-1 rounded" onclick="window.location.href='{{ route('proposal.detail', $item->id_proposal) }}'"> Detail </button>
+
+
+                            <!-- 
+                                <button class="bg-blue-500 text-white px-2 py-1 rounded" onclick="route('proposal.detail', $item->id_proposal) }}')">Edit</button>
+                             -->
                         </td>                        
                     </tr>
                 </tr>
@@ -135,9 +138,33 @@
                     "next": "Selanjutnya",
                     "previous": "Sebelumnya"
                 }
+            }, 
+            "drawCallback": function() {
+                // Adjust select width after draw
+                adjustSelectWidth();
             }
         });
+
+        // Function to adjust select width
+        function adjustSelectWidth() {
+            var select = $('.dataTables_length select');
+            select.each(function() {
+                var text = $(this).find('option:selected').text();
+                $(this).css('width', (text.length + 4) + 'ch');
+            });
+        }
+
+        // Call function on select change
+        $('.dataTables_length select').change(adjustSelectWidth);
     });
+
+    function adjustSelectWidth() {
+            var select = $('.dataTables_length select');
+            select.each(function() {
+                var text = $(this).find('option:selected').text();
+                $(this).css('width', (text.length + 4) + 'ch');
+            });
+     }
 </script>
 
 @endsection
