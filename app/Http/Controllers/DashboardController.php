@@ -2,12 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\PedomanKemahasiswaan;
 use App\Models\PengajuanProposal;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
+    public function index_pengaju()
+    {
+        $documents = PedomanKemahasiswaan::all(); // Ambil semua dokumen dari database
+        return view('proposal_kegiatan.dashboard-pengaju', compact('documents'));
+    }
+    // dashboard untuk reviewer
     public function index(Request $request)
     {
         // Mendapatkan username dan role dari sesi ===checking session===

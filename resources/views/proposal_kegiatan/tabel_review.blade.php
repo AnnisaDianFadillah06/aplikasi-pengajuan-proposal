@@ -13,6 +13,7 @@
 <!-- Link Tailwind CSS dan FontAwesome untuk ikon -->
 <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 <link rel="stylesheet" href="//cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+<title>@yield('title', 'Manajemen Review')</title>
 
 <div class="container mx-auto mt-4">
     <!-- Heading dan Tombol Add New -->
@@ -98,7 +99,7 @@
                             <span class="text-xs font-semibold leading-tight text-slate-400">{{ $item->created_at->format('Y-m-d')  }}</span>
                         </td>
                         <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                            <a href="{{ route('proposal.show', ['reviewProposal' => $item->id_proposal]) }}" onclick="logProposalId({{ $item->id }})" class="mb-0 text-xs font-semibold leading-tight text-blue-500 hover:underline">Review</a>
+                        <a href="{{ route('proposal.show', ['reviewProposal' => $item->id_proposal]) }}"  onclick="logProposalId({{ $item->id }})" class="bg-blue-500 text-white px-2 py-1 rounded hover:underline">Review</a>
                         </td>
                     </tr>
                       @endforeach
@@ -108,7 +109,7 @@
 </div>
 
 <!-- Script DataTables -->
-<script>
+<!-- <script>
     $(document).ready(function() {
         $('#myTable').DataTable({
             "paging": true,
@@ -144,6 +145,55 @@
         adjustSelectWidth();
         $('.dataTables_length select').change(adjustSelectWidth);
     });
+</script> -->
+
+<script>
+    $(document).ready(function() {
+        $('#myTable').DataTable({
+            "paging": true,
+            "searching": true,
+            "ordering": true,
+            "info": true,
+            "lengthMenu": [5, 10, 25, 50],
+            "language": {
+                "search": "Cari:",
+                "lengthMenu": "Tampilkan _MENU_ entri",
+                "info": "Menampilkan _START_ hingga _END_ dari _TOTAL_ entri",
+                "infoEmpty": "Menampilkan 0 hingga 0 dari 0 entri",
+                "infoFiltered": "(disaring dari _MAX_ total entri)",
+                "paginate": {
+                    "first": "Pertama",
+                    "last": "Terakhir",
+                    "next": "Selanjutnya",
+                    "previous": "Sebelumnya"
+                }
+            },
+            "drawCallback": function() {
+                // Adjust select width after draw
+                adjustSelectWidth();
+            }
+        });
+
+        // Function to adjust select width
+        function adjustSelectWidth() {
+            var select = $('.dataTables_length select');
+            select.each(function() {
+                var text = $(this).find('option:selected').text();
+                $(this).css('width', (text.length + 4) + 'ch');
+            });
+        }
+
+        // Call function on select change
+        $('.dataTables_length select').change(adjustSelectWidth);
+    });
+
+    function adjustSelectWidth() {
+            var select = $('.dataTables_length select');
+            select.each(function() {
+                var text = $(this).find('option:selected').text();
+                $(this).css('width', (text.length + 4) + 'ch');
+            });
+        }
 </script>
 
 @endsection
