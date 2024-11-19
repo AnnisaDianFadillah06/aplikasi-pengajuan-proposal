@@ -15,8 +15,14 @@ class MahasiswaSeeder extends Seeder
         DB::connection('users')->table('mahasiswa')->insert([
             [
                 'id' => 1, 
-                'username' => 'harish', 
-                'email' => 'harish@polban.ac.id', 
+                'username' => 'El-Pengaju', 
+                'email' => 'El-Pengaju@polban.ac.id', 
+                'password' => '$2y$12$cZSKUXcfGfxccfOrcB3E3eSf3NuKwiw5JSFRa.EQbAruUUbDHfqbO'
+            ],
+            [
+                'id' => 2, 
+                'username' => 'Yanto', 
+                'email' => 'yanto@polban.ac.id', 
                 'password' => '$2y$12$cZSKUXcfGfxccfOrcB3E3eSf3NuKwiw5JSFRa.EQbAruUUbDHfqbO'
             ],
         ]);

@@ -7,7 +7,7 @@
 <p>Updated By Step: {{ $updatedByStep }}</p>
 <p>Status: {{ $status }}</p>
 <p>Status LPJ: {{ $status_lpj }}</p>
-
+<h1>ini teh LPJJJJ</h1>
 
 @php
     use App\Models\Reviewer;
@@ -130,7 +130,6 @@
         {{ session('success') }}
     </div>
 @endif
-
 @if ($errors->any())
     <div class="p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg">
         <ul>
@@ -143,7 +142,7 @@
 
 
 {{-- Bagian Detail proposal --}}
-@if ($proposal->status == 1 || $currentStep <= $updatedByStep || $status_lpj == 1)
+@if ($proposal->status == 1 || $currentStep < $updatedByStep)
     {{-- Tampilkan Detail Proposal saja --}}
     {{-- Bagian Detail Proposal --}}
     <div class="container mx-auto mt-5">
@@ -207,7 +206,7 @@
             </table>
 
             <div class="mt-4 p-3 bg-yellow-100 text-yellow-700 rounded">
-                <p>Proposal ini sedang menunggu review.</p>
+                <p>Laporan pertanggungjawaban ini sedang menunggu review.</p>
             </div>            
         </div>
     </div>
@@ -245,7 +244,7 @@
             </table>
 
             <div class="mt-4 p-3 bg-red-100 text-red-700 rounded">
-                <p>Proposal ini telah ditolak.</p>
+                <p>Laporan pertanggungjawaban ini telah ditolak.</p>
             </div>
         </div>
     </div>
@@ -327,39 +326,39 @@
 {{-- Next and Prev Button --}}
 <div class="flex justify-center items-center mt-4 space-x-4">
     @if ($currentStep != 0)
-        <form method="POST" action="{{ route('proposal.prevStep', $proposal->id_proposal) }}">
+        <form method="POST" action="{{ route('laporan.prevStep', $proposal->id_proposal) }}">
             @csrf
             <button type="submit" class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2">
                 Prev
             </button>
         </form>
+    @elseif ($currentStep == 0)
+        <form method="POST" action="{{ route('proposal.prevStep', $proposal->id_proposal) }}">
+            @csrf
+            <!-- Hidden input sebagai penanda -->
+            <input type="hidden" name="is_first_access" value="true">
+            <button type="submit" class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2">
+                Prev : proposal
+            </button>
+        </form>
     @endif
-    @if ($currentStep < 6 && ($currentStep <= $updatedByStep || $status_lpj == 1))
-        <form method="POST" action="{{ route('proposal.nextStep', $proposal->id_proposal) }}">
+    @if ($currentStep <= $updatedByStep)
+        <form method="POST" action="{{ route('laporan.nextStep', $proposal->id_proposal) }}">
             @csrf
             <button type="submit" class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2">
                 Next
             </button>
         </form>
-    @elseif ($currentStep == 6 && $status_lpj == 1)
-        {{-- button untuk pindah ke section lpj --}}
-        <form method="POST" action="{{ route('laporan.nextStep', $proposal->id_proposal) }}">
-            @csrf
-            <!-- Hidden input sebagai penanda -->
-            <input type="hidden" name="is_first_access" value="true">
-            <button type="submit" class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2">
-                Next : LPJ
-            </button>
-        </form>
     @endif
     {{-- Cek kondisi khusus untuk halaman bukti proposal disetujui --}}
-    @if (($updatedByStep === 6 && $proposal->status === 1 && $currentStep === 6) || $status_lpj == 1)
-        {{-- <form method="GET" action="{{ route('proposal.approvalProof', $proposal->id_proposal) }}"> --}}
-            @csrf
-            <button type="submit" class="text-white bg-gradient-to-r from-green-500 via-green-600 to-green-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2">
-                Bukti Proposal Disetujui
-            </button>
-        </form>
+    
+    @if ($updatedByStep === 6 && $proposal->status === 1 && $currentStep === 6)
+    <form method="GET" action="{{ route('laporan.approvalProof', $proposal->id_proposal) }}">
+        @csrf
+        <button type="submit" class="text-white bg-gradient-to-r from-green-500 via-green-600 to-green-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2">
+            Bukti LPJ Disetujui
+        </button>
+    </form>
     @endif
 </div>
 

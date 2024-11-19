@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\OrmawaController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\ProposalController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ReviewerAuthController;
@@ -55,7 +56,26 @@ Route::get('/pengajuan-proposal', [PengajuanProposalController::class, 'index'])
 Route::get('/tambah-pengajuan-proposal', [TambahPengajuanProposal::class, 'index']);
 Route::post('/add', [TambahPengajuanProposal::class, 'add']);
 
+// Route untuk menampilkan detail proposal dengan navigasi multipage
 Route::get('/detail-proposal/{id_proposal}', [PengajuanProposalController::class, 'show'])->name('proposal.detail'); //route untuk detail_proposal
+// Route untuk Next Step dan Previous Step
+Route::post('/detail-proposal/{id_proposal}/next', [PengajuanProposalController::class, 'nextStep'])->name('proposal.nextStep');
+Route::post('/detail-proposal/{id_proposal}/prev', [PengajuanProposalController::class, 'prevStep'])->name('proposal.prevStep');
+// Upload revisi
+Route::post('/upload-file/{id_proposal}', [PengajuanProposalController::class, 'uploadFile'])->name('proposal.uploadFileRevisi');
+// Bukti proposal disetujui WD3
+Route::get('/proposal/{id_proposal}/approval-proof', [PengajuanProposalController::class, 'approvalProof'])->name('proposal.approvalProof');
+//Masuk tahap LPJ
+Route::post('/proposal/{id_proposal}/form-lpj', [PengajuanProposalController::class, 'formLPJ'])->name('proposal.formLPJ');
+// submit LPJ
+Route::post('/proposal/{id_proposal}/submit-lpj', [PengajuanProposalController::class, 'submitLPJ'])->name('proposal.submitLPJ');
+// Route untuk menampilkan detail lpj dengan navigasi
+Route::get('/laporan/{id}', [LaporanController::class, 'show'])->name('laporan.detail');
+// Route untuk Next Step dan Previous Step
+Route::post('/detail-laporan/{id_proposal}/next', [LaporanController::class, 'nextStep'])->name('laporan.nextStep');
+Route::post('/detail-laporan/{id_proposal}/prev', [LaporanController::class, 'prevStep'])->name('laporan.prevStep');
+// Bukti LPJ disetujui WD3
+Route::get('/proposal/{id_proposal}/approval-proof', [LaporanController::class, 'approvalProof'])->name('laporan.approvalProof');
 
 // Route Angel
 Route::get('/histori-pengajuan', [HistoriPengajuanController::class, 'index'])
