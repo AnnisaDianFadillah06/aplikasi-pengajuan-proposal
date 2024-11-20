@@ -124,6 +124,19 @@ return [
             'prefix' => '',
             'strict' => true,
             'engine' => null,
+        ],
+
+        'users' => [
+            'driver' => 'pgsql',
+            'host' => env('DB_USERS_HOST', '127.0.0.1'),
+            'port' => env('DB_USERS_PORT', '5432'),
+            'database' => env('DB_USERS_DATABASE', 'users'),
+            'username' => env('DB_USERS_USERNAME', 'postgres'),
+            'password' => env('DB_USERS_PASSWORD', 'arcmon1'),
+            'charset' => 'utf8',
+            'prefix' => '',
+            'schema' => 'public',
+            'sslmode' => 'prefer',
         ]
 
     ],

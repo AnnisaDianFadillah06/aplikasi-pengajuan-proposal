@@ -23,6 +23,54 @@
                 Tambah Jenis Kegiatan
             </button>
           </div>
+      </div>
+
+      <div class="flex-auto px-0 pt-0 pb-2">
+        <div class="p-4 overflow-x-auto">
+          <table id="jenisKegiatanTable" class="items-center w-full mb-0 align-top border-gray-200 text-slate-500">
+            <thead class="align-bottom">
+              <tr class="w-full bg-gray-100 text-gray-700 uppercase text-sm leading-normal">
+                <th class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">No</th>
+                <th class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Jenis Kegiatan</th>
+                <th class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Tanggal Dibuat</th>
+                <th class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Dibuat Oleh</th>
+                <th class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Tanggal Diedit</th>
+                <th class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Diedit Oleh</th>
+                <th class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Status</th>
+                <th class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Aksi</th>
+              </tr>
+            </thead>
+            <tbody>
+              @foreach($kegiatan as $key => $item)
+              <tr data-id="{{ $item->id_jenis_kegiatan }}">
+                  <td class="px-6 py-3 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
+                      <p class="mb-0 text-xs font-semibold leading-tight">{{ $key + 1 }}</p>
+                  </td>
+                  <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
+                      <p class="mb-0 text-xs font-semibold leading-tight">{{ $item->nama_jenis_kegiatan }}</p>
+                  </td>
+                  <td class="p-2 text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
+                      <span class="text-xs font-semibold leading-tight text-slate-400">{{ $item->created_at->format('d/m/Y') }}</span>
+                  </td>
+                  <td class="p-2 text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
+                      <span class="text-xs font-semibold leading-tight text-slate-400">{{ $item->created_by }}</span>
+                  </td>
+                  <td class="p-2 text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
+                      <span class="text-xs font-semibold leading-tight text-slate-400">{{ $item->updated_at->format('d/m/Y') }}</span>
+                  </td>
+                  <td class="p-2 text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
+                      <span class="text-xs font-semibold leading-tight text-slate-400">{{ $item->updated_by }}</span>
+                  </td>
+                  <td class="p-2 text-sm leading-normal text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
+                      <span class="bg-gradient-to-tl from-green-600 to-lime-400 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">{{ $item->status }}</span>
+                  </td>
+                  <td class="p-2 text-sm leading-normal text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
+                      <button class="bg-blue-500 text-white px-2 py-1 rounded" onclick="openEditModal('{{ $item->id_jenis_kegiatan }}', '{{ $item->nama_jenis_kegiatan }}', '{{ $item->status }}')">Edit</button>
+                  </td>
+              </tr>
+              @endforeach
+            </tbody>
+          </table>
         </div>
       </div>
 
@@ -150,7 +198,6 @@
   </div>
 </div>
 
-
 <!-- Script DataTables -->
 <script>
     $(document).ready(function() {
@@ -197,6 +244,7 @@ document.querySelector('button[data-modal-toggle="addJenisKegiatanModal"]').addE
 function closeModal() {
     const modal = document.getElementById('addJenisKegiatanModal');
     modal.classList.add('hidden');
+
     location.reload(); // Tambahkan ini untuk refresh halaman
 }
 
@@ -288,7 +336,7 @@ function submitEditForm() {
             // Update tampilan data di tabel secara dinamis
             document.querySelector(`tr[data-id="${data.id_jenis_kegiatan}"] td:nth-child(2)`).textContent = data.nama_jenis_kegiatan;
             document.querySelector(`tr[data-id="${data.id_jenis_kegiatan}"] td:nth-child(7)`).textContent = data.status;
-            
+
             // Optionally, beri notifikasi bahwa data telah berhasil diubah
             alert('Data berhasil diubah');
             location.reload(); // Tambahkan ini untuk refresh halaman
@@ -303,4 +351,82 @@ function submitEditForm() {
 }
 </script>
 
+
+<!-- Add DataTables Initialization -->
+<script>
+    $(document).ready(function() {
+        $('#jenisKegiatanTable').DataTable({
+            "paging": true,
+            "searching": true,
+            "ordering": true,
+            "info": true,
+            "lengthMenu": [5, 10, 25, 50],
+            "language": {
+                "search": "Cari:",
+                "lengthMenu": "Tampilkan _MENU_ entri",
+                "info": "Menampilkan _START_ hingga _END_ dari _TOTAL_ entri",
+                "infoEmpty": "Menampilkan 0 hingga 0 dari 0 entri",
+                "infoFiltered": "(disaring dari _MAX_ total entri)",
+                "paginate": {
+                    "first": "Pertama",
+                    "last": "Terakhir",
+                    "next": "Selanjutnya",
+                    "previous": "Sebelumnya"
+                }
+            },
+            "drawCallback": function() {
+                // Adjust select width after draw
+                adjustSelectWidth();
+            }
+        });
+
+        // Function to adjust select width
+        function adjustSelectWidth() {
+            var select = $('.dataTables_length select');
+            select.each(function() {
+                var text = $(this).find('option:selected').text();
+                $(this).css('width', (text.length + 4) + 'ch');
+            });
+        }
+
+        // Call function on select change
+        $('.dataTables_length select').change(adjustSelectWidth);
+    });
+</script>
+
+<script>
+    function validateForm() {
+        const namaJenisKegiatan = document.getElementById("nama_jenis_kegiatan");
+        const namaKegiatanError = document.getElementById("namaKegiatanError");
+        
+        // Reset error messages and styles
+        namaKegiatanError.classList.add("hidden");
+        namaJenisKegiatan.classList.remove("bg-red-50", "border-red-500", "text-red-900", "placeholder-red-700", "focus:ring-red-500", "focus:border-red-500");
+
+        // Validation
+        if (namaJenisKegiatan.value.trim() === "") {
+            namaKegiatanError.classList.remove("hidden");
+            namaJenisKegiatan.classList.add("bg-red-50", "border-red-500", "text-red-900", "placeholder-red-700", "focus:ring-red-500", "focus:border-red-500");
+            return false; // Prevent form submission
+        }
+        
+        // If no validation errors, allow form submission
+        return true;
+    }
+
+    function submitForm() {
+        // If validation passes, submit the form
+        if (validateForm()) {
+            document.getElementById("jenisKegiatanForm").submit();
+        }
+    }
+
+    function closeModal() {
+        document.getElementById("addJenisKegiatanModal").classList.add("hidden");
+        // Reset form fields and styles
+        document.getElementById("jenisKegiatanForm").reset();
+        document.getElementById("namaKegiatanError").classList.add("hidden");
+        document.getElementById("nama_jenis_kegiatan").classList.remove("bg-red-50", "border-red-500", "text-red-900", "placeholder-red-700", "focus:ring-red-500", "focus:border-red-500");
+    }
+</script>
 @endsection

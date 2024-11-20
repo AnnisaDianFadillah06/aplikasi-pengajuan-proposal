@@ -44,13 +44,30 @@ class ReviewController extends Controller
             'status_revisi' => $request->input('status_revisi'),
         ]);
 
+        // Mengubah status di tabel proposal_pengajuan
+        $proposal = PengajuanProposal::find($request->input('id_proposal'));
+        if ($proposal) {
+            // Cek apakah pengguna yang login memiliki ID = 6 (wd 3)
+            if (session()->has('id') && session('id') == 6) {
+                // Ubah status proposal sesuai input
+                $proposal->status = $request->input('status_revisi');
+            } elseif($request->input('status_revisi') != 1) {
+                $proposal->status = $request->input('status_revisi');
+            }
+            
+            // Periksa apakah status proposal adalah 1 sebelum menetapkan updated_by
+            if ($proposal->status == 1 && session()->has('id')) {
+                $proposal->updated_by = session('id');
+            }
+
+
+            // Simpan perubahan ke database
+            $proposal->save();
+
+        }
+
         // Redirect ke halaman yang sesuai, misalnya halaman daftar proposal
         return redirect()->route('proposal.index')->with('success', 'Revisi berhasil disimpan dan status proposal telah diperbarui.');
     }
 
 }
-
-// class komponenController extends Controller
-// {
-
-// }

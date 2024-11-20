@@ -1,62 +1,13 @@
 @extends('welcome')
 @section('konten')
 
-
-
-
-<!-- Modal toggle -->
-<button data-modal-target="authentication-modal" data-modal-toggle="authentication-modal" class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
-    Toggle modal
-  </button>
-  
-  <!-- Main modal -->
-  <div id="authentication-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-      <div class="relative p-4 w-full max-w-md max-h-full">
-          <!-- Modal content -->
-          <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-              <!-- Modal header -->
-              <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
-                  <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-                      Sign in to our platform
-                  </h3>
-                  <button type="button" class="end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="authentication-modal">
-                      <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-                          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
-                      </svg>
-                      <span class="sr-only">Close modal</span>
-                  </button>
-              </div>
-              <!-- Modal body -->
-              <div class="p-4 md:p-5">
-                  <form class="space-y-4" action="#">
-                      <div>
-                          <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>
-                          <input type="email" name="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="name@company.com" required />
-                      </div>
-                      <div>
-                          <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your password</label>
-                          <input type="password" name="password" id="password" placeholder="••••••••" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required />
-                      </div>
-                      <div class="flex justify-between">
-                          <div class="flex items-start">
-                              <div class="flex items-center h-5">
-                                  <input id="remember" type="checkbox" value="" class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-600 dark:border-gray-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800" required />
-                              </div>
-                              <label for="remember" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Remember me</label>
-                          </div>
-                          <a href="#" class="text-sm text-blue-700 hover:underline dark:text-blue-500">Lost Password?</a>
-                      </div>
-                      <button type="submit" class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Login to your account</button>
-                      <div class="text-sm font-medium text-gray-500 dark:text-gray-300">
-                          Not registered? <a href="#" class="text-blue-700 hover:underline dark:text-blue-500">Create account</a>
-                      </div>
-                  </form>
-              </div>
-          </div>
-      </div>
-  </div> 
-  
-
+{{-- Cek apakah ada sesi login dan tampilkan data pengguna --}}
+@if (session()->has('username') && session()->has('id'))
+    <p>Selamat datang, {{ session('username') }}!</p>
+    <p>id Anda: {{ session('id') }}</p>
+@else
+    <p>Anda belum login.</p>
+@endif
 
 <!-- Link Tailwind CSS dan FontAwesome untuk ikon -->
 <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
@@ -118,7 +69,7 @@
                         <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
                           <div class="flex px-2 py-1">
                             <div class="flex flex-col justify-center">
-                              <h6 class="mb-0 text-sm leading-normal">{{ $item->id_pengguna }} {{ $item->pengguna->nama_pengguna }}</h6>
+                              <h6 class="mb-0 text-sm leading-normal">{{ $item->pengguna->username }}</h6>
                               <!-- <p class="mb-0 text-xs leading-tight text-slate-400">john@creative-tim.com</p> -->
                             </div>
                           </div>
@@ -152,11 +103,16 @@
                         <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
                             <a href="javascript:;" class="text-xs font-semibold leading-tight text-slate-400"> </a>
                         </td>
-                        <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                            <a href="{{ route('proposal.detail', $item->id_proposal) }}" class="text-xs font-semibold leading-tight text-blue-600">
-                                Detail
-                            </a>
-                        </td>                        
+                        <td class="p-2 text-sm leading-normal text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
+                            <form method="GET" action="{{ route('proposal.detail', $item->id_proposal) }}">
+                                @csrf
+                                <!-- Hidden input sebagai penanda -->
+                                <input type="hidden" name="is_first_access" value="true">
+                                <button type="submit" class="bg-blue-500 text-white px-2 py-1 rounded">
+                                    Detail
+                                </button>
+                            </form>
+                        </td>
                     </tr>
                 </tr>
                       
@@ -191,9 +147,33 @@
                     "next": "Selanjutnya",
                     "previous": "Sebelumnya"
                 }
+            }, 
+            "drawCallback": function() {
+                // Adjust select width after draw
+                adjustSelectWidth();
             }
         });
+
+        // Function to adjust select width
+        function adjustSelectWidth() {
+            var select = $('.dataTables_length select');
+            select.each(function() {
+                var text = $(this).find('option:selected').text();
+                $(this).css('width', (text.length + 4) + 'ch');
+            });
+        }
+
+        // Call function on select change
+        $('.dataTables_length select').change(adjustSelectWidth);
     });
+
+    function adjustSelectWidth() {
+            var select = $('.dataTables_length select');
+            select.each(function() {
+                var text = $(this).find('option:selected').text();
+                $(this).css('width', (text.length + 4) + 'ch');
+            });
+     }
 </script>
 
 @endsection

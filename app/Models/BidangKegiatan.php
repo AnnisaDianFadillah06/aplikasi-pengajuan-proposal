@@ -1,9 +1,8 @@
 <?php
 
 namespace App\Models;
-
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class BidangKegiatan extends Model
 {
@@ -27,4 +26,3 @@ class BidangKegiatan extends Model
         public $incrementing = true;
         protected $keyType = 'int';
 }
-

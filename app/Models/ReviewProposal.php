@@ -11,7 +11,7 @@ class ReviewProposal extends Model
     protected $table = 'revisi_file';
 
     // Kolom-kolom yang bisa diisi secara massal (mass assignment)
-    protected $fillable = ['id_revisi', 'catatan_revisi', 'tgl_revisi', 'id_dosen', 'id_proposal', 'status_revisi'];
+    protected $fillable = ['id_revisi', 'catatan_revisi', 'tgl_revisi', 'id_dosen', 'id_proposal', 'status_revisi', 'file_revisi'];
     protected $primaryKey = 'id_revisi';
     // Nonaktifkan timestamps
     public $timestamps = false;
