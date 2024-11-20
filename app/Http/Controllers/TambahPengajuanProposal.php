@@ -63,6 +63,7 @@ class TambahPengajuanProposal extends Controller
             'id_pengguna' => $id_pengaju, //sample
             'created_at' => now(),  // Menyimpan nilai waktu saat ini
             'updated_at' => now(),   // Menyimpan nilai waktu saat ini
+            'updated_by' => 1,   // Menyimpan nilai waktu saat ini
             'status' => 0 //awal mengumpulan diberi status 0 (menunggu)
         ]);
 

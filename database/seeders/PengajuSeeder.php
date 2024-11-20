@@ -16,7 +16,7 @@ class PengajuSeeder extends Seeder
             [
                 'id' => 1, 
                 'username' => 'El-Pengaju', 
-                'email' => 'prita@polban.ac.id', 
+                'email' => 'El-Pengaju@polban.ac.id', 
             ],
             [
                 'id' => 2, 

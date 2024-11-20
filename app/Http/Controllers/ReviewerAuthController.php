@@ -27,6 +27,7 @@ class ReviewerAuthController extends Controller
             session([
                 'username' => $reviewer->username,
                 'role' => $reviewer->role,
+                'id' => $reviewer->id,
             ]);
             return redirect()->intended('/dashboard-reviewer');
         } else {

@@ -11,9 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pedoman_kemahasiswaans', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+        Schema::connection('pgsql')->create('pedoman_kemahasiswaan', function (Blueprint $table) {
+            $table->increments('id_pedoman');
+            $table->string('nama_pedoman', 255);
+            $table->string('file_pedoman', 255);
+            $table->smallInteger('status')->default(1);
+            $table->timestamp('created_at')->nullable()->useCurrent();
+            $table->timestamp('updated_at')->nullable()->useCurrent();
+            $table->integer('created_by')->nullable();
+            $table->integer('updated_by')->nullable();
         });
     }
 
@@ -22,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('pedoman_kemahasiswaans');
+        Schema::connection('pgsql')->dropIfExists('pedoman_kemahasiswaan');
     }
 };
