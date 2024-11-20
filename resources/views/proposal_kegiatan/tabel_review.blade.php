@@ -29,7 +29,7 @@
                     <!-- Alert dan JavaScript -->
                 </div> 
 
-                <div class="mt-8"> 
+                <!-- <div class="mt-8"> 
                     <table id="myTable" class="items-center w-full mb-0 align-top border border-transparent text-slate-500 bg-white shadow-soft-xl rounded-2xl mt-6">
                         <thead class="align-bottom">
                             <tr class="w-full bg-gray-100 text-gray-700 uppercase text-sm leading-normal">
@@ -90,7 +90,7 @@
             </div>
         </div>
     </div>
-</div>    
+</div>     -->
 
 {{-- ======================= TABEL 2 ======================= --}}
 

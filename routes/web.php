@@ -124,8 +124,33 @@ Route::get('/billing', function () {
 
 // Route Timothy Elroy
 
+// Route
+// Dashboard
 Route::get('/dashboard-pengaju', [DashboardController::class, 'index_pengaju'])->name('proposal_kegiatan.dashboard-pengaju');
 Route::get('/dashboard-reviewer', [DashboardController::class, 'index'])->name('proposal_kegiatan.dashboard-reviewer');
+
+// Route Active State
+Route::get('/dashboard-pengaju', [DashboardController::class, 'dashboard'])->name('dashboard-pengaju');
+
+// Manajemen Review
+Route::get('/manajemen-review', [ReviewController::class, 'index'])->name('manajemen-review');
+
+// Histori Pengajuan
+Route::get('/histori-pengajuan', [HistoriPengajuanController::class, 'index'])->name('histori.pengajuan');
+
+// Pengajuan Proposal
+Route::get('/pengajuan-proposal', [PengajuanProposalController::class, 'index'])->name('pengajuan-proposal');
+
+// Countdown
+Route::get('/countdown', function () {
+    return view('proposal_kegiatan.countdown_form');
+})->name('countdown');
+
+
+
+
+// 
+
 //--------------
 
 

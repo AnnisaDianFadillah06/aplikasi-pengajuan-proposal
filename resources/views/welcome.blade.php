@@ -92,8 +92,11 @@
       <div class="items-center block w-auto max-h-screen overflow-auto h-sidenav grow basis-full">
         <ul class="flex flex-col pl-0 mb-0">
           <li class="mt-0.5 w-full">
-          <a class="py-2.7  rounded-lg hover:bg-orange-300 dark:hover:bg-orange-400 group text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors" href="/dashboard-pengaju">
-              <div class="bg-gradient-to-tl from-orange-700 to-orange-300 shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5">
+          <!-- <a class="py-2.7  rounded-lg hover:bg-orange-300 dark:hover:bg-orange-400 group text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors" href="/dashboard-pengaju"> -->
+              
+              <a href="{{ route('dashboard-pengaju') }}" 
+         class="py-2.7  rounded-lg hover:bg-orange-300 dark:hover:bg-orange-400 group text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors  {{ Route::currentRouteName() == 'dashboard-pengaju' ? 'bg-blue-500 text-white' : '' }}">
+         <div class="bg-gradient-to-tl from-orange-700 to-orange-300 shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5">
                 <svg width="12px" height="12px" viewBox="0 0 45 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                   <title>shop</title>
                   <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -114,12 +117,14 @@
                   </g>
                 </svg>
               </div>
-              <span class="ml-1 duration-300 opacity-100 ease-soft" style="pointer-events: auto;">Dashboard</span>
+              <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Dashboard</span>
+      </a>
             </a>
           </li>
 
           <li class="mt-0.5 w-full">
-          <a class="py-2.7  rounded-lg hover:bg-orange-300 dark:hover:bg-orange-400 group text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors" href="/manajemen-review">
+          <a href="{{ route('manajemen-review') }}" 
+         class="py-2.7  rounded-lg hover:bg-orange-300 dark:hover:bg-orange-400 group text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors  {{ Route::currentRouteName() == 'manajemen-review' ? 'bg-blue-500 text-white' : '' }}">
               <div class="shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5">
                 <svg width="12px" height="12px" viewBox="0 0 42 42" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                   <title>office</title>
@@ -140,7 +145,8 @@
           </li>
 
           <li class="mt-0.5 w-full">
-          <a class="py-2.7  rounded-lg hover:bg-orange-300 dark:hover:bg-orange-400 group text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors" href="/histori-pengajuan">
+          <a href="{{ route('histori.pengajuan') }}" 
+         class="py-2.7  rounded-lg hover:bg-orange-300 dark:hover:bg-orange-400 group text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors  {{ Route::currentRouteName() == 'histori.pengajuan' ? 'bg-blue-500 text-white' : '' }}">
               <div class="shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center fill-current stroke-0 text-center xl:p-2.5">
                 <svg width="12px" height="12px" viewBox="0 0 43 36" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                   <title>credit-card</title>
@@ -161,7 +167,8 @@
           </li>
 
           <li class="mt-0.5 w-full">
-          <a class="py-2.7  rounded-lg hover:bg-orange-300 dark:hover:bg-orange-400 group text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors" href="/dashboard-reviewer">
+          <a href="{{ route('proposal_kegiatan.dashboard-reviewer') }}" 
+         class="py-2.7  rounded-lg hover:bg-orange-300 dark:hover:bg-orange-400 group text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors  {{ Route::currentRouteName() == 'dashboard.reviewer' ? 'bg-blue-500 text-white' : '' }}">
               <div class="bg-gradient-to-tl from-green-700 to-green-300 shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5">
                 <svg width="12px" height="12px" viewBox="0 0 45 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                   <title>dashboard</title>
@@ -184,7 +191,8 @@
           </li>
 
 <li class="mt-0.5 w-full">
-<a class="py-2.7  rounded-lg hover:bg-orange-300 dark:hover:bg-orange-400 group text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors" href="/pengajuan-proposal">
+<a href="{{ route('pengajuan-proposal') }}" 
+         class="py-2.7  rounded-lg hover:bg-orange-300 dark:hover:bg-orange-400 group text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors  {{ Route::currentRouteName() == 'pengajuan-proposal' ? 'bg-blue-500 text-white' : '' }}">
     <div class="bg-gradient-to-tl from-blue-700 to-blue-300 shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5">
       <svg width="12px" height="12px" viewBox="0 0 45 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
         <title>file-alt</title>
@@ -229,7 +237,8 @@
   </a>
 </li>
         <li class="mt-0.5 w-full">
-          <a class="py-2.7  rounded-lg hover:bg-orange-300 dark:hover:bg-orange-400 group text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors" href="/countdown">
+        <a href="{{ route('countdown') }}" 
+        class="py-2.7  rounded-lg hover:bg-orange-300 dark:hover:bg-orange-400 group text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors  {{ Route::currentRouteName() == 'countdown' ? 'bg-blue-500 text-white' : '' }}">
               <div class="shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5">
                 <svg width="12px" height="12px" viewBox="0 0 42 42" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                   <title>box-3d-50</title>
@@ -250,7 +259,8 @@
             </a>
           </li>
           <li class="mt-0.5 w-full">
-          <a class="py-2.7  rounded-lg hover:bg-orange-300 dark:hover:bg-orange-400 group text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors" href="/pedoman-kemahasiswaan">
+          <a href="{{ route('pedoman.index') }}" 
+         class="py-2.7  rounded-lg hover:bg-orange-300 dark:hover:bg-orange-400 group text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors  {{ Route::currentRouteName() == 'pedoman.index' ? 'bg-blue-500 text-white' : '' }}">
               <div class="shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5">
                 <svg width="12px" height="12px" viewBox="0 0 42 42" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                   <title>box-3d-50</title>
@@ -317,7 +327,8 @@
           </li>
 
           <li class="mt-0.5 w-full">
-          <a class="py-2.7  rounded-lg hover:bg-orange-300 dark:hover:bg-orange-400 group text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors" href="/jenis-kegiatan">
+          <a href="{{ route('jenis-kegiatan.index') }}" 
+         class="py-2.7  rounded-lg hover:bg-orange-300 dark:hover:bg-orange-400 group text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors  {{ Route::currentRouteName() == 'jenis-kegiatan.index' ? 'bg-blue-500 text-white' : '' }}">
               <div class="shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5">
                 <svg width="12px" height="12px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                   <title>settings</title>
@@ -461,15 +472,55 @@
       <!-- Navbar -->
       <nav class="relative flex flex-wrap items-center justify-between px-0 py-2 mx-6 transition-all shadow-none duration-250 ease-soft-in rounded-2xl lg:flex-nowrap lg:justify-start" navbar-main navbar-scroll="true">
         <div class="flex items-center justify-between w-full px-4 py-1 mx-auto flex-wrap-inherit">
-          <nav>
-            <!-- breadcrumb -->
-            <ol class="flex flex-wrap pt-1 mr-12 bg-transparent rounded-lg sm:mr-16">
-              <li class="text-sm leading-normal">
-                <a class="opacity-50 text-slate-700" href="javascript:;">Pages</a>
+          <!-- Navbar -->
+      <nav class="relative flex flex-wrap items-center justify-between px-0 py-2 mx-6 transition-all shadow-none duration-250 ease-soft-in rounded-2xl lg:flex-nowrap lg:justify-start" navbar-main navbar-scroll="true">
+        <div class="flex items-center justify-between w-full px-4 py-1 mx-auto flex-wrap-inherit">
+        <nav>
+          <!-- Breadcrumb -->
+          <ol class="breadcrumb">
+              <!-- Link ke Home -->
+              <li>
+                  <a href="{{ url('/') }}">Pengajuan Proposal &nbsp;</a>
               </li>
-              <li class="text-sm pl-2 capitalize leading-normal text-slate-700 before:float-left before:pr-2 before:text-gray-600 before:content-['/']" aria-current="page">Dashboard</li>
-            </ol>
-            <h6 class="mb-0 font-bold capitalize">Dashboard</h6>
+
+              @php
+                  $separator = ' > ';
+              @endphp
+
+              @php
+                  $breadcrumbs = [
+                      'dashboard-pengaju' => 'Dashboard',
+                      'manajemen-review' => 'Manajemen Review',
+                      'histori-pengajuan' => 'Riwayat Pengajuan',
+                      'dashboard-reviewer' => 'Dashboard',
+                      'pengajuan-proposal' => 'Pengajuan Kegiatan',  
+                      'pedoman-kemahasiswaan' => 'Pedoman Kemahasiswaan',
+                      'histori-pengajuan-reviewer' => 'Riwayat Pengajuan (Reviewer)',
+                      'jenis-kegiatan' => 'Jenis Kegiatan',
+                      'organisasi-mahasiswa' => 'Organisasi Mahasiswa',
+                      'proposal' => 'Proposal',
+                      'bidang-kegiatan' => 'Bidang Kegiatan',
+                  ];
+
+                  $segments = Request::segments();
+              @endphp
+
+              @foreach ($segments as $key => $segment)
+                  <li>
+                      @if ($key + 1 == count($segments))
+                          <!-- Segmen terakhir (tidak berupa link) -->
+                          <span>{{ $separator }}</span>
+                          <span>{{ $breadcrumbs[$segment] ?? ucfirst($segment) }}</span>
+                      @else
+                          <!-- Segmen dengan link -->
+                          <a href="{{ url(implode('/', array_slice($segments, 0, $key + 1))) }}"  style="color: #2563EB; text-decoration: none;">
+                              {{ $breadcrumbs[$segment] ?? ucfirst($segment) }}
+                          </a>
+                      @endif
+                  </li>
+              @endforeach
+          </ol>
+      </nav>
           </nav>
           <div class="flex items-center mt-2 grow sm:mt-0 sm:mr-6 md:mr-0 lg:flex lg:basis-auto">
             <div class="flex items-center md:ml-auto md:pr-4">

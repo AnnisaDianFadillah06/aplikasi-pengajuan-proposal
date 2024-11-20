@@ -107,4 +107,8 @@ class DashboardController extends Controller
             'role' => $role,         // Tambahkan ke view ===checking session===
         ]);
     }
+    public function dashboard()
+    {
+        return view('dashboard'); // Nama file Blade untuk dashboard
+    }
 }
