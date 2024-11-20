@@ -5016,6 +5016,7 @@ return array(
     'SebastianBergmann\\Comparator\\ComparisonFailure' => $vendorDir . '/sebastian/comparator/src/ComparisonFailure.php',
     'SebastianBergmann\\Comparator\\DOMNodeComparator' => $vendorDir . '/sebastian/comparator/src/DOMNodeComparator.php',
     'SebastianBergmann\\Comparator\\DateTimeComparator' => $vendorDir . '/sebastian/comparator/src/DateTimeComparator.php',
+    'SebastianBergmann\\Comparator\\EnumerationComparator' => $vendorDir . '/sebastian/comparator/src/EnumerationComparator.php',
     'SebastianBergmann\\Comparator\\Exception' => $vendorDir . '/sebastian/comparator/src/exceptions/Exception.php',
     'SebastianBergmann\\Comparator\\ExceptionComparator' => $vendorDir . '/sebastian/comparator/src/ExceptionComparator.php',
     'SebastianBergmann\\Comparator\\Factory' => $vendorDir . '/sebastian/comparator/src/Factory.php',

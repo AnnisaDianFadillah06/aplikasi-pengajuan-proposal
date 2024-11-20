@@ -5,28 +5,27 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Ormawa extends Model
+class OrganisasiMahasiswa extends Model
 {
     use HasFactory;
 
     // Nama tabel di database
-    protected $table = 'ormawa';
+    protected $table = 'organisasi_mahasiswa';
     protected $primaryKey = 'id_ormawa';
     // Kolom yang dapat diisi (fillable)
     protected $fillable = [
         'nama_ormawa',
-        'status',
         'created_by',
         'updated_by',
-        'created_at',
-        'updated_at'
+        'status',
     ];
 
-    public function pengguna()
-    {
-        return $this->belongsTo(Pengguna::class, 'created_by','id_pengguna');
-    }
-
-
+        // Eloquent akan otomatis mengelola kolom `created_at` dan `updated_at`
+        public $timestamps = true;
+    
+        // Jika `id_ormawa` otomatis bertambah, set auto-increment
+        public $incrementing = true;
+        protected $keyType = 'int';
 }
+
 

@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitc1364831c1821333008a3cb8ba8976ea
+class ComposerStaticInit27abb7f9fd421056cb0bb3817b9e2d48
 {
     public static $files = array (
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
@@ -348,8 +348,8 @@ class ComposerStaticInitc1364831c1821333008a3cb8ba8976ea
         ),
         'Psr\\Http\\Message\\' => 
         array (
-            0 => __DIR__ . '/..' . '/psr/http-factory/src',
-            1 => __DIR__ . '/..' . '/psr/http-message/src',
+            0 => __DIR__ . '/..' . '/psr/http-message/src',
+            1 => __DIR__ . '/..' . '/psr/http-factory/src',
         ),
         'Psr\\Http\\Client\\' => 
         array (
@@ -5549,6 +5549,7 @@ class ComposerStaticInitc1364831c1821333008a3cb8ba8976ea
         'SebastianBergmann\\Comparator\\ComparisonFailure' => __DIR__ . '/..' . '/sebastian/comparator/src/ComparisonFailure.php',
         'SebastianBergmann\\Comparator\\DOMNodeComparator' => __DIR__ . '/..' . '/sebastian/comparator/src/DOMNodeComparator.php',
         'SebastianBergmann\\Comparator\\DateTimeComparator' => __DIR__ . '/..' . '/sebastian/comparator/src/DateTimeComparator.php',
+        'SebastianBergmann\\Comparator\\EnumerationComparator' => __DIR__ . '/..' . '/sebastian/comparator/src/EnumerationComparator.php',
         'SebastianBergmann\\Comparator\\Exception' => __DIR__ . '/..' . '/sebastian/comparator/src/exceptions/Exception.php',
         'SebastianBergmann\\Comparator\\ExceptionComparator' => __DIR__ . '/..' . '/sebastian/comparator/src/ExceptionComparator.php',
         'SebastianBergmann\\Comparator\\Factory' => __DIR__ . '/..' . '/sebastian/comparator/src/Factory.php',
@@ -6719,9 +6720,9 @@ class ComposerStaticInitc1364831c1821333008a3cb8ba8976ea
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitc1364831c1821333008a3cb8ba8976ea::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitc1364831c1821333008a3cb8ba8976ea::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInitc1364831c1821333008a3cb8ba8976ea::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit27abb7f9fd421056cb0bb3817b9e2d48::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit27abb7f9fd421056cb0bb3817b9e2d48::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit27abb7f9fd421056cb0bb3817b9e2d48::$classMap;
 
         }, null, ClassLoader::class);
     }
