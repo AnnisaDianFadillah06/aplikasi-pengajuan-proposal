@@ -4,29 +4,31 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitc1364831c1821333008a3cb8ba8976ea
+class ComposerStaticInit67b917a88e051c0406b7d934a974f66f
 {
     public static $files = array (
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
-        '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
+        '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
+        'ec07570ca5a812141189b1fa81503674' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/Assert/Functions.php',
         'e69f7f6ee287b969198c3c9d6777bd38' => __DIR__ . '/..' . '/symfony/polyfill-intl-normalizer/bootstrap.php',
-        '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
-        '8825ede83f2f289127722d4e842cf7e8' => __DIR__ . '/..' . '/symfony/polyfill-intl-grapheme/bootstrap.php',
-        'b6b991a57620e2fb6b2f66f03fe9ddc2' => __DIR__ . '/..' . '/symfony/string/Resources/functions.php',
-        '662a729f963d39afe703c9d9b7ab4a8c' => __DIR__ . '/..' . '/symfony/polyfill-php83/bootstrap.php',
         'f598d06aa772fa33d905e87be6398fb1' => __DIR__ . '/..' . '/symfony/polyfill-intl-idn/bootstrap.php',
-        '667aeda72477189d0494fecd327c3641' => __DIR__ . '/..' . '/symfony/var-dumper/Resources/functions/dump.php',
-        'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
-        '7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
-        '35a6ad97d21e794e7e22a17d806652e4' => __DIR__ . '/..' . '/nunomaduro/termwind/src/Functions.php',
-        '2203a247e6fda86070a5e4e07aed533a' => __DIR__ . '/..' . '/symfony/clock/Resources/now.php',
+        '662a729f963d39afe703c9d9b7ab4a8c' => __DIR__ . '/..' . '/symfony/polyfill-php83/bootstrap.php',
+        '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
+        '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
         '09f6b20656683369174dd6fa83b7e5fb' => __DIR__ . '/..' . '/symfony/polyfill-uuid/bootstrap.php',
+        '2203a247e6fda86070a5e4e07aed533a' => __DIR__ . '/..' . '/symfony/clock/Resources/now.php',
+        '667aeda72477189d0494fecd327c3641' => __DIR__ . '/..' . '/symfony/var-dumper/Resources/functions/dump.php',
+        'c72349b1fe8d0deeedd3a52e8aa814d8' => __DIR__ . '/..' . '/mockery/mockery/library/helpers.php',
+        'ce9671a430e4846b44e1c68c7611f9f5' => __DIR__ . '/..' . '/mockery/mockery/library/Mockery.php',
+        '7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
+        'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
         'a1105708a18b76903365ca1c4aa61b02' => __DIR__ . '/..' . '/symfony/translation/Resources/functions.php',
+        '35a6ad97d21e794e7e22a17d806652e4' => __DIR__ . '/..' . '/nunomaduro/termwind/src/Functions.php',
         '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
         '47e1160838b5e5a10346ac4084b58c23' => __DIR__ . '/..' . '/laravel/prompts/src/helpers.php',
-        '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
         '801c31d8ed748cfa537fa45402288c95' => __DIR__ . '/..' . '/psy/psysh/src/functions.php',
         'e39a8b23c42d4e1452234d762b03835a' => __DIR__ . '/..' . '/ramsey/uuid/src/functions.php',
+        '8825ede83f2f289127722d4e842cf7e8' => __DIR__ . '/..' . '/symfony/polyfill-intl-grapheme/bootstrap.php',
         '265b4faa2b3a9766332744949e83bf97' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Collections/helpers.php',
         'c7a3c339e7e14b60e06a2d7fcce9476b' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Events/functions.php',
         'f57d353b41eb2e234b26064d63d8c5dd' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Filesystem/functions.php',
@@ -34,10 +36,8 @@ class ComposerStaticInitc1364831c1821333008a3cb8ba8976ea
         '7f7ac2ddea9cc3fb4b2cc201d63dbc10' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Log/functions.php',
         '493c6aea52f6009bab023b26c21a386a' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Support/functions.php',
         '58571171fd5812e6e447dce228f52f4d' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Support/helpers.php',
-        'c72349b1fe8d0deeedd3a52e8aa814d8' => __DIR__ . '/..' . '/mockery/mockery/library/helpers.php',
-        'ce9671a430e4846b44e1c68c7611f9f5' => __DIR__ . '/..' . '/mockery/mockery/library/Mockery.php',
+        'b6b991a57620e2fb6b2f66f03fe9ddc2' => __DIR__ . '/..' . '/symfony/string/Resources/functions.php',
         'a1cfe24d14977df6878b9bf804af2d1c' => __DIR__ . '/..' . '/nunomaduro/collision/src/Adapters/Phpunit/Autoload.php',
-        'ec07570ca5a812141189b1fa81503674' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/Assert/Functions.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -87,6 +87,7 @@ class ComposerStaticInitc1364831c1821333008a3cb8ba8976ea
             'Symfony\\Component\\Console\\' => 26,
             'Symfony\\Component\\Clock\\' => 24,
             'Svg\\' => 4,
+            'Spatie\\PdfToImage\\' => 18,
             'Sabberworm\\CSS\\' => 15,
         ),
         'R' => 
@@ -326,6 +327,10 @@ class ComposerStaticInitc1364831c1821333008a3cb8ba8976ea
         array (
             0 => __DIR__ . '/..' . '/dompdf/php-svg-lib/src/Svg',
         ),
+        'Spatie\\PdfToImage\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/spatie/pdf-to-image/src',
+        ),
         'Sabberworm\\CSS\\' => 
         array (
             0 => __DIR__ . '/..' . '/sabberworm/php-css-parser/src',
@@ -552,19 +557,24 @@ class ComposerStaticInitc1364831c1821333008a3cb8ba8976ea
         'App\\Http\\Controllers\\DashboardController' => __DIR__ . '/../..' . '/app/Http/Controllers/DashboardController.php',
         'App\\Http\\Controllers\\HistoriPengajuanController' => __DIR__ . '/../..' . '/app/Http/Controllers/HistoriPengajuanController.php',
         'App\\Http\\Controllers\\JenisKegiatanController' => __DIR__ . '/../..' . '/app/Http/Controllers/JenisKegiatanController.php',
+        'App\\Http\\Controllers\\MahasiswaAuthController' => __DIR__ . '/../..' . '/app/Http/Controllers/MahasiswaAuthController.php',
         'App\\Http\\Controllers\\OrmawaController' => __DIR__ . '/../..' . '/app/Http/Controllers/OrmawaController.php',
+        'App\\Http\\Controllers\\PedomanKemahasiswaanController' => __DIR__ . '/../..' . '/app/Http/Controllers/PedomanKemahasiswaanController.php',
         'App\\Http\\Controllers\\PengajuanProposalController' => __DIR__ . '/../..' . '/app/Http/Controllers/PengajuanProposalController.php',
         'App\\Http\\Controllers\\ReviewController' => __DIR__ . '/../..' . '/app/Http/Controllers/ReviewController.php',
         'App\\Http\\Controllers\\ReviewerAuthController' => __DIR__ . '/../..' . '/app/Http/Controllers/ReviewerAuthController.php',
         'App\\Http\\Controllers\\TambahPengajuanProposal' => __DIR__ . '/../..' . '/app/Http/Controllers/TambahPengajuanProposal.php',
+        'App\\Models\\BidangKegiatan' => __DIR__ . '/../..' . '/app/Models/BidangKegiatan.php',
         'App\\Models\\Dosen' => __DIR__ . '/../..' . '/app/Models/Dosen.php',
         'App\\Models\\JenisKegiatan' => __DIR__ . '/../..' . '/app/Models/JenisKegiatan.php',
         'App\\Models\\Mahasiswa' => __DIR__ . '/../..' . '/app/Models/Mahasiswa.php',
         'App\\Models\\Ormawa' => __DIR__ . '/../..' . '/app/Models/Ormawa.php',
+        'App\\Models\\PedomanKemahasiswaan' => __DIR__ . '/../..' . '/app/Models/PedomanKemahasiswaan.php',
         'App\\Models\\PengajuanProposal' => __DIR__ . '/../..' . '/app/Models/PengajuanProposal.php',
         'App\\Models\\Pengguna' => __DIR__ . '/../..' . '/app/Models/Pengguna.php',
         'App\\Models\\Proposal' => __DIR__ . '/../..' . '/app/Models/Proposal.php',
         'App\\Models\\ReviewProposal' => __DIR__ . '/../..' . '/app/Models/ReviewProposal.php',
+        'App\\Models\\Reviewer' => __DIR__ . '/../..' . '/app/Models/Reviewer.php',
         'App\\Models\\User' => __DIR__ . '/../..' . '/app/Models/User.php',
         'App\\Providers\\AppServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AppServiceProvider.php',
         'Attribute' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
@@ -695,6 +705,8 @@ class ComposerStaticInitc1364831c1821333008a3cb8ba8976ea
         'Database\\Seeders\\JenisKegiatanSeeder' => __DIR__ . '/../..' . '/database/seeders/JenisKegiatanSeeder.php',
         'Database\\Seeders\\MahasiswaSeeder' => __DIR__ . '/../..' . '/database/seeders/MahasiswaSeeder.php',
         'Database\\Seeders\\OrmawaSeeder' => __DIR__ . '/../..' . '/database/seeders/OrmawaSeeder.php',
+        'Database\\Seeders\\PengajuSeeder' => __DIR__ . '/../..' . '/database/seeders/PengajuSeeder.php',
+        'Database\\Seeders\\ProposalKegiatanSeeder' => __DIR__ . '/../..' . '/database/seeders/ProposalKegiatanSeeder.php',
         'Database\\Seeders\\ProposalSeeder' => __DIR__ . '/../..' . '/database/seeders/ProposalSeeder.php',
         'Database\\Seeders\\ReviewerSeeder' => __DIR__ . '/../..' . '/database/seeders/ReviewerSeeder.php',
         'DateError' => __DIR__ . '/..' . '/symfony/polyfill-php83/Resources/stubs/DateError.php',
@@ -5799,6 +5811,10 @@ class ComposerStaticInitc1364831c1821333008a3cb8ba8976ea
         'SebastianBergmann\\Type\\UnknownType' => __DIR__ . '/..' . '/sebastian/type/src/type/UnknownType.php',
         'SebastianBergmann\\Type\\VoidType' => __DIR__ . '/..' . '/sebastian/type/src/type/VoidType.php',
         'SebastianBergmann\\Version' => __DIR__ . '/..' . '/sebastian/version/src/Version.php',
+        'Spatie\\PdfToImage\\Exceptions\\InvalidFormat' => __DIR__ . '/..' . '/spatie/pdf-to-image/src/Exceptions/InvalidFormat.php',
+        'Spatie\\PdfToImage\\Exceptions\\PageDoesNotExist' => __DIR__ . '/..' . '/spatie/pdf-to-image/src/Exceptions/PageDoesNotExist.php',
+        'Spatie\\PdfToImage\\Exceptions\\PdfDoesNotExist' => __DIR__ . '/..' . '/spatie/pdf-to-image/src/Exceptions/PdfDoesNotExist.php',
+        'Spatie\\PdfToImage\\Pdf' => __DIR__ . '/..' . '/spatie/pdf-to-image/src/Pdf.php',
         'Stringable' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Stringable.php',
         'Svg\\CssLength' => __DIR__ . '/..' . '/dompdf/php-svg-lib/src/Svg/CssLength.php',
         'Svg\\DefaultStyle' => __DIR__ . '/..' . '/dompdf/php-svg-lib/src/Svg/DefaultStyle.php',
@@ -6875,9 +6891,9 @@ class ComposerStaticInitc1364831c1821333008a3cb8ba8976ea
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitc1364831c1821333008a3cb8ba8976ea::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitc1364831c1821333008a3cb8ba8976ea::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInitc1364831c1821333008a3cb8ba8976ea::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit67b917a88e051c0406b7d934a974f66f::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit67b917a88e051c0406b7d934a974f66f::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit67b917a88e051c0406b7d934a974f66f::$classMap;
 
         }, null, ClassLoader::class);
     }
