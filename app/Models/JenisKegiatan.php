@@ -15,10 +15,16 @@ class JenisKegiatan extends Model
     // Kolom yang dapat diisi (fillable)
     protected $fillable = [
         'nama_jenis_kegiatan',
-        'created_at',
         'created_by',
-        'updated_at',
         'updated_by',
+        'status',
     ];
+
+        // Eloquent akan otomatis mengelola kolom `created_at` dan `updated_at`
+        public $timestamps = true;
+    
+        // Jika `id_jenis_kegiatan` otomatis bertambah, set auto-increment
+        public $incrementing = true;
+        protected $keyType = 'int';
 }
 
