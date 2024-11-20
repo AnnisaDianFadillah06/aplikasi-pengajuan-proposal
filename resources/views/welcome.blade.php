@@ -70,8 +70,7 @@
 
 
   <body class="m-0 font-sans text-base antialiased font-normal leading-default bg-gray-50 text-slate-500">
-
-
+    <!-- Breadcrumb -->
     <!-- sidenav  -->
     <aside class="max-w-62.5 ease-nav-brand z-990 fixed inset-y-0 my-4 ml-4 block w-full -translate-x-full flex-wrap items-center justify-between overflow-y-auto rounded-2xl border-0 bg-white p-0 antialiased shadow-none transition-transform duration-200 xl:left-0 xl:translate-x-0 xl:bg-transparent">
 <div class="flex items-center h-20 px-8 py-6">
@@ -461,16 +460,53 @@
       <!-- Navbar -->
       <nav class="relative flex flex-wrap items-center justify-between px-0 py-2 mx-6 transition-all shadow-none duration-250 ease-soft-in rounded-2xl lg:flex-nowrap lg:justify-start" navbar-main navbar-scroll="true">
         <div class="flex items-center justify-between w-full px-4 py-1 mx-auto flex-wrap-inherit">
-          <nav>
-            <!-- breadcrumb -->
-            <ol class="flex flex-wrap pt-1 mr-12 bg-transparent rounded-lg sm:mr-16">
-              <li class="text-sm leading-normal">
-                <a class="opacity-50 text-slate-700" href="javascript:;">Pages</a>
+        <nav>
+          <!-- Breadcrumb -->
+          <ol class="breadcrumb">
+              <!-- Link ke Home -->
+              <li>
+                  <a href="{{ url('/') }}">Pengajuan Proposal &nbsp;</a>
               </li>
-              <li class="text-sm pl-2 capitalize leading-normal text-slate-700 before:float-left before:pr-2 before:text-gray-600 before:content-['/']" aria-current="page">Dashboard</li>
-            </ol>
-            <h6 class="mb-0 font-bold capitalize">Dashboard</h6>
-          </nav>
+
+              @php
+                  $separator = ' > ';
+              @endphp
+
+              @php
+                  $breadcrumbs = [
+                      'dashboard-pengaju' => 'Dashboard',
+                      'manajemen-review' => 'Manajemen Review',
+                      'histori-pengajuan' => 'Riwayat Pengajuan',
+                      'dashboard-reviewer' => 'Dashboard',
+                      'pengajuan-proposal' => 'Pengajuan Kegiatan',  
+                      'pedoman-kemahasiswaan' => 'Pedoman Kemahasiswaan',
+                      'histori-pengajuan-reviewer' => 'Riwayat Pengajuan (Reviewer)',
+                      'jenis-kegiatan' => 'Jenis Kegiatan',
+                      'organisasi-mahasiswa' => 'Organisasi Mahasiswa',
+                      'proposal' => 'Proposal',
+                      'bidang-kegiatan' => 'Bidang Kegiatan',
+                  ];
+
+                  $segments = Request::segments();
+              @endphp
+
+              @foreach ($segments as $key => $segment)
+                  <li>
+                      @if ($key + 1 == count($segments))
+                          <!-- Segmen terakhir (tidak berupa link) -->
+                          <span>{{ $separator }}</span>
+                          <span>{{ $breadcrumbs[$segment] ?? ucfirst($segment) }}</span>
+                      @else
+                          <!-- Segmen dengan link -->
+                          <a href="{{ url(implode('/', array_slice($segments, 0, $key + 1))) }}"  style="color: #2563EB; text-decoration: none;">
+                              {{ $breadcrumbs[$segment] ?? ucfirst($segment) }}
+                          </a>
+                      @endif
+                  </li>
+              @endforeach
+          </ol>
+      </nav>
+
           <div class="flex items-center mt-2 grow sm:mt-0 sm:mr-6 md:mr-0 lg:flex lg:basis-auto">
             <div class="flex items-center md:ml-auto md:pr-4">
 
