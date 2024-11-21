@@ -57,23 +57,26 @@
 
     <!-- Right Section: Countdown and Statistics -->
     <div class="w-1/3 space-y-4">
-        <!-- Countdown Timer -->
-        <div class="bg-orange-400 text-white rounded-xl p-4 text-center">
-            <h2 class="text-xl font-semibold mb-2">Pengajuan Kegiatan Dibuka Dalam</h2>
-            <div class="text-3xl font-bold">1 Hours 59 Minutes 59 Seconds</div>
+    <!-- Countdown Timer -->
+    <div class="bg-orange-400 text-white rounded-xl p-4 text-center">
+        <h2 class="text-xl font-semibold mb-2">Pengajuan Kegiatan Dibuka Dalam</h2>
+        <div id="countdown" class="text-3xl font-bold">Loading...</div> <!-- Wadah countdown timer -->
+    </div>
+
+    <!-- Statistik Proposal Kegiatan -->
+    <div class="bg-grayish-white p-4 rounded-xl shadow-md">
+        <h2 class="text-xl font-semibold mb-4">Statistik Proposal Kegiatan</h2>
+        <div class="flex items-center justify-center">
+            <div id="donut-chart" class="relative w-64 h-64"></div> <!-- Grafik statistik -->
         </div>
 
-        <!-- Statistics Chart -->
-        <div class="bg-grayish-white p-4 rounded-xl shadow-md">
-    <h2 class="text-xl font-semibold mb-4">Statistik Proposal Kegiatan</h2>
-    <div class="flex items-center justify-center">
-        <div id="donut-chart" class="relative w-64 h-64"></div> <!-- Adjusted size -->
-    </div>
-    <div class="mt-4 text-center">
+
+  </div>
+    <!-- <div class="mt-4 text-center">
         <p class="text-sm"><span class="text-blue-500">60%</span> Lolos Validasi</p>
         <p class="text-sm"><span class="text-orange-400">20%</span> Sedang Revisi</p>
         <p class="text-sm"><span class="text-pink-500">20%</span> Ditolak</p>
-    </div>
+    </div> -->
 </div>
 
 
@@ -144,9 +147,51 @@ if (document.getElementById("donut-chart") && typeof ApexCharts !== 'undefined')
   const chart = new ApexCharts(document.getElementById("donut-chart"), getChartOptions());
   chart.render();
 }
+document.addEventListener('DOMContentLoaded', () => {
+    // Mengambil nilai remainingTime dari PHP
+    let remainingTime = {{ $remainingTime }}; // Pastikan nilai ini valid
+
+    // Debugging untuk memastikan remainingTime ada
+    console.log('Remaining Time:', remainingTime);
+
+    const countdownElement = document.getElementById('countdown');
+
+    // Fungsi untuk memperbarui countdown
+    const updateCountdown = () => {
+        if (remainingTime <= 0) {
+            // Ketika waktu sudah habis, tampilkan pesan "Pengajuan Kegiatan Sudah Ditutup"
+            countdownElement.innerHTML = `
+                <div class="bg-red-500 text-white rounded-xl p-4 text-center">
+                    <h2 class="text-xl font-semibold mb-2">Pengajuan Kegiatan Sudah Ditutup</h2>
+                </div>`;
+            clearInterval(interval); // Berhentikan interval
+        } else {
+            // Menghitung hari, jam, menit, dan detik
+            const days = Math.floor(remainingTime / (60 * 60 * 24)); // Menghitung hari
+            const hours = Math.floor((remainingTime % (60 * 60 * 24)) / (60 * 60)); // Menghitung jam
+            const minutes = Math.floor((remainingTime % (60 * 60)) / 60); // Menghitung menit
+            const seconds = remainingTime % 60; // Menghitung detik
+              // Jika detik mencapai 60, reset ke 0 dan tambahkan 1 menit
+              if (seconds >= 60) {
+                seconds = 0;
+                remainingTime += 60;
+            }
+            const formattedSeconds = ('0' + seconds).slice(-2);
+            // Menampilkan countdown dalam format: Hari Jam Menit Detik
+            countdownElement.innerHTML = `
+                <div class="text-3xl font-bold">
+                    ${days} Days ${hours} Hours ${minutes} Minutes ${formattedSeconds} Seconds
+                </div>`;
+            remainingTime--; // Kurangi remaining time setiap detik
+        }
+    };
+
+    // Menjalankan updateCountdown setiap detik
+    const interval = setInterval(updateCountdown, 1000);
+    updateCountdown(); // Menjalankan render awal countdown
+});
+
 </script>
-
-
 </body>
 
 </html>

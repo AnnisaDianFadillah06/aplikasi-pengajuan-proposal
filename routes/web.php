@@ -7,6 +7,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\OrmawaController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\ProposalController;
+use App\Http\Controllers\CountdownController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\ReviewerAuthController;
@@ -34,9 +35,13 @@ Route::post('/pedoman', [PedomanKemahasiswaanController::class, 'store'])->name(
 Route::put('/pedoman/{id}', [PedomanKemahasiswaanController::class, 'update'])->name('pedoman.update'); // Untuk memperbarui data
 Route::delete('/pedoman/{id}', [PedomanKemahasiswaanController::class, 'destroy'])->name('pedoman.destroy'); // Untuk menghapus data
 
-Route::get('/countdown', function () {
-    return view('proposal_kegiatan.countdown_form');
-});
+// Route::get('/countdown', function () {
+//     return view('proposal_kegiatan.countdown_form');
+// });
+
+// routes/web.php
+Route::get('/countdown', [CountdownController::class, 'showForm'])->name('proposal_kegiatan.countdown_form');
+Route::post('/countdown', [CountdownController::class, 'setCountdown'])->name('proposal_kegiatan.countdown_form');
 
 // Route DHEA PUTRI ANANDA
 Route::get('/modal', function () {
