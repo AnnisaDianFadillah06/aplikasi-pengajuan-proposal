@@ -134,8 +134,6 @@ Route::get('/billing', function () {
 Route::get('/dashboard-pengaju', [DashboardController::class, 'index_pengaju'])->name('proposal_kegiatan.dashboard-pengaju');
 Route::get('/dashboard-reviewer', [DashboardController::class, 'index'])->name('proposal_kegiatan.dashboard-reviewer');
 
-// Route Active State
-Route::get('/dashboard-pengaju', [DashboardController::class, 'dashboard'])->name('dashboard-pengaju');
 
 // Manajemen Review
 Route::get('/manajemen-review', [ReviewController::class, 'index'])->name('manajemen-review');

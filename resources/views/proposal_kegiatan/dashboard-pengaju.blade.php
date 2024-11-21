@@ -82,116 +82,113 @@
 
 
 <script>
-const getChartOptions = () => {
-  return {
-    series: [2, 1, 1], // Adjusted series for your data
-    colors: ["#1C64F2", "#FDBA8C", "#E74694"], // Colors match your proposal statuses
-    chart: {
-      height: 320,
-      width: "100%",
-      type: "donut",
-    },
-    stroke: {
-      colors: ["transparent"],
-    },
-    plotOptions: {
-      pie: {
-        donut: {
-          labels: {
-            show: true,
-            name: {
+  const getChartOptions = () => {
+    return {
+      series: [2, 1, 1], // Adjusted series for your data
+      colors: ["#1C64F2", "#FDBA8C", "#E74694"], // Colors match your proposal statuses
+      chart: {
+        height: 320,
+        width: "100%",
+        type: "donut",
+      },
+      stroke: {
+        colors: ["transparent"],
+      },
+      plotOptions: {
+        pie: {
+          donut: {
+            labels: {
               show: true,
-              fontFamily: "Inter, sans-serif",
-              offsetY: 20,
-            },
-            total: {
-              showAlways: true,
-              show: true,
-              label: "Total Proposals",
-              fontFamily: "Inter, sans-serif",
-              formatter: function (w) {
-                const sum = w.globals.seriesTotals.reduce((a, b) => a + b, 0);
-                return sum + ' proposals'; // Display total proposals
+              name: {
+                show: true,
+                fontFamily: "Inter, sans-serif",
+                offsetY: 20,
+              },
+              total: {
+                showAlways: true,
+                show: true,
+                label: "Total Proposals",
+                fontFamily: "Inter, sans-serif",
+                formatter: function (w) {
+                  const sum = w.globals.seriesTotals.reduce((a, b) => a + b, 0);
+                  return sum + ' proposals'; // Display total proposals
+                },
+              },
+              value: {
+                show: true,
+                fontFamily: "Inter, sans-serif",
+                offsetY: -20,
+                formatter: function (value) {
+                  return value + "%"; // Show value as percentage
+                },
               },
             },
-            value: {
-              show: true,
-              fontFamily: "Inter, sans-serif",
-              offsetY: -20,
-              formatter: function (value) {
-                return value + "%"; // Show value as percentage
-              },
-            },
+            size: "80%",
           },
-          size: "80%",
         },
       },
-    },
-    labels: ["Lolos Validasi", "Sedang Revisi", "Ditolak"], // Custom labels
-    dataLabels: {
-      enabled: false,
-    },
-    legend: {
-      position: "bottom",
-      fontFamily: "Inter, sans-serif",
-    },
-    grid: {
-      padding: {
-        top: -2,
+      labels: ["Lolos Validasi", "Sedang Revisi", "Ditolak"], // Custom labels
+      dataLabels: {
+        enabled: false,
       },
-    },
-  };
-};
-
-if (document.getElementById("donut-chart") && typeof ApexCharts !== 'undefined') {
-  const chart = new ApexCharts(document.getElementById("donut-chart"), getChartOptions());
-  chart.render();
-}
-document.addEventListener('DOMContentLoaded', () => {
-    // Mengambil nilai remainingTime dari PHP
-    let remainingTime = {{ $remainingTime }}; // Pastikan nilai ini valid
-
-    // Debugging untuk memastikan remainingTime ada
-    console.log('Remaining Time:', remainingTime);
-
-    const countdownElement = document.getElementById('countdown');
-
-    // Fungsi untuk memperbarui countdown
-    const updateCountdown = () => {
-        if (remainingTime <= 0) {
-            // Ketika waktu sudah habis, tampilkan pesan "Pengajuan Kegiatan Sudah Ditutup"
-            countdownElement.innerHTML = `
-                <div class="bg-red-500 text-white rounded-xl p-4 text-center">
-                    <h2 class="text-xl font-semibold mb-2">Pengajuan Kegiatan Sudah Ditutup</h2>
-                </div>`;
-            clearInterval(interval); // Berhentikan interval
-        } else {
-            // Menghitung hari, jam, menit, dan detik
-            const days = Math.floor(remainingTime / (60 * 60 * 24)); // Menghitung hari
-            const hours = Math.floor((remainingTime % (60 * 60 * 24)) / (60 * 60)); // Menghitung jam
-            const minutes = Math.floor((remainingTime % (60 * 60)) / 60); // Menghitung menit
-            const seconds = remainingTime % 60; // Menghitung detik
-              // Jika detik mencapai 60, reset ke 0 dan tambahkan 1 menit
-              if (seconds >= 60) {
-                seconds = 0;
-                remainingTime += 60;
-            }
-            const formattedSeconds = ('0' + seconds).slice(-2);
-            // Menampilkan countdown dalam format: Hari Jam Menit Detik
-            countdownElement.innerHTML = `
-                <div class="text-3xl font-bold">
-                    ${days} Days ${hours} Hours ${minutes} Minutes ${formattedSeconds} Seconds
-                </div>`;
-            remainingTime--; // Kurangi remaining time setiap detik
-        }
+      legend: {
+        position: "bottom",
+        fontFamily: "Inter, sans-serif",
+      },
+      grid: {
+        padding: {
+          top: -2,
+        },
+      },
     };
-
-    // Menjalankan updateCountdown setiap detik
-    const interval = setInterval(updateCountdown, 1000);
-    updateCountdown(); // Menjalankan render awal countdown
-});
-
-</script>
+  };
+  
+  if (document.getElementById("donut-chart") && typeof ApexCharts !== 'undefined') {
+    const chart = new ApexCharts(document.getElementById("donut-chart"), getChartOptions());
+    chart.render();
+  }
+  document.addEventListener('DOMContentLoaded', () => {
+      // Mengambil nilai remainingTime dari PHP
+      let remainingTime = parseInt('{{ $remainingTime }}', 10); // Pastikan nilai adalah angka integer
+      // Debugging untuk memastikan remainingTime ada
+      console.log('Remaining Time:', remainingTime);
+  
+      const countdownElement = document.getElementById('countdown');
+  
+      // Fungsi untuk memperbarui countdown
+      const updateCountdown = () => {
+          if (remainingTime <= 0) {
+              // Ketika waktu sudah habis, tampilkan pesan "Pengajuan Kegiatan Sudah Ditutup"
+              countdownElement.innerHTML = `
+                  <div class="bg-red-500 text-white rounded-xl p-4 text-center">
+                      <h2 class="text-xl font-semibold mb-2">Pengajuan Kegiatan Sudah Ditutup</h2>
+                  </div>`;
+              clearInterval(interval); // Berhentikan interval
+          } else {
+              // Menghitung hari, jam, menit, dan detik
+              const days = Math.floor(remainingTime / (60 * 60 * 24)); // Menghitung hari
+              const hours = Math.floor((remainingTime % (60 * 60 * 24)) / (60 * 60)); // Menghitung jam
+              const minutes = Math.floor((remainingTime % (60 * 60)) / 60); // Menghitung menit
+              const seconds = remainingTime % 60; // Menghitung detik
+  
+              // Format detik menjadi 2 digit
+              const formattedSeconds = ('0' + seconds).slice(-2); // Menambahkan 0 di depan jika detik < 10
+  
+              // Menampilkan countdown dalam format: Hari Jam Menit Detik
+              countdownElement.innerHTML = `
+                  <div class="text-3xl font-bold">
+                      ${days} Days ${hours} Hours ${minutes} Minutes ${formattedSeconds} Seconds
+                  </div>`;
+              remainingTime--; // Kurangi remaining time setiap detik
+          }
+      };
+  
+      // Memastikan countdown langsung dimulai pada saat halaman dimuat
+      updateCountdown(); // Panggil updateCountdown langsung
+      const interval = setInterval(updateCountdown, 1000); // Menjalankan updateCountdown setiap detik
+  });
+  
+  </script>
 </body>
 
 </html>
