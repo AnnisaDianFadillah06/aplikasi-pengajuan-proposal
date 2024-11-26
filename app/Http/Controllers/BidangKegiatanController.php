@@ -4,21 +4,21 @@ namespace App\Http\Controllers;
 
 
 use Illuminate\Http\Request;
-use App\Models\JenisKegiatan;
+use App\Models\BidangKegiatan;
 use Illuminate\Support\Facades\Auth;
 
-class JenisKegiatanController extends Controller
+class BidangKegiatanController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        // Mendapatkan semua data jenis kegiatan dari database
-        $kegiatan = JenisKegiatan::all();
+        // Mendapatkan semua data bidang kegiatan dari database
+        $kegiatan = BidangKegiatan::all();
     
-        // Menampilkan data ke view 'jenis-kegiatan.index'
-        return view('proposal_kegiatan.manajemen_jenis_kegiatan', compact('kegiatan'));
+        // Menampilkan data ke view 'bidang-kegiatan.index'
+        return view('proposal_kegiatan.manajemen_bidang_kegiatan', compact('kegiatan'));
     }
 
     /**
@@ -36,13 +36,13 @@ class JenisKegiatanController extends Controller
     {
         // Validasi input
         $request->validate([
-            'nama_jenis_kegiatan' => 'required|string|max:255',
+            'nama_bidang_kegiatan' => 'required|string|max:255',
             'status' => 'required|in:aktif,tidak aktif', // Validasi untuk kolom status
         ]);
     
         // Tambahkan data baru
-        JenisKegiatan::create([
-            'nama_jenis_kegiatan' => $request->nama_jenis_kegiatan,
+        BidangKegiatan::create([
+            'nama_bidang_kegiatan' => $request->nama_bidang_kegiatan,
             'created_by' => Auth::id() ?? null, // ID user yang sedang login atau null jika belum tersedia
             'updated_by' => Auth::id() ?? null,
             'status' =>  $request->status,
@@ -56,17 +56,17 @@ class JenisKegiatanController extends Controller
     public function update(Request $request, $id)
     {
         try {
-            $jenisKegiatan = JenisKegiatan::find($id);
-            $jenisKegiatan->nama_jenis_kegiatan = $request->nama_jenis_kegiatan;
-            $jenisKegiatan->status = $request->status;
-            $jenisKegiatan->save();
+            $bidangKegiatan = BidangKegiatan::find($id);
+            $bidangKegiatan->nama_bidang_kegiatan = $request->nama_bidang_kegiatan;
+            $bidangKegiatan->status = $request->status;
+            $bidangKegiatan->save();
     
             if ($request->ajax()) {
                 return response()->json([
                     'success' => true,
-                    'id_jenis_kegiatan' => $jenisKegiatan->id_jenis_kegiatan,
-                    'nama_jenis_kegiatan' => $jenisKegiatan->nama_jenis_kegiatan,
-                    'status' => $jenisKegiatan->status
+                    'id_bidang_kegiatan' => $bidangKegiatan->id_bidang_kegiatan,
+                    'nama_bidang_kegiatan' => $bidangKegiatan->nama_bidang_kegiatan,
+                    'status' => $bidangKegiatan->status
                 ]);
             }
         } catch (\Exception $e) {
@@ -79,7 +79,7 @@ class JenisKegiatanController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(JenisKegiatan $jenisKegiatan)
+    public function show(BidangKegiatan $bidangKegiatan)
     {
         //
     }
@@ -87,12 +87,12 @@ class JenisKegiatanController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(JenisKegiatan $jenisKegiatan)
+    public function edit(BidangKegiatan $bidangKegiatan)
     {
         //
     }
     
-    public function destroy(JenisKegiatan $jenisKegiatan)
+    public function destroy(BidangKegiatan $bidangKegiatan)
     {
         //
     }

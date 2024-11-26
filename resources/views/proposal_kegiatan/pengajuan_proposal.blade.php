@@ -1,6 +1,13 @@
 @extends('welcome')
 @section('konten')
 
+{{-- Cek apakah ada sesi login dan tampilkan data pengguna --}}
+@if (session()->has('username') && session()->has('id'))
+    <p>Selamat datang, {{ session('username') }}!</p>
+    <p>id Anda: {{ session('id') }}</p>
+@else
+    <p>Anda belum login.</p>
+@endif
 
 <!-- Link Tailwind CSS dan FontAwesome untuk ikon -->
 <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
@@ -96,11 +103,16 @@
                         <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
                             <a href="javascript:;" class="text-xs font-semibold leading-tight text-slate-400"> </a>
                         </td>
-                        <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                            <a href="{{ route('proposal.detail', $item->id_proposal) }}" class="text-xs font-semibold leading-tight text-blue-600">
-                                Detail
-                            </a>
-                        </td>                        
+                        <td class="p-2 text-sm leading-normal text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
+                            <form method="GET" action="{{ route('proposal.detail', $item->id_proposal) }}">
+                                @csrf
+                                <!-- Hidden input sebagai penanda -->
+                                <input type="hidden" name="is_first_access" value="true">
+                                <button type="submit" class="bg-blue-500 text-white px-2 py-1 rounded">
+                                    Detail
+                                </button>
+                            </form>
+                        </td>
                     </tr>
                 </tr>
                       
@@ -135,9 +147,33 @@
                     "next": "Selanjutnya",
                     "previous": "Sebelumnya"
                 }
+            }, 
+            "drawCallback": function() {
+                // Adjust select width after draw
+                adjustSelectWidth();
             }
         });
+
+        // Function to adjust select width
+        function adjustSelectWidth() {
+            var select = $('.dataTables_length select');
+            select.each(function() {
+                var text = $(this).find('option:selected').text();
+                $(this).css('width', (text.length + 4) + 'ch');
+            });
+        }
+
+        // Call function on select change
+        $('.dataTables_length select').change(adjustSelectWidth);
     });
+
+    function adjustSelectWidth() {
+            var select = $('.dataTables_length select');
+            select.each(function() {
+                var text = $(this).find('option:selected').text();
+                $(this).css('width', (text.length + 4) + 'ch');
+            });
+     }
 </script>
 
 @endsection

@@ -18,6 +18,7 @@ return new class extends Migration
             $table->timestamp('tgl_revisi')->nullable()->useCurrent();
             $table->integer('id_proposal')->nullable();
             $table->integer('id_dosen')->nullable()->index('fki_fk_reviewer/dosen');
+            $table->string('file_revisi')->nullable();
         });
     }
 

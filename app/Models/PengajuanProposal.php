@@ -34,4 +34,10 @@ class PengajuanProposal extends Model
         return $this->belongsTo(Ormawa::class, 'id_ormawa', 'id_ormawa');
     }
 
+    // relasi dengan tabel revisi
+    public function revisions()
+    {
+        return $this->hasMany(ReviewProposal::class, 'id_proposal', 'id_proposal');
+    }
+
 }

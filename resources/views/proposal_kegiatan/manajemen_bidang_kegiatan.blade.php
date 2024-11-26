@@ -9,75 +9,75 @@
   <div class="flex-none w-full max-w-full px-3">
     <div class="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-soft-xl rounded-2xl bg-clip-border">
       <div class="p-6 pb-0 mb-0 bg-white border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
-        <h6 class="font-bold">Daftar Organisasi Mahasiswa</h6>
+        <h6 class="font-bold">Daftar Bidang Kegiatan</h6>
         <!-- Wrapper untuk input search dan button -->
         <div class="flex justify-between items-center mt-3">
           <!-- Input Search -->
           <div>
             <input type="text" id="searchInput" placeholder="Searching" class="p-2 border border-gray-300 rounded w-60">
           </div>
-          <!-- Button Tambah Organisasi Mahasiswa -->
+          <!-- Button Tambah Bidang Kegiatan -->
           <div>
-            <button type="button" data-modal-target="addOrganisasiMahasiswaModal" data-modal-toggle="addOrganisasiMahasiswaModal"
+            <button type="button" data-modal-target="addBidangKegiatanModal" data-modal-toggle="addBidangKegiatanModal"
                 class="bg-gradient-to-tl inline-block px-6 py-3 font-bold text-center text-white uppercase align-baseline transition-all rounded-lg cursor-pointer bg-gradient-to-tl from-blue-700 to-blue-500 leading-pro text-xs ease-soft-in tracking-tight-soft shadow-soft-md bg-150 bg-x-25 hover:scale-102 active:opacity-85 hover:shadow-soft-xs">
-                Tambah Organisasi Mahasiswa
+                Tambah Bidang Kegiatan
             </button>
           </div>
         </div>
       </div>
 
-        <!-- Modal Form Tambah Organisasi Mahasiswa -->
-        <div id="addOrganisasiMahasiswaModal" tabindex="-1" class="fixed inset-0 flex items-center justify-center hidden z-50 p-4 overflow-x-hidden overflow-y-auto" role="dialog" aria-labelledby="modalTitle" aria-hidden="true">
-            <div class="relative w-full max-w-md">
-                <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-                    <div class="flex items-start justify-between p-4 border-b rounded-t">
-                        <h3 class="text-xl font-semibold text-gray-900" id="modalTitle">Tambah Organisasi Mahasiswa</h3>
-                        <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center" onclick="closeModal()">
-                            <span class="sr-only">Close</span>
-                        </button>
-                    </div>
-                    <form id="organisasiMahasiswaForm" action="{{ route('organisasi-mahasiswa.store') }}" method="POST">
-                        @csrf
-                        <div class="p-6 space-y-6">
-                            <div>
-                                <label for="nama_organisasi_mahasiswa" class="block mb-2 text-sm font-medium text-gray-900">Nama Organisasi Mahasiswa</label>
-                                <input type="text" name="nama_organisasi_mahasiswa" id="nama_organisasi_mahasiswa" class="w-full p-2.5 border border-gray-300 rounded" required autofocus>
-                            </div>
-                            <div>
-                                <label for="status" class="block mb-2 text-sm font-medium text-gray-900">Status</label>
-                                <select name="status" id="status" class="w-full p-2.5 border border-gray-300 rounded" required>
-                                    <option value="aktif" selected>Aktif</option>
-                                    <option value="tidak aktif">Tidak Aktif</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="flex items-center p-6 space-x-2 border-t rounded-b">
-                            <button type="button" id="submitEdit" class="bg-blue-700 text-white px-4 py-2 rounded" onclick="submitForm()">Simpan</button>
-                            <button type="button" class="text-gray-500 bg-white border rounded px-4 py-2" onclick="closeModal()">Batal</button>
-                        </div>
-                    </form>
-                </div>
+<!-- Modal Form Tambah Bidang Kegiatan -->
+<div id="addBidangKegiatanModal" tabindex="-1" class="fixed inset-0 flex items-center justify-center hidden z-50 p-4 overflow-x-hidden overflow-y-auto" role="dialog" aria-labelledby="modalTitle" aria-hidden="true">
+    <div class="relative w-full max-w-md">
+        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+            <div class="flex items-start justify-between p-4 border-b rounded-t">
+                <h3 class="text-xl font-semibold text-gray-900" id="modalTitle">Tambah Bidang Kegiatan</h3>
+                <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center" onclick="closeModal()">
+                    <span class="sr-only">Close</span>
+                </button>
             </div>
+            <form id="bidangKegiatanForm" action="{{ route('bidang-kegiatan.store') }}" method="POST">
+                @csrf
+                <div class="p-6 space-y-6">
+                    <div>
+                        <label for="nama_bidang_kegiatan" class="block mb-2 text-sm font-medium text-gray-900">Nama Bidang Kegiatan</label>
+                        <input type="text" name="nama_bidang_kegiatan" id="nama_bidang_kegiatan" class="w-full p-2.5 border border-gray-300 rounded" required autofocus>
+                    </div>
+                    <div>
+                        <label for="status" class="block mb-2 text-sm font-medium text-gray-900">Status</label>
+                        <select name="status" id="status" class="w-full p-2.5 border border-gray-300 rounded" required>
+                            <option value="aktif" selected>Aktif</option>
+                            <option value="tidak aktif">Tidak Aktif</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="flex items-center p-6 space-x-2 border-t rounded-b">
+                    <button type="button" id="submitEdit" class="bg-blue-700 text-white px-4 py-2 rounded" onclick="submitForm()">Simpan</button>
+                    <button type="button" class="text-gray-500 bg-white border rounded px-4 py-2" onclick="closeModal()">Batal</button>
+                </div>
+            </form>
         </div>
+    </div>
+</div>
 
 
-      <!-- Modal Form Edit Organisasi Mahasiswa -->
+      <!-- Modal Form Edit Bidang Kegiatan -->
       <div id="editModal" tabindex="-1" class="fixed inset-0 flex items-center justify-center hidden z-50 p-4 overflow-x-hidden overflow-y-auto">
           <div class="relative w-full max-w-md">
               <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
                     <div class="flex items-start justify-between p-4 border-b rounded-t">
-                        <h3 class="text-xl font-semibold text-gray-900" id="modalTitle">Edit Organisasi Mahasiswa</h3>
+                        <h3 class="text-xl font-semibold text-gray-900" id="modalTitle">Edit Bidang Kegiatan</h3>
                         <button type="button" data-modal-hide="editModal" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center">
                             <span class="sr-only">Close</span>
                         </button>
                     </div>  
-                    <form id="editOrganisasiMahasiswaForm" action="" method="POST">
+                    <form id="editBidangKegiatanForm" action="" method="POST">
                         @csrf
                         @method('PUT')
                         <div class="p-6 space-y-6">
                             <div class="form-group">
-                                <label for="nama_organisasi_mahasiswa">Nama Organisasi Mahasiswa:</label>
-                                <input type="text" class="form-control" id="nama_organisasi_mahasiswa" name="nama_organisasi_mahasiswa" required>
+                                <label for="nama_bidang_kegiatan">Nama Bidang Kegiatan:</label>
+                                <input type="text" class="form-control" id="nama_bidang_kegiatan" name="nama_bidang_kegiatan" required>
                             </div>
                             <div class="form-group">
                                 <label for="status">Status:</label>
@@ -104,7 +104,7 @@
               <!-- Table Headers -->
               <tr>
                 <th class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">No</th>
-                <th class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Organisasi Mahasiswa</th>
+                <th class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Bidang Kegiatan</th>
                 <th class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Tanggal Dibuat</th>
                 <th class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Dibuat Oleh</th>
                 <th class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Tanggal Diedit</th>
@@ -114,13 +114,13 @@
               </tr>
             </thead>
             <tbody>
-              @foreach($ormawa as $key => $item)
-              <tr data-id="{{ $item->id_organisasi_mahasiswa }}">
+              @foreach($kegiatan as $key => $item)
+              <tr data-id="{{ $item->id_bidang_kegiatan }}">
                   <td class="px-6 py-3 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent text-left">
                       <p class="mb-0 text-xs font-semibold leading-tight">{{ $key + 1 }}</p>
                   </td>
                   <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent text-left">
-                      <p class="mb-0 text-xs font-semibold leading-tight">{{ $item->nama_organisasi_mahasiswa }}</p>
+                      <p class="mb-0 text-xs font-semibold leading-tight">{{ $item->nama_bidang_kegiatan }}</p>
                   </td>
                   <td class="p-2 text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
                       <span class="text-xs font-semibold leading-tight text-slate-400">{{ $item->created_at->format('d/m/Y') }}</span>
@@ -138,7 +138,7 @@
                       <span class="bg-gradient-to-tl from-green-600 to-lime-400 px-2 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline uppercase leading-none text-white">{{ $item->status }}</span>
                   </td>
                   <td class="p-2 text-sm leading-normal text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                      <button class="bg-blue-500 text-white px-2 py-1 rounded" onclick="openEditModal('{{ $item->id_organisasi_mahasiswa }}', '{{ $item->nama_organisasi_mahasiswa }}', '{{ $item->status }}')">Edit</button>
+                      <button class="bg-blue-500 text-white px-2 py-1 rounded" onclick="openEditModal('{{ $item->id_bidang_kegiatan }}', '{{ $item->nama_bidang_kegiatan }}', '{{ $item->status }}')">Edit</button>
                   </td>
               </tr>
               @endforeach
@@ -189,20 +189,20 @@
 </script>
 
 <script>
-document.querySelector('button[data-modal-toggle="addOrganisasiMahasiswaModal"]').addEventListener('click', function() { 
-    document.getElementById('addOrganisasiMahasiswaModal').classList.remove('hidden');
+document.querySelector('button[data-modal-toggle="addBidangKegiatanModal"]').addEventListener('click', function() { 
+    document.getElementById('addBidangKegiatanModal').classList.remove('hidden');
 });
 
 // Fungsi untuk menutup modal
 function closeModal() {
-    const modal = document.getElementById('addOrganisasiMahasiswaModal');
+    const modal = document.getElementById('addBidangKegiatanModal');
     modal.classList.add('hidden');
     location.reload(); // Tambahkan ini untuk refresh halaman
 }
 
 // Fungsi untuk mengirimkan data form menggunakan AJAX
 function submitForm() {
-    const form = document.getElementById('organisasiMahasiswaForm');
+    const form = document.getElementById('bidangKegiatanForm');
     
     // Mengambil data form
     const formData = new FormData(form);
@@ -220,8 +220,8 @@ function submitForm() {
         // Jika data berhasil disimpan, kita tutup modal dan beri pesan sukses
         if (data.success) {
             closeModal();  // Menutup modal jika pengiriman berhasil
-            alert('Organisasi Mahasiswa berhasil disimpan!');
-            // Opsional: Anda bisa menambahkan kode untuk memperbarui tampilan daftar organisasi mahasiswa
+            alert('Bidang Kegiatan berhasil disimpan!');
+            // Opsional: Anda bisa menambahkan kode untuk memperbarui tampilan daftar bidang kegiatan
             location.reload(); // Tambahkan ini untuk refresh halaman
         } else {
             alert('Gagal menyimpan data. Periksa kembali input Anda.');
@@ -232,18 +232,17 @@ function submitForm() {
         alert('Terjadi kesalahan saat menyimpan data.');
     });
 }
-
 </script>
 
 <script>
 // Fungsi untuk membuka modal dan mengisi form dengan data yang di-passing dari tombol
-function openEditModal(id, namaOrganisasiMahasiswa, status) {
+function openEditModal(id, namaBidangKegiatan, status) {
     // Mengisi form dengan data yang di-passing
-    document.getElementById('nama_organisasi_mahasiswa').value = namaOrganisasiMahasiswa;
+    document.getElementById('nama_bidang_kegiatan').value = namaBidangKegiatan;
     document.getElementById('status').value = status;
 
-    // Mengubah action URL dari form agar sesuai dengan organisasi mahasiswa yang sedang diedit
-    document.getElementById('editOrganisasiMahasiswaForm').action = "/update-organisasi-mahasiswa/" + id;
+    // Mengubah action URL dari form agar sesuai dengan bidang kegiatan yang sedang diedit
+    document.getElementById('editBidangKegiatanForm').action = "/update-bidang-kegiatan/" + id;
 
     // Menampilkan modal
     document.getElementById('editModal').classList.remove('hidden');
@@ -259,14 +258,15 @@ function closeEditModal() {
     modal.classList.add('hidden');
     location.reload(); // Tambahkan ini untuk refresh halaman
 }
+
 </script> 
 
 <script>
 function submitEditForm() {
-    let formData = new FormData(document.getElementById('editOrganisasiMahasiswaForm'));
+    let formData = new FormData(document.getElementById('editBidangKegiatanForm'));
     
     // Mendapatkan URL action dari form
-    let actionUrl = document.getElementById('editOrganisasiMahasiswaForm').action;
+    let actionUrl = document.getElementById('editBidangKegiatanForm').action;
 
     // Mengirim data menggunakan AJAX
     fetch(actionUrl, {
@@ -284,8 +284,8 @@ function submitEditForm() {
             closeEditModal();
             
             // Update tampilan data di tabel secara dinamis
-            document.querySelector(`tr[data-id="${data.id_organisasi_mahasiswa}"] td:nth-child(2)`).textContent = data.nama_organisasi_mahasiswa;
-            document.querySelector(`tr[data-id="${data.id_organisasi_mahasiswa}"] td:nth-child(7)`).textContent = data.status;
+            document.querySelector(`tr[data-id="${data.id_bidang_kegiatan}"] td:nth-child(2)`).textContent = data.nama_bidang_kegiatan;
+            document.querySelector(`tr[data-id="${data.id_bidang_kegiatan}"] td:nth-child(7)`).textContent = data.status;
             
             // Optionally, beri notifikasi bahwa data telah berhasil diubah
             alert('Data berhasil diubah');

@@ -23,7 +23,7 @@ class OrmawaController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
         // Validasi input
         $validated = $request->validate([
