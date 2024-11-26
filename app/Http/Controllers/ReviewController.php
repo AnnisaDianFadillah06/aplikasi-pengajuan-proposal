@@ -9,7 +9,18 @@ class ReviewController extends Controller
 {
     public function index()
     {
-        $proposal = PengajuanProposal::all();
+        // Ambil ID dari sesi
+        $sessionId = session('id');
+
+        if (!$sessionId) {
+            // Tangani kasus jika sesi 'id' tidak ada
+            abort(403, 'Session ID tidak ditemukan.');
+        }
+    
+        // Ambil proposal berdasarkan kondisi
+        $proposal = PengajuanProposal::where('updated_by', $sessionId + 1)->get();
+
+        // Return ke tampilan
         return view('proposal_kegiatan.tabel_review', ['proposal' => $proposal]);
     }
     // Fungsi untuk menampilkan data proposal yang akan direvisi
@@ -39,7 +50,7 @@ class ReviewController extends Controller
         ReviewProposal::create([
             'catatan_revisi' => $request->input('catatan_revisi'),
             'tgl_revisi' => now()->format('Y-m-d'),
-            'id_dosen' => 1,
+            'id_dosen' => session('id'),
             'id_proposal' => $request->input('id_proposal'),
             'status_revisi' => $request->input('status_revisi'),
         ]);
@@ -47,7 +58,7 @@ class ReviewController extends Controller
         // Mengubah status di tabel proposal_pengajuan
         $proposal = PengajuanProposal::find($request->input('id_proposal'));
         if ($proposal) {
-            // Cek apakah pengguna yang login memiliki ID = 6 (wd 3)
+            // Cek apakah pengguna yang login memiliki ID = 6 (wd 3) === status disetujui hanya jika sudah sampai di wd3
             if (session()->has('id') && session('id') == 6) {
                 // Ubah status proposal sesuai input
                 $proposal->status = $request->input('status_revisi');
@@ -56,10 +67,10 @@ class ReviewController extends Controller
             }
             
             // Periksa apakah status proposal adalah 1 sebelum menetapkan updated_by
-            if ($proposal->status == 1 && session()->has('id')) {
-                $proposal->updated_by = session('id');
+            if ($request->input('status_revisi') == 1 && session()->has('id')) {
+                $proposal->updated_by = session('id') + 1 ;
             }
-
+            
 
             // Simpan perubahan ke database
             $proposal->save();

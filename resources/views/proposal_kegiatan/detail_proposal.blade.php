@@ -143,7 +143,7 @@
 
 
 {{-- Bagian Detail proposal --}}
-@if ($proposal->status == 1 || $currentStep <= $updatedByStep || $status_lpj == 1)
+@if ($proposal->status == 1 || $currentStep < $updatedByStep || $status_lpj == 1)
     {{-- Tampilkan Detail Proposal saja --}}
     {{-- Bagian Detail Proposal --}}
     <div class="container mx-auto mt-5">
@@ -334,14 +334,14 @@
             </button>
         </form>
     @endif
-    @if ($currentStep < 6 && ($currentStep <= $updatedByStep || $status_lpj == 1))
+    @if ($currentStep < 6 && ($currentStep < $updatedByStep || $status_lpj == 1))
         <form method="POST" action="{{ route('proposal.nextStep', $proposal->id_proposal) }}">
             @csrf
             <button type="submit" class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2">
                 Next
             </button>
         </form>
-    @elseif ($currentStep == 6 && $status_lpj == 1)
+    @elseif ($status_lpj == 1)
         {{-- button untuk pindah ke section lpj --}}
         <form method="POST" action="{{ route('laporan.nextStep', $proposal->id_proposal) }}">
             @csrf
@@ -353,8 +353,8 @@
         </form>
     @endif
     {{-- Cek kondisi khusus untuk halaman bukti proposal disetujui --}}
-    @if (($updatedByStep === 6 && $proposal->status === 1 && $currentStep === 6) || $status_lpj == 1)
-        {{-- <form method="GET" action="{{ route('proposal.approvalProof', $proposal->id_proposal) }}"> --}}
+    @if (($updatedByStep === 7 && $proposal->status === 1 && $currentStep === 6) || $status_lpj == 1)
+        <form method="GET" action="{{ route('proposal.approvalProof', $proposal->id_proposal) }}">
             @csrf
             <button type="submit" class="text-white bg-gradient-to-r from-green-500 via-green-600 to-green-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2">
                 Bukti Proposal Disetujui

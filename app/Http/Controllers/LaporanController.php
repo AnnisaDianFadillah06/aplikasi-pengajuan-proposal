@@ -9,7 +9,7 @@ use App\Models\PengajuanProposal;
 
 class LaporanController extends Controller
 {
-    public function show($id)
+    public function show(Request $request, $id)
     {
         $proposal = PengajuanProposal::findOrFail($id);
 
@@ -20,7 +20,17 @@ class LaporanController extends Controller
         $updatedByStep = $proposal->updated_by;
         $status = $proposal->status;
         $status_lpj = $proposal->status_lpj;
-        $currentStep = session()->get('currentStep', 1);
+        // $currentStep = session()->get('currentStep', 1);
+
+        // Periksa jika ini adalah akses pertama kali
+        $isFirstAccess = $request->input('is_first_access', false); // default false jika tidak ada
+        
+        if ($isFirstAccess) {
+            // Lakukan sesuatu jika ini adalah akses pertama kali
+            $currentStep = 1;
+        } else {
+            $currentStep = session()->get('currentStep', 1);
+        }
 
         // Ambil data revisi terbaru terkait proposal ini
         $latestRevision = ReviewProposal::where('id_proposal', $proposal->id_proposal)

@@ -93,7 +93,7 @@
           <li class="mt-0.5 w-full">
           <!-- <a class="py-2.7  rounded-lg hover:bg-orange-300 dark:hover:bg-orange-400 group text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors" href="/dashboard-pengaju"> -->
               
-              <a href="{{ route('dashboard-pengaju') }}" 
+              <a href="{{ route('proposal_kegiatan.dashboard-pengaju') }}" 
          class="py-2.7  rounded-lg hover:bg-orange-300 dark:hover:bg-orange-400 group text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors  {{ Route::currentRouteName() == 'dashboard-pengaju' ? 'bg-blue-500 text-white' : '' }}">
          <div class="bg-gradient-to-tl white shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5">
          <i class="fas fa-home text-gray-500"></i>
@@ -104,7 +104,7 @@
           </li>
 
           <li class="mt-0.5 w-full">
-          <a href="{{ route('manajemen-review') }}" 
+          <a href="{{ route('proposal.index') }}" 
          class="py-2.7  rounded-lg hover:bg-orange-300 dark:hover:bg-orange-400 group text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors  {{ Route::currentRouteName() == 'manajemen-review' ? 'bg-blue-500 text-white' : '' }}">
               <div class="shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5">
               <i class="fas fa-comments text-gray-500"></i>
