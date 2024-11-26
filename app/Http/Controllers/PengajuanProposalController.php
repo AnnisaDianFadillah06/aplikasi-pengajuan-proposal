@@ -13,7 +13,17 @@ class PengajuanProposalController extends Controller
 {
     public function index()
     {
-        $proposal = PengajuanProposal::all();
+        // Ambil ID dari sesi
+        $sessionId = session('id');
+
+        if (!$sessionId) {
+            // Tangani kasus jika sesi 'id' tidak ada
+            abort(403, 'Session ID tidak ditemukan.');
+        }
+    
+        // Ambil proposal berdasarkan kondisi
+        $proposal = PengajuanProposal::where('id_pengguna', $sessionId)->get();
+
         return view('proposal_kegiatan.pengajuan_proposal', ['proposal' => $proposal]);
     }
 
@@ -175,7 +185,8 @@ class PengajuanProposalController extends Controller
         // Cek apakah proposal ditemukan
         $proposal = PengajuanProposal::findOrFail($id_proposal);
 
-        if (!$proposal || $proposal->status_lpj != 1) {
+        // if (!$proposal || $proposal->status_lpj != 1) {
+        if (!$proposal) {
             abort(404, 'Proposal belum disetujui atau data tidak ditemukan');
         }        
 
@@ -222,7 +233,10 @@ class PengajuanProposalController extends Controller
         }
 
         // return redirect()->route('proposal.detail', $proposal->id_proposal)->with('success', 'Laporan pertanggung jawaban berhasil diajukan.');
-        return redirect()->route('laporan.detail', $proposal->id_proposal)->with('success', 'Laporan pertanggungjawaban berhasil diajukan.');
+        return redirect()->route('laporan.detail', [
+            'id' => $proposal->id_proposal,
+            'is_first_access' => true, // Menambahkan ke query string 
+            ])->with('success', 'Laporan pertanggungjawaban berhasil diajukan.');
     }
 }
 

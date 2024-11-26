@@ -90,7 +90,7 @@ Route::get('/laporan/{id}', [LaporanController::class, 'show'])->name('laporan.d
 Route::post('/detail-laporan/{id_proposal}/next', [LaporanController::class, 'nextStep'])->name('laporan.nextStep');
 Route::post('/detail-laporan/{id_proposal}/prev', [LaporanController::class, 'prevStep'])->name('laporan.prevStep');
 // Bukti LPJ disetujui WD3
-Route::get('/proposal/{id_proposal}/approval-proof', [LaporanController::class, 'approvalProof'])->name('laporan.approvalProof');
+// Route::get('/proposal/{id_proposal}/approval-proof', [LaporanController::class, 'approvalProof'])->name('laporan.approvalProof');
 
 // Route Angel
 Route::get('/histori-pengajuan', [HistoriPengajuanController::class, 'index'])->name('histori.pengajuan');
@@ -136,7 +136,7 @@ Route::get('/dashboard-reviewer', [DashboardController::class, 'index'])->name('
 
 
 // Manajemen Review
-Route::get('/manajemen-review', [ReviewController::class, 'index'])->name('manajemen-review');
+// Route::get('/manajemen-review', [ReviewController::class, 'index'])->name('manajemen-review');
 
 // Histori Pengajuan
 Route::get('/histori-pengajuan', [HistoriPengajuanController::class, 'index'])->name('histori.pengajuan');

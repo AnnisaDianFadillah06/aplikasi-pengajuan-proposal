@@ -87,7 +87,7 @@
             </div>
 
             <!-- Review Proposal Kegiatan -->
-            <div class="w-full max-w-full px-3 lg-max:mt-6 xl:w-7/12">
+            {{-- <div class="w-full max-w-full px-3 lg-max:mt-6 xl:w-7/12">
                 <div class="relative flex flex-col h-full min-w-0 break-words bg-white border-0 shadow-soft-xl rounded-2xl bg-clip-border">
                     <div class="p-4 pb-0 mb-0 bg-white border-b-0 rounded-t-2xl">
                         <div class="flex flex-wrap -mx-3">
@@ -129,7 +129,7 @@
                         </form>
                     </div>
                 </div>
-            </div>
+            </div> --}}
 
         </div>
     </div>
