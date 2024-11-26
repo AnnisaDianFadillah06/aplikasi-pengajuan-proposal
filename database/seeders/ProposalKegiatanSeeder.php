@@ -26,7 +26,8 @@ class ProposalKegiatanSeeder extends Seeder
                 'id_bidang_kegiatan' => 2,
                 'file_lpj' => '',
                 'updated_by' => 2,
-                'status' => 1    
+                'status' => 1,    
+                'status_kegiatan' => 1,  
             ],
             [
                 'id_proposal' => 2,
@@ -40,7 +41,8 @@ class ProposalKegiatanSeeder extends Seeder
                 'id_bidang_kegiatan' => 3,
                 'file_lpj' => '',
                 'updated_by' => 3,
-                'status' => 1
+                'status' => 1,
+                'status_kegiatan' => 2,  
             ]
             
         ]);

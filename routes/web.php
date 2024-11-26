@@ -13,6 +13,8 @@ use App\Http\Controllers\TambahPengajuanProposal;
 use App\Http\Controllers\HistoriPengajuanController;
 use App\Http\Controllers\PengajuanProposalController;
 use App\Http\Controllers\PedomanKemahasiswaanController;
+use App\Http\Controllers\EventListController;
+use App\Http\Controllers\ProfileController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -40,9 +42,7 @@ Route::get('/modal', function () {
     return view('proposal_kegiatan.komponen-modal'); // Pastikan ini benar
 });
 
-Route::get('/profil-pengaju', function () {
-    return view('proposal_kegiatan.profil_pengaju'); // Pastikan ini benar
-});
+Route::get('/profil-pengaju', [ProfileController::class, 'index'])->name('profile.index');
 
 Route::get('/daftar-ormawa', function () {
     return view('proposal_kegiatan.daftar_ormawa'); // Pastikan ini benar
@@ -56,6 +56,8 @@ Route::get('/daftar-pedoman', function () {
 Route::get('/notifikasi', function () {
     return view('proposal_kegiatan.notifikasi'); // Pastikan ini benar
 });
+Route::get('/event-list', [EventListController::class, 'index']);
+Route::get('/detail-kegiatan/{id_proposal}', [EventListController::class, 'show'])->name('kegiatan.detail');
 
 //Route M. HARISH AL-R.
 Route::get('/pengajuan-proposal', [PengajuanProposalController::class, 'index']);
