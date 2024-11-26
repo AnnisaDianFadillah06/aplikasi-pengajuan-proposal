@@ -364,12 +364,12 @@ function submitEditForm() {
         return true;
     }
 
-    function submitForm() {
-        // If validation passes, submit the form
-        if (validateForm()) {
-            document.getElementById("jenisKegiatanForm").submit();
-        }
-    }
+    // function submitForm() {
+    //     // If validation passes, submit the form
+    //     if (validateForm()) {
+    //         document.getElementById("jenisKegiatanForm").submit();
+    //     }
+    // }
 
     function closeModal() {
         document.getElementById("addJenisKegiatanModal").classList.add("hidden");
