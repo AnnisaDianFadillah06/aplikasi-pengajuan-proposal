@@ -40,8 +40,13 @@ class PengajuanProposalController extends Controller
         // Jika ditemukan, kirim data ke view
         // return view('proposal_kegiatan.detail_proposal', ['proposal' => $proposal]);
 
-        $updatedByStep = $proposal->updated_by;
-        $status = $proposal->status;
+        $latestReview = ReviewProposal::where('id_proposal', $proposal->id_proposal)
+                                        // ->orderBy('tgl_revisi', 'desc')
+                                        ->orderBy('id_revisi', 'desc')
+                                        ->first();
+        $updatedByStep = $latestReview ? $latestReview->id_dosen : 1;
+
+        $status = $latestReview ? $latestReview->status_revisi : 1;
         $status_lpj = $proposal->status_lpj;
         
         // Periksa jika ini adalah akses pertama kali
@@ -143,10 +148,10 @@ class PengajuanProposalController extends Controller
         ]);
 
         // Cari proposal berdasarkan id_proposal
-        $proposal = PengajuanProposal::findOrFail($id_proposal);
+        // $proposal = PengajuanProposal::findOrFail($id_proposal);
 
         // Cari revisi terbaru berdasarkan id_proposal
-        $latestRevision = ReviewProposal::where('id_proposal', $proposal->id_proposal)
+        $latestRevision = ReviewProposal::where('id_proposal', $id_proposal)
                                         // ->orderBy('tgl_revisi', 'desc')
                                         ->orderBy('id_revisi', 'desc')
                                         ->first();
@@ -170,10 +175,10 @@ class PengajuanProposalController extends Controller
             $latestRevision->update(['file_revisi' => $filePath]);
 
             // Update status pada PengajuanProposal menjadi 0
-            $proposal->update(['status' => 0]);
+            // $proposal->update(['status' => 0]);
 
             // Update status_revisi pada ReviewProposal menjadi 0
-            $latestRevision->update(['status_revisi' => 0]);
+            // $latestRevision->update(['status_revisi' => 0]);
         }
 
         return redirect()->route('proposal.detail', $id_proposal)->with('success', 'File revisi berhasil diunggah.');

@@ -18,7 +18,7 @@ class ReviewController extends Controller
         }
     
         // Ambil proposal berdasarkan kondisi
-        $proposal = PengajuanProposal::where('updated_by', $sessionId + 1)->get();
+        $proposal = PengajuanProposal::where('updated_by', $sessionId)->get();
 
         // Return ke tampilan
         return view('proposal_kegiatan.tabel_review', ['proposal' => $proposal]);
@@ -29,7 +29,18 @@ class ReviewController extends Controller
         // Cari review proposal berdasarkan id_proposal
         $reviewProposal = PengajuanProposal::where('id_proposal', $id_proposal)->firstOrFail();
         
-        return view('proposal_kegiatan.manajemen_review', compact('reviewProposal'));
+        // Cari revisi terbaru berdasarkan id_proposal
+        $latestRevision = ReviewProposal::where('id_proposal', $id_proposal)
+                                        // ->orderBy('tgl_revisi', 'desc')
+                                        ->orderBy('id_revisi', 'desc')
+                                        ->first();
+
+        // Pastikan latestRevision ada
+        if (!$latestRevision) {
+            return redirect()->back()->withErrors(['error' => 'Tidak ada revisi yang ditemukan untuk proposal ini.']);
+        }
+
+        return view('proposal_kegiatan.manajemen_review', compact('reviewProposal','latestRevision'));
     }
     
 
@@ -61,8 +72,6 @@ class ReviewController extends Controller
             // Cek apakah pengguna yang login memiliki ID = 6 (wd 3) === status disetujui hanya jika sudah sampai di wd3
             if (session()->has('id') && session('id') == 6) {
                 // Ubah status proposal sesuai input
-                $proposal->status = $request->input('status_revisi');
-            } elseif($request->input('status_revisi') != 1) {
                 $proposal->status = $request->input('status_revisi');
             }
             

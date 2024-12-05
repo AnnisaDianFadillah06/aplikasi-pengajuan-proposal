@@ -143,7 +143,7 @@
 
 
 {{-- Bagian Detail proposal --}}
-@if ($proposal->status == 1 || $currentStep < $updatedByStep || $status_lpj == 1)
+@if ($status == 1 || $currentStep < $updatedByStep || $status_lpj == 1)
     {{-- Tampilkan Detail Proposal saja --}}
     {{-- Bagian Detail Proposal --}}
     <div class="container mx-auto mt-5">
@@ -176,7 +176,7 @@
     </div>
 
 {{-- Bagian Detail proposal + Menunggu revisi--}}
-@elseif ($proposal->status == 0)
+@elseif ($status == 0)
     {{-- Tampilkan Detail Proposal dengan Keterangan menunggu --}}
     {{-- Bagian Detail Proposal --}}
     <div class="container mx-auto mt-5">
@@ -214,7 +214,7 @@
 
 
 {{-- Bagian Detail proposal + Ditolak --}}
-@elseif ($proposal->status == 2)
+@elseif ($status == 2)
     {{-- Tampilkan Detail Proposal dengan Keterangan Ditolak --}}
     {{-- Bagian Detail Proposal --}}
     <div class="container mx-auto mt-5">
@@ -252,7 +252,7 @@
 
 
 {{-- Bagian form revisi --}}
-@elseif ($proposal->status == 3)
+@elseif ($status == 3)
     {{-- Tampilkan Form Revisi --}}
     {{-- Bagian Form Revisi --}}
     <div class="container mx-auto mt-5">
