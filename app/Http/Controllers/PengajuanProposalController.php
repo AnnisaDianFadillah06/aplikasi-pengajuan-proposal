@@ -20,11 +20,24 @@ class PengajuanProposalController extends Controller
             // Tangani kasus jika sesi 'id' tidak ada
             abort(403, 'Session ID tidak ditemukan.');
         }
-    
-        // Ambil proposal berdasarkan kondisi
-        $proposal = PengajuanProposal::where('id_pengguna', $sessionId)->get();
 
-        return view('proposal_kegiatan.pengajuan_proposal', ['proposal' => $proposal]);
+        // Ambil semua proposal pengguna
+        $proposals = PengajuanProposal::where('id_pengguna', $sessionId)->get();
+
+        // Ambil semua revisi terbaru untuk setiap proposal
+        $latestReviews = ReviewProposal::whereIn('id_proposal', $proposals->pluck('id_proposal'))
+            ->orderBy('id_proposal')
+            ->orderBy('id_revisi', 'desc')
+            ->get()
+            ->groupBy('id_proposal')
+            ->map(function ($revisions) {
+                return $revisions->first(); // Ambil revisi terbaru dari setiap proposal
+            });
+
+        return view('proposal_kegiatan.pengajuan_proposal', [
+            'proposals' => $proposals,
+            'latestReviews' => $latestReviews
+        ]);
     }
 
 
