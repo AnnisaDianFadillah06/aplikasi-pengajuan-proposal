@@ -1,25 +1,26 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\BidangKegiatanController;
-use App\Http\Controllers\OrganisasiMahasiswaController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\OrmawaController;
+use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\LaporanController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProposalController;
 use App\Http\Controllers\CountdownController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\EventListController;
 use App\Http\Controllers\ReviewerAuthController;
 use App\Http\Controllers\JenisKegiatanController;
 use App\Http\Controllers\MahasiswaAuthController;
 use App\Http\Controllers\TambahPengajuanProposal;
+use App\Http\Controllers\BidangKegiatanController;
 use App\Http\Controllers\HistoriPengajuanController;
-use App\Http\Controllers\HistoriPengajuanReviewerController;
 use App\Http\Controllers\PengajuanProposalController;
+use App\Http\Controllers\OrganisasiMahasiswaController;
 use App\Http\Controllers\PedomanKemahasiswaanController;
-use App\Http\Controllers\EventListController;
-use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\HistoriPengajuanReviewerController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -93,6 +94,15 @@ Route::post('/detail-laporan/{id_proposal}/next', [LaporanController::class, 'ne
 Route::post('/detail-laporan/{id_proposal}/prev', [LaporanController::class, 'prevStep'])->name('laporan.prevStep');
 // Bukti LPJ disetujui WD3
 // Route::get('/proposal/{id_proposal}/approval-proof', [LaporanController::class, 'approvalProof'])->name('laporan.approvalProof');
+
+// manage role
+Route::get('/manage-roles', [RoleController::class, 'manageRoles'])->name('admin.manageRoles');
+Route::post('/assign-pengaju', [RoleController::class, 'assignPengaju'])->name('admin.assignPengaju');
+Route::post('/assign-reviewer', [RoleController::class, 'assignReviewer'])->name('admin.assignReviewer');
+
+Route::delete('/remove-pengaju/{id}', [RoleController::class, 'removePengaju'])->name('admin.removePengaju');
+Route::delete('/remove-reviewer/{id}', [RoleController::class, 'removeReviewer'])->name('admin.removeReviewer');
+
 
 // Route Angel
 Route::get('/histori-pengajuan', [HistoriPengajuanController::class, 'index'])->name('histori.pengajuan');
