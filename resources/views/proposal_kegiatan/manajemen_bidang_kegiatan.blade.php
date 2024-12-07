@@ -262,3 +262,8 @@ function submitEditForm() {
 </script>
 
 @endsection
+
+
+
+
+BLADE

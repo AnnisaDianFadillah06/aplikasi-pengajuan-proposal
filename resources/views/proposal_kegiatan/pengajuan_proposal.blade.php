@@ -64,7 +64,13 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach ($proposal as $item)
+                    @foreach ($proposals as $item)
+                    @php
+                        // Mengambil revisi terbaru yang sesuai dengan id_proposal
+                        $latestReview = $latestReviews->firstWhere('id_proposal', $item->id_proposal);
+                        $statusRevisi = $latestReview ? $latestReview->status_revisi : null;
+                        $tahap = $latestReview ? $latestReview->id_dosen : $item->updated_by;
+                    @endphp
                       <tr>
                         <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
                           <div class="flex px-2 py-1">
@@ -79,19 +85,19 @@
                           <!-- <p class="mb-0 text-xs leading-tight text-slate-400">Organization</p> -->
                         </td>
                         <td class="p-2 text-sm leading-normal text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                            @if ($item->status == 0)
+                            @if ($statusRevisi == 0)
                                 <span class="bg-gradient-to-tl from-yellow-500 to-yellow-300 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">
                                     Menunggu
                                 </span>
-                            @elseif ($item->status == 1)
+                            @elseif ($statusRevisi == 1)
                                 <span class="bg-gradient-to-tl from-green-600 to-lime-400 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">
                                     Disetujui
                                 </span>
-                            @elseif ($item->status == 2)
+                            @elseif ($statusRevisi == 2)
                                 <span class="bg-gradient-to-tl from-red-600 to-red-400 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">
                                     Ditolak
                                 </span>
-                            @elseif ($item->status == 3)
+                            @elseif ($statusRevisi == 3)
                                 <span class="bg-gradient-to-tl from-blue-600 to-blue-400 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">
                                     Revisi
                                 </span>
@@ -101,7 +107,20 @@
                             <span class="text-xs font-semibold leading-tight text-slate-400">{{ $item->updated_at }}</span>
                         </td>
                         <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                            <a href="javascript:;" class="text-xs font-semibold leading-tight text-slate-400"> </a>
+                            {{-- <a href="javascript:;" class="text-xs font-semibold leading-tight text-slate-400"> </a> --}}
+                            @if ($tahap == 1)
+                                <p class="mb-0 text-xs font-semibold leading-tight">Sekre BEM</p>
+                            @elseif ($tahap == 2)
+                                <p class="mb-0 text-xs font-semibold leading-tight">Ketua BEM</p>
+                            @elseif ($tahap == 3)
+                                <p class="mb-0 text-xs font-semibold leading-tight">Pembina</p>
+                            @elseif ($tahap == 4)
+                                <p class="mb-0 text-xs font-semibold leading-tight">Ketua Jurusan</p>
+                            @elseif ($tahap == 5)
+                                <p class="mb-0 text-xs font-semibold leading-tight">Ketua Jurusan</p>
+                            @elseif ($tahap == 6)
+                                <p class="mb-0 text-xs font-semibold leading-tight">Ketua Jurusan</p>
+                            @endif
                         </td>
                         <td class="p-2 text-sm leading-normal text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
                             <form method="GET" action="{{ route('proposal.detail', $item->id_proposal) }}">

@@ -2,7 +2,7 @@
 @section('konten')
 <h1>Selamat datang di Dashboard Dosen</h1>
 
-<h1>Welcome to the Dashboard, {{ $username }}</h1>
+<h1>Welcome to the Dashboardd, {{ $username }}</h1>
 <p>Your role is: {{ $role }}</p>
 
 <!-- Link Tailwind CSS dan FontAwesome untuk ikon -->

@@ -6,6 +6,7 @@ use App\Http\Controllers\OrganisasiMahasiswaController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\ProposalController;
+use App\Http\Controllers\CountdownController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\ReviewerAuthController;
@@ -16,6 +17,8 @@ use App\Http\Controllers\HistoriPengajuanController;
 use App\Http\Controllers\HistoriPengajuanReviewerController;
 use App\Http\Controllers\PengajuanProposalController;
 use App\Http\Controllers\PedomanKemahasiswaanController;
+use App\Http\Controllers\EventListController;
+use App\Http\Controllers\ProfileController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -32,18 +35,20 @@ Route::post('/pedoman', [PedomanKemahasiswaanController::class, 'store'])->name(
 Route::put('/pedoman/{id}', [PedomanKemahasiswaanController::class, 'update'])->name('pedoman.update'); // Untuk memperbarui data
 Route::delete('/pedoman/{id}', [PedomanKemahasiswaanController::class, 'destroy'])->name('pedoman.destroy'); // Untuk menghapus data
 
-Route::get('/countdown', function () {
-    return view('proposal_kegiatan.countdown_form');
-});
+// Route::get('/countdown', function () {
+//     return view('proposal_kegiatan.countdown_form');
+// });
+
+// routes/web.php
+Route::get('/countdown', [CountdownController::class, 'showForm'])->name('proposal_kegiatan.countdown_form');
+Route::post('/countdown', [CountdownController::class, 'setCountdown'])->name('proposal_kegiatan.countdown_form');
 
 // Route DHEA PUTRI ANANDA
 Route::get('/modal', function () {
     return view('proposal_kegiatan.komponen-modal'); // Pastikan ini benar
 });
 
-Route::get('/profil-pengaju', function () {
-    return view('proposal_kegiatan.profil_pengaju'); // Pastikan ini benar
-});
+Route::get('/profil-pengaju', [ProfileController::class, 'index'])->name('profile.index');
 
 Route::get('/daftar-ormawa', function () {
     return view('proposal_kegiatan.daftar_ormawa'); // Pastikan ini benar
@@ -57,6 +62,8 @@ Route::get('/daftar-pedoman', function () {
 Route::get('/notifikasi', function () {
     return view('proposal_kegiatan.notifikasi'); // Pastikan ini benar
 });
+Route::get('/event-list', [EventListController::class, 'index']);
+Route::get('/detail-kegiatan/{id_proposal}', [EventListController::class, 'show'])->name('kegiatan.detail');
 
 //Route M. HARISH AL-R.
 Route::get('/pengajuan-proposal', [PengajuanProposalController::class, 'index']);
@@ -83,7 +90,7 @@ Route::get('/laporan/{id}', [LaporanController::class, 'show'])->name('laporan.d
 Route::post('/detail-laporan/{id_proposal}/next', [LaporanController::class, 'nextStep'])->name('laporan.nextStep');
 Route::post('/detail-laporan/{id_proposal}/prev', [LaporanController::class, 'prevStep'])->name('laporan.prevStep');
 // Bukti LPJ disetujui WD3
-Route::get('/proposal/{id_proposal}/approval-proof', [LaporanController::class, 'approvalProof'])->name('laporan.approvalProof');
+// Route::get('/proposal/{id_proposal}/approval-proof', [LaporanController::class, 'approvalProof'])->name('laporan.approvalProof');
 
 // Route Angel
 Route::get('/histori-pengajuan', [HistoriPengajuanController::class, 'index'])->name('histori.pengajuan');
@@ -121,11 +128,9 @@ Route::get('/billing', function () {
 Route::get('/dashboard-pengaju', [DashboardController::class, 'index_pengaju'])->name('proposal_kegiatan.dashboard-pengaju');
 Route::get('/dashboard-reviewer', [DashboardController::class, 'index'])->name('proposal_kegiatan.dashboard-reviewer');
 
-// Route Active State
-Route::get('/dashboard-pengaju', [DashboardController::class, 'dashboard'])->name('dashboard-pengaju');
 
 // Manajemen Review
-Route::get('/manajemen-review', [ReviewController::class, 'index'])->name('manajemen-review');
+// Route::get('/manajemen-review', [ReviewController::class, 'index'])->name('manajemen-review');
 
 // Histori Pengajuan
 Route::get('/histori-pengajuan', [HistoriPengajuanController::class, 'index'])->name('histori.pengajuan');

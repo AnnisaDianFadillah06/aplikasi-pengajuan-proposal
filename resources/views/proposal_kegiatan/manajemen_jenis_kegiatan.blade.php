@@ -260,4 +260,81 @@ function submitEditForm() {
 }
 </script>
 
+<!-- Add DataTables Initialization -->
+<script>
+    $(document).ready(function() {
+        $('#jenisKegiatanTable').DataTable({
+            "paging": true,
+            "searching": true,
+            "ordering": true,
+            "info": true,
+            "lengthMenu": [5, 10, 25, 50],
+            "language": {
+                "search": "Cari:",
+                "lengthMenu": "Tampilkan _MENU_ entri",
+                "info": "Menampilkan _START_ hingga _END_ dari _TOTAL_ entri",
+                "infoEmpty": "Menampilkan 0 hingga 0 dari 0 entri",
+                "infoFiltered": "(disaring dari _MAX_ total entri)",
+                "paginate": {
+                    "first": "Pertama",
+                    "last": "Terakhir",
+                    "next": "Selanjutnya",
+                    "previous": "Sebelumnya"
+                }
+            },
+            "drawCallback": function() {
+                // Adjust select width after draw
+                adjustSelectWidth();
+            }
+        });
+
+        // Function to adjust select width
+        function adjustSelectWidth() {
+            var select = $('.dataTables_length select');
+            select.each(function() {
+                var text = $(this).find('option:selected').text();
+                $(this).css('width', (text.length + 4) + 'ch');
+            });
+        }
+
+        // Call function on select change
+        $('.dataTables_length select').change(adjustSelectWidth);
+    });
+</script>
+
+<script>
+    function validateForm() {
+        const namaJenisKegiatan = document.getElementById("nama_jenis_kegiatan");
+        const namaKegiatanError = document.getElementById("namaKegiatanError");
+        
+        // Reset error messages and styles
+        namaKegiatanError.classList.add("hidden");
+        namaJenisKegiatan.classList.remove("bg-red-50", "border-red-500", "text-red-900", "placeholder-red-700", "focus:ring-red-500", "focus:border-red-500");
+
+        // Validation
+        if (namaJenisKegiatan.value.trim() === "") {
+            namaKegiatanError.classList.remove("hidden");
+            namaJenisKegiatan.classList.add("bg-red-50", "border-red-500", "text-red-900", "placeholder-red-700", "focus:ring-red-500", "focus:border-red-500");
+            return false; // Prevent form submission
+        }
+        
+        // If no validation errors, allow form submission
+        return true;
+    }
+
+    // function submitForm() {
+    //     // If validation passes, submit the form
+    //     if (validateForm()) {
+    //         document.getElementById("jenisKegiatanForm").submit();
+    //     }
+    // }
+
+    function closeModal() {
+        document.getElementById("addJenisKegiatanModal").classList.add("hidden");
+        // Reset form fields and styles
+        document.getElementById("jenisKegiatanForm").reset();
+        document.getElementById("namaKegiatanError").classList.add("hidden");
+        document.getElementById("nama_jenis_kegiatan").classList.remove("bg-red-50", "border-red-500", "text-red-900", "placeholder-red-700", "focus:ring-red-500", "focus:border-red-500");
+    }
+</script>
 @endsection

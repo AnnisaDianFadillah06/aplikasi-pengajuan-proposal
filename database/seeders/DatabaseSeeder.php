@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             ReviewerSeeder::class,
             PengajuSeeder::class,
             ProposalKegiatanSeeder::class,
+            PedomanKemahasiswaanSeeder::class,
         ]);
     }
 }
