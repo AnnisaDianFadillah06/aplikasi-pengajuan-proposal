@@ -17,11 +17,22 @@ class ReviewController extends Controller
             abort(403, 'Session ID tidak ditemukan.');
         }
     
-        // Ambil proposal berdasarkan kondisi
-        $proposal = PengajuanProposal::where('updated_by', $sessionId)->get();
+        // Ambil semua proposal yang sesuai dengan kondisi
+        $proposals = PengajuanProposal::where('updated_by', $sessionId)->get();
+
+        // Ambil revisi terbaru untuk setiap proposal
+        $latestRevisions = ReviewProposal::whereIn('id_proposal', $proposals->pluck('id_proposal'))
+                                        ->orderBy('id_revisi', 'desc')
+                                        ->get()
+                                        ->groupBy('id_proposal');
+
+        // Gabungkan proposal dengan revisi terakhir
+        foreach ($proposals as $proposal) {
+            $proposal->latestRevision = $latestRevisions->get($proposal->id_proposal)?->first(); // Ambil revisi terakhir atau null
+        }
 
         // Return ke tampilan
-        return view('proposal_kegiatan.tabel_review', ['proposal' => $proposal]);
+        return view('proposal_kegiatan.tabel_review', ['proposals' => $proposals]);
     }
     // Fungsi untuk menampilkan data proposal yang akan direvisi
     public function show($id_proposal)
@@ -34,11 +45,6 @@ class ReviewController extends Controller
                                         // ->orderBy('tgl_revisi', 'desc')
                                         ->orderBy('id_revisi', 'desc')
                                         ->first();
-
-        // Pastikan latestRevision ada
-        if (!$latestRevision) {
-            return redirect()->back()->withErrors(['error' => 'Tidak ada revisi yang ditemukan untuk proposal ini.']);
-        }
 
         return view('proposal_kegiatan.manajemen_review', compact('reviewProposal','latestRevision'));
     }

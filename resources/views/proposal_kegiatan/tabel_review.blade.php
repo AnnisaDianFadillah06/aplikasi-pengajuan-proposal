@@ -42,7 +42,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($proposal as $item)
+                            @foreach ($proposals as $item)
                                 <tr>
                                     <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
                                         <div class="flex px-2 py-1">
@@ -106,7 +106,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach ($proposal as $item)
+                    @foreach ($proposals as $item)
                       <tr>
                         <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
                           <div class="flex px-2 py-1">
@@ -121,19 +121,23 @@
                           <!-- <p class="mb-0 text-xs leading-tight text-slate-400">Organization</p> -->
                         </td>
                         <td class="p-2 text-sm leading-normal text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                            @if ($item->status == 0)
+                            @php
+                                // Prioritaskan status dari latestRevision jika ada, gunakan item->status jika tidak
+                                $status = $item->latestRevision ? $item->latestRevision->status_revisi : $item->status;
+                            @endphp
+                            @if ($status == 0)
                                 <span class="bg-gradient-to-tl from-yellow-500 to-yellow-300 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">
                                     Menunggu
                                 </span>
-                            @elseif ($item->status == 1)
+                            @elseif ($status == 1)
                                 <span class="bg-gradient-to-tl from-green-600 to-lime-400 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">
                                     Disetujui
                                 </span>
-                            @elseif ($item->status == 2)
+                            @elseif ($status == 2)
                                 <span class="bg-gradient-to-tl from-red-600 to-red-400 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">
                                     Ditolak
                                 </span>
-                            @elseif ($item->status == 3)
+                            @elseif ($status == 3)
                                 <span class="bg-gradient-to-tl from-blue-600 to-blue-400 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">
                                     Revisi
                                 </span>
