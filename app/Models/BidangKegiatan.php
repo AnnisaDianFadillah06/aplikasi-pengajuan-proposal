@@ -14,9 +14,9 @@ class BidangKegiatan extends Model
     // Kolom yang dapat diisi (fillable)
     protected $fillable = [
         'nama_bidang_kegiatan',
+        'status',
         'created_by',
         'updated_by',
-        'status',
     ];
 
         // Eloquent akan otomatis mengelola kolom `created_at` dan `updated_at`

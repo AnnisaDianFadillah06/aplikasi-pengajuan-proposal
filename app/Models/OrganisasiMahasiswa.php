@@ -10,11 +10,11 @@ class OrganisasiMahasiswa extends Model
     use HasFactory;
 
     // Nama tabel di database
-    protected $table = 'organisasi_mahasiswa';
+    protected $table = 'ormawa';
     protected $primaryKey = 'id_ormawa';
     // Kolom yang dapat diisi (fillable)
     protected $fillable = [
-        'nama_ormawa',
+        'nama_organisasi_mahasiswa',
         'created_by',
         'updated_by',
         'status',
