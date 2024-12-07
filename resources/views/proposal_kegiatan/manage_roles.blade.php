@@ -4,8 +4,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 <div class="container">
-    <h1 class="mb-4">Kelola Hak Akses</h1>
-    
+    <h1>Kelola Hak Akses</h1>
     <!-- Main Tab Content -->
     <div class="tab-content mt-3" id="mainTabsContent">
         <!-- Manage Roles Tab -->
@@ -40,32 +39,32 @@
                                 <div class="card-header">
                                     <h3>Daftar Mahasiswa</h3>
                                 </div>
-                                <div class="card-body">
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th>Username</th>
-                                                <th>Email</th>
-                                                <th>Aksi</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach($mahasiswa as $mhs)
-                                            <tr>
-                                                <td>{{ $mhs->username }}</td>
-                                                <td>{{ $mhs->email }}</td>
-                                                <td>
-                                                    <form action="{{ route('admin.assignPengaju') }}" method="POST">
-                                                        @csrf
-                                                        <input type="hidden" name="id" value="{{ $mhs->id }}">
-                                                        <button type="submit" class="btn btn-primary">Jadikan Pengaju</button>
-                                                    </form>
-                                                </td>
-                                            </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                </div>
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Username</th>
+                                            <th>Email</th>
+                                            <th>Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($mahasiswa as $mhs)
+                                        <tr>
+                                            <td>{{ $mhs->username }}</td>
+                                            <td>{{ $mhs->email }}</td>
+                                            <td>
+                                                <form action="{{ route('admin.assignPengaju') }}" method="POST">
+                                                    @csrf
+                                                    <input type="hidden" name="id" value="{{ $mhs->id }}">
+                                                    <input type="hidden" name="username" value="{{ $mhs->username }}">
+                                                    <input type="hidden" name="email" value="{{ $mhs->email }}">
+                                                    <button type="submit" class="btn btn-primary">Jadikan Pengaju</button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
 
@@ -75,32 +74,32 @@
                                 <div class="card-header">
                                     <h3>Daftar Dosen</h3>
                                 </div>
-                                <div class="card-body">
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th>Username</th>
-                                                <th>Email</th>
-                                                <th>Aksi</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach($dosen as $dsn)
-                                            <tr>
-                                                <td>{{ $dsn->username }}</td>
-                                                <td>{{ $dsn->email }}</td>
-                                                <td>
-                                                    <form action="{{ route('admin.assignReviewer') }}" method="POST">
-                                                        @csrf
-                                                        <input type="hidden" name="id" value="{{ $dsn->id }}">
-                                                        <button type="submit" class="btn btn-primary">Jadikan Reviewer</button>
-                                                    </form>
-                                                </td>
-                                            </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                </div>
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Username</th>
+                                            <th>Email</th>
+                                            <th>Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($dosen as $dsn)
+                                        <tr>
+                                            <td>{{ $dsn->username }}</td>
+                                            <td>{{ $dsn->email }}</td>
+                                            <td>
+                                                <form action="{{ route('admin.assignReviewer') }}" method="POST">
+                                                    @csrf
+                                                    <input type="hidden" name="id" value="{{ $dsn->id }}">
+                                                    <input type="hidden" name="username" value="{{ $dsn->username }}">
+                                                    <input type="hidden" name="email" value="{{ $dsn->email }}">
+                                                    <button type="submit" class="btn btn-primary">Jadikan Reviewer</button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
@@ -124,34 +123,32 @@
                                 <div class="card-header">
                                     <h3>Daftar Pengaju</h3>
                                 </div>
-                                <div class="card-body">
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th>ID</th>
-                                                <th>Nama Lengkap</th>
-                                                <th>Email</th>
-                                                <th>Aksi</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach($pengaju as $item)
-                                            <tr>
-                                                <td>{{ $item->id }}</td>
-                                                <td>{{ $item->nama_lengkap }}</td>
-                                                <td>{{ $item->email }}</td>
-                                                <td>
-                                                    <form action="{{ route('admin.removePengaju', $item->id) }}" method="POST" onsubmit="return confirm('Hapus pengaju ini?')">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="btn btn-danger">Hapus</button>
-                                                    </form>
-                                                </td>
-                                            </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                </div>
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Nama Lengkap</th>
+                                            <th>Email</th>
+                                            <th>Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($pengaju as $item)
+                                        <tr>
+                                            <td>{{ $item->id }}</td>
+                                            <td>{{ $item->nama_lengkap }}</td>
+                                            <td>{{ $item->email }}</td>
+                                            <td>
+                                                <form action="{{ route('admin.removePengaju', $item->id) }}" method="POST" onsubmit="return confirm('Hapus pengaju ini?')">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-danger">Hapus</button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
 
@@ -161,34 +158,32 @@
                                 <div class="card-header">
                                     <h3>Daftar Reviewer</h3>
                                 </div>
-                                <div class="card-body">
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th>ID</th>
-                                                <th>Nama Lengkap</th>
-                                                <th>Email</th>
-                                                <th>Aksi</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach($reviewer as $item)
-                                            <tr>
-                                                <td>{{ $item->id }}</td>
-                                                <td>{{ $item->nama_lengkap }}</td>
-                                                <td>{{ $item->email }}</td>
-                                                <td>
-                                                    <form action="{{ route('admin.removeReviewer', $item->id) }}" method="POST" onsubmit="return confirm('Hapus reviewer ini?')">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="btn btn-danger">Hapus</button>
-                                                    </form>
-                                                </td>
-                                            </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                </div>
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Nama Lengkap</th>
+                                            <th>Email</th>
+                                            <th>Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($reviewer as $item)
+                                        <tr>
+                                            <td>{{ $item->id }}</td>
+                                            <td>{{ $item->nama_lengkap }}</td>
+                                            <td>{{ $item->email }}</td>
+                                            <td>
+                                                <form action="{{ route('admin.removeReviewer', $item->id) }}" method="POST" onsubmit="return confirm('Hapus reviewer ini?')">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-danger">Hapus</button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
