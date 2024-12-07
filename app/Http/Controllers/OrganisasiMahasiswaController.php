@@ -64,9 +64,9 @@ class OrganisasiMahasiswaController extends Controller
             if ($request->ajax()) {
                 return response()->json([
                     'success' => true,
-                    'id_organisasi_mahasiswa' => $organisasiMahasiswa->id_organisasi_mahasiswa,
+                    'id_ormawa' => $organisasiMahasiswa->id_ormawa,
                     'nama_organisasi_mahasiswa' => $organisasiMahasiswa->nama_organisasi_mahasiswa,
-                    'status' => $organisasiMahasiswa->status
+                    'status' => $organisasiMahasiswa->status,       
                 ]);
             }
         } catch (\Exception $e) {

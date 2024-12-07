@@ -4,7 +4,6 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BidangKegiatanController;
 use App\Http\Controllers\OrganisasiMahasiswaController;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\OrmawaController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\ProposalController;
 use App\Http\Controllers\DashboardController;
@@ -27,7 +26,6 @@ Route::get('/manajemen-review', [ReviewController::class, 'index'])->name('propo
 Route::get('/detail-review/{reviewProposal}', [ReviewController::class, 'show'])->name('proposal.show');
 // Rute untuk menyimpan data revisi ke dalam tabel revisi_file
 Route::post('/manajemen-review/store', [ReviewController::class, 'store'])->name('proposal.store');
-Route::get('/organisasi-mahasiswa', [OrmawaController::class, 'index']);
 Route::get('/dashboard/chart-data', [DashboardController::class, 'getChartData'])->name('proposal_kegiatan.getChartData');
 Route::get('/pedoman-kemahasiswaan', [PedomanKemahasiswaanController::class, 'index'])->name('pedoman.index'); // Untuk menampilkan data
 Route::post('/pedoman', [PedomanKemahasiswaanController::class, 'store'])->name('pedoman.store'); // Untuk menyimpan data baru
@@ -105,12 +103,6 @@ Route::put('/update-bidang-kegiatan/{id}', [BidangKegiatanController::class, 'up
 Route::get('/organisasi-mahasiswa', [OrganisasiMahasiswaController::class, 'index'])->name('organisasi-mahasiswa.index');
 Route::post('/organisasi-mahasiswa/store', [OrganisasiMahasiswaController::class, 'store'])->name('organisasi-mahasiswa.store');
 Route::put('/update-organisasi-mahasiswa/{id}', [OrganisasiMahasiswaController::class, 'update'])->name('organisasi-mahasiswa.update');
-
-// Rute untuk CRUD Jenis Kegiatan
-Route::get('/jenis-kegiatan', [JenisKegiatanController::class, 'index'])->name('jenis-kegiatan.index');
-Route::post('/jenis-kegiatan/store', [JenisKegiatanController::class, 'store'])->name('jenis-kegiatan.store');
-Route::put('/update-jenis-kegiatan/{id}', [JenisKegiatanController::class, 'update'])->name('jenis-kegiatan.update');
-
 
 
 // Route TEMPLATE

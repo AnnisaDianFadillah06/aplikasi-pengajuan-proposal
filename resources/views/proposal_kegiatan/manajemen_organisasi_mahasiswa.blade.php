@@ -232,7 +232,6 @@ function submitForm() {
         alert('Terjadi kesalahan saat menyimpan data.');
     });
 }
-
 </script>
 
 <script>
