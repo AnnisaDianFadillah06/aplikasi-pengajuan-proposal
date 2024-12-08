@@ -59,7 +59,7 @@
                         <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Nama kegiatan</th>
                         <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Status</th>
                         <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Tanggal Pengajuan</th>
-                        <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Deadline revisi</th>
+                        <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Tahap Review</th>
                         <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Aksi</th>
                     </tr>
                     </thead>
@@ -117,9 +117,9 @@
                             @elseif ($tahap == 4)
                                 <p class="mb-0 text-xs font-semibold leading-tight">Ketua Jurusan</p>
                             @elseif ($tahap == 5)
-                                <p class="mb-0 text-xs font-semibold leading-tight">Ketua Jurusan</p>
+                                <p class="mb-0 text-xs font-semibold leading-tight">KLI</p>
                             @elseif ($tahap == 6)
-                                <p class="mb-0 text-xs font-semibold leading-tight">Ketua Jurusan</p>
+                                <p class="mb-0 text-xs font-semibold leading-tight">Wadir 3</p>
                             @endif
                         </td>
                         <td class="p-2 text-sm leading-normal text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">

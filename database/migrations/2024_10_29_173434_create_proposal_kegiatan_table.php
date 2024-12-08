@@ -29,6 +29,7 @@ return new class extends Migration
             $table->integer('status')->nullable();
             $table->integer('status_kegiatan')->nullable();
             $table->integer('status_lpj')->nullable();
+            $table->integer('status_approve_lpj')->nullable();
         });
     }
 

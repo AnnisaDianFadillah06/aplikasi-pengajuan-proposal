@@ -25,7 +25,7 @@ class PengajuanProposal extends Model
     
     public function bidangKegiatan()
     {
-        return $this->belongsTo(BidangKegiatan::class, 'id_bidang_kegiatan', 'id');
+        return $this->belongsTo(BidangKegiatan::class, 'id_bidang_kegiatan', 'id_bidang_kegiatan');
     }
     
     // Relasi dengan ormawa

@@ -82,6 +82,13 @@ Route::post('/detail-proposal/{id_proposal}/prev', [PengajuanProposalController:
 Route::post('/upload-file/{id_proposal}', [PengajuanProposalController::class, 'uploadFile'])->name('proposal.uploadFileRevisi');
 // Bukti proposal disetujui WD3
 Route::get('/proposal/{id_proposal}/approval-proof', [PengajuanProposalController::class, 'approvalProof'])->name('proposal.approvalProof');
+// Route untuk generate link dengan token
+Route::get('proposal/{id_proposal}/generate-link', [PengajuanProposalController::class, 'generateLinkForProposal'])
+    ->name('proposal.generateLinkForProposal');
+// Route untuk bukti disetujui berdasarkan token
+Route::get('proposal/bukti-disetujui/{token}', [PengajuanProposalController::class, 'approvalProofWithToken'])
+    ->name('proposal.approvalProofWithToken');
+
 //Masuk tahap LPJ
 Route::post('/proposal/{id_proposal}/form-lpj', [PengajuanProposalController::class, 'formLPJ'])->name('proposal.formLPJ');
 // submit LPJ

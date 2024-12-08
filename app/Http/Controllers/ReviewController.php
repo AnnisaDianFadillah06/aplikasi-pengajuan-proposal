@@ -1,9 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\PengajuanProposal;
-use App\Models\ReviewProposal;
+use App\Models\ReviewLPJ;
 use Illuminate\Http\Request;
+use App\Models\ReviewProposal;
+use App\Models\PengajuanProposal;
 
 class ReviewController extends Controller
 {
@@ -18,10 +19,27 @@ class ReviewController extends Controller
         }
     
         // Ambil semua proposal yang sesuai dengan kondisi
-        $proposals = PengajuanProposal::where('updated_by', $sessionId)->get();
+        // $proposals = PengajuanProposal::where('updated_by', $sessionId)->get();
+
+        // Ambil semua proposal dengan status_lpj != 1 yang sesuai dengan kondisi
+        $proposals = PengajuanProposal::where('updated_by', $sessionId)
+                                    ->where('status_lpj', '!=', 1)
+                                    ->get();
+
+        // Ambil semua proposal dengan status_lpj = 1
+        $lpjs = PengajuanProposal::where('updated_by', $sessionId)
+                                ->where('status_lpj', 1)
+                                ->get();
+
 
         // Ambil revisi terbaru untuk setiap proposal
         $latestRevisions = ReviewProposal::whereIn('id_proposal', $proposals->pluck('id_proposal'))
+                                        ->orderBy('id_revisi', 'desc')
+                                        ->get()
+                                        ->groupBy('id_proposal');
+        
+        // Ambil revisi terbaru untuk setiap LPJ
+        $latestRevisionsLpjs = ReviewLPJ::whereIn('id_proposal', $lpjs->pluck('id_proposal'))
                                         ->orderBy('id_revisi', 'desc')
                                         ->get()
                                         ->groupBy('id_proposal');
@@ -31,9 +49,19 @@ class ReviewController extends Controller
             $proposal->latestRevision = $latestRevisions->get($proposal->id_proposal)?->first(); // Ambil revisi terakhir atau null
         }
 
+        // Gabungkan LPJ dengan revisi terakhir
+        foreach ($lpjs as $lpj) {
+            $lpj->latestRevision = $latestRevisionsLpjs->get($lpj->id_proposal)?->first(); // Ambil revisi terakhir atau null
+        }
+
         // Return ke tampilan
-        return view('proposal_kegiatan.tabel_review', ['proposals' => $proposals]);
+        return view('proposal_kegiatan.tabel_review', [
+            'proposals' => $proposals,
+            'lpjs' => $lpjs,
+            'sessionId' => $sessionId, // Kirim sessionId ke view
+        ]);
     }
+    
     // Fungsi untuk menampilkan data proposal yang akan direvisi
     public function show($id_proposal)
     {
@@ -41,10 +69,11 @@ class ReviewController extends Controller
         $reviewProposal = PengajuanProposal::where('id_proposal', $id_proposal)->firstOrFail();
         
         // Cari revisi terbaru berdasarkan id_proposal
+        // mengambil dokumen revisi terakhir
         $latestRevision = ReviewProposal::where('id_proposal', $id_proposal)
-                                        // ->orderBy('tgl_revisi', 'desc')
-                                        ->orderBy('id_revisi', 'desc')
-                                        ->first();
+                            ->whereNotNull('file_revisi') // Pastikan kolom file_revisi tidak null
+                            ->orderBy('id_revisi', 'desc')
+                            ->first();
 
         return view('proposal_kegiatan.manajemen_review', compact('reviewProposal','latestRevision'));
     }
@@ -86,10 +115,8 @@ class ReviewController extends Controller
                 $proposal->updated_by = session('id') + 1 ;
             }
             
-
             // Simpan perubahan ke database
             $proposal->save();
-
         }
 
         // Redirect ke halaman yang sesuai, misalnya halaman daftar proposal

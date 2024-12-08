@@ -64,7 +64,9 @@ class TambahPengajuanProposal extends Controller
             'created_at' => now(),  // Menyimpan nilai waktu saat ini
             'updated_at' => now(),   // Menyimpan nilai waktu saat ini
             'updated_by' => 1,   // Menyimpan nilai waktu saat ini
-            'status' => 0 //awal mengumpulan diberi status 0 (menunggu)
+            'status' => 0, //awal mengumpulan diberi status 0 (menunggu)
+            'status_lpj' => 0, //awal mengumpulan diberi status 0 (menunggu)
+            'status_kegiatan' => 3 //awal mengumpulan diberi status 0 (menunggu)
         ]);
 
         if($query) {
