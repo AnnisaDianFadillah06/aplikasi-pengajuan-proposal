@@ -1,4 +1,4 @@
-@extends('welcome')
+@extends('proposal_kegiatan\pengaju')
 @section('konten')
 
 <body class="bg-gray-100 font-sans antialiased">

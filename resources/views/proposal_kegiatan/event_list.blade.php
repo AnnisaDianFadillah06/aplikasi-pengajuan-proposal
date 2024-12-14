@@ -1,4 +1,4 @@
-@extends('welcome')
+@extends('proposal_kegiatan\welcome_event_list')
 @section('konten')
 
 <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">

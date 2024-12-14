@@ -1,4 +1,4 @@
-@extends('welcome')
+@extends('proposal_kegiatan\reviewer')
 @section('konten')
 
 <div class="flex flex-wrap -mx-3">

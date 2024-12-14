@@ -1,4 +1,4 @@
-@extends('welcome')
+@extends('proposal_kegiatan\reviewer')
 @section('konten')
 <h1>Selamat datang di Dashboard Dosen</h1>
 
