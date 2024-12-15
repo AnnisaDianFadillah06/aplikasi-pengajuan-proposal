@@ -14,11 +14,10 @@ return new class extends Migration
         Schema::connection('pgsql')->create('ormawa', function (Blueprint $table) {
             $table->increments('id_ormawa');
             $table->string('nama_ormawa', 100);
-            $table->timestamp('created_at')->nullable()->useCurrent();
-            $table->timestamp('updated_at')->nullable()->useCurrent();
-            $table->integer('created_by')->nullable();
-            $table->integer('updated_by')->nullable();
-            $table->integer('status')->nullable();
+            $table->timestamps(); // Untuk created_at dan updated_at otomatis
+            $table->integer('created_by')->nullable(); // Kolom created_by
+            $table->integer('updated_by')->nullable(); // Kolom updated_by
+            $table->string('status', 50)->default('aktif'); // Kolom status dengan default 'aktif'
         });
     }
 

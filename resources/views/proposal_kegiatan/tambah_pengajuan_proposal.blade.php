@@ -1,6 +1,16 @@
-@extends('welcome')
+@extends('proposal_kegiatan\pengaju')
+
 
 @section('konten')
+@if ($errors->any())
+    <div class="mb-4 text-red-500">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
 
 <main class="mt-0 transition-all duration-200 ease-soft-in-out">
     <section class="flex items-center justify-center min-h-screen bg-gray-100">
@@ -40,7 +50,7 @@
                         <select id="bidang_kegiatan" name="id_bidang_kegiatan" class="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
                             <option value="">--Pilih Bidang Kegiatan --</option>
                             @foreach($bidang_kegiatans as $bk)
-                                <option value="{{ $bk->id}}">{{ $bk->nama_bidang_kegiatan }}</option>
+                                <option value="{{ $bk->id_bidang_kegiatan}}">{{ $bk->nama_bidang_kegiatan }}</option>
                             @endforeach
                         </select>
                         <span style="color:red">@error('bidang_kegiatan') {{ $message }} @enderror</span>

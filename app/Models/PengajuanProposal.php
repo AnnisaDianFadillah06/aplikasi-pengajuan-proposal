@@ -22,7 +22,12 @@ class PengajuanProposal extends Model
     {
         return $this->belongsTo(JenisKegiatan::class, 'id_jenis_kegiatan', 'id_jenis_kegiatan');
     }
-
+    
+    public function bidangKegiatan()
+    {
+        return $this->belongsTo(BidangKegiatan::class, 'id_bidang_kegiatan', 'id_bidang_kegiatan');
+    }
+    
     // Relasi dengan ormawa
     public function ormawa()
     {

@@ -1,4 +1,13 @@
-@extends('welcome')
+@php
+    $layout = Auth::guard('mahasiswa')->check() 
+                ? 'proposal_kegiatan.pengaju' 
+                : (Auth::guard('dosen')->check() 
+                    ? 'proposal_kegiatan.reviewer' 
+                    : 'welcome'); // Tambahkan fallback layout jika diperlukan
+@endphp
+
+@extends($layout)
+
 @section('konten')
 
 <body class="bg-gray-100 font-sans antialiased">
@@ -11,70 +20,65 @@
                 <div class="flex items-center space-x-4">
                     <div class="w-20 h-20 bg-white rounded-full">
                         <!-- Gambar profil placeholder -->
-                        <img src="profile_image_url" alt="Profile Image" class="rounded-full w-full h-full object-cover">
+                        <img src="{{ asset($profilPengaju->foto_profil ?? 'default-profile.png') }}" alt="Profile Image" class="rounded-full w-full h-full object-cover">
                     </div>
                     <div>
-                        <h1 class="text-2xl font-semibold">ANGELITA TAPITTA</h1>
-                        <p class="text-sm">231511000</p>
+                    @if(isset($profilPengaju))
+                        <!-- Menampilkan profil pengaju jika tersedia -->
+                        <h1 class="text-2xl font-semibold">{{ $profilPengaju->nama_lengkap }}</h1>
+                        <p class="text-sm">{{ $profilPengaju->nim }}</p>
+                    @elseif(isset($profilReviewer))
+                        <!-- Menampilkan profil reviewer jika tersedia -->
+                        <h1 class="text-2xl font-semibold">{{ $profilReviewer->nama_lengkap }}</h1>
+                        <p class="text-sm">{{ $profilReviewer->role }}</p>
+                    @endif
                     </div>
                 </div>
 
                 <!-- Navigation Right -->
                 <div class="space-x-4">
-                    <a href="#" class="text-white">Edit Profile</a>
-                    <a href="#" class="text-white">Settings</a>
+                    <a href="#" class="text-white">Edit Profil</a>
                 </div>
             </div>
         </header>
 
         <!-- Main Content -->
         <main class="flex-1 container mx-auto px-4 py-8">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="bg-white p-6 rounded-lg shadow-md">
-                    <h2 class="text-lg font-bold mb-4">User Details</h2>
-                    <ul class="space-y-4">
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h2 class="text-2xl font-bold mb-4">Informasi Pribadi</h2>
+                <ul class="space-y-3">
+                    @if($profilPengaju && !$profilReviewer)
                         <li>
-                            <p class="font-semibold">Email Address</p>
-                            <p class="text-sm text-gray-600">angelita@polban.ac.id</p>
+                            <p class="font-semibold text-lg">Email Address</p>
+                            <p class="text-md text-gray-600">{{ $profilPengaju->email }}</p>
                         </li>
                         <li>
-                            <p class="font-semibold">Country</p>
-                            <p class="text-sm text-gray-600">Indonesia</p>
+                            <p class="font-semibold text-lg">Peran:</p>
+                            <p class="text-md text-gray-600">Pengaju</p>
                         </li>
                         <li>
-                            <p class="font-semibold">City/town</p>
-                            <p class="text-sm text-gray-600">Bandung</p>
+                            <p class="font-semibold text-lg">Tanggal Bergabung:</p>
+                            <p class="text-md text-gray-600">{{ $profilPengaju->tanggal_bergabung }}</p>
                         </li>
-                    </ul>
-                </div>
-
-                <!-- Platform Settings -->
-                <div class="bg-white p-6 rounded-lg shadow-md">
-                    <h2 class="text-lg font-bold mb-4">User Details</h2>
-                    <div class="flex justify-between items-center mb-4">
-                        <label class="text-sm">Email me when someone follows me</label>
-                        <input type="checkbox" class="toggle-checkbox">
-                    </div>
-                    <div class="flex justify-between items-center mb-4">
-                        <label class="text-sm">Email me when someone answers my post</label>
-                        <input type="checkbox" class="toggle-checkbox">
-                    </div>
-                    <div class="flex justify-between items-center mb-4">
-                        <label class="text-sm">Email me when someone mentions me</label>
-                        <input type="checkbox" class="toggle-checkbox">
-                    </div>
-                </div>
-                
-                <!-- Profile Information -->
-                <div class="bg-white p-6 rounded-lg shadow-md">
-                    <h2 class="text-lg font-bold mb-4">Profile Information</h2>
-                    <p class="text-sm mb-4">
-                        Hi, I’m Alec Thompson. Decisions: If you can’t decide, the answer is no...
-                    </p>
-                    <p class="text-sm"><strong>Full Name:</strong> Alec M. Thompson</p>
-                    <p class="text-sm"><strong>Mobile:</strong> (44) 123 1234 123</p>
-                </div>
-
+                    @elseif($profilReviewer && !$profilPengaju)
+                        <li>
+                            <p class="font-semibold text-lg">Email Address</p>
+                            <p class="text-md text-gray-600">{{ $profilReviewer->email }}</p>
+                        </li>
+                        <li>
+                            <p class="font-semibold text-lg">Peran:</p>
+                            <p class="text-md text-gray-600">Reviewer</p>
+                        </li>
+                        <li>
+                            <p class="font-semibold text-lg">Role reviewer:</p>
+                            <p class="text-md text-gray-600">{{ $profilReviewer->role }}</p>
+                        </li>
+                        <li>
+                            <p class="font-semibold text-lg">Tanggal Bergabung:</p>
+                            <p class="text-md text-gray-600">{{ $profilReviewer->tanggal_bergabung }}</p>
+                        </li>
+                    @endif
+                </ul>
             </div>
         </main>
     </div>

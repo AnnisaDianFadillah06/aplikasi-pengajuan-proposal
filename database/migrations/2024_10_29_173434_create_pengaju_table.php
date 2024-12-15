@@ -15,6 +15,13 @@ return new class extends Migration
             $table->integer('id')->primary();
             $table->string('username', 100);
             $table->string('email', 50);
+
+            // Kolom tambahan
+            $table->string('nama_lengkap', 150)->nullable();
+            $table->string('foto_profil')->nullable(); // Path file foto
+            $table->date('tanggal_bergabung')->nullable(); // Tanggal bergabung ke sistem
+            $table->string('nama_ormawa', 100)->nullable(); // Nama organisasi mahasiswa
+            $table->string('nim', 20)->nullable(); // NIM
         });
     }
 

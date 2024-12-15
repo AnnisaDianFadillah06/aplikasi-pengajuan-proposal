@@ -1,8 +1,10 @@
-@extends('welcome')
+@extends('proposal_kegiatan\reviewer')
 
 @section('konten')
 @php
-    $filePath = $reviewProposal->file_proposal; // Ambil path dari reviewProposal
+    $filePath = $latestRevision && $latestRevision->file_revisi 
+                ? $latestRevision->file_revisi 
+                : $reviewProposal->file_proposal;
 @endphp
 
 <div class="w-full p-6 mx-auto">

@@ -1,12 +1,12 @@
-@extends('welcome')
+@extends('proposal_kegiatan\pengaju')
 @section('konten')
 
-<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-<link rel="stylesheet" href="//cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
 <title>@yield('title', 'Histori Pengajuan')</title>
 
 <h6 class="text-lg font-semibold mb-4">Riwayat Proposal Kegiatan</h6>
-<a href="{{ route('download.pdf') }}" class="bg-gray-500 hover:bg-gray-700 text-white text-xs font-bold py-2 px-4 rounded mb-4 inline-block">Download PDF</a>
+<div class="flex justify-end mb-4">
+    <a href="{{ route('download.pdf') }}" class="bg-gray-500 hover:bg-gray-700 text-white text-xs font-bold py-2 px-4 rounded mb-4 inline-block">Download PDF</a>
+</div>
 
 <div class="overflow-x-auto">
     <table id="myTable" class="items-center w-full mb-0 border-gray-200 text-slate-500">
@@ -24,7 +24,7 @@
         <tbody>
             @foreach($proposals as $proposal)
                 <tr>
-                    <td class="p-2 text-center border-b border-gray-200">{{ $loop->iteration }}</td>
+                    <td class="p-2 text-center border-b border-gray-200"></td> <!-- Kolom nomor kosong, akan diisi oleh DataTables -->
                     <td class="p-2 text-center border-b border-gray-200">{{ $proposal->nama_kegiatan }}</td>
                     <td class="p-2 text-center border-b border-gray-200">{{ $proposal->tgl_kegiatan }}</td>
                     <td class="p-2 text-center border-b border-gray-200">{{ $proposal->tmpt_kegiatan }}</td>
@@ -45,45 +45,57 @@
 
 <!-- Script DataTables -->
 <script>
-    $(document).ready(function() {
-        $('#myTable').DataTable({
-            "paging": true,
-            "searching": true,
-            "ordering": true,
-            "info": true,
-            "lengthMenu": [5, 10, 25, 50],
-            "language": {
-                "search": "Cari:",
-                "lengthMenu": "Tampilkan _MENU_ entri",
-                "info": "Menampilkan _START_ hingga _END_ dari _TOTAL_ entri",
-                "infoEmpty": "Menampilkan 0 hingga 0 dari 0 entri",
-                "infoFiltered": "(disaring dari _MAX_ total entri)",
-                "paginate": {
-                    "first": "Pertama",
-                    "last": "Terakhir",
-                    "next": "Selanjutnya",
-                    "previous": "Sebelumnya"
-                }
-            },
-            "drawCallback": function() {
-                // Adjust select width after draw
-                adjustSelectWidth();
+    $(document).ready(function () {
+    var table = $('#myTable').DataTable({
+        "deferRender": true, 
+        "paging": true,
+        "searching": true,
+        "ordering": true,
+        "info": true,
+        "lengthMenu": [5, 10, 25, 50],
+        "language": {
+            "search": "Cari:",
+            "lengthMenu": "Tampilkan _MENU_ entri",
+            "info": "Menampilkan _START_ hingga _END_ dari _TOTAL_ entri",
+            "infoEmpty": "Menampilkan 0 hingga 0 dari 0 entri",
+            "infoFiltered": "(disaring dari _MAX_ total entri)",
+            "paginate": {
+                "first": "Pertama",
+                "last": "Terakhir",
+                "next": "Selanjutnya",
+                "previous": "Sebelumnya"
             }
-        });
+        },
+        "columnDefs": [
+            { 
+                "orderable": false, 
+                "targets": 0 
+            }
+        ],
+        "order": [],
+        "drawCallback": function (settings) {
+            var api = this.api();
 
-        // Function to adjust select width
-        function adjustSelectWidth() {
-            var select = $('.dataTables_length select');
-            select.each(function() {
-                var text = $(this).find('option:selected').text();
-                $(this).css('width', (text.length + 4) + 'ch');
+            // Perbarui nomor urut
+            api.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
+                cell.innerHTML = i + 1;
             });
         }
-
-        // Call function on select change
-        $('.dataTables_length select').change(adjustSelectWidth);
-        
     });
+
+    // Sesuaikan ukuran dropdown setelah tabel di-render
+    adjustDropdownWidth();
+
+    // Panggil fungsi saat dropdown berubah
+    $('.dataTables_length select').on('change', adjustDropdownWidth);
+
+    function adjustDropdownWidth() {
+        $('.dataTables_length select').each(function () {
+            var text = $(this).find('option:selected').text();
+            $(this).css('width', (text.length + 4) + 'ch'); // Dinamis berdasarkan panjang teks
+        });
+    }
+});  
 </script>
 
 @endsection

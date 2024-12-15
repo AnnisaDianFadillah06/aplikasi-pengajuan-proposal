@@ -1,12 +1,12 @@
-@extends('welcome')
+@extends('proposal_kegiatan\pengaju')
 @section('konten')
 
-
+{{-- Untuk pengecekan
 <p>Proposal: {{ $proposal }}</p>
 <p>Current Step: {{ $currentStep }}</p>
 <p>Updated By Step: {{ $updatedByStep }}</p>
 <p>Status: {{ $status }}</p>
-<p>Status LPJ: {{ $status_lpj }}</p>
+<p>Status LPJ: {{ $status_lpj }}</p> --}}
 
 
 @php
@@ -25,6 +25,11 @@
         // echo "Nama Ormawa: " . ($nama_ormawa ?? 'Tidak ada ormawa');
         // echo "\nStatus : ". ($proposal->status);
     // Output untuk debugging
+
+    // file proposal
+    $filePath = $latestDokumen && $latestDokumen->file_revisi 
+                ? $latestDokumen->file_revisi 
+                : $proposal->file_proposal;
 @endphp
 
 {{-- Progress bar --}}
@@ -143,7 +148,7 @@
 
 
 {{-- Bagian Detail proposal --}}
-@if ($proposal->status == 1 || $currentStep <= $updatedByStep || $status_lpj == 1)
+@if ($status == 1 || $currentStep < $updatedByStep || $status_lpj == 1)
     {{-- Tampilkan Detail Proposal saja --}}
     {{-- Bagian Detail Proposal --}}
     <div class="container mx-auto mt-5">
@@ -176,7 +181,7 @@
     </div>
 
 {{-- Bagian Detail proposal + Menunggu revisi--}}
-@elseif ($proposal->status == 0)
+@elseif ($status == 0)
     {{-- Tampilkan Detail Proposal dengan Keterangan menunggu --}}
     {{-- Bagian Detail Proposal --}}
     <div class="container mx-auto mt-5">
@@ -214,7 +219,7 @@
 
 
 {{-- Bagian Detail proposal + Ditolak --}}
-@elseif ($proposal->status == 2)
+@elseif ($status == 2)
     {{-- Tampilkan Detail Proposal dengan Keterangan Ditolak --}}
     {{-- Bagian Detail Proposal --}}
     <div class="container mx-auto mt-5">
@@ -252,7 +257,7 @@
 
 
 {{-- Bagian form revisi --}}
-@elseif ($proposal->status == 3)
+@elseif ($status == 3)
     {{-- Tampilkan Form Revisi --}}
     {{-- Bagian Form Revisi --}}
     <div class="container mx-auto mt-5">
@@ -324,6 +329,88 @@
     </div>
 @endif
 
+{{-- File Proposal terkini --}}
+<div class="container mx-auto mt-5">
+    <div class="bg-white p-5 rounded shadow">
+        <button class="text-left w-full focus:outline-none" onclick="toggleCollapse('proposal-section')">
+            <h2 class="text-2xl font-bold mb-4 flex items-center justify-between">
+                Dokumen Proposal
+                <span id="toggle-proposal" class="text-lg">[-]</span>
+            </h2>
+        </button>
+        <div id="proposal-section" class="transition-all duration-300">
+            <div class="w-full p-6 mx-auto">
+                <div class="flex flex-wrap -mx-3">
+                    <div class="flex-none w-full max-w-full px-3">
+                        <iframe src="{{ asset($filePath) }}" width="800px" height="700px"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container mx-auto mt-5">
+    <div class="bg-white p-5 rounded shadow">
+        <button class="text-left w-full focus:outline-none" onclick="toggleCollapse('revision-section')">
+            <h2 class="text-2xl font-bold mb-4 flex items-center justify-between">
+                Revisi Proposal
+                <span id="toggle-revision" class="text-lg">[-]</span>
+            </h2>
+        </button>
+        <div id="revision-section" class="transition-all duration-300">
+            <table class="table-auto border-collapse border border-gray-300 w-full text-left">
+                <thead>
+                    <tr>
+                        <th class="border border-gray-300 px-4 py-2">Tahap (Reviewer)</th>
+                        <th class="border border-gray-300 px-4 py-2">Catatan Revisi</th>
+                        <th class="border border-gray-300 px-4 py-2">Tanggal Revisi Terakhir</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if ($groupedRevisions)
+                        @php
+                            // Pisahkan catatan_revisi menjadi array
+                            $catatanRevisiList = explode(' | ', $groupedRevisions->catatan_revisi);
+                        @endphp
+                        @foreach ($catatanRevisiList as $catatan)
+                        <tr>
+                            <td class="border border-gray-300 px-4 py-2">Reviewer {{ $groupedRevisions->id_dosen }}</td>
+                            <td class="border border-gray-300 px-4 py-2">{{ $catatan }}</td>
+                            <td class="border border-gray-300 px-4 py-2">{{ \Carbon\Carbon::parse($groupedRevisions->last_revisi)->format('d-m-Y H:i') }}</td>
+                        </tr>
+                        @endforeach
+                    @else
+                    <tr>
+                        <td colspan="3" class="border border-gray-300 px-4 py-2 text-center">Tidak ada revisi pada tahap ini.</td>
+                    </tr>
+                    @endif
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    function toggleCollapse(sectionId) {
+        const section = document.getElementById(sectionId);
+        const toggleButton = document.getElementById(`toggle-${sectionId.split('-')[0]}`);
+
+        if (section.style.display === "none") {
+            section.style.display = "block";
+            toggleButton.textContent = "[-]";
+        } else {
+            section.style.display = "none";
+            toggleButton.textContent = "[+]";
+        }
+    }
+
+    // Set default visibility for sections (expanded)
+    document.getElementById('proposal-section').style.display = "none";
+    document.getElementById('revision-section').style.display = "none";
+</script>
+
+
 {{-- Next and Prev Button --}}
 <div class="flex justify-center items-center mt-4 space-x-4">
     @if ($currentStep != 0)
@@ -334,14 +421,14 @@
             </button>
         </form>
     @endif
-    @if ($currentStep < 6 && ($currentStep <= $updatedByStep || $status_lpj == 1))
+    @if ($currentStep < 6 && ($currentStep < $updatedByStep || $status_lpj == 1))
         <form method="POST" action="{{ route('proposal.nextStep', $proposal->id_proposal) }}">
             @csrf
             <button type="submit" class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2">
                 Next
             </button>
         </form>
-    @elseif ($currentStep == 6 && $status_lpj == 1)
+    @elseif ($status_lpj == 1)
         {{-- button untuk pindah ke section lpj --}}
         <form method="POST" action="{{ route('laporan.nextStep', $proposal->id_proposal) }}">
             @csrf
@@ -353,13 +440,15 @@
         </form>
     @endif
     {{-- Cek kondisi khusus untuk halaman bukti proposal disetujui --}}
-    @if (($updatedByStep === 6 && $proposal->status === 1 && $currentStep === 6) || $status_lpj == 1)
-        {{-- <form method="GET" action="{{ route('proposal.approvalProof', $proposal->id_proposal) }}"> --}}
+    @if (($updatedByStep === 7 && $proposal->status === 1 && $currentStep === 6) || $status_lpj == 1)
+        
+        <form method="GET" action="{{ route('proposal.generateLinkForProposal', $proposal->id_proposal) }}">
             @csrf
             <button type="submit" class="text-white bg-gradient-to-r from-green-500 via-green-600 to-green-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2">
-                Bukti Proposal Disetujui
+                Simpan Link Bukti Proposal Disetujui
             </button>
         </form>
+        
     @endif
 </div>
 

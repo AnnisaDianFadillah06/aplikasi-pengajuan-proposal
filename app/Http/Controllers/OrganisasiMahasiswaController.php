@@ -6,6 +6,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\OrganisasiMahasiswa;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+
 
 class OrganisasiMahasiswaController extends Controller
 {
@@ -34,39 +36,41 @@ class OrganisasiMahasiswaController extends Controller
      */
     public function store(Request $request)
     {
-        // Validasi input
         $request->validate([
-            'nama_organisasi_mahasiswa' => 'required|string|max:255',
+            'nama_ormawa' => 'required|string|max:255',
             'status' => 'required|in:aktif,tidak aktif', // Validasi untuk kolom status
         ]);
-    
-        // Tambahkan data baru
-        OrganisasiMahasiswa::create([
-            'nama_organisasi_mahasiswa' => $request->nama_organisasi_mahasiswa,
-            'created_by' => Auth::id() ?? null, // ID user yang sedang login atau null jika belum tersedia
-            'updated_by' => Auth::id() ?? null,
-            'status' =>  $request->status,
-        ]);
-    
-        // Mengembalikan response JSON untuk AJAX
-        return response()->json(['success' => true]);
+
+        try{
+            // Tambahkan data baru
+            OrganisasiMahasiswa::create([
+                'nama_ormawa' => $request->nama_ormawa,
+                'created_by' => Auth::id() ?? null, // ID user yang sedang login atau null jika belum tersedia
+                'updated_by' => Auth::id() ?? null,
+                'status' =>  $request->status,
+            ]);
+            // Mengembalikan response JSON untuk AJAX
+            return response()->json(['success' => true]);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'error' => $e->getMessage()], 500);
+        }
     }
-    
+
 
     public function update(Request $request, $id)
     {
         try {
             $organisasiMahasiswa = OrganisasiMahasiswa::find($id);
-            $organisasiMahasiswa->nama_organisasi_mahasiswa = $request->nama_organisasi_mahasiswa;
+            $organisasiMahasiswa->nama_ormawa = $request->nama_ormawa;
             $organisasiMahasiswa->status = $request->status;
             $organisasiMahasiswa->save();
     
             if ($request->ajax()) {
                 return response()->json([
                     'success' => true,
-                    'id_organisasi_mahasiswa' => $organisasiMahasiswa->id_organisasi_mahasiswa,
-                    'nama_organisasi_mahasiswa' => $organisasiMahasiswa->nama_organisasi_mahasiswa,
-                    'status' => $organisasiMahasiswa->status
+                    'id_ormawa' => $organisasiMahasiswa->id_ormawa,
+                    'nama_ormawa' => $organisasiMahasiswa->nama_ormawa,
+                    'status' => $organisasiMahasiswa->status,       
                 ]);
             }
         } catch (\Exception $e) {

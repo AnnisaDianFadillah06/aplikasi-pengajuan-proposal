@@ -29,5 +29,6 @@ class Proposal extends Model
         'created_by',
         'updated_by',
         'status',
+        'status_kegiatan',
     ];
 }

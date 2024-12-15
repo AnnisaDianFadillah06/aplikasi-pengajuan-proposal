@@ -7,7 +7,7 @@
 * Copyright 2023 Creative Tim (https://www.creative-tim.com)
 * Licensed under MIT (https://www.creative-tim.com/license)
 * Coded by Creative Tim
-
+ 
 =========================================================
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
@@ -73,64 +73,40 @@
     <!-- Breadcrumb -->
     <!-- sidenav  -->
     <aside class="max-w-62.5 ease-nav-brand z-990 fixed inset-y-0 my-4 ml-4 block w-full -translate-x-full flex-wrap items-center justify-between overflow-y-auto rounded-2xl border-0 bg-white p-0 antialiased shadow-none transition-transform duration-200 xl:left-0 xl:translate-x-0 xl:bg-transparent">
-      <div class="flex items-center h-20 px-8 py-6">
-          <!-- Icon close button -->
-          <i class="absolute top-0 right-0 hidden p-4 opacity-50 cursor-pointer fas fa-times text-slate-400 xl:hidden" sidenav-close></i>
+<div class="flex items-center h-20 px-8 py-6">
+    <!-- Icon close button -->
+    <i class="absolute top-0 right-0 hidden p-4 opacity-50 cursor-pointer fas fa-times text-slate-400 xl:hidden" sidenav-close></i>
 
-          <!-- Logo section -->
-          <a href="{{ route('proposal_kegiatan.dashboard-pengaju') }}" class="flex items-center space-x-3 text-sm whitespace-nowrap text-slate-700" {{ Route::currentRouteName() == 'dashboard-pengaju' ? 'bg-blue-500 text-white' : '' }}>
-              <!-- Logo image -->
-              <img src="{{ asset('img/LOGO POLBAN 4K.png') }}" class="h-12 max-w-full transition-all duration-200 ease-nav-brand" alt="main_logo" />
+    <!-- Logo section -->
+    <a class="flex items-center space-x-3 text-sm whitespace-nowrap text-slate-700" href="dashboard-reviewer">
 
-              <!-- Text next to logo -->
-              <span class="font-semibold transition-all duration-200 ease-nav-brand">Pengajuan Kegiatan Polban</span>
-          </a>
-      </div>
+        <!-- Logo image -->
+        <img src="{{ asset('img/LOGO POLBAN 4K.png') }}" class="h-12 max-w-full transition-all duration-200 ease-nav-brand" alt="main_logo" />
 
+        <!-- Text next to logo -->
+        <span class="font-semibold transition-all duration-200 ease-nav-brand">Pengajuan Kegiatan Polban</span>
+    </a>
+</div>
       <hr class="h-px mt-0 bg-transparent bg-gradient-to-r from-transparent via-black/40 to-transparent" />
 
       <div class="items-center block w-auto max-h-screen overflow-auto h-sidenav grow basis-full">
         <ul class="flex flex-col pl-0 mb-0">
-          <li class="mt-0.5 w-full">
+          <!-- <li class="mt-0.5 w-full"> -->
           <!-- <a class="py-2.7  rounded-lg hover:bg-orange-300 dark:hover:bg-orange-400 group text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors" href="/dashboard-pengaju"> -->
               
-              <a href="{{ route('proposal_kegiatan.dashboard-pengaju') }}" class="py-2.7  rounded-lg hover:bg-orange-300 dark:hover:bg-orange-400 group text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors  {{ Route::currentRouteName() == 'dashboard-pengaju' ? 'bg-blue-500 text-white' : '' }}">
-                <div class="bg-gradient-to-tl white shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5">
-                <i class="fas fa-home text-gray-500"></i>
-                    </div>
-                    <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Dashboard</span>
-              </a>
-            </a>
-          </li>
-
-          <li class="mt-0.5 w-full">
-          <a href="{{ route('proposal.index') }}" class="py-2.7  rounded-lg hover:bg-orange-300 dark:hover:bg-orange-400 group text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors  {{ Route::currentRouteName() == 'proposal.index' ? 'bg-blue-500 text-white' : '' }}">
-              <div class="shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5">
-              <i class="fas fa-comments text-gray-500"></i>
-              <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" d="M8 10h8m-4 4h4M4 6h16M6 18h2m0 0a2 2 0 11-4 0"></path></svg>
-
+              <!-- <a href="{{ route('proposal_kegiatan.dashboard-pengaju') }}" 
+         class="py-2.7  rounded-lg hover:bg-orange-300 dark:hover:bg-orange-400 group text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors  {{ Route::currentRouteName() == 'dashboard-pengaju' ? 'bg-blue-500 text-white' : '' }}">
+         <div class="bg-gradient-to-tl white shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5">
+         <i class="fas fa-home text-gray-500"></i>
               </div>
-              <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Manajemen Review</span>
+              <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Dashboard</span>
+      </a>
             </a>
-          </li>
-
-          <li class="mt-0.5 w-full">
-          <a href="{{ route('histori.pengajuan') }}" 
-         class="py-2.7  rounded-lg hover:bg-orange-300 dark:hover:bg-orange-400 group text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors  {{ Route::currentRouteName() == 'histori.pengajuan' ? 'bg-blue-500 text-white' : '' }}">
-              <div class="shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center fill-current stroke-0 text-center xl:p-2.5">
-              <i class="fas fa-history text-gray-500"></i>
-              <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-    <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-6a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-</svg>
-
-              </div>
-              <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Histori Pengajuan</span>
-            </a>
-          </li>
+          </li> -->
 
           <li class="mt-0.5 w-full">
           <a href="{{ route('proposal_kegiatan.dashboard-reviewer') }}" 
-         class="py-2.7  rounded-lg hover:bg-orange-300 dark:hover:bg-orange-400 group text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors  {{ Route::currentRouteName() == 'dashboard.reviewer' ? 'bg-blue-500 text-white' : '' }}">
+         class="py-2.7  rounded-lg hover:bg-orange-300 dark:hover:bg-orange-400 group text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors  {{ Route::currentRouteName() == 'proposal_kegiatan.dashboard-reviewer' ? 'bg-blue-500 text-white' : '' }}">
               <div class="bg-gradient-to-tl white shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5">
               <i class="fas fa-home text-gray-500"></i>
                 <svg width="12px" height="12px" viewBox="0 0 45 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -149,11 +125,53 @@
                   </g>
                 </svg>
               </div>
-              <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft min-h-width">Dashboard Reviewer</span>
+              <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft min-h-width">Dashboard</span>
             </a>
           </li>
 
-<li class="mt-0.5 w-full">
+          <li class="mt-0.5 w-full">
+          <a href="{{ route('proposal.index') }}" 
+         class="py-2.7  rounded-lg hover:bg-orange-300 dark:hover:bg-orange-400 group text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors  {{ Route::currentRouteName() == 'proposal.index' ? 'bg-blue-500 text-white' : '' }}">
+              <div class="shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5">
+              <i class="fas fa-comments text-gray-500"></i>
+              <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" d="M8 10h8m-4 4h4M4 6h16M6 18h2m0 0a2 2 0 11-4 0"></path></svg>
+
+              </div>
+              <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Manajemen Review</span>
+            </a>
+          </li>
+
+          <li class="mt-0.5 w-full">
+            <a href="{{ route('histori.pengajuan-reviewer') }}" 
+           class="py-2.7  rounded-lg hover:bg-orange-300 dark:hover:bg-orange-400 group text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors  {{ Route::currentRouteName() == 'histori.pengajuan-reviewer' ? 'bg-blue-500 text-white' : '' }}">
+                <div class="shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center fill-current stroke-0 text-center xl:p-2.5">
+                <i class="fas fa-history text-gray-500"></i>
+                <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-6a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+  </svg>
+  
+                </div>
+                <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Histori Pengajuan</span>
+              </a>
+            </li> 
+
+          <!-- <li class="mt-0.5 w-full">
+          <a href="{{ route('histori.pengajuan') }}" 
+         class="py-2.7  rounded-lg hover:bg-orange-300 dark:hover:bg-orange-400 group text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors  {{ Route::currentRouteName() == 'histori.pengajuan' ? 'bg-blue-500 text-white' : '' }}">
+              <div class="shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center fill-current stroke-0 text-center xl:p-2.5">
+              <i class="fas fa-history text-gray-500"></i>
+              <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-6a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+</svg>
+
+              </div>
+              <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Histori Pengajuan</span>
+            </a>
+          </li> -->
+
+          
+
+<!-- <li class="mt-0.5 w-full">
 <a href="{{ route('pengajuan-proposal') }}" 
          class="py-2.7  rounded-lg hover:bg-orange-300 dark:hover:bg-orange-400 group text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors  {{ Route::currentRouteName() == 'pengajuan-proposal' ? 'bg-blue-500 text-white' : '' }}">
     <div class="bg-gradient-to-tl white shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5">
@@ -176,9 +194,9 @@
     </div>
     <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Pengajuan Kegiatan</span>
   </a>
-</li>
+</li> -->
 
-<li class="mt-0.5 w-full">
+<!-- <li class="mt-0.5 w-full">
 <a class="py-2.7  rounded-lg hover:bg-orange-300 dark:hover:bg-orange-400 group text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors" href="/histori-pengajuan">
     <div class="bg-gradient-to-tl from-purple-700 to-purple-300 shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5">
       <svg width="12px" height="12px" viewBox="0 0 45 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -199,24 +217,55 @@
     </div>
     <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Histori Pengajuan</span>
   </a>
-</li>
-        <li class="mt-0.5 w-full">
-        <a href="{{ route('countdown') }}" 
-        class="py-2.7  rounded-lg hover:bg-orange-300 dark:hover:bg-orange-400 group text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors  {{ Route::currentRouteName() == 'countdown' ? 'bg-blue-500 text-white' : '' }}">
-              <div class="shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5">
-              <i class="fas fa-hourglass-start text-gray-500"></i>
-              <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M6 2l12 0M6 22l12 0M6 7l12 0M6 17l12 0M6 7l0 10M18 7l0 10"></path>
-              </svg>
-              </div>
-              <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Countdown</span>
-            </a>
-          </li>
+</li> -->
 
           <li class="mt-0.5 w-full">
-          <a href="{{ route('pedoman.index') }}" class="py-2.7  rounded-lg hover:bg-orange-300 dark:hover:bg-orange-400 group text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-normal px-4 transition-colors  {{ Route::currentRouteName() == 'pedoman.index' ? 'bg-blue-500 text-white' : '' }}">
+            <a href="{{ route('event-list.index') }}" 
+          class="py-2.7  rounded-lg hover:bg-orange-300 dark:hover:bg-orange-400 group text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors  {{ Route::currentRouteName() == 'event-list.index' ? 'bg-blue-500 text-white' : '' }}">
+                <div class="bg-gradient-to-tl white shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5">
+                <i class="fas fa-home text-gray-500"></i>
+                  <svg width="12px" height="12px" viewBox="0 0 45 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                    <title>dashboard</title>
+                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                      <g transform="translate(-1716.000000, -439.000000)" fill="#FFFFFF" fill-rule="nonzero">
+                        <g transform="translate(1716.000000, 291.000000)">
+                          <g transform="translate(0.000000, 148.000000)">
+                            <path class="opacity-60" d="M45,0 L0,0 L0,5.625 L45,5.625 L45,0 Z"></path>
+                            <path class="opacity-60" d="M45,39.375 L0,39.375 L0,45 L45,45 L45,39.375 Z"></path>
+                            <path class="opacity-60" d="M0,22.5 L45,22.5 L45,28.125 L0,28.125 L0,22.5 Z"></path>
+                            <path class="opacity-60" d="M0,11.25 L45,11.25 L45,16.875 L0,16.875 L0,11.25 Z"></path>
+                          </g>
+                        </g>
+                      </g>
+                    </g>
+                  </svg>
+                </div>
+                <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft min-h-width">Event List</span>
+              </a>
+            </li>
+
+        @if (session('role') == 'wd3')
+          <li class="mt-0.5 w-full">
+          <a href="{{ route('countdown') }}" 
+          class="py-2.7  rounded-lg hover:bg-orange-300 dark:hover:bg-orange-400 group text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors  {{ Route::currentRouteName() == 'countdown' ? 'bg-blue-500 text-white' : '' }}">
+                <div class="shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5">
+                <i class="fas fa-hourglass-start text-gray-500"></i>
+                <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M6 2l12 0M6 22l12 0M6 7l12 0M6 17l12 0M6 7l0 10M18 7l0 10"></path>
+              </svg>
+
+                </div>
+                <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Countdown</span>
+              </a>
+          </li>
+        @endif
+        @if (session('role') == 'wd3')
+          <li class="mt-0.5 w-full">
+          <a href="{{ route('pedoman.index') }}" 
+         class="py-2.7  rounded-lg hover:bg-orange-300 dark:hover:bg-orange-400 group text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors  {{ Route::currentRouteName() == 'pedoman.index' ? 'bg-blue-500 text-white' : '' }}">
               <div class="shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5">
               <i class="fas fa-book text-gray-500"></i>
+
                 <svg width="12px" height="12px" viewBox="0 0 42 42" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                   <title>box-3d-50</title>
                   <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -235,9 +284,10 @@
               <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Pedoman Kemahasiswaan</span>
             </a>
           </li>
+          @endif
 
-          <li class="mt-0.5 w-full">
-          <a class="py-2.7  rounded-lg hover:bg-orange-300 dark:hover:bg-orange-400 group text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-normal px-4 transition-colors" href="/histori-pengajuan-reviewer">
+          {{-- <li class="mt-0.5 w-full">
+          <a class="py-2.7  rounded-lg hover:bg-orange-300 dark:hover:bg-orange-400 group text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors" href="/histori-pengajuan-reviewer">
               <div class="bg-gradient-to-tl from-purple-700 to-purple-300 shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5">
                 <svg width="12px" height="12px" viewBox="0 0 45 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                   <title>history</title>
@@ -257,53 +307,70 @@
               </div>
               <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Histori Pengajuan (Reviewer)</span>
             </a>
-          </li>
+          </li> --}}
 
-          <li class="mt-0.5 w-full">
-          <a class="py-2.7  rounded-lg hover:bg-orange-300 dark:hover:bg-orange-400 group text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors" href="/organisasi-mahasiswa">
-              <div class="shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5">
-              <i class="fas fa-project-diagram"></i>
+          {{-- <li class="mt-0.5 w-full">
+          <a href="{{ route('histori.pengajuan-reviewer') }}" 
+         class="py-2.7  rounded-lg hover:bg-orange-300 dark:hover:bg-orange-400 group text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors  {{ Route::currentRouteName() == 'histori.pengajuan-reviewer' ? 'bg-blue-500 text-white' : '' }}">
+              <div class="shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center fill-current stroke-0 text-center xl:p-2.5">
+              <i class="fas fa-history text-gray-500"></i>
               <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-    <path stroke-linecap="round" stroke-linejoin="round" d="M9 17v-4H6v4m4 0h6v-4h-4m2-4v-4a2 2 0 112 2h-4a2 2 0 00-2-2"></path>
+    <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-6a9 9 0 11-18 0 9 9 0 0118 0z"></path>
 </svg>
+
+              </div>
+              <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Histori Pengajuan</span>
+            </a>
+          </li>  --}}
+
+          
+          @if (session('role') == 'wd3')
+          <li class="mt-0.5 w-full">
+          <a class="py-2.7  rounded-lg hover:bg-orange-300 dark:hover:bg-orange-400 group text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors   {{ Route::currentRouteName() == 'organisasi-mahasiswa.index' ? 'bg-blue-500 text-white' : '' }}" href="{{ route('organisasi-mahasiswa.index') }}">
+              <div class="shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5">
+              <i class="fas fa-project-diagram text-gray-500"></i>
+              <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 17v-4H6v4m4 0h6v-4h-4m2-4v-4a2 2 0 112 2h-4a2 2 0 00-2-2"></path>
+              </svg>
 
               </div>
               <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Organisasi Mahasiswa</span>
             </a>
           </li>
-
-          <li class="mt-0.5 w-full">
-          <a href="{{ route('jenis-kegiatan.index') }}" 
-         class="py-2.7  rounded-lg hover:bg-orange-300 dark:hover:bg-orange-400 group text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors  {{ Route::currentRouteName() == 'jenis-kegiatan.index' ? 'bg-blue-500 text-white' : '' }}">
-              <div class="shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5">
-              <i class="fas fa-clipboard-list text-gray-500"></i>
-                <svg width="12px" height="12px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                  <title>settings</title>
-                  <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                    <g transform="translate(-2020.000000, -442.000000)" fill="#FFFFFF" fill-rule="nonzero">
-                      <g transform="translate(1716.000000, 291.000000)">
-                        <g transform="translate(304.000000, 151.000000)">
-                          <polygon class="fill-slate-800 opacity-60" points="18.0883333 15.7316667 11.1783333 8.82166667 13.3333333 6.66666667 6.66666667 0 0 6.66666667 6.66666667 13.3333333 8.82166667 11.1783333 15.315 17.6716667"></polygon>
-                          <path class="fill-slate-800 opacity-60" d="M31.5666667,23.2333333 C31.0516667,23.2933333 30.53,23.3333333 30,23.3333333 C29.4916667,23.3333333 28.9866667,23.3033333 28.48,23.245 L22.4116667,30.7433333 L29.9416667,38.2733333 C32.2433333,40.575 35.9733333,40.575 38.275,38.2733333 L38.275,38.2733333 C40.5766667,35.9716667 40.5766667,32.2416667 38.275,29.94 L31.5666667,23.2333333 Z"></path>
-                          <path class="fill-slate-800" d="M33.785,11.285 L28.715,6.215 L34.0616667,0.868333333 C32.82,0.315 31.4483333,0 30,0 C24.4766667,0 20,4.47666667 20,10 C20,10.99 20.1483333,11.9433333 20.4166667,12.8466667 L2.435,27.3966667 C0.95,28.7083333 0.0633333333,30.595 0.00333333333,32.5733333 C-0.0583333333,34.5533333 0.71,36.4916667 2.11,37.89 C3.47,39.2516667 5.27833333,40 7.20166667,40 C9.26666667,40 11.2366667,39.1133333 12.6033333,37.565 L27.1533333,19.5833333 C28.0566667,19.8516667 29.01,20 30,20 C35.5233333,20 40,15.5233333 40,10 C40,8.55166667 39.685,7.18 39.1316667,5.93666667 L33.785,11.285 Z"></path>
+          @endif
+          @if (session('role') == 'wd3')
+            <li class="mt-0.5 w-full">
+            <a href="{{ route('jenis-kegiatan.index') }}" 
+          class="py-2.7  rounded-lg hover:bg-orange-300 dark:hover:bg-orange-400 group text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors  {{ Route::currentRouteName() == 'jenis-kegiatan.index' ? 'bg-blue-500 text-white' : '' }}">
+                <div class="shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5">
+                <i class="fas fa-clipboard-list text-gray-500"></i>
+                  <svg width="12px" height="12px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                    <title>settings</title>
+                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                      <g transform="translate(-2020.000000, -442.000000)" fill="#FFFFFF" fill-rule="nonzero">
+                        <g transform="translate(1716.000000, 291.000000)">
+                          <g transform="translate(304.000000, 151.000000)">
+                            <polygon class="fill-slate-800 opacity-60" points="18.0883333 15.7316667 11.1783333 8.82166667 13.3333333 6.66666667 6.66666667 0 0 6.66666667 6.66666667 13.3333333 8.82166667 11.1783333 15.315 17.6716667"></polygon>
+                            <path class="fill-slate-800 opacity-60" d="M31.5666667,23.2333333 C31.0516667,23.2933333 30.53,23.3333333 30,23.3333333 C29.4916667,23.3333333 28.9866667,23.3033333 28.48,23.245 L22.4116667,30.7433333 L29.9416667,38.2733333 C32.2433333,40.575 35.9733333,40.575 38.275,38.2733333 L38.275,38.2733333 C40.5766667,35.9716667 40.5766667,32.2416667 38.275,29.94 L31.5666667,23.2333333 Z"></path>
+                            <path class="fill-slate-800" d="M33.785,11.285 L28.715,6.215 L34.0616667,0.868333333 C32.82,0.315 31.4483333,0 30,0 C24.4766667,0 20,4.47666667 20,10 C20,10.99 20.1483333,11.9433333 20.4166667,12.8466667 L2.435,27.3966667 C0.95,28.7083333 0.0633333333,30.595 0.00333333333,32.5733333 C-0.0583333333,34.5533333 0.71,36.4916667 2.11,37.89 C3.47,39.2516667 5.27833333,40 7.20166667,40 C9.26666667,40 11.2366667,39.1133333 12.6033333,37.565 L27.1533333,19.5833333 C28.0566667,19.8516667 29.01,20 30,20 C35.5233333,20 40,15.5233333 40,10 C40,8.55166667 39.685,7.18 39.1316667,5.93666667 L33.785,11.285 Z"></path>
+                          </g>
                         </g>
                       </g>
                     </g>
-                  </g>
-                </svg>
-              </div>
-              <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Jenis Kegiatan</span>
-            </a>
-          </li>
-
-          <li class="mt-0.5 w-full">
+                  </svg>
+                </div>
+                <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Jenis Kegiatan</span>
+              </a>
+            </li>
+          @endif
+          @if (session('role') == 'wd3')
+           <li class="mt-0.5 w-full">
           <a class="py-2.7  rounded-lg hover:bg-orange-300 dark:hover:bg-orange-400 group text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors  {{ Route::currentRouteName() == 'bidang-kegiatan.index' ? 'bg-blue-500 text-white' : '' }}" href="{{ route('bidang-kegiatan.index') }}">
               <div class="shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5">
               <i class="fas fa-users text-gray-500"></i>
               <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M5 3h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2zM5 3l14 14M5 17l14-14"></path>
-              </svg>
-
+            </svg>
               </div>
               <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Bidang Kegiatan</span>
             </a>
@@ -312,12 +379,13 @@
           <li class="w-full mt-4">
             <h6 class="pl-6 ml-2 text-xs font-bold leading-tight uppercase opacity-60">Account pages</h6>
           </li>
+          @endif
 
           <li class="mt-0.5 w-full">
-            <a class="py-2.7 text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors" href="/profile">
+            <a href="{{ route('profile.index') }}" class="py-2.7  rounded-lg hover:bg-orange-300 dark:hover:bg-orange-400 group text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors  {{ Route::currentRouteName() == 'profile.index' ? 'bg-blue-500 text-white' : '' }}">
               <div class="shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5">
                 <svg width="12px" height="12px" viewBox="0 0 46 42" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                  <title>customer-support</title>
+                  <title>profil</title>
                   <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                     <g transform="translate(-1717.000000, -291.000000)" fill="#FFFFFF" fill-rule="nonzero">
                       <g transform="translate(1716.000000, 291.000000)">
@@ -331,11 +399,11 @@
                   </g>
                 </svg>
               </div>
-              <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Profile</span>
+              <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Profil</span>
             </a>
           </li>
 
-          <li class="mt-0.5 w-full">
+          {{-- <li class="mt-0.5 w-full">
             <a class="py-2.7 text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors" href="/sign-in">
               <div class="shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5">
                 <svg width="12px" height="12px" viewBox="0 0 40 44" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -354,9 +422,9 @@
               </div>
               <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Sign In</span>
             </a>
-          </li>
+          </li> --}}
 
-          <li class="mt-0.5 w-full">
+          {{-- <li class="mt-0.5 w-full">
             <a class="py-2.7 text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors" href="/sign-up">
               <div class="shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5">
                 <svg width="12px" height="20px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -380,7 +448,7 @@
               </div>
               <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Sign Up</span>
             </a>
-          </li>
+          </li> --}}
         </ul>
       </div>
 
@@ -416,35 +484,35 @@
               <span>Pages</span>
                 <span class="mx-2">/</span>
                 <span class="font-semibold">
-                    @if(Route::currentRouteName() == 'proposal_kegiatan.dashboard-pengaju')
-                        Dashboard Pengaju
-                    @elseif(Route::currentRouteName() == 'manajemen-review')
+                    @if(Route::currentRouteName() == 'dashboard-pengaju')
+                        Dashboard
+                    @elseif(Route::currentRouteName() == 'proposal_kegiatan.dashboard-reviewer')
+                        Dashboard
+                    @elseif(Route::currentRouteName() == 'proposal.index')
                         Manajemen Review
-                    @elseif(Route::currentRouteName() == 'histori.pengajuan')
-                        Riwayat Pengajuan
+                    @elseif(Route::currentRouteName() == 'histori.pengajuan-reviewer')
+                        Histori Pengajuan
                     @elseif(Route::currentRouteName() == 'pengajuan-proposal')
                         Pengajuan Kegiatan
                     @elseif(Route::currentRouteName() == 'countdown')
                         Countdown
                     @elseif(Route::currentRouteName() == 'pedoman.index')
                         Pedoman Kemahasiswaan
-                    @elseif(Route::currentRouteName() == 'jenis-kegiatan.index')
-                        Manajemen Jenis Kegiatan
-                    @elseif(Route::currentRouteName() == 'bidang-kegiatan.index')
-                        Manajemen Bidang Kegiatan
                     @elseif(Route::currentRouteName() == 'organisasi-mahasiswa.index')
-                        Manajemen Organisasi Mahasiswa
-                    @elseif(Route::currentRouteName() == 'proposal_kegiatan.dashboard-reviewer')
-                        Dashboard Reviewer
-                    @elseif(Route::currentRouteName() == 'histori.pengajuan-reviewer')
-                        Riwayat Pengajuan Reviewer                       
+                        Organisasi Mahasiswa
+                    @elseif(Route::currentRouteName() == 'jenis-kegiatan.index')
+                        Jenis Kegiatan
+                    @elseif(Route::currentRouteName() == 'bidang-kegiatan.index')
+                        Bidang Kegiatan
+                    @elseif(Route::currentRouteName() == 'event-list.index')
+                        Event List
                     @else
                         Undefined Page
                     @endif
                 </span>
           </nav>
 
-          <div class="flex items-center mt-2 grow sm:mt-0 sm:mr-6 md:mr-0 lg:flex lg:basis-auto">
+          <!-- <div class="flex items-center mt-2 grow sm:mt-0 sm:mr-6 md:mr-0 lg:flex lg:basis-auto">
             <div class="flex items-center md:ml-auto md:pr-4">
 
               <div class="relative flex flex-wrap items-stretch w-full transition-all rounded-lg ease-soft flex justify-end ml-auto">
@@ -452,20 +520,23 @@
                   <i class="fas fa-search"></i>
                 </span>
                 <input type="text" class="pl-8.75 text-sm focus:shadow-soft-primary-outline ease-soft w-1/100 leading-5.6 relative -ml-px block min-w-0 flex-auto rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding py-2 pr-3 text-gray-700 transition-all placeholder:text-gray-500 focus:border-fuchsia-300 focus:outline-none focus:transition-shadow flex" placeholder="Search here..." />
-              </div>
+              </div> -->
               
             </div>
-            <ul class="flex flex-row justify-end pl-0 mb-0 list-none md-max:w-full">
+            <ul class="flex flex-row justify-end pl-0 mb-0 list-none md-max:w-full flex flex-row justify-end pl-0 mb-0 list-none md-max:w-full flex items-center mt-0 grow sm:mt-0 sm:mr-6 md:mr-0 lg:flex lg:basis-auto flex items-center md:ml-auto md:pr-4">
               <!-- online builder btn  -->
               <!-- <li class="flex items-center">
                 <a class="inline-block px-8 py-2 mb-0 mr-4 text-xs font-bold text-center uppercase align-middle transition-all bg-transparent border border-solid rounded-lg shadow-none cursor-pointer leading-pro border-fuchsia-500 ease-soft-in hover:scale-102 active:shadow-soft-xs text-fuchsia-500 hover:border-fuchsia-500 active:bg-fuchsia-500 active:hover:text-fuchsia-500 hover:text-fuchsia-500 tracking-tight-soft hover:bg-transparent hover:opacity-75 hover:shadow-none active:text-white active:hover:bg-transparent" target="_blank" href="https://www.creative-tim.com/builder/soft-ui?ref=navbar-dashboard&amp;_ga=2.76518741.1192788655.1647724933-1242940210.1644448053">Online Builder</a>
               </li> -->
-              <li class="flex items-center flex justify-end">
-                <a href="/sign-in" class="block px-0 py-2 text-sm font-semibold transition-all ease-nav-brand text-slate-500 flex justify-end">
-                  <i class="fa fa-user sm:mr-1 flex"></i>
-                  <span class="hidden sm:inline">Sign In</span>
-                </a>
-              </li>
+              <li class="flex items-center justify-end">
+                <form action="{{ route('logout.dosen') }}" method="POST" class="inline">
+                    @csrf
+                    <button type="submit" class="block px-0 py-2 text-sm font-semibold transition-all ease-nav-brand text-slate-500 flex justify-end">
+                        <i class="fa fa-user sm:mr-1 flex"></i>
+                        <span class="hidden sm:inline">Sign Out</span>
+                    </button>
+                </form>
+            </li>   
               <li class="flex items-center pl-4 xl:hidden">
                 <a href="javascript:;" class="block p-0 text-sm transition-all ease-nav-brand text-slate-500" sidenav-trigger>
                   <div class="w-4.5 overflow-hidden">

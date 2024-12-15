@@ -1,4 +1,4 @@
-@extends('welcome')
+@extends('proposal_kegiatan\reviewer')
 @section('konten')
 
 <head>
@@ -26,39 +26,39 @@
         </div>
       </div>
 
-<!-- Modal Form Tambah Bidang Kegiatan -->
-<div id="addBidangKegiatanModal" tabindex="-1" class="fixed inset-0 flex items-center justify-center hidden z-50 p-4 overflow-x-hidden overflow-y-auto" role="dialog" aria-labelledby="modalTitle" aria-hidden="true">
-    <div class="relative w-full max-w-md">
-        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-            <div class="flex items-start justify-between p-4 border-b rounded-t">
-                <h3 class="text-xl font-semibold text-gray-900" id="modalTitle">Tambah Bidang Kegiatan</h3>
-                <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center" onclick="closeModal()">
-                    <span class="sr-only">Close</span>
-                </button>
+        <!-- Modal Form Tambah Bidang Kegiatan -->
+        <div id="addBidangKegiatanModal" tabindex="-1" class="fixed inset-0 flex items-center justify-center hidden z-50 p-4 overflow-x-hidden overflow-y-auto" role="dialog" aria-labelledby="modalTitle" aria-hidden="true">
+            <div class="relative w-full max-w-md">
+                <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                    <div class="flex items-start justify-between p-4 border-b rounded-t">
+                        <h3 class="text-xl font-semibold text-gray-900" id="modalTitle">Tambah Bidang Kegiatan</h3>
+                        <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center" onclick="closeModal()">
+                            <span class="sr-only">Close</span>
+                        </button>
+                    </div>
+                    <form id="bidangKegiatanForm" action="{{ route('bidang-kegiatan.store') }}" method="POST">
+                        @csrf
+                        <div class="p-6 space-y-6">
+                            <div>
+                                <label for="nama_bidang_kegiatan" class="block mb-2 text-sm font-medium text-gray-900">Nama Bidang Kegiatan</label>
+                                <input type="text" name="nama_bidang_kegiatan" id="nama_bidang_kegiatan" class="w-full p-2.5 border border-gray-300 rounded" required autofocus>
+                            </div>
+                            <div>
+                                <label for="status" class="block mb-2 text-sm font-medium text-gray-900">Status</label>
+                                <select name="status" id="status" class="w-full p-2.5 border border-gray-300 rounded" required>
+                                    <option value="aktif" selected>Aktif</option>
+                                    <option value="tidak aktif">Tidak Aktif</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="flex items-center p-6 space-x-2 border-t rounded-b">
+                            <button type="button" id="submitEdit" class="bg-blue-700 text-white px-4 py-2 rounded" onclick="submitForm()">Simpan</button>
+                            <button type="button" class="text-gray-500 bg-white border rounded px-4 py-2" onclick="closeModal()">Batal</button>
+                        </div>
+                    </form>
+                </div>
             </div>
-            <form id="bidangKegiatanForm" action="{{ route('bidang-kegiatan.store') }}" method="POST">
-                @csrf
-                <div class="p-6 space-y-6">
-                    <div>
-                        <label for="nama_bidang_kegiatan" class="block mb-2 text-sm font-medium text-gray-900">Nama Bidang Kegiatan</label>
-                        <input type="text" name="nama_bidang_kegiatan" id="nama_bidang_kegiatan" class="w-full p-2.5 border border-gray-300 rounded" required autofocus>
-                    </div>
-                    <div>
-                        <label for="status" class="block mb-2 text-sm font-medium text-gray-900">Status</label>
-                        <select name="status" id="status" class="w-full p-2.5 border border-gray-300 rounded" required>
-                            <option value="aktif" selected>Aktif</option>
-                            <option value="tidak aktif">Tidak Aktif</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="flex items-center p-6 space-x-2 border-t rounded-b">
-                    <button type="button" id="submitEdit" class="bg-blue-700 text-white px-4 py-2 rounded" onclick="submitForm()">Simpan</button>
-                    <button type="button" class="text-gray-500 bg-white border rounded px-4 py-2" onclick="closeModal()">Batal</button>
-                </div>
-            </form>
         </div>
-    </div>
-</div>
 
 
       <!-- Modal Form Edit Bidang Kegiatan -->
@@ -76,12 +76,12 @@
                         @method('PUT')
                         <div class="p-6 space-y-6">
                             <div class="form-group">
-                                <label for="nama_bidang_kegiatan">Nama Bidang Kegiatan:</label>
-                                <input type="text" class="form-control" id="nama_bidang_kegiatan" name="nama_bidang_kegiatan" required>
+                                <label for="edit_nama_bidang_kegiatan">Nama Bidang Kegiatan:</label>
+                                <input type="text" class="form-control" id="edit_nama_bidang_kegiatan" name="nama_bidang_kegiatan" required>
                             </div>
                             <div class="form-group">
-                                <label for="status">Status:</label>
-                                <select id="status" name="status" class="form-control" required>
+                                <label for="edit_status">Status:</label>
+                                <select id="edit_status" name="status" class="form-control" required>
                                     <option value="aktif">Aktif</option>
                                     <option value="tidak aktif">Tidak Aktif</option>
                                 </select>
@@ -91,7 +91,7 @@
                             <button type="button" class="bg-blue-700 text-white px-4 py-2 rounded" onclick="submitEditForm()">Simpan</button>
                             <button type="button" class="text-gray-500 bg-white border rounded px-4 py-2" onclick="closeEditModal()">Batal</button>
                         </div>
-                    </form>
+                    </form>                    
                 </div>
             </div>
           </div>
@@ -99,7 +99,7 @@
 
       <div class="flex-auto px-0 pt-0 pb-2">
         <div class="p-0 overflow-x-auto">
-          <table id="myTable" class="items-center w-full mb-0 align-top border-gray-200 text-slate-500">
+          <table id="myTable" class="items-center w-full mb-0 border-gray-200 text-slate-500">
             <thead class="align-bottom">
               <!-- Table Headers -->
               <tr>
@@ -150,44 +150,6 @@
   </div>
 </div>
 
-
-<!-- Script DataTables -->
-<script>
-    $(document).ready(function() {
-        $('#myTable').DataTable({
-            "paging": true,
-            "searching": true,
-            "ordering": true,
-            "info": true,
-            "lengthMenu": [5, 10, 25, 50],
-            "language": {
-                "search": "Cari:",
-                "lengthMenu": "Tampilkan _MENU_ entri",
-                "info": "Menampilkan _START_ hingga _END_ dari _TOTAL_ entri",
-                "infoEmpty": "Menampilkan 0 hingga 0 dari 0 entri",
-                "infoFiltered": "(disaring dari _MAX_ total entri)",
-                "paginate": {
-                    "first": "Pertama",
-                    "last": "Terakhir",
-                    "next": "Selanjutnya",
-                    "previous": "Sebelumnya"
-                }
-            }
-        });
-
-        function adjustSelectWidth() {
-            var select = $('.dataTables_length select');
-            select.each(function() {
-                var text = $(this).find('option:selected').text();
-                $(this).css('width', (text.length + 4) + 'ch');
-            });
-        }
-
-        adjustSelectWidth();
-        $('.dataTables_length select').change(adjustSelectWidth);
-    });
-</script>
-
 <script>
 document.querySelector('button[data-modal-toggle="addBidangKegiatanModal"]').addEventListener('click', function() { 
     document.getElementById('addBidangKegiatanModal').classList.remove('hidden');
@@ -197,7 +159,6 @@ document.querySelector('button[data-modal-toggle="addBidangKegiatanModal"]').add
 function closeModal() {
     const modal = document.getElementById('addBidangKegiatanModal');
     modal.classList.add('hidden');
-    location.reload(); // Tambahkan ini untuk refresh halaman
 }
 
 // Fungsi untuk mengirimkan data form menggunakan AJAX
@@ -232,14 +193,15 @@ function submitForm() {
         alert('Terjadi kesalahan saat menyimpan data.');
     });
 }
+
 </script>
 
 <script>
 // Fungsi untuk membuka modal dan mengisi form dengan data yang di-passing dari tombol
 function openEditModal(id, namaBidangKegiatan, status) {
     // Mengisi form dengan data yang di-passing
-    document.getElementById('nama_bidang_kegiatan').value = namaBidangKegiatan;
-    document.getElementById('status').value = status;
+    document.getElementById('edit_nama_bidang_kegiatan').value = namaBidangKegiatan;
+    document.getElementById('edit_status').value = status;
 
     // Mengubah action URL dari form agar sesuai dengan bidang kegiatan yang sedang diedit
     document.getElementById('editBidangKegiatanForm').action = "/update-bidang-kegiatan/" + id;
@@ -251,12 +213,12 @@ function openEditModal(id, namaBidangKegiatan, status) {
     document.body.classList.add('overflow-hidden');
 }
 
+
 // Fungsi untuk menutup modal
 function closeEditModal() {
-    console.log("Tombol close ditekan"); // Tambahkan log ini
     const modal = document.getElementById('editModal');
     modal.classList.add('hidden');
-    location.reload(); // Tambahkan ini untuk refresh halaman
+    document.body.classList.remove('overflow-hidden');
 }
 
 </script> 
@@ -284,8 +246,9 @@ function submitEditForm() {
             closeEditModal();
             
             // Update tampilan data di tabel secara dinamis
-            document.querySelector(`tr[data-id="${data.id_bidang_kegiatan}"] td:nth-child(2)`).textContent = data.nama_bidang_kegiatan;
-            document.querySelector(`tr[data-id="${data.id_bidang_kegiatan}"] td:nth-child(7)`).textContent = data.status;
+            const row = document.querySelector(`tr[data-id="${data.id_bidang_kegiatan}"]`);
+            row.querySelector('td:nth-child(2)').textContent = data.nama_bidang_kegiatan;
+            row.querySelector('td:nth-child(7)').textContent = data.status;
             
             // Optionally, beri notifikasi bahwa data telah berhasil diubah
             alert('Data berhasil diubah');
@@ -299,6 +262,48 @@ function submitEditForm() {
         alert('Terjadi kesalahan di fetch: ' + error.message);
     });
 }
+</script> 
+
+<!-- Script DataTables -->
+<script>
+    $(document).ready(function() {
+        $('#myTable').DataTable({
+            "paging": true,
+            "searching": true,
+            "ordering": true,
+            "info": true,
+            "lengthMenu": [5, 10, 25, 50],
+            "language": {
+                "search": "Cari:",
+                "lengthMenu": "Tampilkan _MENU_ entri",
+                "info": "Menampilkan _START_ hingga _END_ dari _TOTAL_ entri",
+                "infoEmpty": "Menampilkan 0 hingga 0 dari 0 entri",
+                "infoFiltered": "(disaring dari _MAX_ total entri)",
+                "paginate": {
+                    "first": "Pertama",
+                    "last": "Terakhir",
+                    "next": "Selanjutnya",
+                    "previous": "Sebelumnya"
+                }
+            },
+            "drawCallback": function() {
+                // Adjust select width after draw
+                adjustSelectWidth();
+            }
+        });
+
+        // Function to adjust select width
+        function adjustSelectWidth() {
+            var select = $('.dataTables_length select');
+            select.each(function() {
+                var text = $(this).find('option:selected').text();
+                $(this).css('width', (text.length + 4) + 'ch');
+            });
+        }
+
+        // Call function on select change
+        $('.dataTables_length select').change(adjustSelectWidth);
+    });
 </script>
 
 @endsection

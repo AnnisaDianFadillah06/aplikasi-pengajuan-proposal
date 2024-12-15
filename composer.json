@@ -10,6 +10,7 @@
         "davcpas1234/laravelpdfviewer": "^1.0",
         "laravel/framework": "^11.9",
         "laravel/tinker": "^2.9",
+        "nesbot/carbon": "^3.8",
         "spatie/pdf-to-image": "^1.2",
         "symfony/mime": "^7.1",
         "symfony/string": "^7.1"

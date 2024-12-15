@@ -13,10 +13,42 @@ class BidangKegiatanSeeder extends Seeder
     public function run(): void
     {
         DB::connection('pgsql')->table('bidang_kegiatan')->insert([
-            ['id' => 1, 'nama_bidang_kegiatan' => 'proker'],
-            ['id' => 2, 'nama_bidang_kegiatan' => 'pergerakan'],
-            ['id' => 3, 'nama_bidang_kegiatan' => 'lainnya'],
-            ['id' => 4, 'nama_bidang_kegiatan' => 'lpj'],
+            [
+                'id_bidang_kegiatan' => 1, 
+                'nama_bidang_kegiatan' => 'proker',
+                'status' => 'aktif',
+                'created_at' => now(),
+                'updated_at' => now(),
+                'created_by' => null,
+                'updated_by' => null
+            ],
+            [
+                'id_bidang_kegiatan' => 2, 
+                'nama_bidang_kegiatan' => 'pergerakan',
+                'status' => 'aktif',
+                'created_at' => now(),
+                'updated_at' => now(),
+                'created_by' => null,
+                'updated_by' => null
+            ],
+            [
+                'id_bidang_kegiatan' => 3, 
+                'nama_bidang_kegiatan' => 'lainnya',
+                'status' => 'aktif',
+                'created_at' => now(),
+                'updated_at' => now(),
+                'created_by' => null,
+                'updated_by' => null
+            ],
+            [
+                'id_bidang_kegiatan' => 4, 
+                'nama_bidang_kegiatan' => 'lpj',
+                'status' => 'tidak aktif',
+                'created_at' => now(),
+                'updated_at' => now(),
+                'created_by' => null,
+                'updated_by' => null
+            ],
         ]);
     }
 }

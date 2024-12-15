@@ -27,6 +27,7 @@ class MahasiswaAuthController extends Controller
             session([
                 'username' => $pengaju->username,
                 'id' => $pengaju->id,
+                'email' => $pengaju->email,
             ]);
             return redirect()->intended('/dashboard-pengaju');
         } else {
@@ -36,5 +37,14 @@ class MahasiswaAuthController extends Controller
                 'email' => 'Anda tidak memiliki akses sebagai pengaju.',
             ]);
         }
+    }
+
+    public function logout(Request $request)
+    {
+        Auth::guard('mahasiswa')->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect()->route('login.dosen'); // Arahkan kembali ke halaman login dosen
     }
 }

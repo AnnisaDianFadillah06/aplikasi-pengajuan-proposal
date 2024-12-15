@@ -5,16 +5,42 @@ namespace App\Http\Controllers;
 
 use App\Models\Ormawa;
 
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Models\ProposalToken;
 use App\Models\ReviewProposal;
 use App\Models\PengajuanProposal;
+use Illuminate\Support\Facades\DB;
 
 class PengajuanProposalController extends Controller
 {
     public function index()
     {
-        $proposal = PengajuanProposal::all();
-        return view('proposal_kegiatan.pengajuan_proposal', ['proposal' => $proposal]);
+        // Ambil ID dari sesi
+        $sessionId = session('id');
+
+        if (!$sessionId) {
+            // Tangani kasus jika sesi 'id' tidak ada
+            abort(403, 'Session ID tidak ditemukan.');
+        }
+
+        // Ambil semua proposal pengguna
+        $proposals = PengajuanProposal::where('id_pengguna', $sessionId)->get();
+
+        // Ambil semua revisi terbaru untuk setiap proposal
+        $latestReviews = ReviewProposal::whereIn('id_proposal', $proposals->pluck('id_proposal'))
+            ->orderBy('id_proposal')
+            ->orderBy('id_revisi', 'desc')
+            ->get()
+            ->groupBy('id_proposal')
+            ->map(function ($revisions) {
+                return $revisions->first(); // Ambil revisi terbaru dari setiap proposal
+            });
+
+        return view('proposal_kegiatan.pengajuan_proposal', [
+            'proposals' => $proposals,
+            'latestReviews' => $latestReviews
+        ]);
     }
 
 
@@ -27,11 +53,24 @@ class PengajuanProposalController extends Controller
             abort(404, 'Proposal tidak ditemukan');
         }
 
-        // Jika ditemukan, kirim data ke view
-        // return view('proposal_kegiatan.detail_proposal', ['proposal' => $proposal]);
+        // mengambil review terakhir untuk mengambil proposal sedang di tahap mana
+        $latestReview = ReviewProposal::where('id_proposal', $proposal->id_proposal)
+                                        // ->orderBy('tgl_revisi', 'desc')
+                                        ->orderBy('id_revisi', 'desc')
+                                        ->first();
+        if ($latestReview) {
+            $updatedByStep = $latestReview->status_revisi == 1 
+                ? $latestReview->id_dosen + 1 
+                : $latestReview->id_dosen;
 
-        $updatedByStep = $proposal->updated_by;
-        $status = $proposal->status;
+            $status = $latestReview->status_revisi == 1 
+                ? 0 
+                : $latestReview->status_revisi;
+        } else {
+            $updatedByStep = 1;
+            $status = 0;
+        }
+
         $status_lpj = $proposal->status_lpj;
         
         // Periksa jika ini adalah akses pertama kali
@@ -46,13 +85,34 @@ class PengajuanProposalController extends Controller
             $currentStep = session()->get('currentStep', 1);
         }
 
-        // Ambil data revisi terbaru terkait proposal ini
-        $latestRevision = ReviewProposal::where('id_proposal', $proposal->id_proposal)
-                                        // ->orderBy('tgl_revisi', 'desc')
-                                        ->orderBy('id_revisi', 'desc')
-                                        ->first();
-
-        return view('proposal_kegiatan.detail_proposal', compact('proposal', 'currentStep', 'updatedByStep', 'status', 'status_lpj', 'latestRevision'));
+        // Ambil data revisi terbaru terkait proposal ini (current step)
+        $allRevision = ReviewProposal::where('id_proposal', $proposal->id_proposal)
+                                        ->where('id_dosen', $currentStep) // Filter berdasarkan currentStep
+                                        ->select(
+                                            'id_dosen',
+                                            DB::raw('STRING_AGG(catatan_revisi, \' | \') as catatan_revisi'), // Gabungkan dengan delimiter ' | '
+                                            DB::raw('MAX(tgl_revisi) as last_revisi')
+                                        )
+                                        ->groupBy('id_dosen')
+                                        ->orderBy('last_revisi', 'desc')
+                                        ->first(); // Hanya satu grup untuk reviewer pada tahap ini
+        
+        // mengambil dokumen revisi terakhir
+        $latestDokumen = ReviewProposal::where('id_proposal', $proposal->id_proposal)
+                            ->whereNotNull('file_revisi') // Pastikan kolom file_revisi tidak null
+                            ->orderBy('id_revisi', 'desc')
+                            ->first();
+                            
+        return view('proposal_kegiatan.detail_proposal', [
+            'proposal' => $proposal,
+            'currentStep' => $currentStep,
+            'updatedByStep' => $updatedByStep,
+            'status' => $status,
+            'status_lpj' => $status_lpj,
+            'latestRevision' => $latestReview, // Ganti nama untuk view
+            'groupedRevisions' => $allRevision,
+            'latestDokumen' => $latestDokumen,
+        ]);
     }
 
     public function nextStep(Request $request, $id)
@@ -63,12 +123,31 @@ class PengajuanProposalController extends Controller
         // Nama ormawa yang diambil dari relasi tabel
         $ormawa = $ormawa->nama_ormawa ?? '';
         $lolos_proposal = $proposal->status_lpj;
+
+        //untuk mengetahui proposal sedang di tahap mana (menentukan updatedbystep)
+        $latestReview = ReviewProposal::where('id_proposal', $proposal->id_proposal)
+                                        // ->orderBy('tgl_revisi', 'desc')
+                                        ->orderBy('id_revisi', 'desc')
+                                        ->first();
+        if ($latestReview) {
+            $updatedByStep = $latestReview->status_revisi == 1 
+                ? $latestReview->id_dosen + 1 
+                : $latestReview->id_dosen;
+
+            $status = $latestReview->status_revisi == 1 
+                ? 0 
+                : $latestReview->status_revisi;
+        } else {
+            $updatedByStep = 1;
+            $status = 0;
+        }
+
         // Kondisi khusus untuk Ormawa yang bukan UKM, BEM, atau MPM
         if (str_contains($ormawa, 'UKM') || str_contains($ormawa, 'BEM') || str_contains($ormawa, 'MPM')) {
             // Jika currentStep adalah 3, tambah 2
             if ($currentStep == 3) {
                 session()->put('currentStep', $currentStep + 2);
-            } elseif ($currentStep <= $proposal->updated_by || $lolos_proposal == 1) {
+            } elseif ($currentStep <= $updatedByStep || $lolos_proposal == 1) {
                 session()->put('currentStep', $currentStep + 1);
             } elseif ($currentStep == 6) {
                 $currentStep = 1;
@@ -76,7 +155,7 @@ class PengajuanProposalController extends Controller
         } else {
             // Perilaku default untuk ormawa lain
             
-            if ($currentStep <= $proposal->updated_by || $proposal->status_lpj == 1) {
+            if ($currentStep <= $updatedByStep || $proposal->status_lpj == 1) {
                 session()->put('currentStep', $currentStep + 1);
             } elseif ($currentStep == 6) {
                 $currentStep = 1;
@@ -133,10 +212,10 @@ class PengajuanProposalController extends Controller
         ]);
 
         // Cari proposal berdasarkan id_proposal
-        $proposal = PengajuanProposal::findOrFail($id_proposal);
+        // $proposal = PengajuanProposal::findOrFail($id_proposal);
 
         // Cari revisi terbaru berdasarkan id_proposal
-        $latestRevision = ReviewProposal::where('id_proposal', $proposal->id_proposal)
+        $latestRevision = ReviewProposal::where('id_proposal', $id_proposal)
                                         // ->orderBy('tgl_revisi', 'desc')
                                         ->orderBy('id_revisi', 'desc')
                                         ->first();
@@ -160,7 +239,7 @@ class PengajuanProposalController extends Controller
             $latestRevision->update(['file_revisi' => $filePath]);
 
             // Update status pada PengajuanProposal menjadi 0
-            $proposal->update(['status' => 0]);
+            // $proposal->update(['status' => 0]);
 
             // Update status_revisi pada ReviewProposal menjadi 0
             $latestRevision->update(['status_revisi' => 0]);
@@ -169,15 +248,36 @@ class PengajuanProposalController extends Controller
         return redirect()->route('proposal.detail', $id_proposal)->with('success', 'File revisi berhasil diunggah.');
     }
 
-    // bukti proposal sudah disetujui WD3 
-    public function approvalProof($id_proposal)
+    // Membuat Token Unik untuk Setiap Proposal
+    public function generateLinkForProposal($id_proposal)
     {
-        // Cek apakah proposal ditemukan
         $proposal = PengajuanProposal::findOrFail($id_proposal);
 
-        if (!$proposal || $proposal->status_lpj != 1) {
-            abort(404, 'Proposal belum disetujui atau data tidak ditemukan');
-        }        
+        // Generate a unique token
+        $token = Str::random(32);
+
+        // Simpan token dalam tabel proposal_tokens
+        ProposalToken::create([
+            'proposal_id' => $id_proposal,
+            'token' => $token,
+        ]);
+
+        // Redirect ke halaman bukti disetujui dengan token
+        return redirect()->route('proposal.approvalProofWithToken', ['token' => $token]);
+    }
+
+    // bukti proposal sudah disetujui WD3 
+    public function approvalProofWithToken($token)
+    {
+        // Cari token di database
+        $tokenRecord = DB::table('proposal_tokens')->where('token', $token)->first();
+
+        if (!$tokenRecord) {
+            abort(404, 'Link tidak valid atau sudah kadaluarsa.');
+        }
+
+        // Ambil proposal berdasarkan ID yang terkait dengan token
+        $proposal = PengajuanProposal::findOrFail($tokenRecord->proposal_id);
 
         // Kirim data proposal ke view bukti proposal disetujui
         return view('proposal_kegiatan.bukti_disetujui', compact('proposal'));
@@ -192,6 +292,7 @@ class PengajuanProposalController extends Controller
         $proposal->status = 1;
         $proposal->updated_by = 1;
         $proposal->status_lpj = 1;
+        $proposal->status_approve_lpj = 0;
         $proposal->save();
 
         // Redirect ke halaman pengajuan laporan pertanggung jawaban
@@ -222,7 +323,10 @@ class PengajuanProposalController extends Controller
         }
 
         // return redirect()->route('proposal.detail', $proposal->id_proposal)->with('success', 'Laporan pertanggung jawaban berhasil diajukan.');
-        return redirect()->route('laporan.detail', $proposal->id_proposal)->with('success', 'Laporan pertanggungjawaban berhasil diajukan.');
+        return redirect()->route('laporan.detail', [
+            'id' => $proposal->id_proposal,
+            'is_first_access' => true, // Menambahkan ke query string 
+            ])->with('success', 'Laporan pertanggungjawaban berhasil diajukan.');
     }
 }
 
