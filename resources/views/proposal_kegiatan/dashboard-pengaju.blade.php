@@ -82,71 +82,73 @@
 
 
 <script>
-  const getChartOptions = () => {
+ const getChartOptions = (stats) => {
     return {
-      series: [2, 1, 1], // Adjusted series for your data
-      colors: ["#1C64F2", "#FDBA8C", "#E74694"], // Colors match your proposal statuses
-      chart: {
-        height: 320,
-        width: "100%",
-        type: "donut",
-      },
-      stroke: {
-        colors: ["transparent"],
-      },
-      plotOptions: {
-        pie: {
-          donut: {
-            labels: {
-              show: true,
-              name: {
-                show: true,
-                fontFamily: "Inter, sans-serif",
-                offsetY: 20,
-              },
-              total: {
-                showAlways: true,
-                show: true,
-                label: "Total Proposals",
-                fontFamily: "Inter, sans-serif",
-                formatter: function (w) {
-                  const sum = w.globals.seriesTotals.reduce((a, b) => a + b, 0);
-                  return sum + ' proposals'; // Display total proposals
+        series: [stats.lolos_validasi, stats.sedang_revisi, stats.ditolak], // Statistik sesuai data
+        colors: ["#1C64F2", "#FDBA8C", "#E74694"], // Warna sesuai status
+        chart: {
+            height: 320,
+            width: "100%",
+            type: "donut",
+        },
+        stroke: {
+            colors: ["transparent"],
+        },
+        plotOptions: {
+            pie: {
+                donut: {
+                    labels: {
+                        show: true,
+                        name: {
+                            show: true,
+                            fontFamily: "Inter, sans-serif",
+                            offsetY: 20,
+                        },
+                        total: {
+                            showAlways: true,
+                            show: true,
+                            label: "Total Proposals",
+                            fontFamily: "Inter, sans-serif",
+                            formatter: function (w) {
+                                const sum = w.globals.seriesTotals.reduce((a, b) => a + b, 0);
+                                return sum + " proposals"; // Menampilkan total proposal
+                            },
+                        },
+                        value: {
+                            show: true,
+                            fontFamily: "Inter, sans-serif",
+                            offsetY: -20,
+                            formatter: function (value) {
+                                return value + "%"; // Menampilkan nilai dalam persen
+                            },
+                        },
+                    },
+                    size: "80%",
                 },
-              },
-              value: {
-                show: true,
-                fontFamily: "Inter, sans-serif",
-                offsetY: -20,
-                formatter: function (value) {
-                  return value + "%"; // Show value as percentage
-                },
-              },
             },
-            size: "80%",
-          },
         },
-      },
-      labels: ["Lolos Validasi", "Sedang Revisi", "Ditolak"], // Custom labels
-      dataLabels: {
-        enabled: false,
-      },
-      legend: {
-        position: "bottom",
-        fontFamily: "Inter, sans-serif",
-      },
-      grid: {
-        padding: {
-          top: -2,
+        labels: ["Lolos Validasi", "Sedang Revisi", "Ditolak"], // Label status
+        dataLabels: {
+            enabled: false,
         },
-      },
+        legend: {
+            position: "bottom",
+            fontFamily: "Inter, sans-serif",
+        },
+        grid: {
+            padding: {
+                top: -2,
+            },
+        },
     };
-  };
-  
-  if (document.getElementById("donut-chart") && typeof ApexCharts !== 'undefined') {
-    const chart = new ApexCharts(document.getElementById("donut-chart"), getChartOptions());
+};
+
+if (document.getElementById("donut-chart") && typeof ApexCharts !== "undefined") {
+    const stats = @json($proposalStats); // Ambil data dari PHP
+    const chart = new ApexCharts(document.getElementById("donut-chart"), getChartOptions(stats));
     chart.render();
-  }
+}
+
   document.addEventListener('DOMContentLoaded', () => {
       // Mengambil nilai remainingTime dari PHP
       let remainingTime = parseInt('{{ $remainingTime }}', 10); // Pastikan nilai adalah angka integer
