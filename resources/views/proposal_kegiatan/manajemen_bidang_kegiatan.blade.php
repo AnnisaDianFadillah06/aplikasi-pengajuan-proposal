@@ -1,4 +1,4 @@
-@extends('proposal_kegiatan\reviewer')
+@extends('welcome')
 @section('konten')
 
 <head>

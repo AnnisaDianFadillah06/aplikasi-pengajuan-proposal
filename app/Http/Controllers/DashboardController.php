@@ -2,16 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\PedomanKemahasiswaan;
-use App\Models\PengajuanProposal;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use App\Models\ReviewLPJ;
+use Illuminate\Http\Request;
+use App\Models\ReviewProposal;
+use App\Models\PengajuanProposal;
+use Illuminate\Support\Facades\DB;
+use App\Models\PedomanKemahasiswaan;
 
 class DashboardController extends Controller
 {
     public function index_pengaju()
-{
+    {
     // Cek apakah countdown_end_time dan countdown_title ada di session
     $endTime = session('countdown_end_time');
     $title = session('countdown_title');
@@ -53,7 +55,7 @@ class DashboardController extends Controller
     // Hitung statistik proposal untuk ditampilkan di grafik
     $proposalStats = [
         'lolos_validasi' => $proposals->where('status', 1)->count(),
-        'sedang_revisi' => $proposals->where('status', 3)->count(),
+        'sedang_revisi' => $proposals->where('status', 0)->count(),
         'ditolak' => $proposals->where('status', 2)->count(),
     ];
 
@@ -67,6 +69,39 @@ class DashboardController extends Controller
     // dashboard untuk reviewer
     public function index(Request $request)
     {
+        // Cek apakah countdown_end_time dan countdown_title ada di session
+    $endTime = session('countdown_end_time');
+    $title = session('countdown_title');
+
+    // Debugging: Menampilkan nilai session untuk memastikan sudah ada
+    // dd($endTime, $title);
+
+    // Jika session kosong, beri nilai default dan lanjutkan
+    if (!$endTime || !$title) {
+        // Misalnya, beri nilai default jika session kosong
+        $endTime = Carbon::now()->addDays(1); // Atau waktu lain sesuai kebutuhan
+        $title = 'Judul Default'; // Sesuaikan judul default Anda
+
+        // Anda bisa menambahkan pesan untuk memberitahu pengguna jika waktu countdown belum diset
+        session(['countdown_end_time' => $endTime, 'countdown_title' => $title]);
+    }
+
+    // Ubah $endTime menjadi objek Carbon
+    $end = Carbon::parse($endTime);
+    $now = Carbon::now('Asia/Jakarta'); // Menentukan zona waktu Jakarta
+
+    // Hitung sisa waktu
+    $remainingTime = $now->diffInSeconds($end, false); // false untuk nilai negatif
+
+    // Menentukan apakah pengajuan sudah ditutup
+    $isClosed = false;
+    if ($now->greaterThanOrEqualTo($end)) {
+        // Jika waktu habis, hapus data dari session
+        session()->forget(['countdown_title', 'countdown_end_time']);
+        $remainingTime = null;
+        $isClosed = true;
+    }
+
         // Mendapatkan username dan role dari sesi ===checking session===
         $username = session('username');
         $role = session('role');
@@ -134,7 +169,48 @@ class DashboardController extends Controller
             ->where('status', 2)
             ->count();
 
-        $proposal = PengajuanProposal::where('status', 0)->get();
+        // $proposal = PengajuanProposal::where('status', 0)->get();
+        
+        // Ambil ID dari sesi
+        $sessionId = session('id');
+
+        if (!$sessionId) {
+            // Tangani kasus jika sesi 'id' tidak ada
+            abort(403, 'Session ID tidak ditemukan.');
+        }
+        
+        // Ambil semua proposal dengan status_lpj != 1 yang sesuai dengan kondisi
+        $proposals = PengajuanProposal::where('updated_by', $sessionId)
+                                    ->where('status_lpj', '!=', 1)
+                                    ->get();
+
+        // Ambil semua proposal dengan status_lpj = 1
+        $lpjs = PengajuanProposal::where('updated_by', $sessionId)
+                                ->where('status_lpj', 1)
+                                ->get();
+
+
+        // Ambil revisi terbaru untuk setiap proposal
+        $latestRevisions = ReviewProposal::whereIn('id_proposal', $proposals->pluck('id_proposal'))
+                                        ->orderBy('id_revisi', 'desc')
+                                        ->get()
+                                        ->groupBy('id_proposal');
+        
+        // Ambil revisi terbaru untuk setiap LPJ
+        $latestRevisionsLpjs = ReviewLPJ::whereIn('id_proposal', $lpjs->pluck('id_proposal'))
+                                        ->orderBy('id_revisi', 'desc')
+                                        ->get()
+                                        ->groupBy('id_proposal');
+
+        // Gabungkan proposal dengan revisi terakhir
+        foreach ($proposals as $proposal) {
+            $proposal->latestRevision = $latestRevisions->get($proposal->id_proposal)?->first(); // Ambil revisi terakhir atau null
+        }
+
+        // Gabungkan LPJ dengan revisi terakhir
+        foreach ($lpjs as $lpj) {
+            $lpj->latestRevision = $latestRevisionsLpjs->get($lpj->id_proposal)?->first(); // Ambil revisi terakhir atau null
+        }
         return view('proposal_kegiatan.dashboard-reviewer', [
             'labels1' => $labels1,
             'data1Disetujui' => array_values($data1Disetujui),
@@ -145,9 +221,13 @@ class DashboardController extends Controller
             'selectedYear' => $year, // Kirimkan tahun yang dipilih ke view
             'totalDisetujui' => $totalDisetujui,  // Total disetujui
             'totalDitolak' => $totalDitolak,      // Total ditolak
-            'proposal' => $proposal,
+            // 'proposal' => $proposal,
             'username' => $username, // Tambahkan ke view ===checking session===
             'role' => $role,         // Tambahkan ke view ===checking session===
+            'proposals' => $proposals,
+            'lpjs' => $lpjs,
+            'sessionId' => $sessionId, // Kirim sessionId ke view
+            'remainingTime' => $remainingTime, 'isClosed', 'title'
         ]);
     }
 }

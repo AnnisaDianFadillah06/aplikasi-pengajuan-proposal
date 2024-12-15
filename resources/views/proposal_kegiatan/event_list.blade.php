@@ -1,4 +1,11 @@
-@extends('proposal_kegiatan\welcome_event_list')
+@php
+    $layout = Auth::guard('mahasiswa')->check() 
+                ? 'proposal_kegiatan.pengaju' 
+                : (Auth::guard('dosen')->check() 
+                    ? 'proposal_kegiatan.reviewer' 
+                    : 'proposal_kegiatan\non_auth_sidebar'); // Tambahkan fallback layout jika diperlukan
+@endphp
+@extends($layout)
 @section('konten')
 
 <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
@@ -7,15 +14,6 @@
 <div class="flex flex-wrap -mx-3">
   <div class="flex-none w-full max-w-full px-3">
     <div class="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-soft-xl rounded-2xl bg-clip-border">
-      <div class="flex justify-between items-center px-4 py-4 uppercase mb-0 bg-white border-b-0 border-b-solid rounded-t-2xl border-b-transparent text-lg">
-          <h6>Riwayat Proposal Kegiatan</h6>
-
-          <a href="{{ route('download.pdf') }}" class="bg-gray-500 hover:bg-gray-700 text-white text-xs font-bold py-2 px-4 rounded">
-              Download PDF
-          </a>
-      </div>
-
-
       <div class="flex-auto px-0 pt-0 pb-2">
             <div class="p-0 overflow-x-auto">
             <table id="myTable" class="items-center text-center text-xs w-full mb-0 align-top border-gray-200 text-slate-400 p-2">

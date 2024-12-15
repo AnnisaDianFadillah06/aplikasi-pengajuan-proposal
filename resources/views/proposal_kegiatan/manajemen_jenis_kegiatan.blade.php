@@ -1,4 +1,4 @@
-@extends('proposal_kegiatan\reviewer')
+@extends('welcome')
 @section('konten')
 
 <head>
@@ -151,115 +151,159 @@
 </div>
 
 <script>
-document.querySelector('button[data-modal-toggle="addJenisKegiatanModal"]').addEventListener('click', function() { 
-    document.getElementById('addJenisKegiatanModal').classList.remove('hidden');
-});
-
-// Fungsi untuk menutup modal
-function closeModal() {
-    const modal = document.getElementById('addJenisKegiatanModal');
-    modal.classList.add('hidden');
-}
-
-// Fungsi untuk mengirimkan data form menggunakan AJAX
-function submitForm() {
-    const form = document.getElementById('jenisKegiatanForm');
-    
-    // Mengambil data form
-    const formData = new FormData(form);
-    
-    // Kirim form menggunakan AJAX (fetch API)
-    fetch(form.action, {
-        method: 'POST',
-        body: formData,
-        headers: {
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-        }
-    })
-    .then(response => response.json())
-    .then(data => {
-        // Jika data berhasil disimpan, kita tutup modal dan beri pesan sukses
-        if (data.success) {
-            closeModal();  // Menutup modal jika pengiriman berhasil
-            alert('Jenis Kegiatan berhasil disimpan!');
-            // Opsional: Anda bisa menambahkan kode untuk memperbarui tampilan daftar jenis kegiatan
-            location.reload(); // Tambahkan ini untuk refresh halaman
-        } else {
-            alert('Gagal menyimpan data. Periksa kembali input Anda.');
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        alert('Terjadi kesalahan saat menyimpan data.');
+    document.querySelector('button[data-modal-toggle="addJenisKegiatanModal"]').addEventListener('click', function() { 
+        document.getElementById('addJenisKegiatanModal').classList.remove('hidden');
     });
-}
-
-</script>
-
-<script>
-// Fungsi untuk membuka modal dan mengisi form dengan data yang di-passing dari tombol
-function openEditModal(id, namaJenisKegiatan, status) {
-    // Mengisi form dengan data yang di-passing
-    document.getElementById('edit_nama_jenis_kegiatan').value = namaJenisKegiatan;
-    document.getElementById('edit_status').value = status;
-
-    // Mengubah action URL dari form agar sesuai dengan jenis kegiatan yang sedang diedit
-    document.getElementById('editJenisKegiatanForm').action = "/update-jenis-kegiatan/" + id;
-
-    // Menampilkan modal
-    document.getElementById('editModal').classList.remove('hidden');
     
-    // Nonaktifkan scroll pada body
-    document.body.classList.add('overflow-hidden');
-}
-
-// Fungsi untuk menutup modal
-function closeEditModal() {
-    const modal = document.getElementById('editModal');
-    modal.classList.add('hidden');
-    document.body.classList.remove('overflow-hidden');
-}
-</script> 
-
-<script>
-function submitEditForm() {
-    let formData = new FormData(document.getElementById('editJenisKegiatanForm'));
+    // Fungsi untuk menutup modal
+    function closeModal() {
+        const modal = document.getElementById('addJenisKegiatanModal');
+        modal.classList.add('hidden');
+    }
     
-    // Mendapatkan URL action dari form
-    let actionUrl = document.getElementById('editJenisKegiatanForm').action;
-
-    // Mengirim data menggunakan AJAX
-    fetch(actionUrl, {
-        method: 'POST',
-        body: formData,
-        headers: {
-            'X-Requested-With': 'XMLHttpRequest',
-            'X-CSRF-TOKEN': '{{ csrf_token() }}' // Untuk proteksi CSRF
-        }
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            // Jika sukses, tutup modal dan perbarui tabel
-            closeEditModal();
-            
-            // Update tampilan data di tabel secara dinamis
-            const row = document.querySelector(`tr[data-id="${data.id_jenis_kegiatan}"]`);
-            row.querySelector('td:nth-child(2)').textContent = data.nama_jenis_kegiatan;
-            row.querySelector('td:nth-child(3)').textContent = data.status;
-            
-            // Optionally, beri notifikasi bahwa data telah berhasil diubah
-            alert('Data berhasil diubah');
-            location.reload(); // Tambahkan ini untuk refresh halaman
-        } else {
-            alert('Terjadi kesalahan, coba lagi');
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);  // Tambahkan log untuk melihat error dari fetch
-        alert('Terjadi kesalahan di fetch: ' + error.message);
-    });
-}
-</script> 
+    // Fungsi untuk mengirimkan data form menggunakan AJAX
+    function submitForm() {
+        const form = document.getElementById('jenisKegiatanForm');
+        
+        // Mengambil data form
+        const formData = new FormData(form);
+        
+        // Kirim form menggunakan AJAX (fetch API)
+        fetch(form.action, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Jika data berhasil disimpan, kita tutup modal dan beri pesan sukses
+            if (data.success) {
+                closeModal();  // Menutup modal jika pengiriman berhasil
+                alert('Jenis Kegiatan berhasil disimpan!');
+                // Opsional: Anda bisa menambahkan kode untuk memperbarui tampilan daftar jenis kegiatan
+                location.reload(); // Tambahkan ini untuk refresh halaman
+            } else {
+                alert('Gagal menyimpan data. Periksa kembali input Anda.');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Terjadi kesalahan saat menyimpan data.');
+        });
+    }
+    
+    </script>
+    
+    <script>
+    // Fungsi untuk membuka modal dan mengisi form dengan data yang di-passing dari tombol
+    function openEditModal(id, namaJenisKegiatan, status) {
+        // Mengisi form dengan data yang di-passing
+        document.getElementById('edit_nama_jenis_kegiatan').value = namaJenisKegiatan;
+        document.getElementById('edit_status').value = status;
+    
+        // Mengubah action URL dari form agar sesuai dengan jenis kegiatan yang sedang diedit
+        document.getElementById('editJenisKegiatanForm').action = "/update-jenis-kegiatan/" + id;
+    
+        // Menampilkan modal
+        document.getElementById('editModal').classList.remove('hidden');
+        
+        // Nonaktifkan scroll pada body
+        document.body.classList.add('overflow-hidden');
+    }
+    
+    
+    // Fungsi untuk menutup modal
+    function closeEditModal() {
+        const modal = document.getElementById('editModal');
+        modal.classList.add('hidden');
+        document.body.classList.remove('overflow-hidden');
+    }
+    
+    </script> 
+    
+    <script>
+    function submitEditForm() {
+        let formData = new FormData(document.getElementById('editJenisKegiatanForm'));
+        
+        // Mendapatkan URL action dari form
+        let actionUrl = document.getElementById('editJenisKegiatanForm').action;
+    
+        // Mengirim data menggunakan AJAX
+        fetch(actionUrl, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}' // Untuk proteksi CSRF
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Jika sukses, tutup modal dan perbarui tabel
+                closeEditModal();
+                
+                // Update tampilan data di tabel secara dinamis
+                const row = document.querySelector(`tr[data-id="${data.id_jenis_kegiatan}"]`);
+                row.querySelector('td:nth-child(2)').textContent = data.nama_jenis_kegiatan;
+                row.querySelector('td:nth-child(7)').textContent = data.status;
+                
+                // Optionally, beri notifikasi bahwa data telah berhasil diubah
+                alert('Data berhasil diubah');
+                location.reload(); // Tambahkan ini untuk refresh halaman
+            } else {
+                alert('Terjadi kesalahan, coba lagi');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);  // Tambahkan log untuk melihat error dari fetch
+            alert('Terjadi kesalahan di fetch: ' + error.message);
+        });
+    }
+    </script> 
+    
+    <!-- Script DataTables -->
+    <script>
+        $(document).ready(function() {
+            $('#myTable').DataTable({
+                "paging": true,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "lengthMenu": [5, 10, 25, 50],
+                "language": {
+                    "search": "Cari:",
+                    "lengthMenu": "Tampilkan _MENU_ entri",
+                    "info": "Menampilkan _START_ hingga _END_ dari _TOTAL_ entri",
+                    "infoEmpty": "Menampilkan 0 hingga 0 dari 0 entri",
+                    "infoFiltered": "(disaring dari _MAX_ total entri)",
+                    "paginate": {
+                        "first": "Pertama",
+                        "last": "Terakhir",
+                        "next": "Selanjutnya",
+                        "previous": "Sebelumnya"
+                    }
+                },
+                "drawCallback": function() {
+                    // Adjust select width after draw
+                    adjustSelectWidth();
+                }
+            });
+    
+            // Function to adjust select width
+            function adjustSelectWidth() {
+                var select = $('.dataTables_length select');
+                select.each(function() {
+                    var text = $(this).find('option:selected').text();
+                    $(this).css('width', (text.length + 4) + 'ch');
+                });
+            }
+    
+            // Call function on select change
+            $('.dataTables_length select').change(adjustSelectWidth);
+        });
+    </script>
 
 @endsection

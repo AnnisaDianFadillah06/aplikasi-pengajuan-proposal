@@ -45,6 +45,6 @@ class MahasiswaAuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect()->route('login.dosen'); // Arahkan kembali ke halaman login dosen
+        return redirect()->route('login.mahasiswa'); // Arahkan kembali ke halaman login dosen
     }
 }

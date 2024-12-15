@@ -3,7 +3,7 @@
                 ? 'proposal_kegiatan.pengaju' 
                 : (Auth::guard('dosen')->check() 
                     ? 'proposal_kegiatan.reviewer' 
-                    : 'welcome'); // Tambahkan fallback layout jika diperlukan
+                    : 'non_auth_sidebar'); // Tambahkan fallback layout jika diperlukan
 @endphp
 
 @extends($layout)
@@ -36,9 +36,6 @@
                 </div>
 
                 <!-- Navigation Right -->
-                <div class="space-x-4">
-                    <a href="#" class="text-white">Edit Profil</a>
-                </div>
             </div>
         </header>
 

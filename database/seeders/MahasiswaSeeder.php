@@ -25,6 +25,36 @@ class MahasiswaSeeder extends Seeder
                 'email' => 'yanto@polban.ac.id', 
                 'password' => '$2y$12$cZSKUXcfGfxccfOrcB3E3eSf3NuKwiw5JSFRa.EQbAruUUbDHfqbO'
             ],
+            [
+                'id' => 3, 
+                'username' => 'Angel', 
+                'email' => 'angel@polban.ac.id', 
+                'password' => '$2y$12$cZSKUXcfGfxccfOrcB3E3eSf3NuKwiw5JSFRa.EQbAruUUbDHfqbO'
+            ],
+            [
+                'id' => 4, 
+                'username' => 'Dhea', 
+                'email' => 'dhea@polban.ac.id', 
+                'password' => '$2y$12$cZSKUXcfGfxccfOrcB3E3eSf3NuKwiw5JSFRa.EQbAruUUbDHfqbO'
+            ],
+            [
+                'id' => 5, 
+                'username' => 'Dian', 
+                'email' => 'dian@polban.ac.id', 
+                'password' => '$2y$12$cZSKUXcfGfxccfOrcB3E3eSf3NuKwiw5JSFRa.EQbAruUUbDHfqbO'
+            ],
+            [
+                'id' => 6, 
+                'username' => 'Harish', 
+                'email' => 'muhammad.harish.tif23@polban.ac.id', 
+                'password' => '$2y$12$cZSKUXcfGfxccfOrcB3E3eSf3NuKwiw5JSFRa.EQbAruUUbDHfqbO'
+            ],
+            [
+                'id' => 7, 
+                'username' => 'Elroy', 
+                'email' => 'elroy@polban.ac.id', 
+                'password' => '$2y$12$cZSKUXcfGfxccfOrcB3E3eSf3NuKwiw5JSFRa.EQbAruUUbDHfqbO'
+            ],
         ]);
     }
 }

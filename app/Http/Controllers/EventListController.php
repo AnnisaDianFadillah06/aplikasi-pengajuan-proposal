@@ -11,8 +11,9 @@ class EventListController extends Controller
     public function index(Request $request)
     {
         // Ambil hanya kolom yang diperlukan
-        $proposals = PengajuanProposal::select('id_proposal', 'nama_kegiatan', 'tgl_kegiatan', 'tmpt_kegiatan','status_kegiatan')
+        $proposals = PengajuanProposal::select('id_proposal', 'nama_kegiatan', 'tgl_kegiatan', 'tmpt_kegiatan', 'status_kegiatan')
         ->whereIn('status_kegiatan', [1, 2, 3]) // Filter berdasarkan status
+        ->orderBy('status_kegiatan', 'asc') // Urutkan berdasarkan status_kegiatan secara ascending
         ->get();
 
         // Kembalikan hasil ke view

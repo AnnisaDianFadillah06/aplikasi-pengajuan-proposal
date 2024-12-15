@@ -90,7 +90,7 @@ Route::controller(AuthController::class)->group(function () {
 Route::middleware('isReviewer')->group(function () {
     // Annisa Dian
     Route::get('/manajemen-review', [ReviewController::class, 'index'])->name('proposal.index');
-    Route::get('/histori-review/{reviewProposal}', [ReviewController::class, 'historiReview'])->name('proposal.historiReview');
+    
     Route::get('/detail-review/{reviewProposal}', [ReviewController::class, 'show'])->name('proposal.show');
     // Rute untuk menyimpan data revisi ke dalam tabel revisi_file
     Route::post('/manajemen-review/store', [ReviewController::class, 'store'])->name('proposal.store');
@@ -186,6 +186,7 @@ Route::middleware('isPengaju')->group(function () {
 
 });
 
+Route::get('/histori-review/{reviewProposal}', [ReviewController::class, 'historiReview'])->name('proposal.historiReview');
 
 // Countdown
 Route::get('/countdown', function () {

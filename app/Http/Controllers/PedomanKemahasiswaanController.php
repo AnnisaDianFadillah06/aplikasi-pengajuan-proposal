@@ -63,7 +63,7 @@ class PedomanKemahasiswaanController extends Controller
                 'type' => 'success', 
                 'message' => 'Data has been saved successfully.'
             ]);
-           return redirect()->route('pedoman.index');
+           return redirect()->route('pedoman.index')-> compact('pedoman');
        }
 
     /**
@@ -91,7 +91,8 @@ class PedomanKemahasiswaanController extends Controller
         // dd($request->all());
 
         // Temukan data pedoman berdasarkan ID
-        $pedoman = PedomanKemahasiswaan::findOrFail($id);
+        $pedoman = PedomanKemahasiswaan::find($id); // Sesuaikan logika ini
+
 
         // Validasi input
         $request->validate([

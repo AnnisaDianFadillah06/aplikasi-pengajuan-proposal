@@ -118,9 +118,6 @@
     </form>
 @endforeach
 
-<!-- Tombol Edit untuk membuka modal -->
-<button class="editBtn bg-blue-500 text-white px-2 py-1 rounded" data-id="{{ $pedoman->id_pedoman }}" data-modal-target="editModal" data-modal-toggle="editModal" onclick="openEditModal('{{ addslashes($pedoman->nama_pedoman) }}', '{{ $pedoman->status }}', '{{ addslashes($pedoman->file_pedoman) }}', '{{ $pedoman->id_pedoman }}')">Edit</button>
-
         </div>
     </div>
 </div>
