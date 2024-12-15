@@ -36,7 +36,7 @@ Route::get('/modal', function () {
     return view('proposal_kegiatan.komponen-modal'); // Pastikan ini benar
 });
 
-Route::get('/profil-pengaju', [ProfileController::class, 'index'])->name('profile.index');
+Route::get('/profil', [ProfileController::class, 'index'])->name('profile.index');
 
 Route::get('/daftar-ormawa', function () {
     return view('proposal_kegiatan.daftar_ormawa'); // Pastikan ini benar

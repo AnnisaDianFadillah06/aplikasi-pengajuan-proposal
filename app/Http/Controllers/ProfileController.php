@@ -17,7 +17,7 @@ class ProfileController extends Controller
         // $email = $request->user()->email; 
         // Pastikan sistem login mengirimkan data user
         // Email yang dicek
-        $email = 'prita@polban.ac.id'; // Ganti dengan email dari login (e.g., $request->user()->email)
+        $email = session('email'); // Ganti dengan email dari login (e.g., $request->user()->email)
 
 
         // Ambil data pengaju berdasarkan email
