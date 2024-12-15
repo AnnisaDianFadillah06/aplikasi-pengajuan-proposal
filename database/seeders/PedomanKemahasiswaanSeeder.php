@@ -16,17 +16,17 @@ class PedomanKemahasiswaanSeeder extends Seeder
         DB::connection('pgsql')->table('pedoman_kemahasiswaan')->insert([
             [
                 'nama_pedoman' => 'Pedoman Akademik 2024',
-                'file_pedoman' => 'pedoman_akademik_2024.pdf',
-                'status' => 1,
+                'file_pedoman' => 'laraview/pedoman_akademik_2024.pdf',
+                'status' => 1, 
             ],
             [
                 'nama_pedoman' => 'Pedoman Kegiatan Mahasiswa',
-                'file_pedoman' => 'pedoman_kegiatan_mahasiswa.pdf',
+                'file_pedoman' => 'laraview/pedoman_kegiatan_mahasiswa.pdf',
                 'status' => 1,
             ],
             [
                 'nama_pedoman' => 'Pedoman Penelitian Mahasiswa',
-                'file_pedoman' => 'pedoman_penelitian_mahasiswa.pdf',
+                'file_pedoman' => 'laraview/pedoman_penelitian_mahasiswa.pdf',
                 'status' => 1,
             ]
         ]);

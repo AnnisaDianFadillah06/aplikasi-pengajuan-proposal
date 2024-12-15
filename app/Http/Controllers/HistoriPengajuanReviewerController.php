@@ -27,7 +27,7 @@ class HistoriPengajuanReviewerController extends Controller
         // Tentukan label status
         $statusLabels = [
             0 => 'Menunggu',
-            1 => 'Ditolakk',
+            1 => 'Ditolak',
             2 => 'Disetujui',
             3 => 'Dibatalkan',
         ];

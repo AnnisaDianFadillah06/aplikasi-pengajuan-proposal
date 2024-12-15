@@ -73,19 +73,20 @@
     <!-- Breadcrumb -->
     <!-- sidenav  -->
     <aside class="max-w-62.5 ease-nav-brand z-990 fixed inset-y-0 my-4 ml-4 block w-full -translate-x-full flex-wrap items-center justify-between overflow-y-auto rounded-2xl border-0 bg-white p-0 antialiased shadow-none transition-transform duration-200 xl:left-0 xl:translate-x-0 xl:bg-transparent">
-<div class="flex items-center h-20 px-8 py-6">
-    <!-- Icon close button -->
-    <i class="absolute top-0 right-0 hidden p-4 opacity-50 cursor-pointer fas fa-times text-slate-400 xl:hidden" sidenav-close></i>
+      <div class="flex items-center h-20 px-8 py-6">
+          <!-- Icon close button -->
+          <i class="absolute top-0 right-0 hidden p-4 opacity-50 cursor-pointer fas fa-times text-slate-400 xl:hidden" sidenav-close></i>
 
-    <!-- Logo section -->
-    <a class="flex items-center space-x-3 text-sm whitespace-nowrap text-slate-700" href="javascript:;" target="_blank">
-        <!-- Logo image -->
-        <img src="{{ asset('img/LOGO POLBAN 4K.png') }}" class="h-12 max-w-full transition-all duration-200 ease-nav-brand" alt="main_logo" />
+          <!-- Logo section -->
+          <a href="{{ route('proposal_kegiatan.dashboard-pengaju') }}" class="flex items-center space-x-3 text-sm whitespace-nowrap text-slate-700" {{ Route::currentRouteName() == 'dashboard-pengaju' ? 'bg-blue-500 text-white' : '' }}>
+              <!-- Logo image -->
+              <img src="{{ asset('img/LOGO POLBAN 4K.png') }}" class="h-12 max-w-full transition-all duration-200 ease-nav-brand" alt="main_logo" />
 
-        <!-- Text next to logo -->
-        <span class="font-semibold transition-all duration-200 ease-nav-brand">Pengajuan Kegiatan Polban</span>
-    </a>
-</div>
+              <!-- Text next to logo -->
+              <span class="font-semibold transition-all duration-200 ease-nav-brand">Pengajuan Kegiatan Polban</span>
+          </a>
+      </div>
+
       <hr class="h-px mt-0 bg-transparent bg-gradient-to-r from-transparent via-black/40 to-transparent" />
 
       <div class="items-center block w-auto max-h-screen overflow-auto h-sidenav grow basis-full">
@@ -93,19 +94,17 @@
           <li class="mt-0.5 w-full">
           <!-- <a class="py-2.7  rounded-lg hover:bg-orange-300 dark:hover:bg-orange-400 group text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors" href="/dashboard-pengaju"> -->
               
-              <a href="{{ route('proposal_kegiatan.dashboard-pengaju') }}" 
-         class="py-2.7  rounded-lg hover:bg-orange-300 dark:hover:bg-orange-400 group text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors  {{ Route::currentRouteName() == 'dashboard-pengaju' ? 'bg-blue-500 text-white' : '' }}">
-         <div class="bg-gradient-to-tl white shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5">
-         <i class="fas fa-home text-gray-500"></i>
-              </div>
-              <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Dashboard</span>
-      </a>
+              <a href="{{ route('proposal_kegiatan.dashboard-pengaju') }}" class="py-2.7  rounded-lg hover:bg-orange-300 dark:hover:bg-orange-400 group text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors  {{ Route::currentRouteName() == 'dashboard-pengaju' ? 'bg-blue-500 text-white' : '' }}">
+                <div class="bg-gradient-to-tl white shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5">
+                <i class="fas fa-home text-gray-500"></i>
+                    </div>
+                    <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Dashboard</span>
+              </a>
             </a>
           </li>
 
           <li class="mt-0.5 w-full">
-          <a href="{{ route('proposal.index') }}" 
-         class="py-2.7  rounded-lg hover:bg-orange-300 dark:hover:bg-orange-400 group text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors  {{ Route::currentRouteName() == 'manajemen-review' ? 'bg-blue-500 text-white' : '' }}">
+          <a href="{{ route('proposal.index') }}" class="py-2.7  rounded-lg hover:bg-orange-300 dark:hover:bg-orange-400 group text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors  {{ Route::currentRouteName() == 'proposal.index' ? 'bg-blue-500 text-white' : '' }}">
               <div class="shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5">
               <i class="fas fa-comments text-gray-500"></i>
               <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" d="M8 10h8m-4 4h4M4 6h16M6 18h2m0 0a2 2 0 11-4 0"></path></svg>
@@ -207,19 +206,17 @@
               <div class="shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5">
               <i class="fas fa-hourglass-start text-gray-500"></i>
               <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-    <path stroke-linecap="round" stroke-linejoin="round" d="M6 2l12 0M6 22l12 0M6 7l12 0M6 17l12 0M6 7l0 10M18 7l0 10"></path>
-</svg>
-
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 2l12 0M6 22l12 0M6 7l12 0M6 17l12 0M6 7l0 10M18 7l0 10"></path>
+              </svg>
               </div>
               <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Countdown</span>
             </a>
           </li>
+
           <li class="mt-0.5 w-full">
-          <a href="{{ route('pedoman.index') }}" 
-         class="py-2.7  rounded-lg hover:bg-orange-300 dark:hover:bg-orange-400 group text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors  {{ Route::currentRouteName() == 'pedoman.index' ? 'bg-blue-500 text-white' : '' }}">
+          <a href="{{ route('pedoman.index') }}" class="py-2.7  rounded-lg hover:bg-orange-300 dark:hover:bg-orange-400 group text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-normal px-4 transition-colors  {{ Route::currentRouteName() == 'pedoman.index' ? 'bg-blue-500 text-white' : '' }}">
               <div class="shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5">
               <i class="fas fa-book text-gray-500"></i>
-
                 <svg width="12px" height="12px" viewBox="0 0 42 42" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                   <title>box-3d-50</title>
                   <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -240,7 +237,7 @@
           </li>
 
           <li class="mt-0.5 w-full">
-          <a class="py-2.7  rounded-lg hover:bg-orange-300 dark:hover:bg-orange-400 group text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors" href="/histori-pengajuan-reviewer">
+          <a class="py-2.7  rounded-lg hover:bg-orange-300 dark:hover:bg-orange-400 group text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-normal px-4 transition-colors" href="/histori-pengajuan-reviewer">
               <div class="bg-gradient-to-tl from-purple-700 to-purple-300 shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5">
                 <svg width="12px" height="12px" viewBox="0 0 45 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                   <title>history</title>
@@ -304,8 +301,8 @@
               <div class="shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5">
               <i class="fas fa-users text-gray-500"></i>
               <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-    <path stroke-linecap="round" stroke-linejoin="round" d="M5 3h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2zM5 3l14 14M5 17l14-14"></path>
-</svg>
+                <path stroke-linecap="round" stroke-linejoin="round" d="M5 3h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2zM5 3l14 14M5 17l14-14"></path>
+              </svg>
 
               </div>
               <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Bidang Kegiatan</span>
@@ -419,12 +416,12 @@
               <span>Pages</span>
                 <span class="mx-2">/</span>
                 <span class="font-semibold">
-                    @if(Route::currentRouteName() == 'dashboard-pengaju')
+                    @if(Route::currentRouteName() == 'proposal_kegiatan.dashboard-pengaju')
                         Dashboard Pengaju
                     @elseif(Route::currentRouteName() == 'manajemen-review')
                         Manajemen Review
                     @elseif(Route::currentRouteName() == 'histori.pengajuan')
-                        Histori Pengajuan
+                        Riwayat Pengajuan
                     @elseif(Route::currentRouteName() == 'pengajuan-proposal')
                         Pengajuan Kegiatan
                     @elseif(Route::currentRouteName() == 'countdown')
@@ -432,9 +429,15 @@
                     @elseif(Route::currentRouteName() == 'pedoman.index')
                         Pedoman Kemahasiswaan
                     @elseif(Route::currentRouteName() == 'jenis-kegiatan.index')
-                        Jenis Kegiatan
+                        Manajemen Jenis Kegiatan
                     @elseif(Route::currentRouteName() == 'bidang-kegiatan.index')
-                        Bidang Kegiatan
+                        Manajemen Bidang Kegiatan
+                    @elseif(Route::currentRouteName() == 'organisasi-mahasiswa.index')
+                        Manajemen Organisasi Mahasiswa
+                    @elseif(Route::currentRouteName() == 'proposal_kegiatan.dashboard-reviewer')
+                        Dashboard Reviewer
+                    @elseif(Route::currentRouteName() == 'histori.pengajuan-reviewer')
+                        Riwayat Pengajuan Reviewer                       
                     @else
                         Undefined Page
                     @endif

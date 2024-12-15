@@ -18,11 +18,4 @@ class BidangKegiatan extends Model
         'created_by',
         'updated_by',
     ];
-
-        // Eloquent akan otomatis mengelola kolom `created_at` dan `updated_at`
-        public $timestamps = true;
-    
-        // Jika `id_bidang_kegiatan` otomatis bertambah, set auto-increment
-        public $incrementing = true;
-        protected $keyType = 'int';
 }

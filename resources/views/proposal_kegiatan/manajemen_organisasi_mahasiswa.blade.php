@@ -1,6 +1,5 @@
 @extends('welcome')
 @section('konten')
-
 <head>
     <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
@@ -40,8 +39,8 @@
                         @csrf
                         <div class="p-6 space-y-6">
                             <div>
-                                <label for="nama_organisasi_mahasiswa" class="block mb-2 text-sm font-medium text-gray-900">Nama Organisasi Mahasiswa</label>
-                                <input type="text" name="nama_organisasi_mahasiswa" id="nama_organisasi_mahasiswa" class="w-full p-2.5 border border-gray-300 rounded" required autofocus>
+                                <label for="nama_ormawa" class="block mb-2 text-sm font-medium text-gray-900">Nama Organisasi Mahasiswa</label>
+                                <input type="text" name="nama_ormawa" id="nama_ormawa" class="w-full p-2.5 border border-gray-300 rounded" required autofocus>
                             </div>
                             <div>
                                 <label for="status" class="block mb-2 text-sm font-medium text-gray-900">Status</label>
@@ -76,8 +75,8 @@
                         @method('PUT')
                         <div class="p-6 space-y-6">
                             <div class="form-group">
-                                <label for="nama_organisasi_mahasiswa">Nama Organisasi Mahasiswa:</label>
-                                <input type="text" class="form-control" id="nama_organisasi_mahasiswa" name="nama_organisasi_mahasiswa" required>
+                                <label for="nama_ormawa">Nama Organisasi Mahasiswa:</label>
+                                <input type="text" class="form-control" id="edit_nama_ormawa" name="nama_ormawa" required>
                             </div>
                             <div class="form-group">
                                 <label for="status">Status:</label>
@@ -99,7 +98,7 @@
 
       <div class="flex-auto px-0 pt-0 pb-2">
         <div class="p-0 overflow-x-auto">
-          <table id="myTable" class="items-center w-full mb-0 align-top border-gray-200 text-slate-500">
+          <table class="items-center w-full mb-0 align-top border-gray-200 text-slate-500">
             <thead class="align-bottom">
               <!-- Table Headers -->
               <tr>
@@ -115,12 +114,12 @@
             </thead>
             <tbody>
               @foreach($ormawa as $key => $item)
-              <tr data-id="{{ $item->id_organisasi_mahasiswa }}">
+              <tr data-id="{{ $item->id_ormawa }}">
                   <td class="px-6 py-3 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent text-left">
                       <p class="mb-0 text-xs font-semibold leading-tight">{{ $key + 1 }}</p>
                   </td>
                   <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent text-left">
-                      <p class="mb-0 text-xs font-semibold leading-tight">{{ $item->nama_organisasi_mahasiswa }}</p>
+                      <p class="mb-0 text-xs font-semibold leading-tight">{{ $item->nama_ormawa }}</p>
                   </td>
                   <td class="p-2 text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
                       <span class="text-xs font-semibold leading-tight text-slate-400">{{ $item->created_at->format('d/m/Y') }}</span>
@@ -138,7 +137,7 @@
                       <span class="bg-gradient-to-tl from-green-600 to-lime-400 px-2 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline uppercase leading-none text-white">{{ $item->status }}</span>
                   </td>
                   <td class="p-2 text-sm leading-normal text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                      <button class="bg-blue-500 text-white px-2 py-1 rounded" onclick="openEditModal('{{ $item->id_organisasi_mahasiswa }}', '{{ $item->nama_organisasi_mahasiswa }}', '{{ $item->status }}')">Edit</button>
+                      <button class="bg-blue-500 text-white px-2 py-1 rounded" onclick="openEditModal('{{ $item->id_ormawa }}', '{{ $item->nama_ormawa }}', '{{ $item->status }}')">Edit</button>
                   </td>
               </tr>
               @endforeach
@@ -150,44 +149,6 @@
   </div>
 </div>
 
-
-<!-- Script DataTables -->
-<script>
-    $(document).ready(function() {
-        $('#myTable').DataTable({
-            "paging": true,
-            "searching": true,
-            "ordering": true,
-            "info": true,
-            "lengthMenu": [5, 10, 25, 50],
-            "language": {
-                "search": "Cari:",
-                "lengthMenu": "Tampilkan _MENU_ entri",
-                "info": "Menampilkan _START_ hingga _END_ dari _TOTAL_ entri",
-                "infoEmpty": "Menampilkan 0 hingga 0 dari 0 entri",
-                "infoFiltered": "(disaring dari _MAX_ total entri)",
-                "paginate": {
-                    "first": "Pertama",
-                    "last": "Terakhir",
-                    "next": "Selanjutnya",
-                    "previous": "Sebelumnya"
-                }
-            }
-        });
-
-        function adjustSelectWidth() {
-            var select = $('.dataTables_length select');
-            select.each(function() {
-                var text = $(this).find('option:selected').text();
-                $(this).css('width', (text.length + 4) + 'ch');
-            });
-        }
-
-        adjustSelectWidth();
-        $('.dataTables_length select').change(adjustSelectWidth);
-    });
-</script>
-
 <script>
 document.querySelector('button[data-modal-toggle="addOrganisasiMahasiswaModal"]').addEventListener('click', function() { 
     document.getElementById('addOrganisasiMahasiswaModal').classList.remove('hidden');
@@ -197,7 +158,6 @@ document.querySelector('button[data-modal-toggle="addOrganisasiMahasiswaModal"]'
 function closeModal() {
     const modal = document.getElementById('addOrganisasiMahasiswaModal');
     modal.classList.add('hidden');
-    location.reload(); // Tambahkan ini untuk refresh halaman
 }
 
 // Fungsi untuk mengirimkan data form menggunakan AJAX
@@ -221,7 +181,7 @@ function submitForm() {
         if (data.success) {
             closeModal();  // Menutup modal jika pengiriman berhasil
             alert('Organisasi Mahasiswa berhasil disimpan!');
-            // Opsional: Anda bisa menambahkan kode untuk memperbarui tampilan daftar organisasi mahasiswa
+            // Opsional: Anda bisa menambahkan kode untuk memperbarui tampilan daftar ormawa
             location.reload(); // Tambahkan ini untuk refresh halaman
         } else {
             alert('Gagal menyimpan data. Periksa kembali input Anda.');
@@ -232,16 +192,17 @@ function submitForm() {
         alert('Terjadi kesalahan saat menyimpan data.');
     });
 }
+
 </script>
 
 <script>
 // Fungsi untuk membuka modal dan mengisi form dengan data yang di-passing dari tombol
 function openEditModal(id, namaOrganisasiMahasiswa, status) {
     // Mengisi form dengan data yang di-passing
-    document.getElementById('nama_organisasi_mahasiswa').value = namaOrganisasiMahasiswa;
+    document.getElementById('edit_nama_ormawa').value = namaOrganisasiMahasiswa;
     document.getElementById('status').value = status;
 
-    // Mengubah action URL dari form agar sesuai dengan organisasi mahasiswa yang sedang diedit
+    // Mengubah action URL dari form agar sesuai dengan ormawa yang sedang diedit
     document.getElementById('editOrganisasiMahasiswaForm').action = "/update-organisasi-mahasiswa/" + id;
 
     // Menampilkan modal
@@ -253,10 +214,9 @@ function openEditModal(id, namaOrganisasiMahasiswa, status) {
 
 // Fungsi untuk menutup modal
 function closeEditModal() {
-    console.log("Tombol close ditekan"); // Tambahkan log ini
     const modal = document.getElementById('editModal');
     modal.classList.add('hidden');
-    location.reload(); // Tambahkan ini untuk refresh halaman
+    document.body.classList.remove('overflow-hidden');
 }
 </script> 
 
@@ -283,8 +243,9 @@ function submitEditForm() {
             closeEditModal();
             
             // Update tampilan data di tabel secara dinamis
-            document.querySelector(`tr[data-id="${data.id_organisasi_mahasiswa}"] td:nth-child(2)`).textContent = data.nama_organisasi_mahasiswa;
-            document.querySelector(`tr[data-id="${data.id_organisasi_mahasiswa}"] td:nth-child(7)`).textContent = data.status;
+            const row = document.querySelector(`tr[data-id="${data.id_ormawa}"]`);
+            row.querySelector('td:nth-child(2)').textContent = data.nama_ormawa;
+            row.querySelector('td:nth-child(7)').textContent = data.status;
             
             // Optionally, beri notifikasi bahwa data telah berhasil diubah
             alert('Data berhasil diubah');

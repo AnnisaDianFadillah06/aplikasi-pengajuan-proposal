@@ -76,12 +76,12 @@
                         @method('PUT')
                         <div class="p-6 space-y-6">
                             <div class="form-group">
-                                <label for="nama_jenis_kegiatan">Nama Jenis Kegiatan:</label>
-                                <input type="text" class="form-control" id="nama_jenis_kegiatan" name="nama_jenis_kegiatan" required>
+                                <label for="edit_nama_jenis_kegiatan">Nama Jenis Kegiatan:</label>
+                                <input type="text" class="form-control" id="edit_nama_jenis_kegiatan" name="nama_jenis_kegiatan" required>
                             </div>
                             <div class="form-group">
-                                <label for="status">Status:</label>
-                                <select id="status" name="status" class="form-control" required>
+                                <label for="edit_status">Status:</label>
+                                <select id="edit_status" name="status" class="form-control" required>
                                     <option value="aktif">Aktif</option>
                                     <option value="tidak aktif">Tidak Aktif</option>
                                 </select>
@@ -91,7 +91,7 @@
                             <button type="button" class="bg-blue-700 text-white px-4 py-2 rounded" onclick="submitEditForm()">Simpan</button>
                             <button type="button" class="text-gray-500 bg-white border rounded px-4 py-2" onclick="closeEditModal()">Batal</button>
                         </div>
-                    </form>
+                    </form>                    
                 </div>
             </div>
           </div>
@@ -193,14 +193,15 @@ function submitForm() {
         alert('Terjadi kesalahan saat menyimpan data.');
     });
 }
+
 </script>
 
 <script>
 // Fungsi untuk membuka modal dan mengisi form dengan data yang di-passing dari tombol
 function openEditModal(id, namaJenisKegiatan, status) {
     // Mengisi form dengan data yang di-passing
-    document.getElementById('nama_jenis_kegiatan').value = namaJenisKegiatan;
-    document.getElementById('status').value = status;
+    document.getElementById('edit_nama_jenis_kegiatan').value = namaJenisKegiatan;
+    document.getElementById('edit_status').value = status;
 
     // Mengubah action URL dari form agar sesuai dengan jenis kegiatan yang sedang diedit
     document.getElementById('editJenisKegiatanForm').action = "/update-jenis-kegiatan/" + id;
@@ -214,9 +215,9 @@ function openEditModal(id, namaJenisKegiatan, status) {
 
 // Fungsi untuk menutup modal
 function closeEditModal() {
-    console.log("Tombol close ditekan"); // Tambahkan log ini
     const modal = document.getElementById('editModal');
     modal.classList.add('hidden');
+    document.body.classList.remove('overflow-hidden');
 }
 </script> 
 
@@ -243,8 +244,9 @@ function submitEditForm() {
             closeEditModal();
             
             // Update tampilan data di tabel secara dinamis
-            document.querySelector(tr[data-id="${data.id_jenis_kegiatan}"] td:nth-child(2)).textContent = data.nama_jenis_kegiatan;
-            document.querySelector(tr[data-id="${data.id_jenis_kegiatan}"] td:nth-child(7)).textContent = data.status;
+            const row = document.querySelector(`tr[data-id="${data.id_jenis_kegiatan}"]`);
+            row.querySelector('td:nth-child(2)').textContent = data.nama_jenis_kegiatan;
+            row.querySelector('td:nth-child(3)').textContent = data.status;
             
             // Optionally, beri notifikasi bahwa data telah berhasil diubah
             alert('Data berhasil diubah');
@@ -258,83 +260,6 @@ function submitEditForm() {
         alert('Terjadi kesalahan di fetch: ' + error.message);
     });
 }
-</script>
+</script> 
 
-<!-- Add DataTables Initialization -->
-<script>
-    $(document).ready(function() {
-        $('#jenisKegiatanTable').DataTable({
-            "paging": true,
-            "searching": true,
-            "ordering": true,
-            "info": true,
-            "lengthMenu": [5, 10, 25, 50],
-            "language": {
-                "search": "Cari:",
-                "lengthMenu": "Tampilkan _MENU_ entri",
-                "info": "Menampilkan _START_ hingga _END_ dari _TOTAL_ entri",
-                "infoEmpty": "Menampilkan 0 hingga 0 dari 0 entri",
-                "infoFiltered": "(disaring dari _MAX_ total entri)",
-                "paginate": {
-                    "first": "Pertama",
-                    "last": "Terakhir",
-                    "next": "Selanjutnya",
-                    "previous": "Sebelumnya"
-                }
-            },
-            "drawCallback": function() {
-                // Adjust select width after draw
-                adjustSelectWidth();
-            }
-        });
-
-        // Function to adjust select width
-        function adjustSelectWidth() {
-            var select = $('.dataTables_length select');
-            select.each(function() {
-                var text = $(this).find('option:selected').text();
-                $(this).css('width', (text.length + 4) + 'ch');
-            });
-        }
-
-        // Call function on select change
-        $('.dataTables_length select').change(adjustSelectWidth);
-    });
-</script>
-
-<script>
-    function validateForm() {
-        const namaJenisKegiatan = document.getElementById("nama_jenis_kegiatan");
-        const namaKegiatanError = document.getElementById("namaKegiatanError");
-        
-        // Reset error messages and styles
-        namaKegiatanError.classList.add("hidden");
-        namaJenisKegiatan.classList.remove("bg-red-50", "border-red-500", "text-red-900", "placeholder-red-700", "focus:ring-red-500", "focus:border-red-500");
-
-        // Validation
-        if (namaJenisKegiatan.value.trim() === "") {
-            namaKegiatanError.classList.remove("hidden");
-            namaJenisKegiatan.classList.add("bg-red-50", "border-red-500", "text-red-900", "placeholder-red-700", "focus:ring-red-500", "focus:border-red-500");
-            return false; // Prevent form submission
-        }
-        
-        // If no validation errors, allow form submission
-        return true;
-    }
-
-    // function submitForm() {
-    //     // If validation passes, submit the form
-    //     if (validateForm()) {
-    //         document.getElementById("jenisKegiatanForm").submit();
-    //     }
-    // }
-
-    function closeModal() {
-        document.getElementById("addJenisKegiatanModal").classList.add("hidden");
-        // Reset form fields and styles
-        document.getElementById("jenisKegiatanForm").reset();
-        document.getElementById("namaKegiatanError").classList.add("hidden");
-        document.getElementById("nama_jenis_kegiatan").classList.remove("bg-red-50", "border-red-500", "text-red-900", "placeholder-red-700", "focus:ring-red-500", "focus:border-red-500");
-    }
-</script>
 @endsection

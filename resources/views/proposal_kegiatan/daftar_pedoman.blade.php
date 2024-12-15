@@ -12,11 +12,7 @@
           </div>
           <!-- Button Tambah Ormawa -->
 
-          <button data-modal-target="addModal" data-modal-toggle="addModal" class="bg-gradient-to-tl inline-block px-6 py-3 font-bold text-center text-white uppercase align-baseline transition-all rounded-lg cursor-pointer bg-gradient-to-tl from-blue-700 to-blue-500 leading-pro text-xs ease-soft-in tracking-tight-soft shadow-soft-md bg-150 bg-x-25 hover:scale-102 active:opacity-85 hover:shadow-soft-xs" type="button">
-
-            Tambah Daftar Pedoman
-          </button>
-
+          <button data-modal-target="addModal" data-modal-toggle="addModal" class="bg-gradient-to-tl inline-block px-6 py-3 font-bold text-center text-white uppercase align-baseline transition-all rounded-lg cursor-pointer bg-gradient-to-tl from-blue-700 to-blue-500 leading-pro text-xs ease-soft-in tracking-tight-soft shadow-soft-md bg-150 bg-x-25 hover:scale-102 active:opacity-85 hover:shadow-soft-xs" type="button"> Tambah Daftar Pedoman </button>
           <!-- Main modal -->
 
 <!-- Modal Tambah Pedoman -->

@@ -33,7 +33,7 @@ class BidangKegiatanController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
+    {   
         // Validasi input
         $request->validate([
             'nama_bidang_kegiatan' => 'required|string|max:255',
