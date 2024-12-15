@@ -27,6 +27,7 @@ class MahasiswaAuthController extends Controller
             session([
                 'username' => $pengaju->username,
                 'id' => $pengaju->id,
+                'email' => $pengaju->email,
             ]);
             return redirect()->intended('/dashboard-pengaju');
         } else {
