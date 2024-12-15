@@ -47,9 +47,19 @@ class DashboardController extends Controller
 
     // Ambil semua dokumen dari database
     $documents = PedomanKemahasiswaan::select('nama_pedoman', 'file_pedoman')->get();
+    $userId = session('id'); // Ambil ID pengguna yang sedang login
+    $proposals = PengajuanProposal::where('id_pengguna', $userId)->get();
+
+    // Hitung statistik proposal untuk ditampilkan di grafik
+    $proposalStats = [
+        'lolos_validasi' => $proposals->where('status', 1)->count(),
+        'sedang_revisi' => $proposals->where('status', 3)->count(),
+        'ditolak' => $proposals->where('status', 2)->count(),
+    ];
+
 
     // Kirim data ke view
-    return view('proposal_kegiatan.dashboard-pengaju', compact('documents', 'remainingTime', 'isClosed', 'title'));
+    return view('proposal_kegiatan.dashboard-pengaju', compact('documents', 'remainingTime', 'isClosed', 'title', 'proposalStats'));
 }
 
     
