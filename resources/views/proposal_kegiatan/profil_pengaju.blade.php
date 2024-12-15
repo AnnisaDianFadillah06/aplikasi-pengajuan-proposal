@@ -1,4 +1,13 @@
-@extends('proposal_kegiatan\pengaju')
+@php
+    $layout = Auth::guard('mahasiswa')->check() 
+                ? 'proposal_kegiatan.pengaju' 
+                : (Auth::guard('dosen')->check() 
+                    ? 'proposal_kegiatan.reviewer' 
+                    : 'welcome'); // Tambahkan fallback layout jika diperlukan
+@endphp
+
+@extends($layout)
+
 @section('konten')
 
 <body class="bg-gray-100 font-sans antialiased">
