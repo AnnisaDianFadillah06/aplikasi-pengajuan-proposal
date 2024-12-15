@@ -28,6 +28,7 @@ class ReviewerAuthController extends Controller
                 'username' => $reviewer->username,
                 'role' => $reviewer->role,
                 'id' => $reviewer->id,
+                'email' => $reviewer->email,
             ]);
             return redirect()->intended('/dashboard-reviewer');
         } else {
@@ -38,4 +39,14 @@ class ReviewerAuthController extends Controller
             ]);
         }
     }
+
+    public function logout(Request $request)
+    {
+        Auth::guard('dosen')->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect()->route('login.dosen'); // Arahkan kembali ke halaman login dosen
+    }
+
 }

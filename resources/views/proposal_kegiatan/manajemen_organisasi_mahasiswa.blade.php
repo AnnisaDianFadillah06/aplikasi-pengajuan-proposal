@@ -1,4 +1,4 @@
-@extends('welcome')
+@extends('proposal_kegiatan\reviewer')
 @section('konten')
 <head>
     <meta name="csrf-token" content="{{ csrf_token() }}">

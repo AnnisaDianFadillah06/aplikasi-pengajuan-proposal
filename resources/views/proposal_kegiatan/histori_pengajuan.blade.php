@@ -1,4 +1,4 @@
-@extends('welcome')
+@extends('proposal_kegiatan\pengaju')
 @section('konten')
 
 <title>@yield('title', 'Histori Pengajuan')</title>

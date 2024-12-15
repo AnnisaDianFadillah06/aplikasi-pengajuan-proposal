@@ -1,9 +1,10 @@
-@extends('welcome')
+@extends('proposal_kegiatan\reviewer')
 @section('konten')
 <h1>Selamat datang di Dashboard Dosen</h1>
 
+{{-- Untuk cek session
 <h1>Welcome to the Dashboardd, {{ $username }}</h1>
-<p>Your role is: {{ $role }}</p>
+<p>Your role is: {{ $role }}</p> --}}
 
 <!-- Link Tailwind CSS dan FontAwesome untuk ikon -->
 <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
