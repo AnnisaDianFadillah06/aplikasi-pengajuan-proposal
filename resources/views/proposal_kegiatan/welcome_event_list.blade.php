@@ -460,6 +460,8 @@
                         Jenis Kegiatan
                     @elseif(Route::currentRouteName() == 'bidang-kegiatan.index')
                         Bidang Kegiatan
+                    @elseif(Route::currentRouteName() == 'event-list.index')
+                        Event List
                     @else
                         Undefined Page
                     @endif
