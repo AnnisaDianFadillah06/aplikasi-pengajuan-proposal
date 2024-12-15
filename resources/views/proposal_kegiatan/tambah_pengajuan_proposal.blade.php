@@ -1,4 +1,5 @@
-@extends('welcome')
+@extends('proposal_kegiatan\pengaju')
+
 
 @section('konten')
 @if ($errors->any())

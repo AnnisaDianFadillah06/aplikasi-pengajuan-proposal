@@ -1,4 +1,4 @@
-@extends('welcome')
+@extends('proposal_kegiatan\reviewer')
 @section('konten')
 
 
@@ -7,13 +7,13 @@
 <link rel="stylesheet" href="//cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
 
 {{-- Cek apakah ada sesi login dan tampilkan data pengguna --}}
-@if (session()->has('username') && session()->has('id'))
+{{-- @if (session()->has('username') && session()->has('id'))
     <p>Selamat datang, {{ session('username') }}!</p>
     <p>id Anda: {{ session('id') }}</p>
     <p>role  Anda: {{ session('role') }}</p>
 @else
     <p>Anda belum login.</p>
-@endif
+@endif --}}
 
 <!-- Link Tailwind CSS dan FontAwesome untuk ikon -->
 <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
@@ -59,7 +59,7 @@
                             <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
                             <div class="flex px-2 py-1">
                                 <div class="flex flex-col justify-center">
-                                <h6 class="mb-0 text-sm leading-normal">{{ $item->id_pengguna }} {{ $item->pengguna->nama_pengguna }}</h6>
+                                <h6 class="mb-0 text-sm leading-normal">{{ $item->pengguna->username }}</h6>
                                 <!-- <p class="mb-0 text-xs leading-tight text-slate-400">john@creative-tim.com</p> -->
                                 </div>
                             </div>

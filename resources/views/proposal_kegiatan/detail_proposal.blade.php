@@ -1,12 +1,12 @@
-@extends('welcome')
+@extends('proposal_kegiatan\pengaju')
 @section('konten')
 
-
+{{-- Untuk pengecekan
 <p>Proposal: {{ $proposal }}</p>
 <p>Current Step: {{ $currentStep }}</p>
 <p>Updated By Step: {{ $updatedByStep }}</p>
 <p>Status: {{ $status }}</p>
-<p>Status LPJ: {{ $status_lpj }}</p>
+<p>Status LPJ: {{ $status_lpj }}</p> --}}
 
 
 @php

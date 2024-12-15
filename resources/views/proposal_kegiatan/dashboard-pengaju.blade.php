@@ -1,13 +1,13 @@
-@extends('welcome')
+@extends('proposal_kegiatan/pengaju')
 @section('konten')
 
 {{-- Cek apakah ada sesi login dan tampilkan data pengguna --}}
-@if (session()->has('username') && session()->has('id'))
+{{-- @if (session()->has('username') && session()->has('id'))
     <p>Selamat datang, {{ session('username') }}!</p>
     <p>id Anda: {{ session('id') }}</p>
 @else
     <p>Anda belum login.</p>
-@endif
+@endif --}}
 
 <div class="flex justify-between p-8">
     <!-- Left Section: Daftar Pedoman -->
