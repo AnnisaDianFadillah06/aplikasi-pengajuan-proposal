@@ -8,7 +8,7 @@
 <div class="w-full p-6 mx-auto">
     <div class="flex flex-wrap -mx-3">
         <div class="flex-none w-full max-w-full px-3">
-            <iframe src="{{ asset($filePath) }}" width="1000px" height="600px"></iframe>
+            <iframe src="{{ asset($filePath) }}" width="900px" height="600px"></iframe>
         </div>
     </div>
 </div>
@@ -29,7 +29,7 @@
                                     <i class="leading-normal fas fa-user-edit text-sm text-slate-400"></i>
                                 </a>
                                 <div data-target="tooltip" class="hidden px-2 py-1 text-center text-white bg-black rounded-lg text-sm" role="tooltip">
-                                    Edit Profile
+                                    Informasi Kegiatan
                                     <div class="invisible absolute h-2 w-2 bg-inherit before:visible before:absolute before:h-2 before:w-2 before:rotate-45 before:bg-inherit before:content-['']" data-popper-arrow></div>
                                 </div>
                             </div>
@@ -87,7 +87,7 @@
             </div>
 
             <!-- Review Proposal Kegiatan -->
-            <div class="w-full max-w-full px-3 lg-max:mt-6 xl:w-7/12">
+            <!-- <div class="w-full max-w-full px-3 lg-max:mt-6 xl:w-7/12">
                 <div class="relative flex flex-col h-full min-w-0 break-words bg-white border-0 shadow-soft-xl rounded-2xl bg-clip-border">
                     <div class="p-4 pb-0 mb-0 bg-white border-b-0 rounded-t-2xl">
                         <div class="flex flex-wrap -mx-3">
@@ -129,7 +129,7 @@
                         </form>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
         </div>
     </div>

@@ -24,4 +24,9 @@ class Reviewer extends Model
         'role',
         'email',
     ];
+    public function reviews()
+    {
+        return $this->hasMany(Review::class, 'id_dosen'); // 'id_dosen' adalah foreign key
+    }
+
 }

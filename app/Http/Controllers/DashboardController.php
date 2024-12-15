@@ -46,7 +46,7 @@ class DashboardController extends Controller
     }
 
     // Ambil semua dokumen dari database
-    $documents = PedomanKemahasiswaan::all();
+    $documents = PedomanKemahasiswaan::select('nama_pedoman', 'file_pedoman')->get();
 
     // Kirim data ke view
     return view('proposal_kegiatan.dashboard-pengaju', compact('documents', 'remainingTime', 'isClosed', 'title'));
@@ -90,13 +90,6 @@ class DashboardController extends Controller
                 $data1Ditolak[$proposal->month] = $proposal->total; // Store rejected count
             }
         }
-    
-        // Fetch years for the dropdown
-        $years = PengajuanProposal::select(DB::raw('EXTRACT(YEAR FROM tgl_kegiatan) as year'))
-            ->distinct()
-            ->orderBy('year', 'desc')
-            ->pluck('year');
-    
 
     
         // Siapkan data untuk grafik pie (hanya untuk status 1)

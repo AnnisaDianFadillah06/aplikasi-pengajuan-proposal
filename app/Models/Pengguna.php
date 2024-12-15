@@ -9,6 +9,7 @@ class Pengguna extends Model
 {
     use HasFactory;
     protected $table = 'pengaju';
-    // protected $primaryKey = 'id_pengguna';
+    protected $fillable = ['id', 'username', 'email']; // Sesuaikan kolom yang ada
+    protected $primaryKey = 'id';
 }
 

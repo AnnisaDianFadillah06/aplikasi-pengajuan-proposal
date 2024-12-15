@@ -87,48 +87,54 @@ class PedomanKemahasiswaanController extends Controller
      */
     // Fungsi untuk mengedit (update) data pedoman
     public function update(Request $request, $id)
-    {
+    {   
+        // dd($request->all());
+
         // Temukan data pedoman berdasarkan ID
         $pedoman = PedomanKemahasiswaan::findOrFail($id);
 
         // Validasi input
         $request->validate([
-            'nama_pedoman' => 'required|string|max:255',
-            'file' => 'nullable|file|mimes:pdf,doc,docx|max:2048',
-            'status' => 'required|boolean'
+            'edit_name' => 'required|string|max:255',
+            'edit_status' => 'required|boolean'
         ]);
 
         // Update nama pedoman dan status
-        $pedoman->nama_pedoman = $request->input('nama_pedoman');
-        $pedoman->status = $request->input('status');
+        $pedoman->nama_pedoman = $request->input('edit_name');
+        $pedoman->status = $request->input('edit_status');
         // $pedoman->updated_by = auth()->id();
 
         // Cek apakah ada file baru yang di-upload
-        if ($request->hasFile('file')) {
-            // Hapus file lama jika ada
+        if ($request->hasFile('file_pedoman_edit')) {
             if (File::exists(public_path($pedoman->file_pedoman))) {
-                File::delete(public_path($pedoman->file_pedoman));
+                File::delete(public_path($pedoman->file_pedoman));  // Hapus file lama jika ada
             }
-
-            // Ambil file baru
-            $file = $request->file('file');
+        
+            $file = $request->file('file_pedoman_edit');
             $fileName = 'pedoman_' . time() . '_' . $file->getClientOriginalName();
             $filePath = 'laraview/' . $fileName;
-
+        
             // Simpan file baru ke folder public/laraview
             $file->move(public_path('laraview'), $fileName);
-
+        
             // Update path file pada database
             $pedoman->file_pedoman = $filePath;
         }
+        
+        // Tidak ada perubahan pada file_pedoman, jadi cukup simpan update nama dan status saja
+    if (!$request->hasFile('file_pedoman_edit')) {
+        // Menjaga file yang lama tetap ada di database
+        $pedoman->file_pedoman = $pedoman->file_pedoman;
+    }
 
         // Simpan perubahan
         $pedoman->save();
-
-        return response()->json([
-            'message' => 'Pedoman berhasil diperbarui',
-            'data' => $pedoman
-        ], 200);
+                    // Set a success flash message
+                    session()->flash('alert', [
+                        'type' => 'success', 
+                        'message' => 'Data has been saved successfully.'
+                    ]);
+                   return redirect()->route('pedoman.index');
     }
 
     /**

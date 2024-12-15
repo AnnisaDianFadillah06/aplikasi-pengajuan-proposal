@@ -25,6 +25,7 @@ Route::get('/', function () {
 
 // Route ANNISA DIAN FADILLAH
 Route::get('/manajemen-review', [ReviewController::class, 'index'])->name('proposal.index');
+Route::get('/histori-review/{reviewProposal}', [ReviewController::class, 'historiReview'])->name('proposal.historiReview');
 Route::get('/detail-review/{reviewProposal}', [ReviewController::class, 'show'])->name('proposal.show');
 // Rute untuk menyimpan data revisi ke dalam tabel revisi_file
 Route::post('/manajemen-review/store', [ReviewController::class, 'store'])->name('proposal.store');
@@ -32,7 +33,7 @@ Route::get('/organisasi-mahasiswa', [OrmawaController::class, 'index']);
 Route::get('/dashboard/chart-data', [DashboardController::class, 'getChartData'])->name('proposal_kegiatan.getChartData');
 Route::get('/pedoman-kemahasiswaan', [PedomanKemahasiswaanController::class, 'index'])->name('pedoman.index'); // Untuk menampilkan data
 Route::post('/pedoman', [PedomanKemahasiswaanController::class, 'store'])->name('pedoman.store'); // Untuk menyimpan data baru
-Route::put('/pedoman/{id}', [PedomanKemahasiswaanController::class, 'update'])->name('pedoman.update'); // Untuk memperbarui data
+Route::put('/pedoman/{id}', [PedomanKemahasiswaanController::class, 'update'])->name('pedoman.edit'); // Untuk memperbarui data
 Route::delete('/pedoman/{id}', [PedomanKemahasiswaanController::class, 'destroy'])->name('pedoman.destroy'); // Untuk menghapus data
 
 // Route::get('/countdown', function () {

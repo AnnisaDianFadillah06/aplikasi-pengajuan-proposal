@@ -57,6 +57,7 @@
                             <span class="mt-2 text-gray-400">or</span>
                             <span class="mt-2 text-blue-600">Browse files</span>
                             <input type="file" id="file_pedoman" name="file_pedoman" class="hidden" />
+                            <p id="file-name" class="mt-2 text-sm text-gray-500"></p>
                         </label>
                     </div>
                     <button type="submit" class="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-auto px-5 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
@@ -84,36 +85,46 @@
                     <span class="sr-only">Close modal</span>
                 </button>
             </div>
-            <form id="editForm" class="p-4 md:p-5">
-                <input type="hidden" id="edit_id" name="id">
-                <div class="grid gap-4 mb-4 grid-cols-2">
-                    <div class="col-span-2">
-                        <label for="edit_name" class="px-2 py-2 font-bold text-center align-middle bg-transparent shadow-none text-xxl whitespace-nowrap text-slate-400 opacity-70">Judul Pedoman</label>
-                        <input type="text" name="name" id="edit_name" class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-black dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Judul Pedoman" required="">
-                    </div>
-                    <div class="col-span-2 sm:col-span-2">
-                        <label for="edit_status" class="px-2 py-2 font-bold text-center align-middle bg-transparent shadow-none text-xxl whitespace-nowrap text-slate-400 opacity-70">Status</label>
-                        <select id="edit_status" class="bg-white border  block w-72 border-gray-300 text-black text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" required="">
-                            <option value="1">Aktif</option>
-                            <option value="0">Tidak Aktif</option>
-                        </select>
-                    </div>
-                    <div class="col-span-2 sm:col-span-2 flex items-center justify-center w-full">
-                        <label class="flex flex-col items-center w-full p-6 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:bg-gray-100 hover:border-blue-500">
-                            <span class="text-gray-500">Drag and drop your files here</span>
-                            <span class="mt-2 text-gray-400">or</span>
-                            <span class="mt-2 text-blue-600">Browse files</span>
-                            <input type="file" id="edit_file" class="hidden" />
-                        </label>
-                    </div>
-                    <button type="submit" class="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-auto px-5 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" data-modal-target="editModal" data-modal-toggle="editModal">
-                        Update
-                    </button>
-                    <button type="button" data-modal-hide="editModal" class="text-white inline-flex items-center bg-gray-600 hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm w-auto px-5 py-2 text-center dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800">
-                        Cancel
-                    </button>
-                </div>
-            </form>
+            @foreach ($pedomanList as $pedoman)
+    <form id="editForm{{ $pedoman->id_pedoman }}" action="{{ route('pedoman.edit', ['id' => $pedoman->id_pedoman]) }}" method="POST" enctype="multipart/form-data" class="p-4 md:p-5">
+        @csrf
+        @method('PUT') <!-- Ini yang memungkinkan penggunaan PUT -->
+        <input type="hidden" id="edit_id{{ $pedoman->id_pedoman }}" name="id" value="{{ $pedoman->id_pedoman }}">
+
+        <div class="grid gap-4 mb-4 grid-cols-2">
+            <div class="col-span-2">
+                <label for="edit_name{{ $pedoman->id_pedoman }}" class="px-2 py-2 font-bold text-center align-middle bg-transparent shadow-none text-xxl whitespace-nowrap text-slate-400 opacity-70">Judul Pedoman</label>
+                <input type="text" name="edit_name" id="edit_name{{ $pedoman->id_pedoman }}" class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-black dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Judul Pedoman" value="{{ $pedoman->nama_pedoman }}" required="">
+            </div>
+            <div class="col-span-2 sm:col-span-2">
+                <label for="edit_status{{ $pedoman->id_pedoman }}" class="px-2 py-2 font-bold text-center align-middle bg-transparent shadow-none text-xxl whitespace-nowrap text-slate-400 opacity-70">Status</label>
+                <select id="edit_status{{ $pedoman->id_pedoman }}" name="edit_status" class="bg-white border block w-72 border-gray-300 text-black text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" required="">
+                    <option value="1" {{ $pedoman->status == 1 ? 'selected' : '' }}>Aktif</option>
+                    <option value="0" {{ $pedoman->status == 0 ? 'selected' : '' }}>Tidak Aktif</option>
+                </select>
+            </div>
+            <div class="col-span-2 sm:col-span-2 flex items-center justify-center w-full">
+                <label class="flex flex-col items-center w-full p-6 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:bg-gray-100 hover:border-blue-500">
+                    <span class="text-gray-500">Drag and drop your files here</span>
+                    <span class="mt-2 text-gray-400">or</span>
+                    <span class="mt-2 text-blue-600">Browse files</span>
+                    <input type="file" id="file_pedoman_edit{{ $pedoman->id_pedoman }}" name="file_pedoman_edit" class="hidden" />
+                    <p id="file-name" class="mt-2 text-sm text-gray-500"></p>
+                </label>
+            </div>
+            <button type="submit" class="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-auto px-5 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" data-modal-target="editModal" data-modal-toggle="editModal">
+                Update
+            </button>
+            <button type="button" data-modal-hide="editModal" class="text-white inline-flex items-center bg-gray-600 hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm w-auto px-5 py-2 text-center dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800">
+                Cancel
+            </button>
+        </div>
+    </form>
+@endforeach
+
+<!-- Tombol Edit untuk membuka modal -->
+<button class="editBtn bg-blue-500 text-white px-2 py-1 rounded" data-id="{{ $pedoman->id_pedoman }}" data-modal-target="editModal" data-modal-toggle="editModal" onclick="openEditModal('{{ addslashes($pedoman->nama_pedoman) }}', '{{ $pedoman->status }}', '{{ addslashes($pedoman->file_pedoman) }}', '{{ $pedoman->id_pedoman }}')">Edit</button>
+
         </div>
     </div>
 </div>
@@ -199,7 +210,7 @@
                 </td>
 
                 <td class="p-2 text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                    <button class="editBtn bg-blue-500 text-white px-2 py-1 rounded" data-id="{{ $pedoman->id_pedoman }}" data-modal-target="editModal" data-modal-toggle="editModal">Edit</button>
+                    <button class="editBtn bg-blue-500 text-white px-2 py-1 rounded" data-id="{{ $pedoman->id_pedoman }}" data-modal-target="editModal" data-modal-toggle="editModal" onclick="openEditModal('{{ addslashes($pedoman->nama_pedoman) }}', '{{ $pedoman->status }}', '{{ addslashes($pedoman->file_pedoman) }}', '{{ $pedoman->id_pedoman }}')">Edit</button>
                     <button class="deleteBtn bg-red-500 text-white px-2 py-1 rounded" data-id="{{ $pedoman->id_pedoman }}" id="deleteButton" data-modal-target="deleteModal" data-modal-toggle="deleteModal">Hapus</button>
                 </td>
               </tr>
@@ -238,6 +249,36 @@
 
 <!-- Script DataTables -->
 <script>
+function openEditModal(name, status, filePath, id) {
+    // Isi input dengan data yang diambil
+    document.getElementById('edit_name').value = name;
+    document.getElementById('edit_status').value = status;
+
+        // Tampilkan nama file yang sudah ada (jika ada)
+        if (filePath) {
+        const fileName = filePath.split('/').pop();
+        document.getElementById('file-name').textContent = fileName;  // Menampilkan nama file
+    }
+
+
+        // Buka modal (opsional jika modal tidak otomatis terbuka)
+        const editModal = document.getElementById('editModal');
+        if (editModal.classList.contains('hidden')) {
+            editModal.classList.remove('hidden'); // Pastikan class "hidden" dihapus
+        }
+    }
+
+
+    document.getElementById('file_pedoman').addEventListener('change', function(event) {
+        const fileNameElement = document.getElementById('file-name');
+        const file = event.target.files[0]; // Ambil file pertama yang dipilih
+
+        if (file) {
+            fileNameElement.textContent = `File yang dipilih: ${file.name}`; // Tampilkan nama file
+        } else {
+            fileNameElement.textContent = ''; // Kosongkan teks jika tidak ada file yang dipilih
+        }
+    });
     $(document).ready(function() {
         $('#myTable').DataTable({
             "paging": true,

@@ -15,7 +15,7 @@ class PengajuanProposal extends Model
 
     public function pengguna()
     {
-        return $this->belongsTo(Pengguna::class, 'id_pengguna');
+        return $this->belongsTo(Pengguna::class, 'id_pengguna', 'id');
     }
 
     public function jenisKegiatan()

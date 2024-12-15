@@ -15,4 +15,15 @@ class ReviewProposal extends Model
     protected $primaryKey = 'id_revisi';
     // Nonaktifkan timestamps
     public $timestamps = false;
+
+    public function proposal()
+    {
+        return $this->belongsTo(PengajuanProposal::class, 'id_proposal'); // Ganti 'id_proposal' jika nama kolom foreign key berbeda
+    }
+    public function dosen()
+    {
+        return $this->belongsTo(Reviewer::class, 'id_dosen'); // 'id_dosen' adalah foreign key
+    }
+
+
 }

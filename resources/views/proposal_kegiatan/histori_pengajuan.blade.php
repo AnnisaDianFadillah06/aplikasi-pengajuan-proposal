@@ -35,7 +35,7 @@
                         </span>
                     </td>
                     <td class="p-2 text-center border-b border-gray-200">
-                        <a href="{{ route('proposal.show', ['reviewProposal' => $proposal->id_proposal]) }}" class="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600 hover:underline">Detail</a>
+                        <a href="{{ route('proposal.historiReview', ['reviewProposal' => $proposal->id_proposal]) }}" class="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600 hover:underline">Detail</a>
                     </td>
                 </tr>
             @endforeach
