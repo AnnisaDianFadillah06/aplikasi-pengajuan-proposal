@@ -38,4 +38,14 @@ class ReviewerAuthController extends Controller
             ]);
         }
     }
+
+    public function logout(Request $request)
+    {
+        Auth::guard('dosen')->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect()->route('login.dosen'); // Arahkan kembali ke halaman login dosen
+    }
+
 }

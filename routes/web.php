@@ -75,6 +75,8 @@ Route::controller(AuthController::class)->group(function () {
     Route::post('/reset-password', 'resetPassword')->name('password.update');
 
     // Logout route should be outside the '/home' route
+    Route::post('/logout-dosen', [ReviewerAuthController::class, 'logout'])->name('logout.dosen');
+    Route::post('/logout-mahasiswa', [MahasiswaAuthController::class, 'logout'])->name('logout.mahasiswa');
     Route::post('/logout', 'logout')->name('logout');
 });
 //---------------------------------------------------------------------------------------
@@ -142,6 +144,7 @@ Route::middleware('isPengaju')->group(function () {
     // Angel
     Route::get('/histori-pengajuan', [HistoriPengajuanController::class, 'index'])->name('histori.pengajuan');
     Route::get('/download-pdf', [HistoriPengajuanController::class, 'downloadPDF'])->name('download.pdf');
+    
     // Dhea
     
     // Harish

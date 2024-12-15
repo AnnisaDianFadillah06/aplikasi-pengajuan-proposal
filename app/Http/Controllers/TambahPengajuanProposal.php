@@ -7,8 +7,10 @@ use Illuminate\Http\Request;
 use App\Models\JenisKegiatan;
 use App\Models\BidangKegiatan;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Auth;
+// use Illuminate\Support\Facades\Auth;
 use PHPUnit\Framework\MockObject\Stub\ReturnReference;
+use Carbon\Carbon;
+
 
 class TambahPengajuanProposal extends Controller
 {
@@ -28,7 +30,17 @@ class TambahPengajuanProposal extends Controller
         $request->validate([
             'nama_kegiatan'=>'required',
             'tempat_kegiatan'=>'required',
-            'tanggal_kegiatan'=>'required',
+            'tanggal_kegiatan' => [
+                'required',
+                'date',
+                function ($attribute, $value, $fail) {
+                    // Cek apakah tanggal kegiatan lebih dari 5 hari dari hari ini
+                    $minDate = now()->addDays(6)->startOfDay();
+                    if (Carbon::parse($value)->lt($minDate)) {
+                        $fail('Tanggal kegiatan harus lebih dari 5 hari dari hari ini.');
+                    }
+                },
+            ],
             'id_jenis_kegiatan'=>'required',
             'id_bidang_kegiatan'=>'required',
             'id_ormawa'=>'required',        //sudah id, karena pada saat form menggunakan akses ke db langsung untuk ormawa
