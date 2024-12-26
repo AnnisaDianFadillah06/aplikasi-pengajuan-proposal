@@ -16,6 +16,7 @@ class OrmawaSeeder extends Seeder
     {
         $now = Carbon::now();
         DB::connection('pgsql')->table('ormawa')->insert([
+            ['id_ormawa' => 0, 'nama_ormawa' => 'NON', 'status' => 'Aktif', 'created_at' => $now, 'updated_at' => $now],
             ['id_ormawa' => 1, 'nama_ormawa' => 'MPM', 'status' => 'Aktif', 'created_at' => $now, 'updated_at' => $now],
             ['id_ormawa' => 2, 'nama_ormawa' => 'BEM', 'status' => 'Aktif', 'created_at' => $now, 'updated_at' => $now],
             ['id_ormawa' => 3, 'nama_ormawa' => 'HMM', 'status' => 'Aktif', 'created_at' => $now, 'updated_at' => $now],

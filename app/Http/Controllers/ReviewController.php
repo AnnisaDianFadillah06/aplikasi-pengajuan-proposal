@@ -133,6 +133,7 @@ class ReviewController extends Controller
             if (session()->has('id') && session('id') == 6) {
                 // Ubah status proposal sesuai input
                 $proposal->status = $request->input('status_revisi');
+                $proposal->status_kegiatan = 2;
             }
             
             // Periksa apakah status proposal adalah 1 sebelum menetapkan updated_by

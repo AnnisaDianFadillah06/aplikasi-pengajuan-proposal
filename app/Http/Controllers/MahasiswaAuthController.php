@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Pengguna;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -18,8 +19,13 @@ class MahasiswaAuthController extends Controller
         $username = $mahasiswa->username;
 
         // Cek di database pengaju
-        $pengaju = DB::connection('pgsql')
-            ->table('pengaju')
+        // $pengaju = DB::connection('pgsql')
+        //     ->table('pengaju')
+        //     ->where('username', $username)
+        //     ->first();
+        
+            // Cari reviewer menggunakan Eloquent
+        $pengaju = Pengguna::with('ormawa') // Memuat relasi role
             ->where('username', $username)
             ->first();
 
@@ -27,6 +33,7 @@ class MahasiswaAuthController extends Controller
             session([
                 'username' => $pengaju->username,
                 'id' => $pengaju->id,
+                'ormawa' => $pengaju->ormawa->nama_ormawa,
                 'email' => $pengaju->email,
             ]);
             return redirect()->intended('/dashboard-pengaju');

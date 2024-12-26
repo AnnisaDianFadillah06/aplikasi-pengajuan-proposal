@@ -21,12 +21,24 @@ class Reviewer extends Model
     // Tentukan kolom-kolom yang dapat diisi (fillable)
     protected $fillable = [
         'username',
-        'role',
+        'id_role',
         'email',
+        'id_ormawa',
     ];
-    public function reviews()
+
+    // relasi ke tabel role
+    public function role()
     {
-        return $this->hasMany(Review::class, 'id_dosen'); // 'id_dosen' adalah foreign key
+        return $this->belongsTo(Role::class, 'id_role', 'id_role');
     }
+    // Relasi ke tabel ormawa
+    public function ormawa()
+    {
+        return $this->belongsTo(Ormawa::class, 'id_ormawa', 'id_ormawa');
+    }
+    // public function reviews()
+    // {
+    //     return $this->hasMany(Review::class, 'id_dosen'); // 'id_dosen' adalah foreign key
+    // }
 
 }

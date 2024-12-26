@@ -2,12 +2,12 @@
 @section('konten')
 
 
-<p>Proposal: {{ $proposal }}</p>
+{{-- <p>Proposal: {{ $proposal }}</p>
 <p>Current Step: {{ $currentStep }}</p>
 <p>Updated By Step: {{ $updatedByStep }}</p>
 <p>Status: {{ $status }}</p>
 <p>Status LPJ: {{ $status_lpj }}</p>
-<h1>ini teh LPJJJJ</h1>
+<h1>ini teh LPJJJJ</h1> --}}
 
 @php
     use App\Models\Reviewer;

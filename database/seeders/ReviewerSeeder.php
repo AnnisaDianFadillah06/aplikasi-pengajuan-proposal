@@ -16,7 +16,8 @@ class ReviewerSeeder extends Seeder
             [
                 'id' => 1,
                 'username' => 'prita',
-                'role' => 'sekbem',
+                'id_role' => 1, // Referensi ke id_role di tabel roles
+                'id_ormawa' => 0, // Referensi ke id_role di tabel ormawa
                 'email' => 'prita@polban.ac.id',
                 'nama_lengkap' => 'Prita Setiawan',
                 'foto_profil' => 'img/reviewer/prita.jpg',
@@ -25,7 +26,8 @@ class ReviewerSeeder extends Seeder
             [
                 'id' => 2,
                 'username' => 'ucup',
-                'role' => 'kabem',
+                'id_role' => 1, // Referensi ke id_role di tabel roles
+                'id_ormawa' => 1,
                 'email' => 'ucup@polban.ac.id',
                 'nama_lengkap' => 'Ucup Wiratama',
                 'foto_profil' => 'img/reviewer/ucup.jpg',
@@ -34,7 +36,8 @@ class ReviewerSeeder extends Seeder
             [
                 'id' => 3,
                 'username' => 'idoy',
-                'role' => 'pembina',
+                'id_role' => 2, // Referensi ke id_role di tabel roles
+                'id_ormawa' => 2,
                 'email' => 'idoy@polban.ac.id',
                 'nama_lengkap' => 'Idoy Sukardi',
                 'foto_profil' => 'img/reviewer/idoy.jpg',
@@ -43,7 +46,8 @@ class ReviewerSeeder extends Seeder
             [
                 'id' => 4,
                 'username' => 'hikmah',
-                'role' => 'kajur',
+                'id_role' => 3, // Referensi ke id_role di tabel roles
+                'id_ormawa' => 2,
                 'email' => 'hikmah@polban.ac.id',
                 'nama_lengkap' => 'Hikmah Putri',
                 'foto_profil' => 'img/reviewer/hikmah.jpg',
@@ -52,7 +56,8 @@ class ReviewerSeeder extends Seeder
             [
                 'id' => 5,
                 'username' => 'komli',
-                'role' => 'kli',
+                'id_role' => 4, // Referensi ke id_role di tabel roles
+                'id_ormawa' => 0,
                 'email' => 'komli@polban.ac.id',
                 'nama_lengkap' => 'Komli Hermawan',
                 'foto_profil' => 'img/reviewer/komli.jpg',
@@ -61,7 +66,8 @@ class ReviewerSeeder extends Seeder
             [
                 'id' => 6,
                 'username' => 'toni',
-                'role' => 'wd3',
+                'id_role' => 5, // Referensi ke id_role di tabel roles
+                'id_ormawa' => 0,
                 'email' => 'toni@polban.ac.id',
                 'nama_lengkap' => 'Toni Pratama',
                 'foto_profil' => 'img/reviewer/toni.jpg',

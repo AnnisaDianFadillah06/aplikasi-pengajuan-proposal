@@ -22,6 +22,10 @@ return new class extends Migration
             $table->date('tanggal_bergabung')->nullable(); // Tanggal bergabung ke sistem
             $table->string('nama_ormawa', 100)->nullable(); // Nama organisasi mahasiswa
             $table->string('nim', 20)->nullable(); // NIM
+            $table->unsignedBigInteger('id_ormawa'); // Foreign key ke tabel ormawa
+
+            // foreign key ke tabel ormawa
+            $table->foreign('id_ormawa')->references('id_ormawa')->on('ormawa')->onDelete('cascade');
         });
     }
 

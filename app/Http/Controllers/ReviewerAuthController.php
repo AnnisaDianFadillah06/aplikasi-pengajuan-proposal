@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Reviewer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -17,16 +18,16 @@ class ReviewerAuthController extends Controller
         $dosen = Auth::guard('dosen')->user();
         $username = $dosen->username;
 
-        // Cek di database reviewer
-        $reviewer = DB::connection('pgsql')
-            ->table('reviewer')
+        // Cari reviewer menggunakan Eloquent
+        $reviewer = Reviewer::with('role','ormawa') // Memuat relasi role
             ->where('username', $username)
             ->first();
-
+            
         if ($reviewer) {
             session([
                 'username' => $reviewer->username,
-                'role' => $reviewer->role,
+                'role' => $reviewer->role->role,
+                'ormawa' => $reviewer->ormawa->nama_ormawa,
                 'id' => $reviewer->id,
                 'email' => $reviewer->email,
             ]);
