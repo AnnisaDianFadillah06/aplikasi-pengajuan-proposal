@@ -27,7 +27,9 @@ class ReviewerAuthController extends Controller
             session([
                 'username' => $reviewer->username,
                 'role' => $reviewer->role->role,
+                'id_role' => $reviewer->id_role,
                 'ormawa' => $reviewer->ormawa->nama_ormawa,
+                'id_ormawa' => $reviewer->id_ormawa,
                 'id' => $reviewer->id,
                 'email' => $reviewer->email,
             ]);

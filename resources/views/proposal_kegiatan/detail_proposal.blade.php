@@ -1,12 +1,12 @@
 @extends('proposal_kegiatan\pengaju')
 @section('konten')
 
-{{-- Untuk pengecekan
+Untuk pengecekan
 <p>Proposal: {{ $proposal }}</p>
 <p>Current Step: {{ $currentStep }}</p>
 <p>Updated By Step: {{ $updatedByStep }}</p>
 <p>Status: {{ $status }}</p>
-<p>Status LPJ: {{ $status_lpj }}</p> --}}
+<p>Status LPJ: {{ $status_lpj }}</p>
 
 
 @php
@@ -57,7 +57,7 @@
                 <div class="flex w-full bg-gray-200 h-0.5"></div>
             </div>
             <div class="mt-3">
-                <h3 class="font-medium text-gray-900">Sekre BEM</h3>
+                <h3 class="font-medium text-gray-900">BEM</h3>
             </div>
         </li>
 
@@ -70,7 +70,7 @@
                 <div class="flex w-full bg-gray-200 h-0.5"></div>
             </div>
             <div class="mt-3">
-                <h3 class="font-medium text-gray-900">Ketua BEM</h3>
+                <h3 class="font-medium text-gray-900">Pembina</h3>
             </div>
         </li>
 
@@ -83,7 +83,7 @@
                 <div class="flex w-full bg-gray-200 h-0.5"></div>
             </div>
             <div class="mt-3">
-                <h3 class="font-medium text-gray-900">Pembina</h3>
+                <h3 class="font-medium text-gray-900">Ketua Jurusan</h3>
             </div>
         </li>
 
@@ -97,7 +97,7 @@
                     <div class="flex w-full bg-gray-200 h-0.5"></div>
                 </div>
                 <div class="mt-3">
-                    <h3 class="font-medium text-gray-900">Ketua Jurusan</h3>
+                    <h3 class="font-medium text-gray-900">KLI</h3>
                 </div>
             </li>
         @endif
@@ -111,12 +111,12 @@
                 <div class="flex w-full bg-gray-200 h-0.5"></div>
             </div>
             <div class="mt-3">
-                <h3 class="font-medium text-gray-900">KLI</h3>
+                <h3 class="font-medium text-gray-900">WADIR 3</h3>
             </div>
         </li>
 
         {{-- Step 6 --}}
-        <li class="relative w-full mb-6">
+        {{-- <li class="relative w-full mb-6">
             <div class="flex items-center">
                 <div class="z-10 flex items-center justify-center w-6 h-6 {{ $currentStep >= 6 ? 'bg-blue-600' : 'bg-gray-200' }} rounded-full ring-0 ring-white sm:ring-8 shrink-0">
                     <span class="flex w-3 h-3 {{ $currentStep >= 6 ? 'bg-blue-600' : 'bg-gray-900' }} rounded-full"></span>
@@ -125,7 +125,7 @@
             <div class="mt-3">
                 <h3 class="font-medium text-gray-900">WD3</h3>
             </div>
-        </li>
+        </li> --}}
     </ol>
 </div>
 
@@ -421,7 +421,7 @@
             </button>
         </form>
     @endif
-    @if ($currentStep < 6 && ($currentStep < $updatedByStep || $status_lpj == 1))
+    @if ($currentStep < 5 && ($currentStep < $updatedByStep || $status_lpj == 1))
         <form method="POST" action="{{ route('proposal.nextStep', $proposal->id_proposal) }}">
             @csrf
             <button type="submit" class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2">
@@ -440,7 +440,7 @@
         </form>
     @endif
     {{-- Cek kondisi khusus untuk halaman bukti proposal disetujui --}}
-    @if (($updatedByStep === 7 && $proposal->status === 1 && $currentStep === 6) || $status_lpj == 1)
+    @if (($updatedByStep === 7 && $proposal->status === 1 && $currentStep === 5) || $status_lpj == 1)
         
         <form method="GET" action="{{ route('proposal.generateLinkForProposal', $proposal->id_proposal) }}">
             @csrf

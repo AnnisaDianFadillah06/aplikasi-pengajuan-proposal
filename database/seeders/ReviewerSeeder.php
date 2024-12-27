@@ -27,7 +27,7 @@ class ReviewerSeeder extends Seeder
                 'id' => 2,
                 'username' => 'ucup',
                 'id_role' => 1, // Referensi ke id_role di tabel roles
-                'id_ormawa' => 1,
+                'id_ormawa' => 2,
                 'email' => 'ucup@polban.ac.id',
                 'nama_lengkap' => 'Ucup Wiratama',
                 'foto_profil' => 'img/reviewer/ucup.jpg',
@@ -37,9 +37,19 @@ class ReviewerSeeder extends Seeder
                 'id' => 3,
                 'username' => 'idoy',
                 'id_role' => 2, // Referensi ke id_role di tabel roles
-                'id_ormawa' => 2,
+                'id_ormawa' => 9,
                 'email' => 'idoy@polban.ac.id',
                 'nama_lengkap' => 'Idoy Sukardi',
+                'foto_profil' => 'img/reviewer/idoy.jpg',
+                'tanggal_bergabung' => '2020-05-20',
+            ],
+            [
+                'id' => 7,
+                'username' => 'rizz',
+                'id_role' => 2, // Referensi ke id_role di tabel roles
+                'id_ormawa' => 3,
+                'email' => 'rizz@polban.ac.id',
+                'nama_lengkap' => 'Rizz saputra',
                 'foto_profil' => 'img/reviewer/idoy.jpg',
                 'tanggal_bergabung' => '2020-05-20',
             ],

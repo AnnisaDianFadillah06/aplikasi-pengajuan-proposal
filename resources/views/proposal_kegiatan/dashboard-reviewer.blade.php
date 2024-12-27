@@ -9,7 +9,8 @@
 @if (session()->has('username') && session()->has('id'))
     <p>Selamat datang, {{ session('username') }}!</p>
     <p>id Anda: {{ session('id') }}</p>
-    <p>role Anda: {{ session('ormawa') }}</p>
+    <p>id role Anda: {{ session('id_role') }}</p>
+    <p>role Anda: {{ session('role') }}</p>
     <p>ormawa: {{ session('ormawa') }}</p>
 @else
     <p>Anda belum login.</p>
