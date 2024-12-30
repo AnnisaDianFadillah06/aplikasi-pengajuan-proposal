@@ -10,8 +10,32 @@ class PengajuanProposal extends Model
     use HasFactory;
 
     protected $table = "proposal_kegiatan";
-    protected $guarded = ['id_proposal'];
     protected $primaryKey = 'id_proposal';
+    protected $guarded = ['id_proposal'];
+
+    protected $fillable = [
+        'nama_kegiatan',
+        'tmpt_kegiatan',
+        'tgl_kegiatan',
+        'file_proposal',
+        'surat_berkegiatan_ketuplak',
+        'surat_pernyataan_ormawa',
+        'surat_kesediaan_pendampingan',
+        'surat_peminjaman_sarpras',
+        'id_jenis_kegiatan',
+        'id_bidang_kegiatan',
+        'id_ormawa',
+        'id_pengguna',
+        'created_at',
+        'updated_at',
+        'created_by',
+        'updated_by',
+        'status',
+        'status_lpj',
+        'status_kegiatan',
+        'tanggal_mulai',
+        'tanggal_akhir',
+    ];
 
     public function pengguna()
     {
@@ -28,16 +52,13 @@ class PengajuanProposal extends Model
         return $this->belongsTo(BidangKegiatan::class, 'id_bidang_kegiatan', 'id_bidang_kegiatan');
     }
     
-    // Relasi dengan ormawa
     public function ormawa()
     {
         return $this->belongsTo(Ormawa::class, 'id_ormawa', 'id_ormawa');
     }
 
-    // relasi dengan tabel revisi
     public function revisions()
     {
         return $this->hasMany(ReviewProposal::class, 'id_proposal', 'id_proposal');
     }
-
 }

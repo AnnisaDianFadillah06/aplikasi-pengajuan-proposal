@@ -132,6 +132,7 @@
                                 </button>
                             </form>
                         </td>
+                        
                     </tr>
                 </tr>
                       
@@ -193,6 +194,37 @@
                 $(this).css('width', (text.length + 4) + 'ch');
             });
      }
+     document.addEventListener('DOMContentLoaded', () => {
+  // Ambil semua tombol dropdown
+  const dropdownTriggers = document.querySelectorAll('[data-dropdown-trigger]');
+
+  dropdownTriggers.forEach((trigger) => {
+    const menu = trigger.nextElementSibling; // Asumsikan ul berada tepat setelah tombol
+
+    trigger.addEventListener('click', (event) => {
+      // Mencegah dropdown lain dari tetap terbuka
+      document.querySelectorAll('[data-dropdown-menu]').forEach((dropdown) => {
+        if (dropdown !== menu) {
+          dropdown.classList.add('hidden');
+        }
+      });
+
+      // Toggle visibility dropdown saat tombol diklik
+      menu.classList.toggle('hidden');
+      event.stopPropagation();
+    });
+  });
+
+  // Tutup semua dropdown jika klik di luar dropdown
+  document.addEventListener('click', () => {
+    document.querySelectorAll('[data-dropdown-menu]').forEach((menu) => {
+      menu.classList.add('hidden');
+    });
+  });
+
+
+});
+
 </script>
 
 @endsection

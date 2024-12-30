@@ -315,12 +315,15 @@ class PengajuanProposalController extends Controller
             $fileName = time().'_'.$file->getClientOriginalName(); // Generate nama file unik
             $filePath = 'laraview/' . $fileName; // Path untuk disimpan di public/laraview
 
+
             // Simpan file langsung ke folder public/laraview
             $file->move(public_path('laraview'), $fileName);
             
             // update kolom file_lpj
             $proposal->update(['file_lpj' => $filePath]);
         }
+
+        
 
         // return redirect()->route('proposal.detail', $proposal->id_proposal)->with('success', 'Laporan pertanggung jawaban berhasil diajukan.');
         return redirect()->route('laporan.detail', [

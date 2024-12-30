@@ -3,91 +3,117 @@
 namespace App\Http\Controllers;
 
 use App\Models\Ormawa;
-use Illuminate\Http\Request;
 use App\Models\JenisKegiatan;
 use App\Models\BidangKegiatan;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-// use Illuminate\Support\Facades\Auth;
-use PHPUnit\Framework\MockObject\Stub\ReturnReference;
 use Carbon\Carbon;
-
 
 class TambahPengajuanProposal extends Controller
 {
     public function index()
     {
-        // Ambil semua data ormawa -- agar tampilan dropdown dinamis sesuai dengan database
         $ormawas = Ormawa::all();
-        // Ambil semua data jenis kegiatan -- agar tampilan dropdown dinamis sesuai dengan database
         $jenis_kegiatans = JenisKegiatan::all();
         $bidang_kegiatans = BidangKegiatan::all();
-        // Kirim data ke view
-        return view('proposal_kegiatan.tambah_pengajuan_proposal', compact('jenis_kegiatans','ormawas','bidang_kegiatans'));
+        return view('proposal_kegiatan.tambah_pengajuan_proposal', compact('jenis_kegiatans', 'ormawas', 'bidang_kegiatans'));
     }
 
     public function add(Request $request) 
     {
         $request->validate([
-            'nama_kegiatan'=>'required',
-            'tempat_kegiatan'=>'required',
+            'nama_kegiatan' => 'required',
+            'tempat_kegiatan' => 'required',
             'tanggal_kegiatan' => [
                 'required',
                 'date',
                 function ($attribute, $value, $fail) {
-                    // Cek apakah tanggal kegiatan lebih dari 5 hari dari hari ini
                     $minDate = now()->addDays(6)->startOfDay();
                     if (Carbon::parse($value)->lt($minDate)) {
                         $fail('Tanggal kegiatan harus lebih dari 5 hari dari hari ini.');
                     }
                 },
             ],
-            'id_jenis_kegiatan'=>'required',
-            'id_bidang_kegiatan'=>'required',
-            'id_ormawa'=>'required',        //sudah id, karena pada saat form menggunakan akses ke db langsung untuk ormawa
-            'file' => 'required|file|mimes:pdf',
+            'id_jenis_kegiatan' => 'required',
+            'id_bidang_kegiatan' => 'required',
+            'id_ormawa' => 'nullable',
+            'file_proposal' => 'required|file|mimes:pdf',
+            'surat_berkegiatan_ketuplak' => 'required|file|mimes:pdf',
+            'surat_pernyataan_ormawa' => 'required|file|mimes:pdf',
+            'surat_kesediaan_pendampingan' => 'required|file|mimes:pdf',
+            'surat_peminjaman_sarpras' => 'required|file|mimes:pdf',
+            // 'tanggal_mulai' => 'nullable|date',
+            'tanggal_mulai' => [
+                'required',
+                'date',
+                function ($attribute, $value, $fail) {
+                    $minDate = now()->addDays(6)->startOfDay();
+                    if (Carbon::parse($value)->lt($minDate)) {
+                        $fail('Tanggal kegiatan harus lebih dari 5 hari dari hari ini.');
+                    }
+                },
+            ],
+            'tanggal_akhir' => 'required|date',
         ]);
-        
-        // Ambil pengguna mahasiswa yang sedang login
-        $username = session('username');
-        $id_pengaju = session('id');
 
-        // Simpan file yang di-upload
-        // $filePath = $request->file('file')->store('proposals', 'public');
-        // Ambil file yang di-upload
-        $file = $request->file('file');
+        $id_pengaju = session('id'); // Ambil id pengguna dari session
 
-        // Tentukan nama file dan path untuk menyimpan
-        $fileName = time().'_'.$file->getClientOriginalName(); // Generate nama file unik
-        $filePath = 'laraview/' . $fileName; // Path untuk disimpan di public/laraview
+        $file_proposal = $request->file('file_proposal');
+        $file_berkegiatan_ketuplak = $request->file('surat_berkegiatan_ketuplak');
+        $file_pernyataan_ormawa = $request->file('surat_pernyataan_ormawa');
+        $file_kesediaan_pembina = $request->file('surat_kesediaan_pendampingan');
+        $file_peminjaman_sarpras = $request->file('surat_peminjaman_sarpras');
 
-        // Simpan file langsung ke folder public/laraview
-        $file->move(public_path('laraview'), $fileName);
+        $file_proposal_path = $file_proposal ? 'laraview/' . time() . '_' . $file_proposal->getClientOriginalName() : null;
+        $file_berkegiatan_ketuplak_path = $file_berkegiatan_ketuplak ? 'laraview/' . time() . '_' . $file_berkegiatan_ketuplak->getClientOriginalName() : null;
+        $file_pernyataan_ormawa_path = $file_pernyataan_ormawa ? 'laraview/' . time() . '_' . $file_pernyataan_ormawa->getClientOriginalName() : null;
+        $file_kesediaan_pembina_path = $file_kesediaan_pembina ? 'laraview/' . time() . '_' . $file_kesediaan_pembina->getClientOriginalName() : null;
+        $file_peminjaman_sarpras_path = $file_peminjaman_sarpras ? 'laraview/' . time() . '_' . $file_peminjaman_sarpras->getClientOriginalName() : null;
 
-        //insert ke database
+        if ($file_proposal) {
+            $file_proposal->move(public_path('laraview'), $file_proposal_path);
+        }
+        if ($file_berkegiatan_ketuplak) {
+            $file_berkegiatan_ketuplak->move(public_path('laraview'), $file_berkegiatan_ketuplak_path);
+        }
+        if ($file_pernyataan_ormawa) {
+            $file_pernyataan_ormawa->move(public_path('laraview'), $file_pernyataan_ormawa_path);
+        }
+        if ($file_kesediaan_pembina) {
+            $file_kesediaan_pembina->move(public_path('laraview'), $file_kesediaan_pembina_path);
+        }
+        if ($file_peminjaman_sarpras) {
+            $file_peminjaman_sarpras->move(public_path('laraview'), $file_peminjaman_sarpras_path);
+        }
+
         $query = DB::table('proposal_kegiatan')->insert([
             'nama_kegiatan' => $request->input('nama_kegiatan'),
             'tmpt_kegiatan' => $request->input('tempat_kegiatan'),
             'tgl_kegiatan' => $request->input('tanggal_kegiatan'),
-            'file_proposal' => $filePath,
+            'file_proposal' => $file_proposal_path,
+            'surat_berkegiatan_ketuplak' => $file_berkegiatan_ketuplak_path,
+            'surat_pernyataan_ormawa' => $file_pernyataan_ormawa_path,
+            'surat_kesediaan_pendampingan' => $file_kesediaan_pembina_path,
+            'surat_peminjaman_sarpras' => $file_peminjaman_sarpras_path,
             'id_jenis_kegiatan' => $request->input('id_jenis_kegiatan'),
             'id_bidang_kegiatan' => $request->input('id_bidang_kegiatan'),
             'id_ormawa' => $request->input('id_ormawa'),
-            'id_pengguna' => $id_pengaju, //sample
-            'created_at' => now(),  // Menyimpan nilai waktu saat ini
-            'updated_at' => now(),   // Menyimpan nilai waktu saat ini
-            'updated_by' => 1,   // Menyimpan nilai waktu saat ini
-            'status' => 0, //awal mengumpulan diberi status 0 (menunggu)
-            'status_lpj' => 0, //awal mengumpulan diberi status 0 (menunggu)
-            'status_kegiatan' => 3 //awal mengumpulan diberi status 0 (menunggu)
+            'id_pengguna' => $id_pengaju,
+            'created_at' => now(),
+            'updated_at' => now(),
+            'created_by' => $id_pengaju,
+            'updated_by' => $id_pengaju,
+            'status' => 0, // Default status
+            'status_lpj' => 0, // Default LPJ status
+            'status_kegiatan' => 3, // Default kegiatan status
+            'tanggal_mulai' => $request->input('tanggal_mulai'),
+            'tanggal_akhir' => $request->input('tanggal_akhir'),
         ]);
 
-        if($query) {
-            // return back()->with('sukses','Data berhasil tersimpan');
+        if ($query) {
             return redirect('/pengajuan-proposal')->with('sukses', 'Data berhasil tersimpan');
-        }else{
-            // return back()->with('Gagal','Terjadi kesalahan');
-            return redirect('/pengajuan-proposal')->with('Gagal','Terjadi kesalahan');
+        } else {
+            return redirect('/pengajuan-proposal')->with('error', 'Terjadi kesalahan');
         }
-        
     }
 }

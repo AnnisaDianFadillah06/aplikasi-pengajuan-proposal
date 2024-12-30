@@ -30,6 +30,29 @@
     $filePath = $latestDokumen && $latestDokumen->file_revisi 
                 ? $latestDokumen->file_revisi 
                 : $proposal->file_proposal;
+
+            // file proposal
+
+    // Surat Berkegiatan Ketuplak
+    $fileKetuplakPath = $latestDokumen && $latestDokumen->file_ketuplak_revisi 
+                        ? $latestDokumen->file_ketuplak_revisi 
+                        : $proposal->surat_berkegiatan_ketuplak;
+
+    // Surat Pernyataan Ormawa
+    $fileOrmawaPath = $latestDokumen && $latestDokumen->file_ormawa_revisi 
+                    ? $latestDokumen->file_ormawa_revisi 
+                    : $proposal->surat_pernyataan_ormawa;
+
+    // Surat Kesediaan Pembina
+    $filePembinaPath = $latestDokumen && $latestDokumen->file_pembina_revisi 
+                    ? $latestDokumen->file_pembina_revisi 
+                    : $proposal->surat_kesediaan_pendampingan;
+
+    // Surat Peminjaman Sarpras
+    $fileSarprasPath = $latestDokumen && $latestDokumen->file_sarpras_revisi 
+                    ? $latestDokumen->file_sarpras_revisi 
+                    : $proposal->surat_peminjaman_sarpras;
+
 @endphp
 
 {{-- Progress bar --}}
@@ -161,8 +184,12 @@
                     <td class="px-4 py-2">{{ $proposal->nama_kegiatan }}</td>
                 </tr>
                 <tr>
-                    <th class="text-left px-4 py-2">Tanggal Kegiatan</th>
-                    <td class="px-4 py-2">{{ $proposal->tgl_kegiatan }}</td>
+                    <th class="text-left px-4 py-2">Tanggal Mulai</th>
+                    <td class="px-4 py-2">{{ $proposal->tanggal_mulai }}</td>
+                </tr>
+                <tr>
+                    <th class="text-left px-4 py-2">Tanggal Akhir</th>
+                    <td class="px-4 py-2">{{ $proposal->tanggal_akhir }}</td>
                 </tr>
                 <tr>
                     <th class="text-left px-4 py-2">Tempat Kegiatan</th>
@@ -172,10 +199,10 @@
                     <th class="text-left px-4 py-2">Kategori</th>
                     <td class="px-4 py-2">{{ $proposal->jenisKegiatan->nama_jenis_kegiatan }}</td> <!--  ada relasi dengan tabel jenis kegiatan -->
                 </tr>
-                <tr>
+                {{-- <tr>
                     <th class="text-left px-4 py-2">Asal Ormawa</th>
                     <td class="px-4 py-2">{{ $proposal->ormawa->nama_ormawa }}</td> <!--  ada relasi dengan ormawa -->
-                </tr>
+                </tr> --}}
             </table>
         </div>
     </div>
@@ -194,8 +221,12 @@
                     <td class="px-4 py-2">{{ $proposal->nama_kegiatan }}</td>
                 </tr>
                 <tr>
-                    <th class="text-left px-4 py-2">Tanggal Kegiatan</th>
-                    <td class="px-4 py-2">{{ $proposal->tgl_kegiatan }}</td>
+                    <th class="text-left px-4 py-2">Tanggal Mulai</th>
+                    <td class="px-4 py-2">{{ $proposal->tanggal_mulai }}</td>
+                </tr>
+                <tr>
+                    <th class="text-left px-4 py-2">Tanggal Akhir</th>
+                    <td class="px-4 py-2">{{ $proposal->tanggal_akhir }}</td>
                 </tr>
                 <tr>
                     <th class="text-left px-4 py-2">Tempat Kegiatan</th>
@@ -206,8 +237,8 @@
                     <td class="px-4 py-2">{{ $proposal->jenisKegiatan->nama_jenis_kegiatan }}</td>
                 </tr>
                 <tr>
-                    <th class="text-left px-4 py-2">Asal Ormawa</th>
-                    <td class="px-4 py-2">{{ $proposal->ormawa->nama_ormawa }}</td>
+                    {{-- <th class="text-left px-4 py-2">Asal Ormawa</th>
+                    <td class="px-4 py-2">{{ $proposal->ormawa->nama_ormawa }}</td> --}}
                 </tr>
             </table>
 
@@ -234,6 +265,14 @@
                 <tr>
                     <th class="text-left px-4 py-2">Tanggal Kegiatan</th>
                     <td class="px-4 py-2">{{ $proposal->tgl_kegiatan }}</td>
+                </tr>
+                <tr>
+                    <th class="text-left px-4 py-2">Tanggal Mulai</th>
+                    <td class="px-4 py-2">{{ $proposal->tanggal_mulai }}</td>
+                </tr>
+                <tr>
+                    <th class="text-left px-4 py-2">Tanggal Akhir</th>
+                    <td class="px-4 py-2">{{ $proposal->tanggal_akhir }}</td>
                 </tr>
                 <tr>
                     <th class="text-left px-4 py-2">Tempat Kegiatan</th>
@@ -334,21 +373,44 @@
     <div class="bg-white p-5 rounded shadow">
         <button class="text-left w-full focus:outline-none" onclick="toggleCollapse('proposal-section')">
             <h2 class="text-2xl font-bold mb-4 flex items-center justify-between">
-                Dokumen Proposal
+                Dokumen
                 <span id="toggle-proposal" class="text-lg">[-]</span>
             </h2>
         </button>
-        <div id="proposal-section" class="transition-all duration-300">
-            <div class="w-full p-6 mx-auto">
-                <div class="flex flex-wrap -mx-3">
-                    <div class="flex-none w-full max-w-full px-3">
-                        <iframe src="{{ asset($filePath) }}" width="800px" height="700px"></iframe>
-                    </div>
-                </div>
-            </div>
+        <div class="flex mb-4 space-x-4">
+            <button onclick="toggleSection('proposal-section')"  class="nav-btn px-4 py-2 bg-blue-500 text-white rounded" data-target="proposal-section">Proposal</button>
+            <button onclick="toggleSection('surat-ketuplak-section')"  class="nav-btn px-4 py-2 bg-blue-500 text-white rounded" data-target="ketuplak-section">Surat Ketuplak</button>
+            <button onclick="toggleSection('surat-ormawa-section')"  class="nav-btn px-4 py-2 bg-blue-500 text-white rounded">Surat Ormawa</button>
+            <button onclick="toggleSection('surat-pembina-section')"  class="nav-btn px-4 py-2 bg-blue-500 text-white rounded">Surat Pembina</button>
+            <button onclick="toggleSection('surat-sarpras-section')"  class="nav-btn px-4 py-2 bg-blue-500 text-white rounded">Surat Sarpras</button>
+        </div>
+        
+        <div id="proposal-section" class="content-section">
+            {{-- <h3>Proposal Kegiatan</h3> --}}
+            <iframe src="{{ asset($filePath) }}" width="800px" height="700px"></iframe>
+        </div>
+        <div id="surat-ketuplak-section" class="content-section">
+            {{-- <h3>Surat Berkegiatan Ketuplak</h3> --}}
+            <iframe src="{{ asset($fileKetuplakPath) }}" width="800px" height="700px"></iframe>
+        </div>
+        <div id="surat-ormawa-section" class="content-section">
+            {{-- <h3>Surat Pernyataan Ormawa</h3> --}}
+            <iframe src="{{ asset($fileOrmawaPath) }}" width="800px" height="700px"></iframe>
+        </div>
+        <div id="surat-pembina-section" class="content-section">
+            {{-- <h3>Surat Kesediaan Pembina</h3> --}}
+            <iframe src="{{ asset($filePembinaPath) }}" width="800px" height="700px"></iframe>
+        </div>
+        <div id="surat-sarpras-section" class="content-section">
+            {{-- <h3>Surat Peminjaman Sarpras</h3> --}}
+            <iframe src="{{ asset($fileSarprasPath) }}" width="800px" height="700px"></iframe>
         </div>
     </div>
 </div>
+
+
+
+
 
 <div class="container mx-auto mt-5">
     <div class="bg-white p-5 rounded shadow">
@@ -405,9 +467,70 @@
         }
     }
 
+    function toggleDocuments() {
+    const navButtons = document.getElementById('nav-buttons');
+    const sections = document.querySelectorAll('.content-section');
+
+    // Toggle visibility of navigation buttons and all sections
+    isDocumentsVisible = !isDocumentsVisible;
+
+    if (isDocumentsVisible) {
+        navButtons.style.display = 'flex'; // Show navigation buttons
+        sections.forEach(section => {
+            section.style.display = 'none'; // Hide all sections initially
+        });
+        toggleSection('proposal-section'); // Default to showing the first document (Proposal)
+    } else {
+        navButtons.style.display = 'none'; // Hide navigation buttons
+        sections.forEach(section => {
+            section.style.display = 'none'; // Hide all sections
+        });
+    }
+}
+
+    function toggleSection(id) {
+    const sections = document.querySelectorAll('.content-section');
+    sections.forEach(section => {
+        section.style.display = section.id === id ? 'block' : 'none';
+    });
+}
+
+
     // Set default visibility for sections (expanded)
     document.getElementById('proposal-section').style.display = "none";
     document.getElementById('revision-section').style.display = "none";
+
+        document.addEventListener("DOMContentLoaded", function () {
+        const navButtons = document.querySelectorAll(".nav-btn");
+        const contentSections = document.querySelectorAll(".content-section");
+
+        // Function to show the selected section
+        function showSection(targetId) {
+            contentSections.forEach(section => {
+                section.classList.add("hidden"); // Hide all sections
+            });
+            document.getElementById(targetId).classList.remove("hidden"); // Show selected section
+        }
+
+        // Attach event listener to each navigation button
+        navButtons.forEach(button => {
+            button.addEventListener("click", function () {
+                const target = this.dataset.target;
+                showSection(target);
+
+                // Highlight the active button
+                navButtons.forEach(btn => btn.classList.remove("bg-blue-700"));
+                this.classList.add("bg-blue-700");
+            });
+        });
+
+        // Show the first section by default
+        showSection("proposal-section");
+    });
+</script>
+
+
+
 </script>
 
 
