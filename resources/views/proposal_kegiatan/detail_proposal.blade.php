@@ -1,36 +1,12 @@
 @extends('proposal_kegiatan\pengaju')
 @section('konten')
 
-Untuk pengecekan
+{{-- Untuk pengecekan --}}
 <p>Proposal: {{ $proposal }}</p>
 <p>Current Step: {{ $currentStep }}</p>
 <p>Updated By Step: {{ $updatedByStep }}</p>
 <p>Status: {{ $status }}</p>
 <p>Status LPJ: {{ $status_lpj }}</p>
-
-
-@php
-    use App\Models\Reviewer;
-    use App\Models\Ormawa;
-
-    // Ambil model reviewer berdasarkan id_pengguna dari updated_by
-    $reviewer = Reviewer::find($proposal->updated_by);
-    $ormawa = Ormawa::find($proposal->id_ormawa);
-
-    // Nama ormawa yang diambil dari relasi tabel
-    $nama_ormawa = $ormawa->nama_ormawa ?? '';
-
-        
-        // echo "Nama Jabatan: " . ($role ?? 'Tidak ada jabatan');
-        // echo "Nama Ormawa: " . ($nama_ormawa ?? 'Tidak ada ormawa');
-        // echo "\nStatus : ". ($proposal->status);
-    // Output untuk debugging
-
-    // file proposal
-    $filePath = $latestDokumen && $latestDokumen->file_revisi 
-                ? $latestDokumen->file_revisi 
-                : $proposal->file_proposal;
-@endphp
 
 {{-- Progress bar --}}
 <div class="flex justify-center items-center">
@@ -146,187 +122,15 @@ Untuk pengecekan
     </div>
 @endif
 
-
-{{-- Bagian Detail proposal --}}
+{{-- Bagian Detail Proposal --}}
 @if ($status == 1 || $currentStep < $updatedByStep || $status_lpj == 1)
-    {{-- Tampilkan Detail Proposal saja --}}
-    {{-- Bagian Detail Proposal --}}
-    <div class="container mx-auto mt-5">
-        <div class="bg-white p-5 rounded shadow">
-            <h2 class="text-2xl font-bold mb-4">Detail Proposal</h2>
-            
-            <table class="table-auto w-full">
-                <tr>
-                    <th class="text-left px-4 py-2">Nama Kegiatan</th>
-                    <td class="px-4 py-2">{{ $proposal->nama_kegiatan }}</td>
-                </tr>
-                <tr>
-                    <th class="text-left px-4 py-2">Tanggal Kegiatan</th>
-                    <td class="px-4 py-2">{{ $proposal->tgl_kegiatan }}</td>
-                </tr>
-                <tr>
-                    <th class="text-left px-4 py-2">Tempat Kegiatan</th>
-                    <td class="px-4 py-2">{{ $proposal->tmpt_kegiatan }}</td>
-                </tr>
-                <tr>
-                    <th class="text-left px-4 py-2">Kategori</th>
-                    <td class="px-4 py-2">{{ $proposal->jenisKegiatan->nama_jenis_kegiatan }}</td> <!--  ada relasi dengan tabel jenis kegiatan -->
-                </tr>
-                <tr>
-                    <th class="text-left px-4 py-2">Asal Ormawa</th>
-                    <td class="px-4 py-2">{{ $proposal->ormawa->nama_ormawa }}</td> <!--  ada relasi dengan ormawa -->
-                </tr>
-            </table>
-        </div>
-    </div>
-
-{{-- Bagian Detail proposal + Menunggu revisi--}}
+    @include('proposal_kegiatan.SectionDetail.DetailProposal.detail_only')
 @elseif ($status == 0)
-    {{-- Tampilkan Detail Proposal dengan Keterangan menunggu --}}
-    {{-- Bagian Detail Proposal --}}
-    <div class="container mx-auto mt-5">
-        <div class="bg-white p-5 rounded shadow">
-            <h2 class="text-2xl font-bold mb-4">Detail Proposal</h2>
-            
-            <table class="table-auto w-full">
-                <tr>
-                    <th class="text-left px-4 py-2">Nama Kegiatan</th>
-                    <td class="px-4 py-2">{{ $proposal->nama_kegiatan }}</td>
-                </tr>
-                <tr>
-                    <th class="text-left px-4 py-2">Tanggal Kegiatan</th>
-                    <td class="px-4 py-2">{{ $proposal->tgl_kegiatan }}</td>
-                </tr>
-                <tr>
-                    <th class="text-left px-4 py-2">Tempat Kegiatan</th>
-                    <td class="px-4 py-2">{{ $proposal->tmpt_kegiatan }}</td>
-                </tr>
-                <tr>
-                    <th class="text-left px-4 py-2">Kategori</th>
-                    <td class="px-4 py-2">{{ $proposal->jenisKegiatan->nama_jenis_kegiatan }}</td>
-                </tr>
-                <tr>
-                    <th class="text-left px-4 py-2">Asal Ormawa</th>
-                    <td class="px-4 py-2">{{ $proposal->ormawa->nama_ormawa }}</td>
-                </tr>
-            </table>
-
-            <div class="mt-4 p-3 bg-yellow-100 text-yellow-700 rounded">
-                <p>Proposal ini sedang menunggu review.</p>
-            </div>            
-        </div>
-    </div>
-
-
-{{-- Bagian Detail proposal + Ditolak --}}
+    @include('proposal_kegiatan.SectionDetail.DetailProposal.waiting_review')
 @elseif ($status == 2)
-    {{-- Tampilkan Detail Proposal dengan Keterangan Ditolak --}}
-    {{-- Bagian Detail Proposal --}}
-    <div class="container mx-auto mt-5">
-        <div class="bg-white p-5 rounded shadow">
-            <h2 class="text-2xl font-bold mb-4">Detail Proposal</h2>
-            
-            <table class="table-auto w-full">
-                <tr>
-                    <th class="text-left px-4 py-2">Nama Kegiatan</th>
-                    <td class="px-4 py-2">{{ $proposal->nama_kegiatan }}</td>
-                </tr>
-                <tr>
-                    <th class="text-left px-4 py-2">Tanggal Kegiatan</th>
-                    <td class="px-4 py-2">{{ $proposal->tgl_kegiatan }}</td>
-                </tr>
-                <tr>
-                    <th class="text-left px-4 py-2">Tempat Kegiatan</th>
-                    <td class="px-4 py-2">{{ $proposal->tmpt_kegiatan }}</td>
-                </tr>
-                <tr>
-                    <th class="text-left px-4 py-2">Kategori</th>
-                    <td class="px-4 py-2">{{ $proposal->jenisKegiatan->nama_jenis_kegiatan }}</td>
-                </tr>
-                <tr>
-                    <th class="text-left px-4 py-2">Asal Ormawa</th>
-                    <td class="px-4 py-2">{{ $proposal->ormawa->nama_ormawa }}</td>
-                </tr>
-            </table>
-
-            <div class="mt-4 p-3 bg-red-100 text-red-700 rounded">
-                <p>Proposal ini telah ditolak.</p>
-            </div>
-        </div>
-    </div>
-
-
-{{-- Bagian form revisi --}}
+    @include('proposal_kegiatan.SectionDetail.DetailProposal.rejected')
 @elseif ($status == 3)
-    {{-- Tampilkan Form Revisi --}}
-    {{-- Bagian Form Revisi --}}
-    <div class="container mx-auto mt-5">
-        <div class="flex flex-wrap -mx-3">
-            <!-- Bagian Kiri: Status dan Hasil Revisi -->
-            <div class="w-full md:w-1/2 px-3 mb-5">
-                <div class="p-5 bg-white border border-gray-300 rounded-lg shadow">
-                    <!-- Judul Status -->
-                    <h2 class="text-lg font-semibold text-gray-900 mb-3">Status</h2>
-                    <!-- Konten Status -->
-                    <div class="p-4 bg-gray-100 rounded-lg">
-                        <!-- Di sini nantinya akan memuat status dari database -->
-                        <p class="text-gray-700">
-                            @if ($latestRevision)
-                                @switch($latestRevision->status_revisi)
-                                    @case(0)
-                                        Menunggu
-                                        @break
-                                    @case(1)
-                                        Disetujui
-                                        @break
-                                    @case(2)
-                                        Ditolak
-                                        @break
-                                    @case(3)
-                                        Direvisi
-                                        @break
-                                    @default
-                                        Status tidak diketahui
-                                @endswitch
-                            @else
-                                Tidak ada status revisi.
-                            @endif
-                        </p>
-                    </div>
-                    <!-- Judul Hasil Revisi -->
-                    <h2 class="text-lg font-semibold text-gray-900 mb-3">Hasil Revisi</h2>
-                    <!-- Konten Hasil Revisi -->
-                    <div class="p-4 bg-gray-100 rounded-lg">
-                        <!-- Section kotak untuk catatan revisi dari database -->
-                        <p class="text-gray-700">
-                            {{ $latestRevision ? $latestRevision->catatan_revisi : 'Tidak ada catatan revisi.' }}
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Bagian Kanan: Form Input Attachment File -->
-            <div class="w-full md:w-1/2 px-3">
-                <div class="p-5 bg-white border border-gray-300 rounded-lg shadow">
-                    <form action="{{ route('proposal.uploadFileRevisi', $proposal->id_proposal) }}" method="POST" enctype="multipart/form-data" class="max-w-lg">
-                        @csrf
-                        <label class="block mb-2 text-sm font-medium text-gray-900" for="file_revisian">Upload File Revisi</label>
-                        <input type="file" name="file_revisian" id="file_revisian" class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none">
-                        
-                        @error('file_revisian')
-                            <p class="text-red-500 text-xs mt-2">{{ $message }}</p>
-                        @enderror
-            
-                        <!-- Tombol Close dan Simpan -->
-                        <div class="flex flex-wrap items-center justify-end p-3 border-t border-solid shrink-0 border-slate-100 rounded-b-xl">
-                            <button type="button" class="inline-block px-8 py-2 m-1 mb-4 text-xs font-bold text-center text-white uppercase align-middle transition-all border-0 rounded-lg cursor-pointer bg-gradient-to-tl from-slate-600 to-slate-300 shadow-soft-md bg-150 bg-x-25 hover:scale-102 active:opacity-85">Close</button>
-                            <button type="submit" class="inline-block px-8 py-2 m-1 mb-4 text-xs font-bold text-center text-white uppercase align-middle transition-all border-0 rounded-lg cursor-pointer bg-gradient-to-tl from-purple-700 to-pink-500 shadow-soft-md bg-150 bg-x-25 hover:scale-102 active:opacity-85">Simpan</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
+    @include('proposal_kegiatan.SectionDetail.DetailProposal.revision_form')
 @endif
 
 {{-- File Proposal terkini --}}

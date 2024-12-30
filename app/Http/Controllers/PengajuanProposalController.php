@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 
 use App\Models\Ormawa;
+use App\Models\Reviewer;
+
 
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -58,6 +60,8 @@ class PengajuanProposalController extends Controller
                                         // ->orderBy('tgl_revisi', 'desc')
                                         ->orderBy('id_revisi', 'desc')
                                         ->first();
+        
+        // assign var updatedByStep sesuai kondisi status pada tabel revisi file
         if ($latestReview) {
             $updatedByStep = $latestReview->status_revisi == 1 
                 ? $latestReview->id_dosen + 1 
@@ -102,6 +106,17 @@ class PengajuanProposalController extends Controller
                             ->whereNotNull('file_revisi') // Pastikan kolom file_revisi tidak null
                             ->orderBy('id_revisi', 'desc')
                             ->first();
+
+        // Ambil data reviewer dan ormawa terkait
+        $ormawa = Ormawa::find($proposal->id_ormawa);
+
+        // Nama ormawa yang diambil dari relasi tabel
+        $nama_ormawa = $ormawa->nama_ormawa ?? '';
+
+        // File proposal
+        $filePath = $latestDokumen && $latestDokumen->file_revisi 
+                    ? $latestDokumen->file_revisi 
+                    : $proposal->file_proposal;
                             
         return view('proposal_kegiatan.detail_proposal', [
             'proposal' => $proposal,
@@ -111,7 +126,8 @@ class PengajuanProposalController extends Controller
             'status_lpj' => $status_lpj,
             'latestRevision' => $latestReview, // Ganti nama untuk view
             'groupedRevisions' => $allRevision,
-            'latestDokumen' => $latestDokumen,
+            'filePath' => $filePath,
+            'nama_ormawa' => $nama_ormawa,
         ]);
     }
 

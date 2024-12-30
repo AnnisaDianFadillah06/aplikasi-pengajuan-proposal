@@ -68,8 +68,22 @@
                     @php
                         // Mengambil revisi terbaru yang sesuai dengan id_proposal
                         $latestReview = $latestReviews->firstWhere('id_proposal', $item->id_proposal);
-                        $statusRevisi = $latestReview ? $latestReview->status_revisi : null;
-                        $tahap = $latestReview ? $latestReview->id_dosen : $item->updated_by;
+
+                        if ($latestReview) {
+                            // Status revisi dan tahap berdasarkan review terbaru
+                            $statusRevisi = $latestReview->status_revisi;
+                            $tahap = $latestReview->id_dosen;
+
+                            // Pengondisian tambahan: jika status revisi adalah 1
+                            if ($statusRevisi == 1) {
+                                $statusRevisi = 0; // Mengubah status revisi menjadi 0
+                                $tahap += 1;       // Meningkatkan tahap
+                            }
+                        } else {
+                            // Jika tidak ada review terbaru, gunakan nilai default dari item
+                            $statusRevisi = null;
+                            $tahap = $item->updated_by;
+                        }
                     @endphp
                       <tr>
                         <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
@@ -109,16 +123,14 @@
                         <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
                             {{-- <a href="javascript:;" class="text-xs font-semibold leading-tight text-slate-400"> </a> --}}
                             @if ($tahap == 1)
-                                <p class="mb-0 text-xs font-semibold leading-tight">Sekre BEM</p>
+                                <p class="mb-0 text-xs font-semibold leading-tight">BEM</p>
                             @elseif ($tahap == 2)
-                                <p class="mb-0 text-xs font-semibold leading-tight">Ketua BEM</p>
-                            @elseif ($tahap == 3)
                                 <p class="mb-0 text-xs font-semibold leading-tight">Pembina</p>
+                            @elseif ($tahap == 3)
+                                <p class="mb-0 text-xs font-semibold leading-tight">Ketua Jurusan</p>
                             @elseif ($tahap == 4)
                                 <p class="mb-0 text-xs font-semibold leading-tight">Ketua Jurusan</p>
                             @elseif ($tahap == 5)
-                                <p class="mb-0 text-xs font-semibold leading-tight">KLI</p>
-                            @elseif ($tahap == 6)
                                 <p class="mb-0 text-xs font-semibold leading-tight">Wadir 3</p>
                             @endif
                         </td>

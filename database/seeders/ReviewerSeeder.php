@@ -54,6 +54,16 @@ class ReviewerSeeder extends Seeder
                 'tanggal_bergabung' => '2020-05-20',
             ],
             [
+                'id' => 8,
+                'username' => 'razz',
+                'id_role' => 2, // Referensi ke id_role di tabel roles
+                'id_ormawa' => 9,
+                'email' => 'razz@polban.ac.id',
+                'nama_lengkap' => 'Rizz saputra',
+                'foto_profil' => 'img/reviewer/idoy.jpg',
+                'tanggal_bergabung' => '2020-05-20',
+            ],
+            [
                 'id' => 4,
                 'username' => 'hikmah',
                 'id_role' => 3, // Referensi ke id_role di tabel roles
