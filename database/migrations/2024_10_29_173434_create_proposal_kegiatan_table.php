@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::connection('pgsql')->create('proposal_kegiatan', function (Blueprint $table) {
             $table->increments('id_proposal');
             $table->string('nama_kegiatan', 100);
-            $table->date('tgl_kegiatan');
+            // $table->date('tgl_kegiatan');
             $table->string('tmpt_kegiatan');
             $table->string('file_proposal');
             $table->integer('id_jenis_kegiatan')->nullable();

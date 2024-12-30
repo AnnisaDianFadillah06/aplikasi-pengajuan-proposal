@@ -77,7 +77,7 @@ class PengajuSeeder extends Seeder
                 'tanggal_bergabung' => '2023-02-15',
                 'nama_ormawa' => 'Himpunan Mahasiswa Jurusan Teknik Kimia',
                 'nim' => '231511020',
-                'id_ormawa' => 2,
+                'id_ormawa' => 9,
             ],
             [
                 'id' => 7,

@@ -34,7 +34,9 @@ class MahasiswaAuthController extends Controller
                 'username' => $pengaju->username,
                 'id' => $pengaju->id,
                 'ormawa' => $pengaju->ormawa->nama_ormawa,
-                'email' => $pengaju->email,
+                'email' => $pengaju->email,                
+                'id_ormawa' => $pengaju->id_ormawa,
+
             ]);
             return redirect()->intended('/dashboard-pengaju');
         } else {

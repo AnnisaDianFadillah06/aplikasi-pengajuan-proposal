@@ -110,8 +110,8 @@ class DashboardController extends Controller
         $year = $request->input('year', date('Y'));
     
         // Fetch proposal counts by month for the selected year
-        $allProposals = PengajuanProposal::select(DB::raw('EXTRACT(MONTH FROM tgl_kegiatan) as month, status, COUNT(*) as total'))
-            ->whereYear('tgl_kegiatan', $year) // Filter by the selected year
+        $allProposals = PengajuanProposal::select(DB::raw('EXTRACT(MONTH FROM tanggal_mulai) as month, status, COUNT(*) as total'))
+            ->whereYear('tanggal_mulai', $year) // Filter by the selected year
             ->whereIn('status', [1, 2]) // Only include approved and rejected
             ->groupBy('month', 'status')
             ->get();
@@ -155,17 +155,17 @@ class DashboardController extends Controller
 
         // Ambil tahun untuk dropdown
         // Fetch years for the dropdown
-        $years = PengajuanProposal::select(DB::raw('EXTRACT(YEAR FROM tgl_kegiatan) as year'))
+        $years = PengajuanProposal::select(DB::raw('EXTRACT(YEAR FROM tanggal_mulai) as year'))
             ->distinct()
             ->orderBy('year', 'desc')
             ->pluck('year');
 
              // Fetch total approved and rejected proposals for the selected year
-        $totalDisetujui = PengajuanProposal::whereYear('tgl_kegiatan', $year)
+        $totalDisetujui = PengajuanProposal::whereYear('tanggal_mulai', $year)
         ->where('status', 1)
         ->count();
 
-        $totalDitolak = PengajuanProposal::whereYear('tgl_kegiatan', $year)
+        $totalDitolak = PengajuanProposal::whereYear('tanggal_mulai', $year)
             ->where('status', 2)
             ->count();
 

@@ -117,6 +117,18 @@ class PengajuanProposalController extends Controller
         $filePath = $latestDokumen && $latestDokumen->file_revisi 
                     ? $latestDokumen->file_revisi 
                     : $proposal->file_proposal;
+
+        // Surat Berkegiatan Ketuplak
+        $fileKetuplakPath = $proposal->surat_berkegiatan_ketuplak;
+
+        // Surat Pernyataan Ormawa
+        $fileOrmawaPath = $proposal->surat_pernyataan_ormawa;
+
+        // Surat Kesediaan Pembina
+        $filePembinaPath = $proposal->surat_kesediaan_pendampingan;
+
+        // Surat Peminjaman Sarpras
+        $fileSarprasPath = $proposal->surat_peminjaman_sarpras;
                             
         return view('proposal_kegiatan.detail_proposal', [
             'proposal' => $proposal,
@@ -128,6 +140,11 @@ class PengajuanProposalController extends Controller
             'groupedRevisions' => $allRevision,
             'filePath' => $filePath,
             'nama_ormawa' => $nama_ormawa,
+            'latestDokumen' => $latestDokumen,
+            'fileKetuplakPath' => $fileKetuplakPath,
+            'fileOrmawaPath' => $fileOrmawaPath,
+            'filePembinaPath' => $filePembinaPath,
+            'fileSarprasPath' => $fileSarprasPath,
         ]);
     }
 
@@ -331,12 +348,15 @@ class PengajuanProposalController extends Controller
             $fileName = time().'_'.$file->getClientOriginalName(); // Generate nama file unik
             $filePath = 'laraview/' . $fileName; // Path untuk disimpan di public/laraview
 
+
             // Simpan file langsung ke folder public/laraview
             $file->move(public_path('laraview'), $fileName);
             
             // update kolom file_lpj
             $proposal->update(['file_lpj' => $filePath]);
         }
+
+        
 
         // return redirect()->route('proposal.detail', $proposal->id_proposal)->with('success', 'Laporan pertanggung jawaban berhasil diajukan.');
         return redirect()->route('laporan.detail', [

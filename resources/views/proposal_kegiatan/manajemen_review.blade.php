@@ -5,12 +5,72 @@
     $filePath = $latestRevision && $latestRevision->file_revisi 
                 ? $latestRevision->file_revisi 
                 : $reviewProposal->file_proposal;
+
+                $fileKetuplakPath = $latestRevision && $latestRevision->file_ketuplak_revisi 
+                        ? $latestRevision->file_ketuplak_revisi 
+                        : $reviewProposal->surat_berkegiatan_ketuplak;
+
+    // Surat Pernyataan Ormawa
+    $fileOrmawaPath = $latestRevision && $latestRevision->file_ormawa_revisi 
+                    ? $latestRevision->file_ormawa_revisi 
+                    : $reviewProposal->surat_pernyataan_ormawa;
+
+    // Surat Kesediaan Pembina
+    $filePembinaPath = $latestRevision && $latestRevision->file_pembina_revisi 
+                    ? $latestRevision->file_pembina_revisi 
+                    : $reviewProposal->surat_kesediaan_pendampingan;
+
+    // Surat Peminjaman Sarpras
+    $fileSarprasPath = $latestRevision && $latestRevision->file_sarpras_revisi 
+                    ? $latestRevision->file_sarpras_revisi 
+                    : $reviewProposal->surat_peminjaman_sarpras;
+
 @endphp
 
 <div class="w-full p-6 mx-auto">
     <div class="flex flex-wrap -mx-3">
-        <div class="flex-none w-full max-w-full px-3">
-            <iframe src="{{ asset($filePath) }}" width="900px" height="600px"></iframe>
+        <!-- Navigation Tabs -->
+        <div class="w-full mb-4">
+            <div class="flex space-x-4 border-b">
+                <button class="tab-btn px-4 py-2 border-b-2 border-transparent hover:border-blue-500" data-target="tab-proposal">Proposal Kegiatan</button>
+                <button class="tab-btn px-4 py-2 border-b-2 border-transparent hover:border-blue-500" data-target="tab-ketuplak">Surat Berkegiatan Ketuplak</button>
+                <button class="tab-btn px-4 py-2 border-b-2 border-transparent hover:border-blue-500" data-target="tab-ormawa">Surat Pernyataan Ormawa</button>
+                <button class="tab-btn px-4 py-2 border-b-2 border-transparent hover:border-blue-500" data-target="tab-pembina">Surat Kesediaan Pembina</button>
+                <button class="tab-btn px-4 py-2 border-b-2 border-transparent hover:border-blue-500" data-target="tab-sarpras">Surat Peminjaman Sarpras</button>
+            </div>
+        </div>
+
+        <!-- Tab Content -->
+        <div class="w-full">
+            <!-- Proposal Kegiatan -->
+            <div id="tab-proposal" class="tab-content hidden">
+                <h3 class="font-semibold mb-2">Proposal Kegiatan</h3>
+                <iframe src="{{ asset($filePath) }}" width="800px" height="700px"></iframe>
+            </div>
+
+            <!-- Surat Berkegiatan Ketuplak -->
+            <div id="tab-ketuplak" class="tab-content hidden">
+                <h3 class="font-semibold mb-2">Surat Berkegiatan Ketuplak</h3>
+                <iframe src="{{ asset($fileKetuplakPath) }}" width="800px" height="700px"></iframe>
+            </div>
+
+            <!-- Surat Pernyataan Ormawa -->
+            <div id="tab-ormawa" class="tab-content hidden">
+                <h3 class="font-semibold mb-2">Surat Pernyataan Ormawa</h3>
+                <iframe src="{{ asset($fileOrmawaPath) }}" width="800px" height="700px"></iframe>
+            </div>
+
+            <!-- Surat Kesediaan Pembina -->
+            <div id="tab-pembina" class="tab-content hidden">
+                <h3 class="font-semibold mb-2">Surat Kesediaan Pembina</h3>
+                <iframe src="{{ asset($filePembinaPath) }}" width="800px" height="700px"></iframe>
+            </div>
+
+            <!-- Surat Peminjaman Sarpras -->
+            <div id="tab-sarpras" class="tab-content hidden">
+                <h3 class="font-semibold mb-2">Surat Peminjaman Sarpras</h3>
+                <iframe src="{{ asset($fileSarprasPath) }}" width="800px" height="700px"></iframe>
+            </div>
         </div>
     </div>
 </div>
@@ -44,6 +104,12 @@
                             </li>
                             <li class="relative block px-4 py-2 pl-0 leading-normal bg-white border-0 border-t-0 text-sm text-inherit">
                                 <strong class="text-slate-700">Tanggal Kegiatan:</strong> &nbsp; {{ $reviewProposal->tgl_kegiatan }}
+                            </li>
+                            <li class="relative block px-4 py-2 pl-0 leading-normal bg-white border-0 border-t-0 text-sm text-inherit">
+                                <strong class="text-slate-700">Tanggal Mulai:</strong> &nbsp; {{ $reviewProposal->tanggal_mulai }}
+                            </li>
+                            <li class="relative block px-4 py-2 pl-0 leading-normal bg-white border-0 border-t-0 text-sm text-inherit">
+                                <strong class="text-slate-700">Tanggal Akhir:</strong> &nbsp; {{ $reviewProposal->tanggal_akhir }}
                             </li>
                             <li class="relative block px-4 py-2 pl-0 leading-normal bg-white border-0 border-t-0 text-sm text-inherit">
                                 <strong class="text-slate-700">Tempat Kegiatan:</strong> &nbsp; {{ $reviewProposal->tmpt_kegiatan }}
@@ -132,7 +198,35 @@
                     </div>
                 </div>
             </div> -->
-
+            <script>
+                document.addEventListener("DOMContentLoaded", function () {
+                    const tabButtons = document.querySelectorAll(".tab-btn");
+                    const tabContents = document.querySelectorAll(".tab-content");
+            
+                    // Function to show a specific tab
+                    function showTab(targetId) {
+                        tabContents.forEach(content => {
+                            content.classList.add("hidden");
+                        });
+                        document.getElementById(targetId).classList.remove("hidden");
+            
+                        tabButtons.forEach(button => {
+                            button.classList.remove("border-blue-500");
+                        });
+                        document.querySelector(`[data-target="${targetId}"]`).classList.add("border-blue-500");
+                    }
+            
+                    // Attach click event to each tab button
+                    tabButtons.forEach(button => {
+                        button.addEventListener("click", () => {
+                            showTab(button.dataset.target);
+                        });
+                    });
+            
+                    // Show the first tab by default
+                    showTab("tab-proposal");
+                });
+            </script>
         </div>
     </div>
 </section>
