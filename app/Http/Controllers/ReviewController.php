@@ -15,7 +15,7 @@ class ReviewController extends Controller
     public function index()
     {
         // Ambil ID dari sesi
-        $sessionId = session('id');
+        $sessionId = session('id_role');
 
         if (!$sessionId) {
             // Tangani kasus jika sesi 'id' tidak ada
@@ -26,9 +26,17 @@ class ReviewController extends Controller
         // $proposals = PengajuanProposal::where('updated_by', $sessionId)->get();
 
         // Ambil semua proposal dengan status_lpj != 1 yang sesuai dengan kondisi
+        $idRole = session('id_role');
+
         $proposals = PengajuanProposal::where('updated_by', $sessionId)
-                                    ->where('status_lpj', '!=', 1)
-                                    ->get();
+                                        ->where('status_lpj', '!=', 1);
+
+        if ($idRole == 2 || $idRole == 3) {
+            $proposals = $proposals->where('id_ormawa', session('id_ormawa'));
+        }
+
+        $proposals = $proposals->get();
+
 
         // Ambil semua proposal dengan status_lpj = 1
         $lpjs = PengajuanProposal::where('updated_by', $sessionId)
@@ -108,7 +116,7 @@ class ReviewController extends Controller
         ReviewProposal::create([
             'catatan_revisi' => $request->input('catatan_revisi'),
             'tgl_revisi' => now()->format('Y-m-d'),
-            'id_dosen' => session('id'),
+            'id_dosen' => session('id_role'),
             'id_proposal' => $request->input('id_proposal'),
             'status_revisi' => $request->input('status_revisi'),
         ]);
@@ -133,11 +141,12 @@ class ReviewController extends Controller
             if (session()->has('id') && session('id') == 6) {
                 // Ubah status proposal sesuai input
                 $proposal->status = $request->input('status_revisi');
+                $proposal->status_kegiatan = 2;
             }
             
             // Periksa apakah status proposal adalah 1 sebelum menetapkan updated_by
             if ($request->input('status_revisi') == 1 && session()->has('id')) {
-                $proposal->updated_by = session('id') + 1 ;
+                $proposal->updated_by = session('id_role') + 1 ;
             }
             
             // Simpan perubahan ke database

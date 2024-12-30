@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             JenisKegiatanSeeder::class,
             MahasiswaSeeder::class,
             OrmawaSeeder::class,
+            RolesSeeder::class,
             ReviewerSeeder::class,
             PengajuSeeder::class,
             ProposalKegiatanSeeder::class,

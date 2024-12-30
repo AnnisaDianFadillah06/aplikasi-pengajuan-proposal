@@ -30,6 +30,33 @@ return new class extends Migration
             $table->integer('status_kegiatan')->nullable();
             $table->integer('status_lpj')->nullable();
             $table->integer('status_approve_lpj')->nullable();
+            $table->integer('status_spj')->default(0); // 0: belum mengajukan, 1: sudah mengajukan, 2: tidak memerlukan
+        });
+
+        Schema::connection('pgsql')->create('lpj', function (Blueprint $table) {
+            $table->increments('id_lpj');
+            $table->unsignedInteger('id_proposal');
+            $table->string('file_lpj');
+            $table->timestamp('tgl_upload')->nullable()->useCurrent();
+            $table->timestamp('created_at')->nullable()->useCurrent();
+            $table->timestamp('updated_at')->nullable()->useCurrent();
+            $table->integer('created_by')->nullable();
+            $table->integer('updated_by')->nullable();
+
+            $table->foreign('id_proposal')->references('id_proposal')->on('proposal_kegiatan')->onDelete('cascade');
+        });
+
+        Schema::connection('pgsql')->create('spj', function (Blueprint $table) {
+            $table->increments('id_spj');
+            $table->unsignedInteger('id_proposal');
+            $table->string('file_spj');
+            $table->timestamp('tgl_upload')->nullable()->useCurrent();
+            $table->timestamp('created_at')->nullable()->useCurrent();
+            $table->timestamp('updated_at')->nullable()->useCurrent();
+            $table->integer('created_by')->nullable();
+            $table->integer('updated_by')->nullable();
+
+            $table->foreign('id_proposal')->references('id_proposal')->on('proposal_kegiatan')->onDelete('cascade');
         });
     }
 
@@ -38,6 +65,8 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::connection('pgsql')->dropIfExists('spj');
+        Schema::connection('pgsql')->dropIfExists('lpj');
         Schema::connection('pgsql')->dropIfExists('proposal_kegiatan');
     }
 };

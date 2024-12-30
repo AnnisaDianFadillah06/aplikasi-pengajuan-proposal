@@ -2,9 +2,19 @@
 @section('konten')
 <h1>Selamat datang di Dashboard Dosen</h1>
 
-{{-- Untuk cek session
-<h1>Welcome to the Dashboardd, {{ $username }}</h1>
+{{-- Untuk cek session --}}
+{{-- <h1>Welcome to the Dashboardd, {{ $username }}</h1>
 <p>Your role is: {{ $role }}</p> --}}
+
+@if (session()->has('username') && session()->has('id'))
+    <p>Selamat datang, {{ session('username') }}!</p>
+    <p>id Anda: {{ session('id') }}</p>
+    <p>id role Anda: {{ session('id_role') }}</p>
+    <p>role Anda: {{ session('role') }}</p>
+    <p>ormawa: {{ session('ormawa') }}</p>
+@else
+    <p>Anda belum login.</p>
+@endif 
 
 <!-- Link Tailwind CSS dan FontAwesome untuk ikon -->
 <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">

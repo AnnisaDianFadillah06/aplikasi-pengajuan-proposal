@@ -22,6 +22,7 @@ class PengajuSeeder extends Seeder
                 'tanggal_bergabung' => '2023-01-10',
                 'nama_ormawa' => 'Himpunan Mahasiswa Komputer',
                 'nim' => '231511021',
+                'id_ormawa' => 1,
             ],
             [
                 'id' => 2,
@@ -32,6 +33,7 @@ class PengajuSeeder extends Seeder
                 'tanggal_bergabung' => '2023-02-15',
                 'nama_ormawa' => 'Himpunan Mahasiswa Jurusan Teknik Kimia',
                 'nim' => '231511020',
+                'id_ormawa' => 1,
             ],
             [
                 'id' => 3,
@@ -42,6 +44,7 @@ class PengajuSeeder extends Seeder
                 'tanggal_bergabung' => '2023-02-15',
                 'nama_ormawa' => 'Himpunan Mahasiswa Jurusan Teknik Kimia',
                 'nim' => '231511020',
+                'id_ormawa' => 1,
             ],
             [
                 'id' => 4,
@@ -52,6 +55,7 @@ class PengajuSeeder extends Seeder
                 'tanggal_bergabung' => '2023-02-15',
                 'nama_ormawa' => 'Himpunan Mahasiswa Jurusan Teknik Kimia',
                 'nim' => '231511020',
+                'id_ormawa' => 1,
             ],
             [
                 'id' => 5,
@@ -62,6 +66,7 @@ class PengajuSeeder extends Seeder
                 'tanggal_bergabung' => '2023-02-15',
                 'nama_ormawa' => 'Himpunan Mahasiswa Jurusan Teknik Kimia',
                 'nim' => '231511020',
+                'id_ormawa' => 1,
             ],
             [
                 'id' => 6,
@@ -72,6 +77,7 @@ class PengajuSeeder extends Seeder
                 'tanggal_bergabung' => '2023-02-15',
                 'nama_ormawa' => 'Himpunan Mahasiswa Jurusan Teknik Kimia',
                 'nim' => '231511020',
+                'id_ormawa' => 2,
             ],
             [
                 'id' => 7,
@@ -82,6 +88,7 @@ class PengajuSeeder extends Seeder
                 'tanggal_bergabung' => '2023-02-15',
                 'nama_ormawa' => 'Himpunan Mahasiswa Jurusan Teknik Kimia',
                 'nim' => '231511020',
+                'id_ormawa' => 2,
             ],
         ]);
     }

@@ -131,7 +131,7 @@ Route::middleware('isReviewer')->group(function () {
     
     Route::delete('/remove-pengaju/{id}', [RoleController::class, 'removePengaju'])->name('admin.removePengaju');
     Route::delete('/remove-reviewer/{id}', [RoleController::class, 'removeReviewer'])->name('admin.removeReviewer');
-
+    
     // Timothy
     Route::get('/dashboard-reviewer', [DashboardController::class, 'index'])->name('proposal_kegiatan.dashboard-reviewer');
     
@@ -147,7 +147,7 @@ Route::middleware('isPengaju')->group(function () {
     // Dhea
     
     // Harish
-    Route::get('/pengajuan-proposal', [PengajuanProposalController::class, 'index']);
+    Route::get('/pengajuan-proposal', [PengajuanProposalController::class, 'index'])->name('pengajuan-proposal');
     Route::get('/tambah-pengajuan-proposal', [TambahPengajuanProposal::class, 'index']);
     Route::post('/add', [TambahPengajuanProposal::class, 'add']);
     
@@ -180,7 +180,6 @@ Route::middleware('isPengaju')->group(function () {
 
     // Timothy
     Route::get('/dashboard-pengaju', [DashboardController::class, 'index_pengaju'])->name('proposal_kegiatan.dashboard-pengaju');
-    Route::get('/pengajuan-proposal', [PengajuanProposalController::class, 'index'])->name('pengajuan-proposal');
 
 
 

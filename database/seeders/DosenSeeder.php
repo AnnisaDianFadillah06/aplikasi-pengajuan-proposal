@@ -49,6 +49,12 @@ class DosenSeeder extends Seeder
                 'email' => 'toni@polban.ac.id', 
                 'password' => '$2y$12$cZSKUXcfGfxccfOrcB3E3eSf3NuKwiw5JSFRa.EQbAruUUbDHfqbO'
             ],
+            [
+                'id' => 7, 
+                'username' => 'rizz', 
+                'email' => 'rizz@polban.ac.id', 
+                'password' => '$2y$12$cZSKUXcfGfxccfOrcB3E3eSf3NuKwiw5JSFRa.EQbAruUUbDHfqbO'
+            ],
         ]);
     }
 }

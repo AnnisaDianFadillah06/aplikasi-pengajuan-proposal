@@ -144,12 +144,12 @@ class PengajuanProposalController extends Controller
 
         // Kondisi khusus untuk Ormawa yang bukan UKM, BEM, atau MPM
         if (str_contains($ormawa, 'UKM') || str_contains($ormawa, 'BEM') || str_contains($ormawa, 'MPM')) {
-            // Jika currentStep adalah 3, tambah 2
-            if ($currentStep == 3) {
+            // Jika currentStep adalah 2, tambah 2
+            if ($currentStep == 2) {
                 session()->put('currentStep', $currentStep + 2);
             } elseif ($currentStep <= $updatedByStep || $lolos_proposal == 1) {
                 session()->put('currentStep', $currentStep + 1);
-            } elseif ($currentStep == 6) {
+            } elseif ($currentStep == 5) {
                 $currentStep = 1;
             }
         } else {
@@ -157,7 +157,7 @@ class PengajuanProposalController extends Controller
             
             if ($currentStep <= $updatedByStep || $proposal->status_lpj == 1) {
                 session()->put('currentStep', $currentStep + 1);
-            } elseif ($currentStep == 6) {
+            } elseif ($currentStep == 5) {
                 $currentStep = 1;
             }
         }
@@ -185,7 +185,7 @@ class PengajuanProposalController extends Controller
         // Kondisi khusus untuk Ormawa yang bukan UKM, BEM, atau MPM
         if (str_contains($ormawa, 'UKM') || str_contains($ormawa, 'BEM') || str_contains($ormawa, 'MPM')) {
             // Jika currentStep adalah 5, kurangi 2
-            if ($currentStep == 5) {
+            if ($currentStep == 4) {
                 session()->put('currentStep', $currentStep - 2);
             } elseif ($currentStep >= 1) {
                 session()->put('currentStep', $currentStep - 1);
