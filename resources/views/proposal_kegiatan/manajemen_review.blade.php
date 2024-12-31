@@ -98,32 +98,65 @@
                         </div>
                     </div>
                     <div class="flex-auto p-4">
-                        <ul class="flex flex-col pl-0 mb-0 rounded-lg">
-                            <li class="relative block px-4 py-2 pt-0 pl-0 leading-normal bg-white border-0 rounded-t-lg text-sm text-inherit">
-                                <strong class="text-slate-700">Nama Kegiatan:</strong> &nbsp; {{ $reviewProposal->nama_kegiatan }}
-                            </li>
-                            <li class="relative block px-4 py-2 pl-0 leading-normal bg-white border-0 border-t-0 text-sm text-inherit">
-                                <strong class="text-slate-700">Tanggal Kegiatan:</strong> &nbsp; {{ $reviewProposal->tgl_kegiatan }}
-                            </li>
-                            <li class="relative block px-4 py-2 pl-0 leading-normal bg-white border-0 border-t-0 text-sm text-inherit">
-                                <strong class="text-slate-700">Tanggal Mulai:</strong> &nbsp; {{ $reviewProposal->tanggal_mulai }}
-                            </li>
-                            <li class="relative block px-4 py-2 pl-0 leading-normal bg-white border-0 border-t-0 text-sm text-inherit">
-                                <strong class="text-slate-700">Tanggal Akhir:</strong> &nbsp; {{ $reviewProposal->tanggal_akhir }}
-                            </li>
-                            <li class="relative block px-4 py-2 pl-0 leading-normal bg-white border-0 border-t-0 text-sm text-inherit">
-                                <strong class="text-slate-700">Tempat Kegiatan:</strong> &nbsp; {{ $reviewProposal->tmpt_kegiatan }}
-                            </li>
-                            <li class="relative block px-4 py-2 pl-0 leading-normal bg-white border-0 border-t-0 text-sm text-inherit">
-                                <strong class="text-slate-700">Jenis Kegiatan:</strong> &nbsp; {{ $reviewProposal->jenisKegiatan->nama_jenis_kegiatan ?? 'Tidak Diketahui' }}
-                            </li>
-                            <li class="relative block px-4 py-2 pl-0 leading-normal bg-white border-0 border-t-0 text-sm text-inherit">
-                                <strong class="text-slate-700">Ormawa:</strong> &nbsp; {{ $reviewProposal->ormawa->nama_ormawa ?? 'Tidak Diketahui' }}
-                            </li>
-                            <li class="relative block px-4 py-2 pl-0 leading-normal bg-white border-0 border-t-0 text-sm text-inherit">
-                                <strong class="text-slate-700">Nama Penyelenggara:</strong> &nbsp; {{ $reviewProposal->pengguna->nama_pengguna ?? 'Tidak Diketahui' }}
-                            </li>
-                        </ul>
+                        <table class="table-auto w-full border border-gray-300">
+                            <tbody class="divide-y divide-gray-200">
+                                <tr>
+                                    <th class="text-left px-4 py-2 font-medium text-gray-700">Nama Kegiatan</th>
+                                    <td class="px-4 py-2">{{ $reviewProposal->nama_kegiatan }}</td>
+                                </tr>
+                                <tr>
+                                    <th class="text-left px-4 py-2 font-medium text-gray-700">Tanggal Mulai Kegiatan</th>
+                                    <td class="px-4 py-2">{{ $reviewProposal->tanggal_mulai }}</td>
+                                </tr>
+                                <tr>
+                                    <th class="text-left px-4 py-2 font-medium text-gray-700">Tanggal Akhir Kegiatan</th>
+                                    <td class="px-4 py-2">{{ $reviewProposal->tanggal_akhir }}</td>
+                                </tr>
+                                <tr>
+                                    <th class="text-left px-4 py-2 font-medium text-gray-700">Tempat Kegiatan</th>
+                                    <td class="px-4 py-2">{{ $reviewProposal->tmpt_kegiatan }}</td>
+                                </tr>
+                                <tr>
+                                    <th class="text-left px-4 py-2 font-medium text-gray-700">Kategori</th>
+                                    <td class="px-4 py-2">{{ $reviewProposal->jenisKegiatan->nama_jenis_kegiatan }}</td>
+                                </tr>
+                                <tr>
+                                    <th class="text-left px-4 py-2 font-medium text-gray-700">Asal Ormawa</th>
+                                    <td class="px-4 py-2">{{ $reviewProposal->ormawa->nama_ormawa }}</td>
+                                </tr>
+                                <tr>
+                                    <th class="text-left px-4 py-2 font-medium text-gray-700">Pengisi Acara</th>
+                                    <td class="px-4 py-2">{{ $reviewProposal->pengisi_acara ?? '-' }}</td>
+                                </tr>
+                                <tr>
+                                    <th class="text-left px-4 py-2 font-medium text-gray-700">Sponsorship</th>
+                                    <td class="px-4 py-2">{{ $reviewProposal->sponsorship ?? '-' }}</td>
+                                </tr>
+                                <tr>
+                                    <th class="text-left px-4 py-2 font-medium text-gray-700">Media Partner</th>
+                                    <td class="px-4 py-2">{{ $reviewProposal->media_partner ?? '-' }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    
+                        <!-- Tabel Data Dana -->
+                        <h2 class="text-xl font-bold text-gray-700 px-6 py-4 mt-8">Detail Dana</h2>
+                        <table class="table-auto w-full border border-gray-300">
+                            <tbody class="divide-y divide-gray-200">
+                                <tr>
+                                    <th class="text-left px-4 py-2 font-medium text-gray-700">Dana DIPA Polban</th>
+                                    <td class="px-4 py-2">Rp {{ number_format($reviewProposal->dana_dipa ?? 0, 0, ',', '.') }}</td>
+                                </tr>
+                                <tr>
+                                    <th class="text-left px-4 py-2 font-medium text-gray-700">Dana Swadaya</th>
+                                    <td class="px-4 py-2">Rp {{ number_format($reviewProposal->dana_swadaya ?? 0, 0, ',', '.') }}</td>
+                                </tr>
+                                <tr>
+                                    <th class="text-left px-4 py-2 font-medium text-gray-700">Dana Sponsor</th>
+                                    <td class="px-4 py-2">Rp {{ number_format($reviewProposal->dana_sponsor ?? 0, 0, ',', '.') }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
                 

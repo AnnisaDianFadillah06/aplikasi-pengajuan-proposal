@@ -172,17 +172,28 @@ class DashboardController extends Controller
         // $proposal = PengajuanProposal::where('status', 0)->get();
         
         // Ambil ID dari sesi
-        $sessionId = session('id');
+        $sessionId = session('id_role');
 
         if (!$sessionId) {
             // Tangani kasus jika sesi 'id' tidak ada
             abort(403, 'Session ID tidak ditemukan.');
         }
-        
+    
+        // Ambil semua proposal yang sesuai dengan kondisi
+        // $proposals = PengajuanProposal::where('updated_by', $sessionId)->get();
+
         // Ambil semua proposal dengan status_lpj != 1 yang sesuai dengan kondisi
+        $idRole = session('id_role');
+
         $proposals = PengajuanProposal::where('updated_by', $sessionId)
-                                    ->where('status_lpj', '!=', 1)
-                                    ->get();
+                                        ->where('status_lpj', '!=', 1);
+
+        if ($idRole == 2 || $idRole == 3) {
+            $proposals = $proposals->where('id_ormawa', session('id_ormawa'));
+        }
+
+        $proposals = $proposals->get();
+
 
         // Ambil semua proposal dengan status_lpj = 1
         $lpjs = PengajuanProposal::where('updated_by', $sessionId)
@@ -211,6 +222,8 @@ class DashboardController extends Controller
         foreach ($lpjs as $lpj) {
             $lpj->latestRevision = $latestRevisionsLpjs->get($lpj->id_proposal)?->first(); // Ambil revisi terakhir atau null
         }
+
+        
         return view('proposal_kegiatan.dashboard-reviewer', [
             'labels1' => $labels1,
             'data1Disetujui' => array_values($data1Disetujui),
