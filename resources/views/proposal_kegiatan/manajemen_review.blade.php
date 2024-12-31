@@ -164,6 +164,28 @@
               <div class="flex-auto p-4">
               <form action="{{ route('proposal.store') }}" method="POST">
     @csrf
+                                <h6 class="mb-0">Kesalahan Proposal</h6>
+                                <br>
+    <div class="flex items-center mb-4">
+      <input id="checkbox-2" type="checkbox" name="revisi_items[]" value="Proposal Kegiatan" class="w-4 h-4 text-orange-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-orange-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+      <label for="checkbox-2" class="ms-2 text-sm font-medium text-gray-900 dark:text-black-300">Proposal Kegiatan</label>
+  </div>
+  <div class="flex items-center mb-4">
+      <input id="checkbox-2" type="checkbox" name="revisi_items[]" value="Surat Berkegiatan Ketuplak" class="w-4 h-4 text-orange-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-orange-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+      <label for="checkbox-2" class="ms-2 text-sm font-medium text-gray-900 dark:text-black-300">Surat Berkegiatan Ketuplak</label>
+  </div>
+  <div class="flex items-center mb-4">
+      <input id="checkbox-2" type="checkbox" name="revisi_items[]" value="Surat Pernyataan Ormawa" class="w-4 h-4 text-orange-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-orange-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+      <label for="checkbox-2" class="ms-2 text-sm font-medium text-gray-900 dark:text-black-300">Surat Pernyataan Ormawa</label>
+  </div>
+  <div class="flex items-center mb-4">
+      <input id="checkbox-2" type="checkbox" name="revisi_items[]" value="Surat Kesediaan Pembina" class="w-4 h-4 text-orange-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-orange-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+      <label for="checkbox-2" class="ms-2 text-sm font-medium text-gray-900 dark:text-black-300">Surat Kesediaan Pembina</label>
+  </div>
+  <div class="flex items-center mb-4">
+      <input id="checkbox-2" type="checkbox" name="revisi_items[]" value="Surat Peminjaman Sarpras" class="w-4 h-4 text-orange-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-orange-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+      <label for="checkbox-2" class="ms-2 text-sm font-medium text-gray-900 dark:text-black-300">Surat Peminjaman Sarpras</label>
+  </div>
     <input type="hidden" name="id_proposal" value="{{ $reviewProposal->id_proposal }}">
                       <label class="mb-2 ml-1 font-bold text-xs text-slate-700" for="catatan_revisi">Revisi</label>
                       <div class="mb-4">
