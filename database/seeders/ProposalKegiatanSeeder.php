@@ -16,7 +16,7 @@ class ProposalKegiatanSeeder extends Seeder
         DB::connection('pgsql')->table('proposal_kegiatan')->insert([
             [
                 'nama_kegiatan' => 'Seminar Laravel',
-                'tgl_kegiatan' => '2024-12-01',
+                'tanggal_mulai' => '2024-12-01',
                 'tmpt_kegiatan' => 'Jakarta',
                 'file_proposal' => 'laraview/proposal_laravel.pdf',
                 'id_jenis_kegiatan' => 1,
@@ -30,7 +30,7 @@ class ProposalKegiatanSeeder extends Seeder
             ],
             [
                 'nama_kegiatan' => 'Seminar PostgreSQL',
-                'tgl_kegiatan' => '2024-12-02',
+                'tanggal_mulai' => '2024-12-02',
                 'tmpt_kegiatan' => 'Bandung',
                 'file_proposal' => 'laraview/proposal_postgresql.pdf',
                 'id_jenis_kegiatan' => 2,

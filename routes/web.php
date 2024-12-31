@@ -7,7 +7,6 @@ use App\Http\Controllers\OrmawaController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\ProposalController;
 use App\Http\Controllers\CountdownController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EventListController;
@@ -78,12 +77,6 @@ Route::controller(AuthController::class)->group(function () {
 });
 //---------------------------------------------------------------------------------------
 
-
-// Route Angel
-
-
-// Route Timothy Elroy
-
 // Route
 // Dashboard
 
@@ -121,9 +114,6 @@ Route::middleware('isReviewer')->group(function () {
     Route::post('/organisasi-mahasiswa/store', [OrganisasiMahasiswaController::class, 'store'])->name('organisasi-mahasiswa.store');
     Route::put('/update-organisasi-mahasiswa/{id}', [OrganisasiMahasiswaController::class, 'update'])->name('organisasi-mahasiswa.update');
 
-
-    // Dhea
-    
     // Harish
     Route::get('/manage-roles', [RoleController::class, 'manageRoles'])->name('admin.manageRoles');
     Route::post('/assign-pengaju', [RoleController::class, 'assignPengaju'])->name('admin.assignPengaju');

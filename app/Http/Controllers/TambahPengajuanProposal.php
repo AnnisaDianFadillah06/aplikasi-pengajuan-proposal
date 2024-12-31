@@ -44,6 +44,12 @@ class TambahPengajuanProposal extends Controller
                 },
             ],
             'tanggal_akhir' => 'required|date',
+            'dana_dipa' => 'nullable|numeric|min:0',
+            'dana_swadaya' => 'nullable|numeric|min:0',
+            'dana_sponsor' => 'nullable|numeric|min:0',
+            'pengisi_acara' => 'nullable|string|max:255',
+            'sponsorship' => 'nullable|string|max:255',
+            'media_partner' => 'nullable|string|max:255',
         ]);
 
         $id_pengaju = session('id'); // Ambil id pengguna dari session
@@ -98,6 +104,12 @@ class TambahPengajuanProposal extends Controller
             'status_kegiatan' => 3, // Default kegiatan status
             'tanggal_mulai' => $request->input('tanggal_mulai'),
             'tanggal_akhir' => $request->input('tanggal_akhir'),
+            'dana_dipa' => $request->input('dana_dipa', 0),
+            'dana_swadaya' => $request->input('dana_swadaya', 0),
+            'dana_sponsor' => $request->input('dana_sponsor', 0),
+            'pengisi_acara' => $request->input('pengisi_acara'),
+            'sponsorship' => $request->input('sponsorship'),
+            'media_partner' => $request->input('media_partner'),
         ]);
 
         if ($query) {

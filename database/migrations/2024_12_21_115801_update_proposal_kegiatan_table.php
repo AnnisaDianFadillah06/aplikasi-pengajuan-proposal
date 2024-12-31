@@ -18,6 +18,12 @@ return new class extends Migration
             $table->string('surat_peminjaman_sarpras')->nullable();
             $table->date('tanggal_mulai')->nullable();
             $table->date('tanggal_akhir')->nullable();
+            $table->decimal('dana_dipa', 15, 2)->nullable()->default(0)->after('status_spj'); // Dana DIPA Polban
+            $table->decimal('dana_swadaya', 15, 2)->nullable()->default(0)->after('dana_dipa'); // Dana Swadaya
+            $table->decimal('dana_sponsor', 15, 2)->nullable()->default(0)->after('dana_swadaya'); // Dana Sponsor
+            $table->string('pengisi_acara', 255)->nullable()->after('dana_sponsor'); // Pengisi Acara/Narasumber/Juri
+            $table->string('sponsorship', 255)->nullable()->after('pengisi_acara'); // Sponsorship
+            $table->string('media_partner', 255)->nullable()->after('sponsorship'); // Media Partner
         });
     }
     
@@ -30,6 +36,12 @@ return new class extends Migration
             $table->dropColumn('surat_peminjaman_sarpras');
             $table->dropColumn('tanggal_mulai');
             $table->dropColumn('tanggal_akhir');
+            $table->dropColumn('dana_dipa');
+            $table->dropColumn('dana_swadaya');
+            $table->dropColumn('dana_sponsor');
+            $table->dropColumn('pengisi_acara');
+            $table->dropColumn('sponsorship');
+            $table->dropColumn('media_partner');
         });
     }
     

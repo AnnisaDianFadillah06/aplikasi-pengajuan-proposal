@@ -64,15 +64,6 @@
                         </select>
                         <span class="mt-1 text-sm text-red-500">@error('jenis_kegiatan') {{ $message }} @enderror</span>
                     </li>
-
-                    <!-- Inputan Tanggal kegiatan -->
-                    {{-- <li class="flex flex-col">
-                        <label for="tanggal_kegiatan" class="mb-2 text-sm font-medium text-gray-700">Tanggal Kegiatan</label>
-                        <input type="date" id="tanggal_kegiatan" name="tanggal_kegiatan"
-                            class="px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 rounded-xl"
-                            value="{{ old('tanggal_kegiatan') }}" />
-                        <span class="mt-1 text-sm text-red-500">@error('tanggal_kegiatan') {{ $message }} @enderror</span>
-                    </li> --}}
             
                     <!-- Inputan Tanggal Mulai -->
                     <li class="flex flex-col">
@@ -91,6 +82,61 @@
                             value="{{ old('tanggal_akhir') }}" />
                         <span class="mt-1 text-sm text-red-500">@error('tanggal_akhir') {{ $message }} @enderror</span>
                     </li>
+
+                    <!-- Input Dana DIPA -->
+                    <li class="flex flex-col">
+                        <label for="dana_dipa" class="mb-2 text-sm font-medium text-gray-700">Dana DIPA Polban</label>
+                        <input type="number" id="dana_dipa" name="dana_dipa" step="0.01"
+                            class="px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 rounded-xl"
+                            placeholder="Masukan jumlah dana DIPA" value="{{ old('dana_dipa') }}" />
+                        <span class="mt-1 text-sm text-red-500">@error('dana_dipa') {{ $message }} @enderror</span>
+                    </li>
+
+                    <!-- Input Dana Swadaya -->
+                    <li class="flex flex-col">
+                        <label for="dana_swadaya" class="mb-2 text-sm font-medium text-gray-700">Dana Swadaya</label>
+                        <input type="number" id="dana_swadaya" name="dana_swadaya" step="0.01"
+                            class="px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 rounded-xl"
+                            placeholder="Masukan jumlah dana swadaya" value="{{ old('dana_swadaya') }}" />
+                        <span class="mt-1 text-sm text-red-500">@error('dana_swadaya') {{ $message }} @enderror</span>
+                    </li>
+
+                    <!-- Input Dana Sponsor -->
+                    <li class="flex flex-col">
+                        <label for="dana_sponsor" class="mb-2 text-sm font-medium text-gray-700">Dana Sponsor</label>
+                        <input type="number" id="dana_sponsor" name="dana_sponsor" step="0.01"
+                            class="px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 rounded-xl"
+                            placeholder="Masukan jumlah dana sponsor" value="{{ old('dana_sponsor') }}" />
+                        <span class="mt-1 text-sm text-red-500">@error('dana_sponsor') {{ $message }} @enderror</span>
+                    </li>
+
+                    <!-- Input Pengisi Acara -->
+                    <li class="flex flex-col">
+                        <label for="pengisi_acara" class="mb-2 text-sm font-medium text-gray-700">Pengisi Acara/Narasumber/Juri</label>
+                        <textarea id="pengisi_acara" name="pengisi_acara"
+                            class="px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 rounded-xl"
+                            placeholder="Masukan nama pengisi acara">{{ old('pengisi_acara') }}</textarea>
+                        <span class="mt-1 text-sm text-red-500">@error('pengisi_acara') {{ $message }} @enderror</span>
+                    </li>
+
+                    <!-- Input Sponsorship -->
+                    <li class="flex flex-col">
+                        <label for="sponsorship" class="mb-2 text-sm font-medium text-gray-700">Sponsorship</label>
+                        <textarea id="sponsorship" name="sponsorship"
+                            class="px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 rounded-xl"
+                            placeholder="Masukan nama sponsorship">{{ old('sponsorship') }}</textarea>
+                        <span class="mt-1 text-sm text-red-500">@error('sponsorship') {{ $message }} @enderror</span>
+                    </li>
+
+                    <!-- Input Media Partner -->
+                    <li class="flex flex-col">
+                        <label for="media_partner" class="mb-2 text-sm font-medium text-gray-700">Media Partner</label>
+                        <textarea id="media_partner" name="media_partner"
+                            class="px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 rounded-xl"
+                            placeholder="Masukan nama media partner">{{ old('media_partner') }}</textarea>
+                        <span class="mt-1 text-sm text-red-500">@error('media_partner') {{ $message }} @enderror</span>
+                    </li>
+
                     <li class="flex flex-col">
                         <label for="file" class="mb-2 font-semibold text-gray-700">Upload Dokumen Proposal</label>
                         <input type="file" id="file_proposal" name="file_proposal" class="block w-full text-gray-500 file:mr-4 file:py-2 file:px-4 file:border-0 file:rounded-lg file:text-sm file:bg-blue-500 file:text-white hover:file:bg-blue-600
