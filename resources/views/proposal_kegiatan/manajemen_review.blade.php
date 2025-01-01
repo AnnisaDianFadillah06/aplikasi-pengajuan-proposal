@@ -15,11 +15,6 @@
                     ? $latestRevision->file_ormawa_revisi 
                     : $reviewProposal->surat_pernyataan_ormawa;
 
-    // Surat Kesediaan Pembina
-    $filePembinaPath = $latestRevision && $latestRevision->file_pembina_revisi 
-                    ? $latestRevision->file_pembina_revisi 
-                    : $reviewProposal->surat_kesediaan_pendampingan;
-
     // Surat Peminjaman Sarpras
     $fileSarprasPath = $latestRevision && $latestRevision->file_sarpras_revisi 
                     ? $latestRevision->file_sarpras_revisi 
@@ -35,7 +30,6 @@
                 <button class="tab-btn px-4 py-2 border-b-2 border-transparent hover:border-blue-500" data-target="tab-proposal">Proposal Kegiatan</button>
                 <button class="tab-btn px-4 py-2 border-b-2 border-transparent hover:border-blue-500" data-target="tab-ketuplak">Surat Berkegiatan Ketuplak</button>
                 <button class="tab-btn px-4 py-2 border-b-2 border-transparent hover:border-blue-500" data-target="tab-ormawa">Surat Pernyataan Ormawa</button>
-                <button class="tab-btn px-4 py-2 border-b-2 border-transparent hover:border-blue-500" data-target="tab-pembina">Surat Kesediaan Pembina</button>
                 <button class="tab-btn px-4 py-2 border-b-2 border-transparent hover:border-blue-500" data-target="tab-sarpras">Surat Peminjaman Sarpras</button>
             </div>
         </div>
@@ -58,12 +52,6 @@
             <div id="tab-ormawa" class="tab-content hidden">
                 <h3 class="font-semibold mb-2">Surat Pernyataan Ormawa</h3>
                 <iframe src="{{ asset($fileOrmawaPath) }}" width="800px" height="700px"></iframe>
-            </div>
-
-            <!-- Surat Kesediaan Pembina -->
-            <div id="tab-pembina" class="tab-content hidden">
-                <h3 class="font-semibold mb-2">Surat Kesediaan Pembina</h3>
-                <iframe src="{{ asset($filePembinaPath) }}" width="800px" height="700px"></iframe>
             </div>
 
             <!-- Surat Peminjaman Sarpras -->
@@ -189,10 +177,6 @@
   <div class="flex items-center mb-4">
       <input id="checkbox-2" type="checkbox" name="revisi_items[]" value="Surat Pernyataan Ormawa" class="w-4 h-4 text-orange-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-orange-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
       <label for="checkbox-2" class="ms-2 text-sm font-medium text-gray-900 dark:text-black-300">Surat Pernyataan Ormawa</label>
-  </div>
-  <div class="flex items-center mb-4">
-      <input id="checkbox-2" type="checkbox" name="revisi_items[]" value="Surat Kesediaan Pembina" class="w-4 h-4 text-orange-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-orange-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-      <label for="checkbox-2" class="ms-2 text-sm font-medium text-gray-900 dark:text-black-300">Surat Kesediaan Pembina</label>
   </div>
   <div class="flex items-center mb-4">
       <input id="checkbox-2" type="checkbox" name="revisi_items[]" value="Surat Peminjaman Sarpras" class="w-4 h-4 text-orange-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-orange-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">

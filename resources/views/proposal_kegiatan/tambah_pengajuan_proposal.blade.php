@@ -165,7 +165,7 @@
                     </li>
 
                     <li class="flex flex-col">
-                        <label for="file" class="mb-2 font-semibold text-gray-700">Upload Dokumen Proposal</label>
+                        <label for="file" class="mb-2 font-semibold text-gray-700">Upload Dokumen Proposal (TOR untuk pergerakan)</label>
                         <input type="file" id="file_proposal" name="file_proposal" class="block w-full text-gray-500 file:mr-4 file:py-2 file:px-4 file:border-0 file:rounded-lg file:text-sm file:bg-blue-500 file:text-white hover:file:bg-blue-600
                         " /> 
                         <button type="button" onclick="cancelUpload('file_proposal')" class="px-3 py-1 mt-3 text-white bg-red-500 rounded-lg hover:bg-red-600">Cancel</button>
@@ -186,14 +186,6 @@
                             <button type="button" onclick="cancelUpload('surat_pernyataan_ormawa')" class="px-3 py-1 text-white bg-red-500 rounded-lg hover:bg-red-600">Cancel</button>
                         </div>
                         <span style="color:red">@error('surat_pernyataan_ormawa') {{ $message }} @enderror</span>
-                    </li>
-                    <li class="flex flex-col">
-                        <label for="surat_kesediaan_pembina" class="mb-2 font-semibold text-gray-700">Lampiran Surat Kesediaan Pembina</label>
-                        <div class="flex items-center space-x-4">
-                            <input type="file" id="surat_kesediaan_pendampingan" name="surat_kesediaan_pendampingan" class="block w-full text-gray-500 file:mr-4 file:py-2 file:px-4 file:border-0 file:rounded-lg file:text-sm file:bg-blue-500 file:text-white hover:file:bg-blue-600" />
-                            <button type="button" onclick="cancelUpload('surat_kesediaan_pendampingan')" class="px-3 py-1 text-white bg-red-500 rounded-lg hover:bg-red-600">Cancel</button>
-                        </div>
-                        <span style="color:red">@error('surat_kesediaan_pendampingan') {{ $message }} @enderror</span>
                     </li>
                     <li class="flex flex-col">
                         <label for="surat_peminjaman_sarpras" class="mb-2 font-semibold text-gray-700">Lampiran Surat Peminjaman Sarpras</label>
