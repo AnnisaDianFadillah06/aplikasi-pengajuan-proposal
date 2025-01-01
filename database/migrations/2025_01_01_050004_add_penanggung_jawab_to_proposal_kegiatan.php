@@ -15,6 +15,8 @@ return new class extends Migration
             $table->string('nama_penanggung_jawab', 100)->nullable()->after('sponsorship');
             $table->string('email_penanggung_jawab', 100)->nullable()->after('nama_penanggung_jawab');
             $table->string('no_hp_penanggung_jawab', 15)->nullable()->after('email_penanggung_jawab');
+            $table->string('poster_kegiatan')->nullable()->after('no_hp_penanggung_jawab'); // Untuk menyimpan path file poster
+            $table->text('caption_poster')->nullable()->after('poster_kegiatan');
         });
     }
 

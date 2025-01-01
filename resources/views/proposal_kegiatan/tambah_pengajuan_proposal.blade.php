@@ -194,7 +194,26 @@
                             <button type="button" onclick="cancelUpload('surat_peminjaman_sarpras')" class="px-3 py-1 text-white bg-red-500 rounded-lg hover:bg-red-600">Cancel</button>
                         </div>
                         <span style="color:red">@error('surat_peminjaman_sarpras') {{ $message }} @enderror</span>
-                    </li>                    
+                    </li>   
+                    
+                    <!-- Inputan Poster Kegiatan -->
+                    <li class="flex flex-col">
+                        <label for="poster_kegiatan" class="mb-2 text-sm font-medium text-gray-700">Poster Kegiatan</label>
+                        <input type="file" id="poster_kegiatan" name="poster_kegiatan"
+                            class="px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 rounded-xl"
+                            accept="image/*" />
+                        <span class="mt-1 text-sm text-red-500">@error('poster_kegiatan') {{ $message }} @enderror</span>
+                    </li>
+
+                    <!-- Inputan Caption Poster -->
+                    <li class="flex flex-col">
+                        <label for="caption_poster" class="mb-2 text-sm font-medium text-gray-700">Caption Poster</label>
+                        <textarea id="caption_poster" name="caption_poster"
+                            class="px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 rounded-xl"
+                            placeholder="Masukkan caption untuk poster">{{ old('caption_poster') }}</textarea>
+                        <span class="mt-1 text-sm text-red-500">@error('caption_poster') {{ $message }} @enderror</span>
+                    </li>
+
                 </ul>
                 
                 <!-- Tombol Submit -->
