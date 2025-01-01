@@ -102,39 +102,51 @@
                             <tbody class="divide-y divide-gray-200">
                                 <tr>
                                     <th class="text-left px-4 py-2 font-medium text-gray-700">Nama Kegiatan</th>
-                                    <td class="px-4 py-2">{{ $reviewProposal->nama_kegiatan }}</td>
+                                    <td class="px-4 py-2">{{ $proposal->nama_kegiatan }}</td>
+                                </tr>
+                                <tr>
+                                    <th class="text-left px-4 py-2 font-medium text-gray-700">Nama Penanggung Jawab</th>
+                                    <td class="px-4 py-2">{{ $proposal->nama_penanggung_jawab }}</td>
+                                </tr>
+                                <tr>
+                                    <th class="text-left px-4 py-2 font-medium text-gray-700">Email penanggung jawab</th>
+                                    <td class="px-4 py-2">{{ $proposal->email_penanggung_jawab }}</td>
+                                </tr>
+                                <tr>
+                                    <th class="text-left px-4 py-2 font-medium text-gray-700">No hp penanggung jawab</th>
+                                    <td class="px-4 py-2">{{ $proposal->no_hp_penanggung_jawab }}</td>
                                 </tr>
                                 <tr>
                                     <th class="text-left px-4 py-2 font-medium text-gray-700">Tanggal Mulai Kegiatan</th>
-                                    <td class="px-4 py-2">{{ $reviewProposal->tanggal_mulai }}</td>
+                                    <td class="px-4 py-2">{{ $proposal->tanggal_mulai }}</td>
                                 </tr>
                                 <tr>
                                     <th class="text-left px-4 py-2 font-medium text-gray-700">Tanggal Akhir Kegiatan</th>
-                                    <td class="px-4 py-2">{{ $reviewProposal->tanggal_akhir }}</td>
+                                    <td class="px-4 py-2">{{ $proposal->tanggal_akhir }}</td>
                                 </tr>
                                 <tr>
                                     <th class="text-left px-4 py-2 font-medium text-gray-700">Tempat Kegiatan</th>
-                                    <td class="px-4 py-2">{{ $reviewProposal->tmpt_kegiatan }}</td>
+                                    <td class="px-4 py-2">{{ $proposal->tmpt_kegiatan }}</td>
                                 </tr>
                                 <tr>
                                     <th class="text-left px-4 py-2 font-medium text-gray-700">Kategori</th>
-                                    <td class="px-4 py-2">{{ $reviewProposal->jenisKegiatan->nama_jenis_kegiatan }}</td>
+                                    <td class="px-4 py-2">{{ $proposal->jenisKegiatan->nama_jenis_kegiatan }}</td>
                                 </tr>
                                 <tr>
                                     <th class="text-left px-4 py-2 font-medium text-gray-700">Asal Ormawa</th>
-                                    <td class="px-4 py-2">{{ $reviewProposal->ormawa->nama_ormawa }}</td>
+                                    <td class="px-4 py-2">{{ $proposal->ormawa->nama_ormawa }}</td>
                                 </tr>
                                 <tr>
                                     <th class="text-left px-4 py-2 font-medium text-gray-700">Pengisi Acara</th>
-                                    <td class="px-4 py-2">{{ $reviewProposal->pengisi_acara ?? '-' }}</td>
+                                    <td class="px-4 py-2">{{ $proposal->pengisi_acara ?? '-' }}</td>
                                 </tr>
                                 <tr>
                                     <th class="text-left px-4 py-2 font-medium text-gray-700">Sponsorship</th>
-                                    <td class="px-4 py-2">{{ $reviewProposal->sponsorship ?? '-' }}</td>
+                                    <td class="px-4 py-2">{{ $proposal->sponsorship ?? '-' }}</td>
                                 </tr>
                                 <tr>
                                     <th class="text-left px-4 py-2 font-medium text-gray-700">Media Partner</th>
-                                    <td class="px-4 py-2">{{ $reviewProposal->media_partner ?? '-' }}</td>
+                                    <td class="px-4 py-2">{{ $proposal->media_partner ?? '-' }}</td>
                                 </tr>
                             </tbody>
                         </table>

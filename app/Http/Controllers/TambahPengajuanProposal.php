@@ -50,6 +50,9 @@ class TambahPengajuanProposal extends Controller
             'pengisi_acara' => 'nullable|string|max:255',
             'sponsorship' => 'nullable|string|max:255',
             'media_partner' => 'nullable|string|max:255',
+            'nama_penanggung_jawab' => 'required|string|max:255',
+            'email_penanggung_jawab' => 'required|email|max:255',
+            'no_hp_penanggung_jawab' => 'required|string|max:15',
         ]);
 
         $id_pengaju = session('id'); // Ambil id pengguna dari session
@@ -110,6 +113,9 @@ class TambahPengajuanProposal extends Controller
             'pengisi_acara' => $request->input('pengisi_acara'),
             'sponsorship' => $request->input('sponsorship'),
             'media_partner' => $request->input('media_partner'),
+            'nama_penanggung_jawab' => $request->input('nama_penanggung_jawab'),
+            'email_penanggung_jawab' => $request->input('email_penanggung_jawab'),
+            'no_hp_penanggung_jawab' => $request->input('no_hp_penanggung_jawab'),
         ]);
 
         if ($query) {

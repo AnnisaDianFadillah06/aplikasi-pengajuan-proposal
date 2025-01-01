@@ -21,6 +21,33 @@
                 @csrf <!-- Token CSRF Laravel -->
                 
                 <ul class="space-y-6">
+                    <!-- Inputan Nama Penanggung Jawab -->
+                    <li class="flex flex-col">
+                        <label for="nama_penanggung_jawab" class="mb-2 text-sm font-medium text-gray-700">Nama Penanggung Jawab</label>
+                        <input type="text" id="nama_penanggung_jawab" name="nama_penanggung_jawab"
+                            class="px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 rounded-xl"
+                            placeholder="Masukan nama penanggung jawab" value="{{ old('nama_penanggung_jawab') }}" />
+                        <span class="mt-1 text-sm text-red-500">@error('nama_penanggung_jawab') {{ $message }} @enderror</span>
+                    </li>
+
+                    <!-- Inputan Email Penanggung Jawab -->
+                    <li class="flex flex-col">
+                        <label for="email_penanggung_jawab" class="mb-2 text-sm font-medium text-gray-700">Email Penanggung Jawab</label>
+                        <input type="email" id="email_penanggung_jawab" name="email_penanggung_jawab"
+                            class="px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 rounded-xl"
+                            placeholder="Masukan email penanggung jawab" value="{{ old('email_penanggung_jawab') }}" />
+                        <span class="mt-1 text-sm text-red-500">@error('email_penanggung_jawab') {{ $message }} @enderror</span>
+                    </li>
+
+                    <!-- Inputan Nomor HP Penanggung Jawab -->
+                    <li class="flex flex-col">
+                        <label for="no_hp_penanggung_jawab" class="mb-2 text-sm font-medium text-gray-700">No HP Penanggung Jawab</label>
+                        <input type="text" id="no_hp_penanggung_jawab" name="no_hp_penanggung_jawab"
+                            class="px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 rounded-xl"
+                            placeholder="Masukan nomor HP penanggung jawab" value="{{ old('no_hp_penanggung_jawab') }}" />
+                        <span class="mt-1 text-sm text-red-500">@error('no_hp_penanggung_jawab') {{ $message }} @enderror</span>
+                    </li>
+
                     <!-- Inputan Nama Kegiatan -->
                     <li class="flex flex-col">
                         <label for="nama_kegiatan" class="mb-2 text-sm font-medium text-gray-700">Nama Kegiatan</label>
