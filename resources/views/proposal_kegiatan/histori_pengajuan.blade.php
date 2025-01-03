@@ -14,7 +14,8 @@
             <tr>
                 <th class="px-6 py-3 font-bold text-center bg-transparent border-b border-gray-200 text-xxs tracking-none whitespace-nowrap text-slate-400 opacity-70">No</th>
                 <th class="px-6 py-3 font-bold text-center bg-transparent border-b border-gray-200 text-xxs tracking-none whitespace-nowrap text-slate-400 opacity-70">Nama Kegiatan</th>
-                <th class="px-6 py-3 font-bold text-center bg-transparent border-b border-gray-200 text-xxs tracking-none whitespace-nowrap text-slate-400 opacity-70">Tanggal Kegiatan</th>
+                <th class="px-6 py-3 font-bold text-center bg-transparent border-b border-gray-200 text-xxs tracking-none whitespace-nowrap text-slate-400 opacity-70">Tanggal Mulai</th>
+                <th class="px-6 py-3 font-bold text-center bg-transparent border-b border-gray-200 text-xxs tracking-none whitespace-nowrap text-slate-400 opacity-70">Tanggal Selesai</th>
                 <th class="px-6 py-3 font-bold text-center bg-transparent border-b border-gray-200 text-xxs tracking-none whitespace-nowrap text-slate-400 opacity-70">Tempat Kegiatan</th>
                 <th class="px-6 py-3 font-bold text-center bg-transparent border-b border-gray-200 text-xxs tracking-none whitespace-nowrap text-slate-400 opacity-70">Tanggal Pengajuan</th>
                 <th class="px-6 py-3 font-bold text-center bg-transparent border-b border-gray-200 text-xxs tracking-none whitespace-nowrap text-slate-400 opacity-70">Status Proposal</th>
@@ -26,7 +27,8 @@
                 <tr>
                     <td class="p-2 text-center border-b border-gray-200"></td> <!-- Kolom nomor kosong, akan diisi oleh DataTables -->
                     <td class="p-2 text-center border-b border-gray-200">{{ $proposal->nama_kegiatan }}</td>
-                    <td class="p-2 text-center border-b border-gray-200">{{ $proposal->tgl_kegiatan }}</td>
+                    <td class="p-2 text-center border-b border-gray-200">{{ $proposal->tanggal_mulai }}</td>
+                    <td class="p-2 text-center border-b border-gray-200">{{ $proposal->tanggal_akhir }}</td>
                     <td class="p-2 text-center border-b border-gray-200">{{ $proposal->tmpt_kegiatan }}</td>
                     <td class="p-2 text-center border-b border-gray-200">{{ \Carbon\Carbon::parse($proposal->created_at)->format('Y-m-d') }}</td>
                     <td class="p-2 text-center border-b border-gray-200">

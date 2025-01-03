@@ -43,6 +43,16 @@
         <h1>Revisi Proposal</h1>
         <p>Halo, <strong>{{ $data_email['username'] }}</strong>,</p>
         <p>Berikut merupakan revisi untuk proposal dengan judul <strong>"{{ $data_email['judul'] }}"</strong>.</p>
+
+        <p><strong>Yang Harus Direvisi:</strong></p>
+        <ul>
+            @foreach(explode("\n", $data_email['revisi_items']) as $line)
+                @if(trim($line) !== '')
+                    <li>{{ $line }}</li>
+                @endif
+            @endforeach
+        </ul>
+
         <p>{{ $data_email['isi'] }}</p>
         <p>
             <span class="highlight">Catatan:</span> Perbaiki dan unggah revisi maksimal dalam waktu 

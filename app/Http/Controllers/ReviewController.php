@@ -102,17 +102,12 @@ class ReviewController extends Controller
     // Fungsi untuk menyimpan data revisi ke dalam tabel revisi_file
     public function store(Request $request)
     {
-        // dd($request->all());
-        // Validasi input yang diperlukan untuk menyimpan revisi
+        // Validasi input
         $request->validate([
-            // 'catatan_revisi' => 'required|string',
-            // 'tgl_revisi' => 'required|date',
-            // 'id_dosen' => 'required|integer',
-            // 'id_proposal' => 'required|integer',
             'status_revisi' => 'required',
         ]);
-
-        // Menyimpan data revisi ke dalam tabel revisi_file
+    
+        // Simpan data revisi ke dalam tabel revisi_file
         ReviewProposal::create([
             'catatan_revisi' => $request->input('catatan_revisi'),
             'tgl_revisi' => now()->format('Y-m-d'),
@@ -120,43 +115,46 @@ class ReviewController extends Controller
             'id_proposal' => $request->input('id_proposal'),
             'status_revisi' => $request->input('status_revisi'),
         ]);
-
-        // Perbarui status proposal
+    
+        // Update status proposal
         $proposal = PengajuanProposal::find($request->input('id_proposal'));
         if ($proposal) {
-
             // Kirim notifikasi email
-            $pengaju = $proposal->pengguna; // Asosiasi ke model Pengaju
+            $pengaju = $proposal->pengguna; // Ambil data pengguna terkait proposal
             if ($pengaju && $pengaju->email) {
+                // Format dokumen yang harus direvisi menjadi string dengan pemisah newline
+                $revisi_items = $request->input('revisi_items', []);
+                $revisi_items_string = implode("\n", $revisi_items);
+    
                 $data_email = [
                     'subject' => 'Revisi Proposal',
                     'sender_name' => 'proposalkupolban@gmail.com',
                     'judul' => $proposal->nama_kegiatan,
                     'username' => $pengaju->username,
+                    'revisi_items' => $revisi_items_string,
                     'isi' => $request->input('catatan_revisi'),
                 ];
+    
                 Mail::to($pengaju->email)->send(new kirimEmail($data_email));
             }
-            // Cek apakah pengguna yang login memiliki ID = 6 (wd 3) === status disetujui hanya jika sudah sampai di wd3
+    
+            // Update status proposal dan kegiatan
             if (session()->has('id') && session('id') == 6) {
-                // Ubah status proposal sesuai input
                 $proposal->status = $request->input('status_revisi');
                 $proposal->status_kegiatan = 2;
             }
-            
-            // Periksa apakah status proposal adalah 1 sebelum menetapkan updated_by
+    
+            // Update updated_by jika status revisi = 1
             if ($request->input('status_revisi') == 1 && session()->has('id')) {
-                $proposal->updated_by = session('id_role') + 1 ;
+                $proposal->updated_by = session('id_role') + 1;
             }
-            
-            // Simpan perubahan ke database
+    
             $proposal->save();
         }
-
-        return redirect('/manajemen-review')
-    ->with('success', 'Revisi berhasil disimpan, status diperbarui, dan notifikasi email telah dikirim.');
-
     
+        return redirect('/manajemen-review')
+            ->with('success', 'Revisi berhasil disimpan, status diperbarui, dan notifikasi email telah dikirim.');
     }
+    
 
 }

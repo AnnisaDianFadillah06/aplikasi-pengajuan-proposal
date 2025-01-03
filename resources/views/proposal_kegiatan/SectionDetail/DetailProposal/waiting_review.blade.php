@@ -11,6 +11,18 @@
                         <td class="px-4 py-2">{{ $proposal->nama_kegiatan }}</td>
                     </tr>
                     <tr>
+                        <th class="text-left px-4 py-2 font-medium text-gray-700">Nama Penanggung Jawab</th>
+                        <td class="px-4 py-2">{{ $proposal->nama_penanggung_jawab }}</td>
+                    </tr>
+                    <tr>
+                        <th class="text-left px-4 py-2 font-medium text-gray-700">Email penanggung jawab</th>
+                        <td class="px-4 py-2">{{ $proposal->email_penanggung_jawab }}</td>
+                    </tr>
+                    <tr>
+                        <th class="text-left px-4 py-2 font-medium text-gray-700">No hp penanggung jawab</th>
+                        <td class="px-4 py-2">{{ $proposal->no_hp_penanggung_jawab }}</td>
+                    </tr>
+                    <tr>
                         <th class="text-left px-4 py-2 font-medium text-gray-700">Tanggal Mulai Kegiatan</th>
                         <td class="px-4 py-2">{{ $proposal->tanggal_mulai }}</td>
                     </tr>

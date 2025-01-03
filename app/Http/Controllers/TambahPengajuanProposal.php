@@ -51,6 +51,11 @@ class TambahPengajuanProposal extends Controller
             'sponsorship' => 'nullable|string|max:255',
             'media_partner' => 'nullable|string|max:255',
             'jumlah_spj' => 'required|numeric|min:1',
+            'nama_penanggung_jawab' => 'required|string|max:255',
+            'email_penanggung_jawab' => 'required|email|max:255',
+            'no_hp_penanggung_jawab' => 'required|string|max:15',
+            'poster_kegiatan' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'caption_poster' => 'nullable|string|max:1000',
         ]);
 
         $id_pengaju = session('id'); // Ambil id pengguna dari session
@@ -82,6 +87,12 @@ class TambahPengajuanProposal extends Controller
         if ($file_peminjaman_sarpras) {
             $file_peminjaman_sarpras->move(public_path('laraview'), $file_peminjaman_sarpras_path);
         }
+        $poster_path = null;
+        if ($request->hasFile('poster_kegiatan')) {
+            $poster = $request->file('poster_kegiatan');
+            $poster_path = 'laraview/' . time() . '_' . $poster->getClientOriginalName();
+            $poster->move(public_path('laraview'), $poster_path);
+        }
 
         $query = DB::table('proposal_kegiatan')->insert([
             'nama_kegiatan' => $request->input('nama_kegiatan'),
@@ -112,6 +123,11 @@ class TambahPengajuanProposal extends Controller
             'sponsorship' => $request->input('sponsorship'),
             'media_partner' => $request->input('media_partner'),
             'jumlah_spj' => $request->input('jumlah_spj', 1),
+            'nama_penanggung_jawab' => $request->input('nama_penanggung_jawab'),
+            'email_penanggung_jawab' => $request->input('email_penanggung_jawab'),
+            'no_hp_penanggung_jawab' => $request->input('no_hp_penanggung_jawab'),
+            'poster_kegiatan' => $poster_path,
+            'caption_poster' => $request->input('caption_poster'),
         ]);
 
         if ($query) {

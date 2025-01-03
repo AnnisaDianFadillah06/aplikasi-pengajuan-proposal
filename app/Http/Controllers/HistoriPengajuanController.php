@@ -11,7 +11,7 @@ class HistoriPengajuanController extends Controller
     public function index(Request $request)
     {
         // Ambil hanya kolom yang diperlukan
-        $proposals = Proposal::select('id_proposal', 'nama_kegiatan', 'tgl_kegiatan', 'tmpt_kegiatan', 'created_at', 'status',)
+        $proposals = Proposal::select('id_proposal', 'nama_kegiatan', 'tanggal_mulai', 'tanggal_akhir', 'tmpt_kegiatan', 'created_at', 'status',)
         ->whereIn('status', [1, 2]) // Filter berdasarkan status
         ->get();
 
@@ -22,7 +22,7 @@ class HistoriPengajuanController extends Controller
     public function downloadPDF()
     {
         // Ambil data proposal
-        $proposals = Proposal::select('id_proposal', 'nama_kegiatan', 'tgl_kegiatan', 'tmpt_kegiatan', 'created_at', 'status',)
+        $proposals = Proposal::select('id_proposal', 'nama_kegiatan', 'tanggal_mulai', 'tanggal_akhir', 'tmpt_kegiatan', 'created_at', 'status',)
             ->whereIn('status', [1, 2])
             ->get();
 

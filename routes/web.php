@@ -23,6 +23,7 @@ use App\Http\Controllers\PengajuanProposalController;
 use App\Http\Controllers\OrganisasiMahasiswaController;
 use App\Http\Controllers\PedomanKemahasiswaanController;
 use App\Http\Controllers\HistoriPengajuanReviewerController;
+use App\Http\Controllers\HalamanPengesahanController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -134,6 +135,9 @@ Route::middleware('isPengaju')->group(function () {
     // Angel
     Route::get('/histori-pengajuan', [HistoriPengajuanController::class, 'index'])->name('histori.pengajuan');
     Route::get('/download-pdf', [HistoriPengajuanController::class, 'downloadPDF'])->name('download.pdf');
+    Route::get('/pdf/show', [HalamanPengesahanController::class, 'showPdf']);
+    Route::get('/pdf/download', [HalamanPengesahanController::class, 'downloadPdf']);
+    Route::get('/pdf/pengesahan', [HalamanPengesahanController::class, 'showPengesahan']);
     
     // Dhea
     

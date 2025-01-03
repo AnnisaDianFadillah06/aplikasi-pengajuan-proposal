@@ -163,10 +163,6 @@
             {{-- <h3>Surat Pernyataan Ormawa</h3> --}}
             <iframe src="{{ asset($fileOrmawaPath) }}" width="800px" height="700px"></iframe>
         </div>
-        <div id="surat-pembina-section" class="content-section">
-            {{-- <h3>Surat Kesediaan Pembina</h3> --}}
-            <iframe src="{{ asset($filePembinaPath) }}" width="800px" height="700px"></iframe>
-        </div>
         <div id="surat-sarpras-section" class="content-section">
             {{-- <h3>Surat Peminjaman Sarpras</h3> --}}
             <iframe src="{{ asset($fileSarprasPath) }}" width="800px" height="700px"></iframe>

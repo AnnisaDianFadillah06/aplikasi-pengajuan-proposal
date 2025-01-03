@@ -15,11 +15,6 @@
                     ? $latestRevision->file_ormawa_revisi 
                     : $reviewProposal->surat_pernyataan_ormawa;
 
-    // Surat Kesediaan Pembina
-    $filePembinaPath = $latestRevision && $latestRevision->file_pembina_revisi 
-                    ? $latestRevision->file_pembina_revisi 
-                    : $reviewProposal->surat_kesediaan_pendampingan;
-
     // Surat Peminjaman Sarpras
     $fileSarprasPath = $latestRevision && $latestRevision->file_sarpras_revisi 
                     ? $latestRevision->file_sarpras_revisi 
@@ -35,7 +30,6 @@
                 <button class="tab-btn px-4 py-2 border-b-2 border-transparent hover:border-blue-500" data-target="tab-proposal">Proposal Kegiatan</button>
                 <button class="tab-btn px-4 py-2 border-b-2 border-transparent hover:border-blue-500" data-target="tab-ketuplak">Surat Berkegiatan Ketuplak</button>
                 <button class="tab-btn px-4 py-2 border-b-2 border-transparent hover:border-blue-500" data-target="tab-ormawa">Surat Pernyataan Ormawa</button>
-                <button class="tab-btn px-4 py-2 border-b-2 border-transparent hover:border-blue-500" data-target="tab-pembina">Surat Kesediaan Pembina</button>
                 <button class="tab-btn px-4 py-2 border-b-2 border-transparent hover:border-blue-500" data-target="tab-sarpras">Surat Peminjaman Sarpras</button>
             </div>
         </div>
@@ -58,12 +52,6 @@
             <div id="tab-ormawa" class="tab-content hidden">
                 <h3 class="font-semibold mb-2">Surat Pernyataan Ormawa</h3>
                 <iframe src="{{ asset($fileOrmawaPath) }}" width="800px" height="700px"></iframe>
-            </div>
-
-            <!-- Surat Kesediaan Pembina -->
-            <div id="tab-pembina" class="tab-content hidden">
-                <h3 class="font-semibold mb-2">Surat Kesediaan Pembina</h3>
-                <iframe src="{{ asset($filePembinaPath) }}" width="800px" height="700px"></iframe>
             </div>
 
             <!-- Surat Peminjaman Sarpras -->
@@ -102,39 +90,51 @@
                             <tbody class="divide-y divide-gray-200">
                                 <tr>
                                     <th class="text-left px-4 py-2 font-medium text-gray-700">Nama Kegiatan</th>
-                                    <td class="px-4 py-2">{{ $reviewProposal->nama_kegiatan }}</td>
+                                    <td class="px-4 py-2">{{ $proposal->nama_kegiatan }}</td>
+                                </tr>
+                                <tr>
+                                    <th class="text-left px-4 py-2 font-medium text-gray-700">Nama Penanggung Jawab</th>
+                                    <td class="px-4 py-2">{{ $proposal->nama_penanggung_jawab }}</td>
+                                </tr>
+                                <tr>
+                                    <th class="text-left px-4 py-2 font-medium text-gray-700">Email penanggung jawab</th>
+                                    <td class="px-4 py-2">{{ $proposal->email_penanggung_jawab }}</td>
+                                </tr>
+                                <tr>
+                                    <th class="text-left px-4 py-2 font-medium text-gray-700">No hp penanggung jawab</th>
+                                    <td class="px-4 py-2">{{ $proposal->no_hp_penanggung_jawab }}</td>
                                 </tr>
                                 <tr>
                                     <th class="text-left px-4 py-2 font-medium text-gray-700">Tanggal Mulai Kegiatan</th>
-                                    <td class="px-4 py-2">{{ $reviewProposal->tanggal_mulai }}</td>
+                                    <td class="px-4 py-2">{{ $proposal->tanggal_mulai }}</td>
                                 </tr>
                                 <tr>
                                     <th class="text-left px-4 py-2 font-medium text-gray-700">Tanggal Akhir Kegiatan</th>
-                                    <td class="px-4 py-2">{{ $reviewProposal->tanggal_akhir }}</td>
+                                    <td class="px-4 py-2">{{ $proposal->tanggal_akhir }}</td>
                                 </tr>
                                 <tr>
                                     <th class="text-left px-4 py-2 font-medium text-gray-700">Tempat Kegiatan</th>
-                                    <td class="px-4 py-2">{{ $reviewProposal->tmpt_kegiatan }}</td>
+                                    <td class="px-4 py-2">{{ $proposal->tmpt_kegiatan }}</td>
                                 </tr>
                                 <tr>
                                     <th class="text-left px-4 py-2 font-medium text-gray-700">Kategori</th>
-                                    <td class="px-4 py-2">{{ $reviewProposal->jenisKegiatan->nama_jenis_kegiatan }}</td>
+                                    <td class="px-4 py-2">{{ $proposal->jenisKegiatan->nama_jenis_kegiatan }}</td>
                                 </tr>
                                 <tr>
                                     <th class="text-left px-4 py-2 font-medium text-gray-700">Asal Ormawa</th>
-                                    <td class="px-4 py-2">{{ $reviewProposal->ormawa->nama_ormawa }}</td>
+                                    <td class="px-4 py-2">{{ $proposal->ormawa->nama_ormawa }}</td>
                                 </tr>
                                 <tr>
                                     <th class="text-left px-4 py-2 font-medium text-gray-700">Pengisi Acara</th>
-                                    <td class="px-4 py-2">{{ $reviewProposal->pengisi_acara ?? '-' }}</td>
+                                    <td class="px-4 py-2">{{ $proposal->pengisi_acara ?? '-' }}</td>
                                 </tr>
                                 <tr>
                                     <th class="text-left px-4 py-2 font-medium text-gray-700">Sponsorship</th>
-                                    <td class="px-4 py-2">{{ $reviewProposal->sponsorship ?? '-' }}</td>
+                                    <td class="px-4 py-2">{{ $proposal->sponsorship ?? '-' }}</td>
                                 </tr>
                                 <tr>
                                     <th class="text-left px-4 py-2 font-medium text-gray-700">Media Partner</th>
-                                    <td class="px-4 py-2">{{ $reviewProposal->media_partner ?? '-' }}</td>
+                                    <td class="px-4 py-2">{{ $proposal->media_partner ?? '-' }}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -164,6 +164,24 @@
               <div class="flex-auto p-4">
               <form action="{{ route('proposal.store') }}" method="POST">
     @csrf
+                                <h6 class="mb-0">Kesalahan Proposal</h6>
+                                <br>
+    <div class="flex items-center mb-4">
+      <input id="checkbox-2" type="checkbox" name="revisi_items[]" value="Proposal Kegiatan" class="w-4 h-4 text-orange-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-orange-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+      <label for="checkbox-2" class="ms-2 text-sm font-medium text-gray-900 dark:text-black-300">Proposal Kegiatan</label>
+  </div>
+  <div class="flex items-center mb-4">
+      <input id="checkbox-2" type="checkbox" name="revisi_items[]" value="Surat Berkegiatan Ketuplak" class="w-4 h-4 text-orange-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-orange-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+      <label for="checkbox-2" class="ms-2 text-sm font-medium text-gray-900 dark:text-black-300">Surat Berkegiatan Ketuplak</label>
+  </div>
+  <div class="flex items-center mb-4">
+      <input id="checkbox-2" type="checkbox" name="revisi_items[]" value="Surat Pernyataan Ormawa" class="w-4 h-4 text-orange-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-orange-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+      <label for="checkbox-2" class="ms-2 text-sm font-medium text-gray-900 dark:text-black-300">Surat Pernyataan Ormawa</label>
+  </div>
+  <div class="flex items-center mb-4">
+      <input id="checkbox-2" type="checkbox" name="revisi_items[]" value="Surat Peminjaman Sarpras" class="w-4 h-4 text-orange-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-orange-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+      <label for="checkbox-2" class="ms-2 text-sm font-medium text-gray-900 dark:text-black-300">Surat Peminjaman Sarpras</label>
+  </div>
     <input type="hidden" name="id_proposal" value="{{ $reviewProposal->id_proposal }}">
                       <label class="mb-2 ml-1 font-bold text-xs text-slate-700" for="catatan_revisi">Revisi</label>
                       <div class="mb-4">
