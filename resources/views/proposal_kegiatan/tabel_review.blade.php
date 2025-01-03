@@ -31,6 +31,9 @@
                             <a id="tab-proposal" href="#" class="tab-button bg-white inline-block py-2 px-4 text-blue-500 font-semibold border-l border-t border-r rounded-t focus:outline-none">Daftar Review Proposal</a>
                         </li>
                         <li class="mr-1">
+                            <a id="tab-spj" href="#" class="tab-button inline-block py-2 px-4 text-gray-500 hover:text-blue-500 font-semibold">Daftar Review SPJ</a>
+                        </li>
+                        <li class="mr-1">
                             <a id="tab-lpj" href="#" class="tab-button inline-block py-2 px-4 text-gray-500 hover:text-blue-500 font-semibold">Daftar Review LPJ</a>
                         </li>
                     </ul>
@@ -97,7 +100,7 @@
                                 @endif
                             </td>
                             <td class="p-2 text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                                <span class="text-xs font-semibold leading-tight text-slate-400">{{ $item->tgl_kegiatan }}</span>
+                                <span class="text-xs font-semibold leading-tight text-slate-400">{{ $item->tanggal_mulai }}</span>
                             </td>
                             <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
                                 <span class="text-xs font-semibold leading-tight text-slate-400">{{ $item->created_at->format('Y-m-d')  }}</span>
@@ -123,7 +126,80 @@
                             <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Nama kegiatan</th>
                             <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Status</th>
                             <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Tanggal Kegiatan</th>
-                            <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Tanggal Pengajuan</th>
+                            <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Tanggal Pengajuan LPJ</th>
+                            <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Aksi</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach ($lpjAll as $item2)
+                        <tr>
+                            <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
+                            <div class="flex px-2 py-1">
+                                <div class="flex flex-col justify-center">
+                                <h6 class="mb-0 text-sm leading-normal">{{ $item2->username }}</h6>
+                                <!-- <p class="mb-0 text-xs leading-tight text-slate-400">john@creative-tim.com</p> -->
+                                </div>
+                            </div>
+                            </td>
+                            <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
+                            <p class="mb-0 text-xs font-semibold leading-tight">{{ $item2->nama_kegiatan }}</p>
+                            <!-- <p class="mb-0 text-xs leading-tight text-slate-400">Organization</p> -->
+                            </td>
+                            <td class="p-2 text-sm leading-normal text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
+                                @php
+                                    // Prioritaskan status dari latestRevision jika ada, gunakan item->status jika tidak
+                                    $status = $item2->status_lpj;
+                                @endphp
+                                @if ($status == 0)
+                                    <span class="bg-gradient-to-tl from-yellow-500 to-yellow-300 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">
+                                        Menunggu
+                                    </span>
+                                @elseif ($status == 1)
+                                    <span class="bg-gradient-to-tl from-yellow-500 to-yellow-300 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">
+                                        Menunggu
+                                    </span>
+                                @elseif ($status == 1)
+                                    <span class="bg-gradient-to-tl from-green-600 to-lime-400 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">
+                                        Disetujui
+                                    </span>
+                                @elseif ($status == 2)
+                                    <span class="bg-gradient-to-tl from-red-600 to-red-400 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">
+                                        Ditolak
+                                    </span>
+                                @elseif ($status == 3)
+                                    <span class="bg-gradient-to-tl from-blue-600 to-blue-400 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">
+                                        Revisi
+                                    </span>
+                                @endif
+                            </td>
+                            <td class="p-2 text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
+                                <span class="text-xs font-semibold leading-tight text-slate-400">{{ $item2->tanggal_mulai }}</span>
+                            </td>
+                            <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
+                                <span class="text-xs font-semibold leading-tight text-slate-400">{{ \Carbon\Carbon::parse($item2->created_at)->format('Y-m-d') }}</span>
+                            </td>
+                            <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
+                            <a href="{{ route('reviewLPJ.show', ['reviewLPJ' => $item2->id_lpj]) }}"  onclick="logProposalId({{ $item2->id_lpj }})" class="bg-blue-500 text-white px-2 py-1 rounded hover:underline">Review</a>
+                            </td>
+                        </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
+                </div>
+
+                <div id="content-spj" class="tab-content hidden">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-xl font-bold">List SPJ</h3>
+                    </div>
+                    {{-- ======================= TABEL 3 ======================= --}}
+                    <table id="myTable3" class="items-center w-full mb-0 align-top border-gray-200 text-slate-500">
+                        <thead class="align-bottom">
+                        <tr class="w-full bg-gray-100 text-gray-700 uppercase text-sm leading-normal">
+                            <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Penyelenggara</th>
+                            <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Nama kegiatan</th>
+                            <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Status</th>
+                            <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Tanggal Kegiatan</th>
+                            <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Tanggal Pengajuan SPJ</th>
                             <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Aksi</th>
                         </tr>
                         </thead>
@@ -133,7 +209,7 @@
                             <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
                             <div class="flex px-2 py-1">
                                 <div class="flex flex-col justify-center">
-                                <h6 class="mb-0 text-sm leading-normal">{{ $item->id_pengguna }} {{ $item->pengguna->nama_pengguna }}</h6>
+                                <h6 class="mb-0 text-sm leading-normal">{{ $item->username }}</h6>
                                 <!-- <p class="mb-0 text-xs leading-tight text-slate-400">john@creative-tim.com</p> -->
                                 </div>
                             </div>
@@ -274,6 +350,31 @@
         });
 
         $('#myTable2').DataTable({
+            "paging": true,
+            "searching": true,
+            "ordering": true,
+            "info": true,
+            "lengthMenu": [5, 10, 25, 50],
+            "language": {
+                "search": "Cari:",
+                "lengthMenu": "Tampilkan _MENU_ entri",
+                "info": "Menampilkan _START_ hingga _END_ dari _TOTAL_ entri",
+                "infoEmpty": "Menampilkan 0 hingga 0 dari 0 entri",
+                "infoFiltered": "(disaring dari _MAX_ total entri)",
+                "paginate": {
+                    "first": "Pertama",
+                    "last": "Terakhir",
+                    "next": "Selanjutnya",
+                    "previous": "Sebelumnya"
+                }
+            },
+            "drawCallback": function() {
+                // Adjust select width after draw
+                adjustSelectWidth();
+            }
+        });
+
+        $('#myTable3').DataTable({
             "paging": true,
             "searching": true,
             "ordering": true,

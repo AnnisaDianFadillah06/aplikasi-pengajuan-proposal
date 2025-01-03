@@ -16,7 +16,7 @@ class PengajuanProposal extends Model
     protected $fillable = [
         'nama_kegiatan',
         'tmpt_kegiatan',
-        'tgl_kegiatan',
+        'tgl_kegiatan', // ini jadi gakepake kan ya diganti tanggal_mulai tanggal_akhir kan?
         'file_proposal',
         'surat_berkegiatan_ketuplak',
         'surat_pernyataan_ormawa',

@@ -8,6 +8,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\kirimEmail; // Pastikan file Mail sesuai namespace
 use App\Models\ReviewLPJ;
+use App\Models\LPJ;
+use App\Models\SPJ;
+use Illuminate\Support\Facades\DB;
 
 
 class ReviewController extends Controller
@@ -66,10 +69,27 @@ class ReviewController extends Controller
             $lpj->latestRevision = $latestRevisionsLpjs->get($lpj->id_proposal)?->first(); // Ambil revisi terakhir atau null
         }
 
+
+        // Mendapatkan semua data lpj dan spj dari database
+        $spjAll = Spj::all();
+        $lpjAll = DB::table('lpj')
+            ->join('proposal_kegiatan', 'lpj.id_proposal', '=', 'proposal_kegiatan.id_proposal')
+            ->join('pengaju', 'proposal_kegiatan.id_pengguna', '=', 'pengaju.id')
+            ->select(
+                'lpj.*', // Ambil semua kolom dari tabel `lpj`
+                'proposal_kegiatan.nama_kegiatan', // Contoh kolom dari `proposal`
+                'proposal_kegiatan.tanggal_mulai',
+                'pengaju.username', // Kolom nama pengguna dari `pengguna`
+
+            )
+            ->get();
+
         // Return ke tampilan
         return view('proposal_kegiatan.tabel_review', [
             'proposals' => $proposals,
             'lpjs' => $lpjs,
+            'spjAll' => $spjAll,
+            'lpjAll' => $lpjAll,
             'sessionId' => $sessionId, // Kirim sessionId ke view
         ]);
     }
