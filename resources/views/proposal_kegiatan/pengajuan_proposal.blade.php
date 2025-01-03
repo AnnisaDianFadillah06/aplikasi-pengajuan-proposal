@@ -160,7 +160,9 @@
                                     Upload LPJ
                                 </button>
                             </form>
-                        <form method="GET" action="{{ url('/pdf/pengesahan') }}">
+                        </td>
+                        <td class="p-2 text-sm leading-normal text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
+                            <form method="GET" action="{{ url('/pdf/pengesahan') }}">
                                 @csrf
                                 <!-- Anda bisa menambahkan input hidden jika diperlukan -->
                                 <!-- <input type="hidden" name="is_first_access" value="true"> -->
