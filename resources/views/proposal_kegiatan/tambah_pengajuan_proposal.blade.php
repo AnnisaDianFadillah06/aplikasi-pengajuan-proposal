@@ -164,6 +164,15 @@
                         <span class="mt-1 text-sm text-red-500">@error('media_partner') {{ $message }} @enderror</span>
                     </li>
 
+                    <!-- Inputan Jumlah SPJ -->
+                    <li class="flex flex-col">
+                        <label for="jumlah_spj" class="mb-2 text-sm font-medium text-gray-700">Jumlah SPJ</label>
+                        <input type="number" id="jumlah_spj" name="jumlah_spj"
+                            class="px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 rounded-xl"
+                            placeholder="Masukan jumlah SPJ" value="{{ old('jumlah_spj') }}" min="0" />
+                        <span class="mt-1 text-sm text-red-500">@error('jumlah_spj') {{ $message }} @enderror</span>
+                    </li>
+
                     <li class="flex flex-col">
                         <label for="file" class="mb-2 font-semibold text-gray-700">Upload Dokumen Proposal (TOR untuk pergerakan)</label>
                         <input type="file" id="file_proposal" name="file_proposal" class="block w-full text-gray-500 file:mr-4 file:py-2 file:px-4 file:border-0 file:rounded-lg file:text-sm file:bg-blue-500 file:text-white hover:file:bg-blue-600
