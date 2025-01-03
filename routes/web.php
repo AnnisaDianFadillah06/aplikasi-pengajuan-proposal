@@ -1,12 +1,15 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\SpjController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\OrmawaController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Middleware\ReviewerMiddleware;
+use App\Http\Middleware\MahasiswaMiddleware;
 use App\Http\Controllers\CountdownController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EventListController;
@@ -20,8 +23,6 @@ use App\Http\Controllers\PengajuanProposalController;
 use App\Http\Controllers\OrganisasiMahasiswaController;
 use App\Http\Controllers\PedomanKemahasiswaanController;
 use App\Http\Controllers\HistoriPengajuanReviewerController;
-use App\Http\Middleware\ReviewerMiddleware;
-use App\Http\Middleware\MahasiswaMiddleware;
 
 Route::get('/', function () {
     return view('welcome');
@@ -167,6 +168,20 @@ Route::middleware('isPengaju')->group(function () {
     // Route untuk Next Step dan Previous Step
     Route::post('/detail-laporan/{id_proposal}/next', [LaporanController::class, 'nextStep'])->name('laporan.nextStep');
     Route::post('/detail-laporan/{id_proposal}/prev', [LaporanController::class, 'prevStep'])->name('laporan.prevStep');
+
+    // SPJ
+    Route::get('/pengajuan-proposal/spj/{id_proposal}', [SpjController::class, 'index'])->name('spj.index');
+    // Route::get('/pengajuan-proposal/spj/tambah-spj', [SpjController::class, 'formIndex'])->name('spj.formIndex');
+    Route::post('/pengajuan-proposal/spj/store', [SpjController::class, 'store'])->name('spj.store');
+    Route::get('/pengajuan-proposal/spj/tambah-spj/{id_proposal}', [SpjController::class, 'formIndex'])->name('spj.formIndex');
+    // Route untuk menampilkan detail spj
+    Route::get('/detail-spj/{id_spj}', [SpjController::class, 'show'])->name('spj.detail'); //route untuk detail_proposal
+    // Route untuk Next Step dan Previous Step
+    Route::post('/detail-spj/{id_spj}/next', [SpjController::class, 'nextStep'])->name('spj.nextStep');
+    Route::post('/detail-spj/{id_spj}/prev', [SpjController::class, 'prevStep'])->name('spj.prevStep');
+    // Upload revisi
+    Route::post('/upload-file/{id_proposal}', [SpjController::class, 'uploadFile'])->name('spj.uploadFileRevisi');
+
 
     // Timothy
     Route::get('/dashboard-pengaju', [DashboardController::class, 'index_pengaju'])->name('proposal_kegiatan.dashboard-pengaju');

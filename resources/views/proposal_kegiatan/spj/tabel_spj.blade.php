@@ -1,24 +1,26 @@
 @extends('proposal_kegiatan\pengaju')
 @section('konten')
 
-{{-- Cek apakah ada sesi login dan tampilkan data pengguna --}}
-{{-- @if (session()->has('username') && session()->has('id'))
-    <p>Selamat datang, {{ session('username') }}!</p>
-    <p>id Anda: {{ session('id') }}</p>
-@else
-    <p>Anda belum login.</p>
-@endif --}}
-
 <!-- Link Tailwind CSS dan FontAwesome untuk ikon -->
 <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 <link rel="stylesheet" href="//cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
 
+<div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-4">
+    <p class="font-semibold text-lg">Informasi SPJ</p>
+    <p class="mt-2">Jumlah SPJ yang harus diupload untuk proposal ini adalah: 
+        <span class="font-bold text-xl">{{ $proposal->jumlah_spj }}</span>
+    </p>
+    <p class="mt-2">Jumlah SPJ yang sudah diupload: 
+        <span class="font-bold text-xl">{{ $spjs->count() }}</span>
+    </p>
+</div>
+
 <div class="container mx-auto mt-4">
     <!-- Heading dan Tombol Add New -->
     <div class="flex justify-between items-center mb-4">
-        <h3 class="text-xl font-bold">List Proposal</h3>
+        <h3 class="text-xl font-bold">List SPJ</h3>
         
-        {{-- alert sukses kirim form --}}
+        {{-- Alert Sukses atau Gagal --}}
         @if(Session::get('sukses'))
             <div id="alert-sukses" class="bg-green-500 text-white px-4 py-2 rounded">
                 {{ Session::get('sukses') }}
@@ -29,44 +31,42 @@
                 {{ Session::get('gagal') }}
             </div>
         @endif
+
         <script>
-            // Fungsi untuk menghilangkan alert setelah 3 detik
             setTimeout(() => {
-                const suksesAlert = document.getElementById('alert-sukses');
-                const gagalAlert = document.getElementById('alert-gagal');
-                if (suksesAlert) {
-                    suksesAlert.style.display = 'none';
-                }
-                if (gagalAlert) {
-                    gagalAlert.style.display = 'none';
-                }
-            }, 3000); // 3000 ms = 3 detik
+                document.getElementById('alert-sukses')?.style.display = 'none';
+                document.getElementById('alert-gagal')?.style.display = 'none';
+            }, 3000);
         </script>
 
-
-        <a href="{{ url('/tambah-pengajuan-proposal') }}">
-            <button class="bg-blue-500 text-white py-2 px-4 rounded">
-                <i class="fas fa-plus"></i> Add New
+        @if($canUpload)
+            <a href="{{ route('spj.formIndex', ['id_proposal' => $proposal->id_proposal]) }}">
+                <button class="bg-blue-500 text-white py-2 px-4 rounded">
+                    <i class="fas fa-plus"></i> Upload SPJ
+                </button>
+            </a>
+        @else
+            <button class="bg-gray-400 text-white py-2 px-4 rounded cursor-not-allowed" disabled>
+                SPJ Sudah Lengkap
             </button>
-        </a>
+        @endif
     </div>
+</div>
 {{-- ======================= TABEL 2 ======================= --}}
 
         <table id="myTable" class="items-center w-full mb-0 align-top border-gray-200 text-slate-500">
                     <thead class="align-bottom">
                     <tr class="w-full bg-gray-100 text-gray-700 uppercase text-sm leading-normal">
-                        <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Penyelenggara</th>
+                        <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">SPJ ke-</th>
                         <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Nama kegiatan</th>
                         <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Status</th>
-                        <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Tanggal Pengajuan</th>
+                        <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Tanggal Unggah</th>
                         <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Tahap Review</th>
                         <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Aksi</th>
-                        <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">SPJ</th>
-                        <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">LPJ</th>
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach ($proposals as $item)
+                    @foreach ($spjs as $item)
                     @php
                         // Mengambil revisi terbaru yang sesuai dengan id_proposal
                         $latestReview = $latestReviews->firstWhere('id_proposal', $item->id_proposal);
@@ -91,13 +91,13 @@
                         <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
                           <div class="flex px-2 py-1">
                             <div class="flex flex-col justify-center">
-                              <h6 class="mb-0 text-sm leading-normal">{{ $item->pengguna->username }}</h6>
+                              <h6 class="mb-0 text-sm leading-normal">{{ $item->spj_ke }}</h6>
                               <!-- <p class="mb-0 text-xs leading-tight text-slate-400">john@creative-tim.com</p> -->
                             </div>
                           </div>
                         </td>
                         <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                          <p class="mb-0 text-xs font-semibold leading-tight">{{ $item->nama_kegiatan }}</p>
+                          <p class="mb-0 text-xs font-semibold leading-tight">{{ $proposal->nama_kegiatan }}</p>
                           <!-- <p class="mb-0 text-xs leading-tight text-slate-400">Organization</p> -->
                         </td>
                         <td class="p-2 text-sm leading-normal text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
@@ -129,15 +129,11 @@
                             @elseif ($tahap == 2)
                                 <p class="mb-0 text-xs font-semibold leading-tight">Pembina</p>
                             @elseif ($tahap == 3)
-                                <p class="mb-0 text-xs font-semibold leading-tight">Ketua Jurusan</p>
-                            @elseif ($tahap == 4)
-                                <p class="mb-0 text-xs font-semibold leading-tight">KLI</p>
-                            @elseif ($tahap == 5)
                                 <p class="mb-0 text-xs font-semibold leading-tight">Wadir 3</p>
                             @endif
                         </td>
                         <td class="p-2 text-sm leading-normal text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                            <form method="GET" action="{{ route('proposal.detail', $item->id_proposal) }}">
+                            <form method="GET" action="{{ route('spj.detail', $item->id_spj) }}">
                                 @csrf
                                 <!-- Hidden input sebagai penanda -->
                                 <input type="hidden" name="is_first_access" value="true">
@@ -145,22 +141,7 @@
                                     Detail
                                 </button>
                             </form>
-                        </td>
-                        <td class="p-2 text-sm leading-normal text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                            <form method="GET" action="{{ route('spj.index', $item->id_proposal) }}">
-                                <button type="submit" class="bg-blue-500 text-white px-2 py-1 rounded">
-                                    Upload SPJ
-                                </button>
-                            </form>                            
-                        </td>
-                        <td class="p-2 text-sm leading-normal text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                            <form method="GET" action="{{ route('spj.index', $item->id_proposal) }}">
-                                <button type="submit" class="bg-blue-500 text-white px-2 py-1 rounded">
-                                    Upload LPJ
-                                </button>
-                            </form>                            
-                        </td>
-                        
+                        </td>                        
                     </tr>
                 </tr>
                       

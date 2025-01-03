@@ -31,8 +31,9 @@ return new class extends Migration
             $table->integer('status_lpj')->nullable();
             $table->integer('status_approve_lpj')->nullable();
             $table->integer('status_spj')->default(0); // 0: belum mengajukan, 1: sudah mengajukan, 2: tidak memerlukan
+            $table->integer('jumlah_spj')->nullable()->default(0); // Jumlah SPJ yang perlu dikumpulkan
         });
-
+        
         Schema::connection('pgsql')->create('lpj', function (Blueprint $table) {
             $table->increments('id_lpj');
             $table->unsignedInteger('id_proposal');
@@ -42,14 +43,21 @@ return new class extends Migration
             $table->timestamp('updated_at')->nullable()->useCurrent();
             $table->integer('created_by')->nullable();
             $table->integer('updated_by')->nullable();
-
+            
             $table->foreign('id_proposal')->references('id_proposal')->on('proposal_kegiatan')->onDelete('cascade');
         });
-
+        
         Schema::connection('pgsql')->create('spj', function (Blueprint $table) {
             $table->increments('id_spj');
             $table->unsignedInteger('id_proposal');
+            $table->integer('spj_ke')->nullable();
+            $table->string('file_sptb');
             $table->string('file_spj');
+            $table->string('dokumen_berita_acara')->nullable(); // Untuk dokumen berita acara
+            $table->string('gambar_bukti_spj')->nullable(); // Untuk gambar bukti pemberian SPJ
+            $table->string('caption_video')->nullable(); // Untuk caption video
+            $table->string('video_kegiatan')->nullable();
+            $table->integer('status')->nullable();
             $table->timestamp('tgl_upload')->nullable()->useCurrent();
             $table->timestamp('created_at')->nullable()->useCurrent();
             $table->timestamp('updated_at')->nullable()->useCurrent();
