@@ -15,7 +15,7 @@
         {{-- Step 0 --}}
         <li class="relative w-full mb-6">
             <div class="flex items-center">
-                <div class="z-10 flex items-center justify-center w-6 h-6 {{ $currentStep >= 0 ? 'bg-blue-600' : 'bg-gray-200' }} rounded-full ring-0 ring-white sm:ring-8 shrink-0">
+                <div class="z-10 flex items-center justify-center w-6 h-6 {{ $currentStep >= 0 ? 'bg-blue-600' : 'bg-gray-200' }} {{ $updatedByStep == 0 ? 'ring-4 ring-yellow-400' : '' }} rounded-full ring-0 ring-white sm:ring-8 shrink-0">
                     <span class="flex w-3 h-3 {{ $currentStep >= 0 ? 'bg-blue-600' : 'bg-gray-900' }} rounded-full"></span>
                 </div>
                 <div class="flex w-full bg-gray-200 h-0.5"></div>
@@ -28,7 +28,7 @@
         {{-- Step 1 --}}
         <li class="relative w-full mb-6">
             <div class="flex items-center">
-                <div class="z-10 flex items-center justify-center w-6 h-6 {{ $currentStep >= 1 ? 'bg-blue-600' : 'bg-gray-200' }} rounded-full ring-0 ring-white sm:ring-8 shrink-0">
+                <div class="z-10 flex items-center justify-center w-6 h-6 {{ $currentStep >= 1 ? 'bg-blue-600' : 'bg-gray-200' }} {{ $updatedByStep == 1 ? 'ring-4 ring-yellow-400' : '' }} rounded-full ring-0 ring-white sm:ring-8 shrink-0">
                     <span class="flex w-3 h-3 {{ $currentStep >= 1 ? 'bg-blue-600' : 'bg-gray-900' }} rounded-full"></span>
                 </div>
                 <div class="flex w-full bg-gray-200 h-0.5"></div>
@@ -41,7 +41,7 @@
         {{-- Step 2 --}}
         <li class="relative w-full mb-6">
             <div class="flex items-center">
-                <div class="z-10 flex items-center justify-center w-6 h-6 {{ $currentStep >= 2 ? 'bg-blue-600' : 'bg-gray-200' }} rounded-full ring-0 ring-white sm:ring-8 shrink-0">
+                <div class="z-10 flex items-center justify-center w-6 h-6 {{ $currentStep >= 2 ? 'bg-blue-600' : 'bg-gray-200' }} {{ $updatedByStep == 2 ? 'ring-4 ring-yellow-400' : '' }} rounded-full ring-0 ring-white sm:ring-8 shrink-0">
                     <span class="flex w-3 h-3 {{ $currentStep >= 2 ? 'bg-blue-600' : 'bg-gray-900' }} rounded-full"></span>
                 </div>
                 <div class="flex w-full bg-gray-200 h-0.5"></div>
@@ -52,9 +52,10 @@
         </li>
 
         {{-- Step 3 --}}
+        @if (!str_contains($nama_ormawa, 'UKM') && !str_contains($nama_ormawa, 'BEM') && !str_contains($nama_ormawa, 'MPM'))
         <li class="relative w-full mb-6">
             <div class="flex items-center">
-                <div class="z-10 flex items-center justify-center w-6 h-6 {{ $currentStep >= 3 ? 'bg-blue-600' : 'bg-gray-200' }} rounded-full ring-0 ring-white sm:ring-8 shrink-0">
+                <div class="z-10 flex items-center justify-center w-6 h-6 {{ $currentStep >= 3 ? 'bg-blue-600' : 'bg-gray-200' }} {{ $updatedByStep == 3 ? 'ring-4 ring-yellow-400' : '' }} rounded-full ring-0 ring-white sm:ring-8 shrink-0">
                     <span class="flex w-3 h-3 {{ $currentStep >= 3 ? 'bg-blue-600' : 'bg-gray-900' }} rounded-full"></span>
                 </div>
                 <div class="flex w-full bg-gray-200 h-0.5"></div>
@@ -63,29 +64,28 @@
                 <h3 class="font-medium text-gray-900">Ketua Jurusan</h3>
             </div>
         </li>
+        @endif
 
         {{-- Step 4 --}}
-        @if (!str_contains($nama_ormawa, 'UKM') && !str_contains($nama_ormawa, 'BEM') && !str_contains($nama_ormawa, 'MPM'))
-            <li class="relative w-full mb-6">
-                <div class="flex items-center">
-                    <div class="z-10 flex items-center justify-center w-6 h-6 {{ $currentStep >= 4 ? 'bg-blue-600' : 'bg-gray-200' }} rounded-full ring-0 ring-white sm:ring-8 shrink-0">
-                        <span class="flex w-3 h-3 {{ $currentStep >= 4 ? 'bg-blue-600' : 'bg-gray-900' }} rounded-full"></span>
-                    </div>
-                    <div class="flex w-full bg-gray-200 h-0.5"></div>
+        <li class="relative w-full mb-6">
+            <div class="flex items-center">
+                <div class="z-10 flex items-center justify-center w-6 h-6 {{ $currentStep >= 4 ? 'bg-blue-600' : 'bg-gray-200' }} {{ $updatedByStep == 4 ? 'ring-4 ring-yellow-400' : '' }} rounded-full ring-0 ring-white sm:ring-8 shrink-0">
+                    <span class="flex w-3 h-3 {{ $currentStep >= 4 ? 'bg-blue-600' : 'bg-gray-900' }} rounded-full"></span>
                 </div>
-                <div class="mt-3">
-                    <h3 class="font-medium text-gray-900">KLI</h3>
-                </div>
-            </li>
-        @endif
+                <div class="flex w-full bg-gray-200 h-0.5"></div>
+            </div>
+            <div class="mt-3">
+                <h3 class="font-medium text-gray-900">KLI</h3>
+            </div>
+        </li>
 
         {{-- Step 5 --}}
         <li class="relative w-full mb-6">
             <div class="flex items-center">
-                <div class="z-10 flex items-center justify-center w-6 h-6 {{ $currentStep >= 5 ? 'bg-blue-600' : 'bg-gray-200' }} rounded-full ring-0 ring-white sm:ring-8 shrink-0">
+                <div class="z-10 flex items-center justify-center w-6 h-6 {{ $currentStep >= 5 ? 'bg-blue-600' : 'bg-gray-200' }} {{ $updatedByStep == 5 ? 'ring-4 ring-yellow-400' : '' }} rounded-full ring-0 ring-white sm:ring-8 shrink-0">
                     <span class="flex w-3 h-3 {{ $currentStep >= 5 ? 'bg-blue-600' : 'bg-gray-900' }} rounded-full"></span>
                 </div>
-                <div class="flex w-full bg-gray-200 h-0.5"></div>
+                {{-- <div class="flex w-full bg-gray-200 h-0.5"></div> --}}
             </div>
             <div class="mt-3">
                 <h3 class="font-medium text-gray-900">WADIR 3</h3>
@@ -147,7 +147,6 @@
             <button onclick="toggleSection('proposal-section')"  class="nav-btn px-4 py-2 bg-blue-500 text-white rounded" data-target="proposal-section">Proposal</button>
             <button onclick="toggleSection('surat-ketuplak-section')"  class="nav-btn px-4 py-2 bg-blue-500 text-white rounded" data-target="ketuplak-section">Surat Ketuplak</button>
             <button onclick="toggleSection('surat-ormawa-section')"  class="nav-btn px-4 py-2 bg-blue-500 text-white rounded">Surat Ormawa</button>
-            <button onclick="toggleSection('surat-pembina-section')"  class="nav-btn px-4 py-2 bg-blue-500 text-white rounded">Surat Pembina</button>
             <button onclick="toggleSection('surat-sarpras-section')"  class="nav-btn px-4 py-2 bg-blue-500 text-white rounded">Surat Sarpras</button>
         </div>
         

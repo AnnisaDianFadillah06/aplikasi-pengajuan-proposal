@@ -30,7 +30,6 @@ class TambahPengajuanProposal extends Controller
             'file_proposal' => 'required|file|mimes:pdf',
             'surat_berkegiatan_ketuplak' => 'required|file|mimes:pdf',
             'surat_pernyataan_ormawa' => 'required|file|mimes:pdf',
-            'surat_kesediaan_pendampingan' => 'required|file|mimes:pdf',
             'surat_peminjaman_sarpras' => 'required|file|mimes:pdf',
             // 'tanggal_mulai' => 'nullable|date',
             'tanggal_mulai' => [
@@ -62,13 +61,11 @@ class TambahPengajuanProposal extends Controller
         $file_proposal = $request->file('file_proposal');
         $file_berkegiatan_ketuplak = $request->file('surat_berkegiatan_ketuplak');
         $file_pernyataan_ormawa = $request->file('surat_pernyataan_ormawa');
-        $file_kesediaan_pembina = $request->file('surat_kesediaan_pendampingan');
         $file_peminjaman_sarpras = $request->file('surat_peminjaman_sarpras');
 
         $file_proposal_path = $file_proposal ? 'laraview/' . time() . '_' . $file_proposal->getClientOriginalName() : null;
         $file_berkegiatan_ketuplak_path = $file_berkegiatan_ketuplak ? 'laraview/' . time() . '_' . $file_berkegiatan_ketuplak->getClientOriginalName() : null;
         $file_pernyataan_ormawa_path = $file_pernyataan_ormawa ? 'laraview/' . time() . '_' . $file_pernyataan_ormawa->getClientOriginalName() : null;
-        $file_kesediaan_pembina_path = $file_kesediaan_pembina ? 'laraview/' . time() . '_' . $file_kesediaan_pembina->getClientOriginalName() : null;
         $file_peminjaman_sarpras_path = $file_peminjaman_sarpras ? 'laraview/' . time() . '_' . $file_peminjaman_sarpras->getClientOriginalName() : null;
 
         if ($file_proposal) {
@@ -79,9 +76,6 @@ class TambahPengajuanProposal extends Controller
         }
         if ($file_pernyataan_ormawa) {
             $file_pernyataan_ormawa->move(public_path('laraview'), $file_pernyataan_ormawa_path);
-        }
-        if ($file_kesediaan_pembina) {
-            $file_kesediaan_pembina->move(public_path('laraview'), $file_kesediaan_pembina_path);
         }
         if ($file_peminjaman_sarpras) {
             $file_peminjaman_sarpras->move(public_path('laraview'), $file_peminjaman_sarpras_path);
@@ -100,7 +94,6 @@ class TambahPengajuanProposal extends Controller
             'file_proposal' => $file_proposal_path,
             'surat_berkegiatan_ketuplak' => $file_berkegiatan_ketuplak_path,
             'surat_pernyataan_ormawa' => $file_pernyataan_ormawa_path,
-            'surat_kesediaan_pendampingan' => $file_kesediaan_pembina_path,
             'surat_peminjaman_sarpras' => $file_peminjaman_sarpras_path,
             'id_jenis_kegiatan' => $request->input('id_jenis_kegiatan'),
             'id_bidang_kegiatan' => $request->input('id_bidang_kegiatan'),
