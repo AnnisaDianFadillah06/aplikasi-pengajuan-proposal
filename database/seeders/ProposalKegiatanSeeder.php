@@ -36,7 +36,7 @@ class ProposalKegiatanSeeder extends Seeder
                 'id_jenis_kegiatan' => 2,
                 'id_ormawa' => 2,
                 'id_pengguna' => 2,
-                'id_bidang_kegiatan' => 3,
+                'id_bidang_kegiatan' => 2,
                 'file_lpj' => '',
                 'updated_by' => 3,
                 'status' => 1,

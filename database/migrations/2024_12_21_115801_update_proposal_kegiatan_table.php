@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::connection('pgsql')->table('proposal_kegiatan', function (Blueprint $table) {
             $table->string('surat_berkegiatan_ketuplak')->nullable();
             $table->string('surat_pernyataan_ormawa')->nullable();
-            $table->string('surat_kesediaan_pendampingan')->nullable();
             $table->string('surat_peminjaman_sarpras')->nullable();
             $table->date('tanggal_mulai')->nullable();
             $table->date('tanggal_akhir')->nullable();

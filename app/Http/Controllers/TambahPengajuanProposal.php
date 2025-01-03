@@ -30,7 +30,6 @@ class TambahPengajuanProposal extends Controller
             'file_proposal' => 'required|file|mimes:pdf',
             'surat_berkegiatan_ketuplak' => 'required|file|mimes:pdf',
             'surat_pernyataan_ormawa' => 'required|file|mimes:pdf',
-            'surat_kesediaan_pendampingan' => 'required|file|mimes:pdf',
             'surat_peminjaman_sarpras' => 'required|file|mimes:pdf',
             // 'tanggal_mulai' => 'nullable|date',
             'tanggal_mulai' => [
@@ -50,6 +49,12 @@ class TambahPengajuanProposal extends Controller
             'pengisi_acara' => 'nullable|string|max:255',
             'sponsorship' => 'nullable|string|max:255',
             'media_partner' => 'nullable|string|max:255',
+            'jumlah_spj' => 'required|numeric|min:1',
+            'nama_penanggung_jawab' => 'required|string|max:255',
+            'email_penanggung_jawab' => 'required|email|max:255',
+            'no_hp_penanggung_jawab' => 'required|string|max:15',
+            'poster_kegiatan' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'caption_poster' => 'nullable|string|max:1000',
         ]);
 
         $id_pengaju = session('id'); // Ambil id pengguna dari session
@@ -57,13 +62,11 @@ class TambahPengajuanProposal extends Controller
         $file_proposal = $request->file('file_proposal');
         $file_berkegiatan_ketuplak = $request->file('surat_berkegiatan_ketuplak');
         $file_pernyataan_ormawa = $request->file('surat_pernyataan_ormawa');
-        $file_kesediaan_pembina = $request->file('surat_kesediaan_pendampingan');
         $file_peminjaman_sarpras = $request->file('surat_peminjaman_sarpras');
 
         $file_proposal_path = $file_proposal ? 'laraview/' . time() . '_' . $file_proposal->getClientOriginalName() : null;
         $file_berkegiatan_ketuplak_path = $file_berkegiatan_ketuplak ? 'laraview/' . time() . '_' . $file_berkegiatan_ketuplak->getClientOriginalName() : null;
         $file_pernyataan_ormawa_path = $file_pernyataan_ormawa ? 'laraview/' . time() . '_' . $file_pernyataan_ormawa->getClientOriginalName() : null;
-        $file_kesediaan_pembina_path = $file_kesediaan_pembina ? 'laraview/' . time() . '_' . $file_kesediaan_pembina->getClientOriginalName() : null;
         $file_peminjaman_sarpras_path = $file_peminjaman_sarpras ? 'laraview/' . time() . '_' . $file_peminjaman_sarpras->getClientOriginalName() : null;
 
         if ($file_proposal) {
@@ -75,11 +78,14 @@ class TambahPengajuanProposal extends Controller
         if ($file_pernyataan_ormawa) {
             $file_pernyataan_ormawa->move(public_path('laraview'), $file_pernyataan_ormawa_path);
         }
-        if ($file_kesediaan_pembina) {
-            $file_kesediaan_pembina->move(public_path('laraview'), $file_kesediaan_pembina_path);
-        }
         if ($file_peminjaman_sarpras) {
             $file_peminjaman_sarpras->move(public_path('laraview'), $file_peminjaman_sarpras_path);
+        }
+        $poster_path = null;
+        if ($request->hasFile('poster_kegiatan')) {
+            $poster = $request->file('poster_kegiatan');
+            $poster_path = 'laraview/' . time() . '_' . $poster->getClientOriginalName();
+            $poster->move(public_path('laraview'), $poster_path);
         }
 
         $query = DB::table('proposal_kegiatan')->insert([
@@ -89,7 +95,6 @@ class TambahPengajuanProposal extends Controller
             'file_proposal' => $file_proposal_path,
             'surat_berkegiatan_ketuplak' => $file_berkegiatan_ketuplak_path,
             'surat_pernyataan_ormawa' => $file_pernyataan_ormawa_path,
-            'surat_kesediaan_pendampingan' => $file_kesediaan_pembina_path,
             'surat_peminjaman_sarpras' => $file_peminjaman_sarpras_path,
             'id_jenis_kegiatan' => $request->input('id_jenis_kegiatan'),
             'id_bidang_kegiatan' => $request->input('id_bidang_kegiatan'),
@@ -110,6 +115,12 @@ class TambahPengajuanProposal extends Controller
             'pengisi_acara' => $request->input('pengisi_acara'),
             'sponsorship' => $request->input('sponsorship'),
             'media_partner' => $request->input('media_partner'),
+            'jumlah_spj' => $request->input('jumlah_spj', 1),
+            'nama_penanggung_jawab' => $request->input('nama_penanggung_jawab'),
+            'email_penanggung_jawab' => $request->input('email_penanggung_jawab'),
+            'no_hp_penanggung_jawab' => $request->input('no_hp_penanggung_jawab'),
+            'poster_kegiatan' => $poster_path,
+            'caption_poster' => $request->input('caption_poster'),
         ]);
 
         if ($query) {

@@ -124,9 +124,6 @@ class PengajuanProposalController extends Controller
         // Surat Pernyataan Ormawa
         $fileOrmawaPath = $proposal->surat_pernyataan_ormawa;
 
-        // Surat Kesediaan Pembina
-        $filePembinaPath = $proposal->surat_kesediaan_pendampingan;
-
         // Surat Peminjaman Sarpras
         $fileSarprasPath = $proposal->surat_peminjaman_sarpras;
                             
@@ -143,7 +140,6 @@ class PengajuanProposalController extends Controller
             'latestDokumen' => $latestDokumen,
             'fileKetuplakPath' => $fileKetuplakPath,
             'fileOrmawaPath' => $fileOrmawaPath,
-            'filePembinaPath' => $filePembinaPath,
             'fileSarprasPath' => $fileSarprasPath,
         ]);
     }
