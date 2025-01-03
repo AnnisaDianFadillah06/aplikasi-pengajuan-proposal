@@ -72,6 +72,7 @@
   <body class="m-0 font-sans text-base antialiased font-normal leading-default bg-gray-50 text-slate-500">
     <!-- Breadcrumb -->
     <!-- sidenav  -->
+
     <aside class="max-w-62.5 ease-nav-brand z-990 fixed inset-y-0 my-4 ml-4 block w-full -translate-x-full flex-wrap items-center justify-between overflow-y-auto rounded-2xl border-0 bg-white p-0 antialiased shadow-none transition-transform duration-200 xl:left-0 xl:translate-x-0 xl:bg-transparent">
       <div class="flex items-center h-20 px-8 py-6">
           <!-- Icon close button -->
@@ -115,13 +116,12 @@
           </li>
 
           <li class="mt-0.5 w-full">
-          <a href="{{ route('histori.pengajuan') }}" 
-         class="py-2.7  rounded-lg hover:bg-orange-300 dark:hover:bg-orange-400 group text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors  {{ Route::currentRouteName() == 'histori.pengajuan' ? 'bg-blue-500 text-white' : '' }}">
+            <a href="{{ route('histori.pengajuan') }}" class="py-2.7  rounded-lg hover:bg-orange-300 dark:hover:bg-orange-400 group text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors  {{ Route::currentRouteName() == 'histori.pengajuan' ? 'bg-blue-500 text-white' : '' }}">
               <div class="shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center fill-current stroke-0 text-center xl:p-2.5">
               <i class="fas fa-history text-gray-500"></i>
               <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-    <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-6a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-</svg>
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-6a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
 
               </div>
               <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Histori Pengajuan</span>
@@ -129,8 +129,7 @@
           </li>
 
           <li class="mt-0.5 w-full">
-          <a href="{{ route('proposal_kegiatan.dashboard-reviewer') }}" 
-         class="py-2.7  rounded-lg hover:bg-orange-300 dark:hover:bg-orange-400 group text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors  {{ Route::currentRouteName() == 'dashboard.reviewer' ? 'bg-blue-500 text-white' : '' }}">
+            <a href="{{ route('proposal_kegiatan.dashboard-reviewer') }}" class="py-2.7  rounded-lg hover:bg-orange-300 dark:hover:bg-orange-400 group text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors  {{ Route::currentRouteName() == 'dashboard.reviewer' ? 'bg-blue-500 text-white' : '' }}">
               <div class="bg-gradient-to-tl white shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5">
               <i class="fas fa-home text-gray-500"></i>
                 <svg width="12px" height="12px" viewBox="0 0 45 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -154,8 +153,7 @@
           </li>
 
 <li class="mt-0.5 w-full">
-<a href="{{ route('pengajuan-proposal') }}" 
-         class="py-2.7  rounded-lg hover:bg-orange-300 dark:hover:bg-orange-400 group text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors  {{ Route::currentRouteName() == 'pengajuan-proposal' ? 'bg-blue-500 text-white' : '' }}">
+  <a href="{{ route('pengajuan-proposal') }}" class="py-2.7  rounded-lg hover:bg-orange-300 dark:hover:bg-orange-400 group text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors  {{ Route::currentRouteName() == 'pengajuan-proposal' ? 'bg-blue-500 text-white' : '' }}">
     <div class="bg-gradient-to-tl white shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5">
     <i class="fas fa-file-upload text-gray-500"></i>
       <svg width="12px" height="12px" viewBox="0 0 45 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -383,10 +381,7 @@
           </li>
         </ul>
       </div>
-
-       
     </aside>
-
     <!-- end sidenav -->
 
     <main class="ease-soft-in-out xl:ml-68.5 relative h-full max-h-screen rounded-xl transition-all duration-200">

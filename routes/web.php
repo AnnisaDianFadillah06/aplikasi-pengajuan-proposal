@@ -15,6 +15,7 @@ use App\Http\Controllers\JenisKegiatanController;
 use App\Http\Controllers\MahasiswaAuthController;
 use App\Http\Controllers\TambahPengajuanProposal;
 use App\Http\Controllers\BidangKegiatanController;
+use App\Http\Controllers\FrontendDetailController;
 use App\Http\Controllers\HistoriPengajuanController;
 use App\Http\Controllers\PengajuanProposalController;
 use App\Http\Controllers\OrganisasiMahasiswaController;
@@ -32,6 +33,8 @@ Route::get('/', function () {
 Route::get('/modal', function () {
     return view('proposal_kegiatan.komponen-modal'); // Pastikan ini benar
 });
+
+Route::get('/frontend-detail', [FrontendDetailController::class, 'show']);
 
 Route::get('/profil', [ProfileController::class, 'index'])->name('profile.index');
 
