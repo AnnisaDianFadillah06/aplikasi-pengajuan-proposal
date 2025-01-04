@@ -36,15 +36,16 @@ return new class extends Migration
         
         Schema::connection('pgsql')->create('lpj', function (Blueprint $table) {
             $table->increments('id_lpj');
-            $table->unsignedInteger('id_proposal');
+            $table->unsignedInteger('id_ormawa');
             $table->string('file_lpj');
+            $table->integer('jenis_lpj'); // 1: LPJ 60%, 2: LPJ 100%
             $table->timestamp('tgl_upload')->nullable()->useCurrent();
             $table->timestamp('created_at')->nullable()->useCurrent();
             $table->timestamp('updated_at')->nullable()->useCurrent();
             $table->integer('created_by')->nullable();
             $table->integer('updated_by')->nullable();
             
-            $table->foreign('id_proposal')->references('id_proposal')->on('proposal_kegiatan')->onDelete('cascade');
+            $table->foreign('id_ormawa')->references('id_ormawa')->on('ormawa')->onDelete('cascade');
         });
         
         Schema::connection('pgsql')->create('spj', function (Blueprint $table) {

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\LpjController;
 use App\Http\Controllers\SpjController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\RoleController;
@@ -9,9 +10,11 @@ use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Middleware\ReviewerMiddleware;
+use App\Http\Controllers\TambahPengajuanLpj;
 use App\Http\Middleware\MahasiswaMiddleware;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EventListController;
+use App\Http\Controllers\PengajuanLpjController;
 use App\Http\Controllers\ReviewerAuthController;
 use App\Http\Controllers\JenisKegiatanController;
 use App\Http\Controllers\MahasiswaAuthController;
@@ -19,12 +22,11 @@ use App\Http\Controllers\TambahPengajuanProposal;
 use App\Http\Controllers\BidangKegiatanController;
 use App\Http\Controllers\FrontendDetailController;
 use App\Http\Controllers\HistoriPengajuanController;
+use App\Http\Controllers\HalamanPengesahanController;
 use App\Http\Controllers\PengajuanProposalController;
 use App\Http\Controllers\OrganisasiMahasiswaController;
 use App\Http\Controllers\PedomanKemahasiswaanController;
 use App\Http\Controllers\HistoriPengajuanReviewerController;
-use App\Http\Controllers\HalamanPengesahanController;
-use App\Http\Controllers\LpjController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -147,7 +149,6 @@ Route::middleware('isPengaju')->group(function () {
     Route::get('/tambah-pengajuan-proposal', [TambahPengajuanProposal::class, 'index']);
     Route::post('/add', [TambahPengajuanProposal::class, 'add']);
     
-    
     // Route untuk menampilkan detail proposal dengan navigasi multipage
     Route::get('/detail-proposal/{id_proposal}', [PengajuanProposalController::class, 'show'])->name('proposal.detail'); //route untuk detail_proposal
     // Route untuk Next Step dan Previous Step
@@ -165,20 +166,25 @@ Route::middleware('isPengaju')->group(function () {
         ->name('proposal.approvalProofWithToken');
     
     //Masuk tahap LPJ
-    Route::post('/proposal/{id_proposal}/form-lpj', [PengajuanProposalController::class, 'formLPJ'])->name('proposal.formLPJ');
-    // submit LPJ
-    Route::post('/proposal/{id_proposal}/submit-lpj', [PengajuanProposalController::class, 'submitLPJ'])->name('proposal.submitLPJ');
-    // Route untuk menampilkan detail lpj dengan navigasi
-    Route::get('/laporan/{id}', [LaporanController::class, 'show'])->name('laporan.detail');
-    // Route untuk Next Step dan Previous Step
-    Route::post('/detail-laporan/{id_proposal}/next', [LaporanController::class, 'nextStep'])->name('laporan.nextStep');
-    Route::post('/detail-laporan/{id_proposal}/prev', [LaporanController::class, 'prevStep'])->name('laporan.prevStep');
+    Route::get('/pengajuan-lpj', [PengajuanLpjController::class, 'index'])->name('pengajuan-lpj');
+    Route::get('/tambah-pengajuan-lpj', [TambahPengajuanLpj::class, 'index']);
+    Route::post('/add-lpj', [TambahPengajuanLpj::class, 'add'])->name('lpj.store');
+
+    Route::get('/detail-lpj/{id_proposal}', [TambahPengajuanLpj::class, 'show'])->name('lpj.detail'); //route untuk detail_proposal
+
+    // Route::post('/proposal/{id_proposal}/form-lpj', [PengajuanProposalController::class, 'formLPJ'])->name('proposal.formLPJ');
+    // // submit LPJ
+    // Route::post('/proposal/{id_proposal}/submit-lpj', [PengajuanProposalController::class, 'submitLPJ'])->name('proposal.submitLPJ');
+    // // Route untuk menampilkan detail lpj dengan navigasi
+    // Route::get('/laporan/{id}', [LaporanController::class, 'show'])->name('laporan.detail');
+    // // Route untuk Next Step dan Previous Step
+    // Route::post('/detail-laporan/{id_proposal}/next', [LaporanController::class, 'nextStep'])->name('laporan.nextStep');
+    // Route::post('/detail-laporan/{id_proposal}/prev', [LaporanController::class, 'prevStep'])->name('laporan.prevStep');
 
     // SPJ
     Route::get('/pengajuan-proposal/spj/{id_proposal}', [SpjController::class, 'index'])->name('spj.index');
-    // Route::get('/pengajuan-proposal/spj/tambah-spj', [SpjController::class, 'formIndex'])->name('spj.formIndex');
-    Route::post('/pengajuan-proposal/spj/store', [SpjController::class, 'store'])->name('spj.store');
     Route::get('/pengajuan-proposal/spj/tambah-spj/{id_proposal}', [SpjController::class, 'formIndex'])->name('spj.formIndex');
+    Route::post('/pengajuan-proposal/spj/store', [SpjController::class, 'store'])->name('spj.store');
     // Route untuk menampilkan detail spj
     Route::get('/detail-spj/{id_spj}', [SpjController::class, 'show'])->name('spj.detail'); //route untuk detail_proposal
     // Route untuk Next Step dan Previous Step

@@ -18,16 +18,17 @@ class Lpj extends Model
 
     // Tentukan kolom yang bisa diisi massal
     protected $fillable = [
-        'id_proposal',
+        'id_ormawa',
         'file_lpj',
+        'jenis_lpj',
         'tgl_upload',
         'created_by',
         'updated_by',
     ];
 
     // Tentukan relasi dengan model ProposalKegiatan
-    public function proposalKegiatan()
+    public function ormawa()
     {
-        return $this->belongsTo(PengajuanProposal::class, 'id_proposal','id_proposal');
+        return $this->belongsTo(Ormawa::class, 'id_ormawa','id_ormawa');
     }
 }

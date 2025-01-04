@@ -16,9 +16,11 @@ return new class extends Migration
             $table->text('catatan_revisi');
             $table->string('status_revisi', 50);
             $table->timestamp('tgl_revisi')->nullable()->useCurrent();
-            $table->integer('id_proposal')->nullable();
+            $table->integer('id_lpj')->nullable();
             $table->integer('id_dosen')->nullable()->index('revisi_lpj_id_dosen_idx');
             $table->string('file_revisi')->nullable();
+            
+            $table->foreign('id_lpj')->references('id_lpj')->on('lpj')->onDelete('cascade');
         });
     }
 

@@ -104,6 +104,56 @@
             </a>
           </li>
 
+          <li class="mt-0.5 w-full">
+            <a href="{{ route('pengajuan-proposal') }}" 
+                   class="py-2.7  rounded-lg hover:bg-orange-300 dark:hover:bg-orange-400 group text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors  {{ Route::currentRouteName() == 'pengajuan-proposal' ? 'bg-blue-500 text-white' : '' }}">
+              <div class="bg-gradient-to-tl white shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5">
+              <i class="fas fa-file-upload text-gray-500"></i>
+                <svg width="12px" height="12px" viewBox="0 0 45 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                  <title>file-alt</title>
+                  <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                    <g transform="translate(-1716.000000, -439.000000)" fill="#FFFFFF" fill-rule="nonzero">
+                      <g transform="translate(1716.000000, 291.000000)">
+                        <g transform="translate(0.000000, 148.000000)">
+                          <path class="opacity-60" d="M10,0 L45,0 L45,5.625 L10,5.625 L10,0 Z"></path>
+                          <path class="opacity-60" d="M10,11.25 L45,11.25 L45,16.875 L10,16.875 L10,11.25 Z"></path>
+                          <path class="opacity-60" d="M10,22.5 L45,22.5 L45,28.125 L10,28.125 L10,22.5 Z"></path>
+                          <path class="opacity-60" d="M10,33.75 L45,33.75 L45,39.375 L10,39.375 L10,33.75 Z"></path>
+                        </g>
+                      </g>
+                    </g>
+                  </g>
+                </svg>
+              </div>
+              <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Pengajuan Kegiatan</span>
+            </a>
+          </li>
+          
+          <li class="mt-0.5 w-full">
+            <a href="{{ route('pengajuan-lpj') }}" 
+                   class="py-2.7  rounded-lg hover:bg-orange-300 dark:hover:bg-orange-400 group text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors  {{ Route::currentRouteName() == 'pengajuan-lpj' ? 'bg-blue-500 text-white' : '' }}">
+              <div class="bg-gradient-to-tl white shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5">
+              <i class="fas fa-file-upload text-gray-500"></i>
+                <svg width="12px" height="12px" viewBox="0 0 45 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                  <title>file-alt</title>
+                  <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                    <g transform="translate(-1716.000000, -439.000000)" fill="#FFFFFF" fill-rule="nonzero">
+                      <g transform="translate(1716.000000, 291.000000)">
+                        <g transform="translate(0.000000, 148.000000)">
+                          <path class="opacity-60" d="M10,0 L45,0 L45,5.625 L10,5.625 L10,0 Z"></path>
+                          <path class="opacity-60" d="M10,11.25 L45,11.25 L45,16.875 L10,16.875 L10,11.25 Z"></path>
+                          <path class="opacity-60" d="M10,22.5 L45,22.5 L45,28.125 L10,28.125 L10,22.5 Z"></path>
+                          <path class="opacity-60" d="M10,33.75 L45,33.75 L45,39.375 L10,39.375 L10,33.75 Z"></path>
+                        </g>
+                      </g>
+                    </g>
+                  </g>
+                </svg>
+              </div>
+              <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Pengajuan LPJ</span>
+            </a>
+          </li>
+
           <!-- <li class="mt-0.5 w-full">
           <a href="{{ route('proposal.index') }}" 
          class="py-2.7  rounded-lg hover:bg-orange-300 dark:hover:bg-orange-400 group text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors  {{ Route::currentRouteName() == 'manajemen-review' ? 'bg-blue-500 text-white' : '' }}">
@@ -122,9 +172,8 @@
               <div class="shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center fill-current stroke-0 text-center xl:p-2.5">
               <i class="fas fa-history text-gray-500"></i>
               <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-    <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-6a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-</svg>
-
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-6a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
               </div>
               <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Histori Pengajuan</span>
             </a>
@@ -180,30 +229,6 @@
             </a>
           </li> -->
 
-<li class="mt-0.5 w-full">
-<a href="{{ route('pengajuan-proposal') }}" 
-         class="py-2.7  rounded-lg hover:bg-orange-300 dark:hover:bg-orange-400 group text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors  {{ Route::currentRouteName() == 'pengajuan-proposal' ? 'bg-blue-500 text-white' : '' }}">
-    <div class="bg-gradient-to-tl white shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5">
-    <i class="fas fa-file-upload text-gray-500"></i>
-      <svg width="12px" height="12px" viewBox="0 0 45 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-        <title>file-alt</title>
-        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-          <g transform="translate(-1716.000000, -439.000000)" fill="#FFFFFF" fill-rule="nonzero">
-            <g transform="translate(1716.000000, 291.000000)">
-              <g transform="translate(0.000000, 148.000000)">
-                <path class="opacity-60" d="M10,0 L45,0 L45,5.625 L10,5.625 L10,0 Z"></path>
-                <path class="opacity-60" d="M10,11.25 L45,11.25 L45,16.875 L10,16.875 L10,11.25 Z"></path>
-                <path class="opacity-60" d="M10,22.5 L45,22.5 L45,28.125 L10,28.125 L10,22.5 Z"></path>
-                <path class="opacity-60" d="M10,33.75 L45,33.75 L45,39.375 L10,39.375 L10,33.75 Z"></path>
-              </g>
-            </g>
-          </g>
-        </g>
-      </svg>
-    </div>
-    <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Pengajuan Kegiatan</span>
-  </a>
-</li>
 
 <!-- <li class="mt-0.5 w-full">
 <a class="py-2.7  rounded-lg hover:bg-orange-300 dark:hover:bg-orange-400 group text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors" href="/histori-pengajuan">
