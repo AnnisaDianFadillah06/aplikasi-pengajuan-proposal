@@ -14,39 +14,6 @@ class DashboardController extends Controller
 {
     public function index_pengaju()
     {
-    // Cek apakah countdown_end_time dan countdown_title ada di session
-    $endTime = session('countdown_end_time');
-    $title = session('countdown_title');
-
-    // Debugging: Menampilkan nilai session untuk memastikan sudah ada
-    // dd($endTime, $title);
-
-    // Jika session kosong, beri nilai default dan lanjutkan
-    if (!$endTime || !$title) {
-        // Misalnya, beri nilai default jika session kosong
-        $endTime = Carbon::now()->addDays(1); // Atau waktu lain sesuai kebutuhan
-        $title = 'Judul Default'; // Sesuaikan judul default Anda
-
-        // Anda bisa menambahkan pesan untuk memberitahu pengguna jika waktu countdown belum diset
-        session(['countdown_end_time' => $endTime, 'countdown_title' => $title]);
-    }
-
-    // Ubah $endTime menjadi objek Carbon
-    $end = Carbon::parse($endTime);
-    $now = Carbon::now('Asia/Jakarta'); // Menentukan zona waktu Jakarta
-
-    // Hitung sisa waktu
-    $remainingTime = $now->diffInSeconds($end, false); // false untuk nilai negatif
-
-    // Menentukan apakah pengajuan sudah ditutup
-    $isClosed = false;
-    if ($now->greaterThanOrEqualTo($end)) {
-        // Jika waktu habis, hapus data dari session
-        session()->forget(['countdown_title', 'countdown_end_time']);
-        $remainingTime = null;
-        $isClosed = true;
-    }
-
     // Ambil semua dokumen dari database
     $documents = PedomanKemahasiswaan::select('nama_pedoman', 'file_pedoman')->get();
     $userId = session('id'); // Ambil ID pengguna yang sedang login
@@ -61,7 +28,7 @@ class DashboardController extends Controller
 
 
     // Kirim data ke view
-    return view('proposal_kegiatan.dashboard-pengaju', compact('documents', 'remainingTime', 'isClosed', 'title', 'proposalStats'));
+    return view('proposal_kegiatan.dashboard-pengaju', compact('documents', 'proposalStats'));
 }
 
     
@@ -69,39 +36,7 @@ class DashboardController extends Controller
     // dashboard untuk reviewer
     public function index(Request $request)
     {
-        // Cek apakah countdown_end_time dan countdown_title ada di session
-    $endTime = session('countdown_end_time');
-    $title = session('countdown_title');
-
-    // Debugging: Menampilkan nilai session untuk memastikan sudah ada
-    // dd($endTime, $title);
-
-    // Jika session kosong, beri nilai default dan lanjutkan
-    if (!$endTime || !$title) {
-        // Misalnya, beri nilai default jika session kosong
-        $endTime = Carbon::now()->addDays(1); // Atau waktu lain sesuai kebutuhan
-        $title = 'Judul Default'; // Sesuaikan judul default Anda
-
-        // Anda bisa menambahkan pesan untuk memberitahu pengguna jika waktu countdown belum diset
-        session(['countdown_end_time' => $endTime, 'countdown_title' => $title]);
-    }
-
-    // Ubah $endTime menjadi objek Carbon
-    $end = Carbon::parse($endTime);
-    $now = Carbon::now('Asia/Jakarta'); // Menentukan zona waktu Jakarta
-
-    // Hitung sisa waktu
-    $remainingTime = $now->diffInSeconds($end, false); // false untuk nilai negatif
-
-    // Menentukan apakah pengajuan sudah ditutup
-    $isClosed = false;
-    if ($now->greaterThanOrEqualTo($end)) {
-        // Jika waktu habis, hapus data dari session
-        session()->forget(['countdown_title', 'countdown_end_time']);
-        $remainingTime = null;
-        $isClosed = true;
-    }
-
+       
         // Mendapatkan username dan role dari sesi ===checking session===
         $username = session('username');
         $role = session('role');
@@ -240,7 +175,6 @@ class DashboardController extends Controller
             'proposals' => $proposals,
             'lpjs' => $lpjs,
             'sessionId' => $sessionId, // Kirim sessionId ke view
-            'remainingTime' => $remainingTime, 'isClosed', 'title'
         ]);
     }
 }

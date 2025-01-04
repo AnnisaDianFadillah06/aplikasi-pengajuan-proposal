@@ -46,13 +46,8 @@
         </div>
     </div>
 
-    <!-- Right Section: Countdown and Statistics -->
+    <!-- Right Section: Statistics -->
     <div class="w-1/3 space-y-4">
-        <!-- Countdown Timer -->
-        <div class="bg-orange-400 text-white rounded-lg p-4 text-center">
-            <h2 class="text-xl font-semibold mb-2">Pengajuan Kegiatan Dibuka Dalam</h2>
-            <div class="text-3xl font-bold">1 Hours 59 Minutes 59 Seconds</div>
-        </div>
 
         <!-- Statistics Chart -->
         <div class="bg-white p-4 rounded-lg shadow-md">
