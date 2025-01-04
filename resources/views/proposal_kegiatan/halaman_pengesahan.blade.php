@@ -17,7 +17,7 @@
         }
         .kop-surat {
             display: flex;
-            align-items: flex-start; /* Pastikan elemen sejajar dari atas */
+            align-proposal: flex-start; /* Pastikan elemen sejajar dari atas */
             margin-bottom: 20px;
             padding: 20px 20px 0 20px; /* Ruang di sekitar kop */
             position: relative; /* Untuk mengatur elemen di dalamnya */
@@ -98,7 +98,7 @@
 
     <div class="kop-surat">
         <div class="logo">
-            <img src="" height="100" width="100" alt="Logo">
+            <img src="{{ $pic }}" height="100" width="100" alt="Logo">
         </div>
         <div class="isi-kop">
             {{-- <h1 style="font-size: 20px !important; text-align: center; margin: 0; font-weight: normal;">KEMENTERIAN PENDIDIKAN TINGGI, SAINS,<br> DAN TEKNOLOGI</h1> --}}
@@ -116,56 +116,69 @@
     <div class="isi-surat">
         <div class="pembukaan">
             <h4 style="text-align: center">LEMBAR PENGESAHAN BERKEGIATAN</h4>
-            @foreach ($pengajuans as $pengajuan)
             <p class="sm-10">
                 Dengan ini, menyatakan bahwa kegiatan:
             </p>
             <table>
                 <tr>
-                    <td> Nama Kegiatan</td>
+                    <td style="width: 180px;"> Nama Kegiatan</td>
                     <td>:</td>
-                    <td>{{ $pengajuan->Nama_Kegiatan }}</td>
+                    <td>{{ $proposal->nama_kegiatan }}</td>
                 </tr>
                 <tr>
                     <td> Jenis Kegiatan</td>
                     <td>:</td>
-                    <td>{{ $pengajuan->Jenis_Kegiatan}}</td>
+                    <td>{{ $proposal->jenisKegiatan->nama_jenis_kegiatan}}</td>
                 </tr>
                 <tr>
                     <td> Bidang Kegiatan</td>
                     <td>:</td>
-                    <td>{{ $pengajuan->Bidang_Kegiatan }}</td>
+                    <td>{{ $proposal->bidangKegiatan->nama_bidang_kegiatan }}</td>
                 </tr>
                 <tr>
                     <td> Tanggal Pelaksanaan</td>
                     <td>:</td>
-                    <td>{{ $pengajuan->Tanggal_Pelaksanaan }}</td>
+                    <td>{{ $proposal->tanggal_mulai }}</td>
                 </tr>
                 <tr>
                     <td> Tempat Pelaksanaan</td>
                     <td>:</td>
-                    <td>{{ $pengajuan->Tempat_Pelaksanaan }}</td>
+                    <td>{{ $proposal->tmpt_kegiatan }}</td>
                 </tr>
                 <tr>
                     <td> Nama Pengaju</td>
                     <td>:</td>
-                    <td>{{ $pengajuan->Nama_Pengaju }}</td>
+                    <td>{{ $proposal->pengguna->username }}</td>
                 </tr>
                 <tr>
                     <td> NIM Pengaju</td>
                     <td>:</td>
-                    <td>{{ $pengajuan->NIM_Pengaju }}</td>
+                    <td>{{ $proposal->pengguna->nim }}</td>
                 </tr>
                 <tr>
-                    <td> Organisasi Asal Pengaju</td>
+                    <td> Ormawa</td>
                     <td>:</td>
-                    <td>{{ $pengajuan->Organisasi_Asal_Pengaju }}</td>
+                    <td>{{ $proposal->ormawa->nama_ormawa }}</td>
+                </tr>
+                <tr>
+                    <td> Dana Dipa</td>
+                    <td>:</td>
+                    <td>Rp {{ number_format($proposal->dana_dipa ?? 0, 0, ',', '.') }}</td>
+                </tr>
+                <tr>
+                    <td> Dana Swadaya</td>
+                    <td>:</td>
+                    <td>Rp {{ number_format($proposal->dana_swadaya ?? 0, 0, ',', '.') }}</td>
+                </tr>
+                <tr>
+                    <td> Dana Sponsor</td>
+                    <td>:</td>
+                    <td>Rp {{ number_format($proposal->dana_sponsor ?? 0, 0, ',', '.') }}</td>
                 </tr>
             </table>
             <p>
                 Telah disetujui oleh para validator dengan rincian sebagai berikut:
             </p>
-            @endforeach
         </div>
 
         <div class="keterangan">
@@ -177,29 +190,30 @@
                         <th class="validasi-status" style="border: 1px solid black;">WAKTU DIVALIDASI</th>
                     </tr>
                 </thead>
-                <tbody>
-                    @foreach ($pengajuans as $pengajuan)
-                        {{-- @php
-                            $isUKM = strtolower($pengajuan->Organisasi_Asal_Pengaju) === 'ukm';
-                            $currentValidators = $isUKM ? $validators['UKM'] : $validators['non-UKM'];
-                        @endphp --}}
-                        @php
-                            // Periksa apakah organisasi adalah UKM
-                            $isUKM = str_starts_with(strtolower($pengajuan->Organisasi_Asal_Pengaju), 'ukm');
-                            $currentValidators = $isUKM ? $validators['UKM'] ?? ['Badan Eksekutif Mahasiswa Politeknik Negeri Bandung', 'Pembina UKM', 'Koordinator Layanan Internal', 'Wakil Direktur Bidang Kemahasiswaan'] : 
-                            $validators['non-UKM'] ?? ['Badan Eksekutif Mahasiswa Politeknik Negeri Bandung', 'Pembina Himpunan', 'Ketua Jurusan', 'Koordinator Layanan Internal', 'Wakil Direktur Bidang Kemahasiswaan'];
-                        @endphp
-                        @foreach ($currentValidators as $index => $validator)
+                <tbody>                   
+                        @foreach ($revisions as $index => $validator)
                             <tr>
                                 <td style="border: 1px solid black; text-align:center;">{{ $loop->iteration }}</td>
-                                <td style="border: 1px solid black; padding-left: 20px">{{ $validator }}</td>
+                                <td style="border: 1px solid black; padding-left: 20px">
+                                @if($validator->id_dosen == 1)
+                                    BEM
+                                @elseif($validator->id_dosen == 2)
+                                    Pembina
+                                @elseif($validator->id_dosen == 3)
+                                    Ketua Jurusan
+                                @elseif($validator->id_dosen == 4)
+                                    Koordinator Layanan Internal 
+                                @elseif($validator->id_dosen == 5)
+                                    Wakil Direktur Bidang Kemahasiswaan
+                                @else
+                                    Tidak Dikenal
+                                @endif
+                            </td>
                                 <td style="border: 1px solid black; text-align: center">
-                                    {{-- Mengambil waktu validasi dari relasi revisiProposal --}}
-                                    {{ $pengajuan->revisiProposal->tgl_revisi ?? 'Belum Divalidasi' }}
+                                    {{ \Carbon\Carbon::parse($validator->tgl_revisi)->format('d M Y H:i') }}
                                 </td>
                             </tr>
                         @endforeach
-                    @endforeach
                 </tbody>
             </table>            
         </div>

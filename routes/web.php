@@ -138,7 +138,7 @@ Route::middleware('isPengaju')->group(function () {
     Route::get('/download-pdf', [HistoriPengajuanController::class, 'downloadPDF'])->name('download.pdf');
     Route::get('/pdf/show', [HalamanPengesahanController::class, 'showPdf']);
     Route::get('/pdf/download', [HalamanPengesahanController::class, 'downloadPdf']);
-    Route::get('/pdf/pengesahan', [HalamanPengesahanController::class, 'showPengesahan']);
+    Route::get('/pdf/pengesahan/{id_proposal}', [HalamanPengesahanController::class, 'showPengesahan'])->name('pengesahan.pdf');
     
     // Dhea
     

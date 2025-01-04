@@ -131,7 +131,7 @@ class ReviewController extends Controller
         ReviewProposal::create([
             'catatan_revisi' => $request->input('catatan_revisi'),
             'tgl_revisi' => now()->format('Y-m-d'),
-            'id_dosen' => session('id_role'),
+            'id_dosen' => session('id_role'), //yang disimpan itu role id role (bem, wd3, dst) bukan id_reviewernya
             'id_proposal' => $request->input('id_proposal'),
             'status_revisi' => $request->input('status_revisi'),
         ]);
