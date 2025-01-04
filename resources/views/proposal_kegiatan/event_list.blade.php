@@ -40,7 +40,7 @@
             <tr>
                 <td class="px-3 py-2 text-center border-b border-gray-200">{{ $loop->iteration }}</td>
                 <td class="text-center border-b border-gray-200">{{ $proposal->nama_kegiatan }}</td>
-                <td class="text-center border-b border-gray-200">{{ $proposal->tgl_kegiatan }}</td>
+                <td class="text-center border-b border-gray-200">{{ $proposal->tanggal_mulai }}</td>
                 <td class="text-center border-b border-gray-200">{{ $proposal->tmpt_kegiatan }}</td>
                 <td class="px-4 py-3 text-sm leading-normal text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
                     <div class="flex justify-center items-center">

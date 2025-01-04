@@ -159,7 +159,7 @@ class ReviewController extends Controller
             }
     
             // Update status proposal dan kegiatan
-            if (session()->has('id') && session('id') == 6) {
+            if (session()->has('id_role') && session('id_role') == 5) {
                 $proposal->status = $request->input('status_revisi');
                 $proposal->status_kegiatan = 2;
             }
