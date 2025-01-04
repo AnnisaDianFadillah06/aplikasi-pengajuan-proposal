@@ -10,7 +10,6 @@ use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Middleware\ReviewerMiddleware;
 use App\Http\Middleware\MahasiswaMiddleware;
-use App\Http\Controllers\CountdownController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EventListController;
 use App\Http\Controllers\ReviewerAuthController;
@@ -101,10 +100,6 @@ Route::middleware('isReviewer')->group(function () {
     Route::post('/pedoman', [PedomanKemahasiswaanController::class, 'store'])->name('pedoman.store'); // Untuk menyimpan data baru
     Route::put('/pedoman/{id}', [PedomanKemahasiswaanController::class, 'update'])->name('pedoman.edit'); // Untuk memperbarui data
     Route::delete('/pedoman/{id}', [PedomanKemahasiswaanController::class, 'destroy'])->name('pedoman.destroy'); // Untuk menghapus data
-    
-    // routes/web.php
-    Route::get('/countdown', [CountdownController::class, 'showForm'])->name('proposal_kegiatan.countdown_form');
-    Route::post('/countdown', [CountdownController::class, 'setCountdown'])->name('proposal_kegiatan.countdown_form');
     
     // Angel
     Route::get('/histori-pengajuan-reviewer', [HistoriPengajuanReviewerController::class, 'index'])->name('histori.pengajuan-reviewer');
@@ -201,11 +196,6 @@ Route::middleware('isPengaju')->group(function () {
 });
 
 Route::get('/histori-review/{reviewProposal}', [ReviewController::class, 'historiReview'])->name('proposal.historiReview');
-
-// Countdown
-Route::get('/countdown', function () {
-    return view('proposal_kegiatan.countdown_form');
-})->name('countdown');
 
 
 

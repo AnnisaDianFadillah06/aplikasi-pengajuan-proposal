@@ -243,22 +243,6 @@
                 <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft min-h-width">Event List</span>
               </a>
             </li>
-
-        @if (session('role') == 'wd3')
-          <li class="mt-0.5 w-full">
-          <a href="{{ route('countdown') }}" 
-          class="py-2.7  rounded-lg hover:bg-orange-300 dark:hover:bg-orange-400 group text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors  {{ Route::currentRouteName() == 'countdown' ? 'bg-blue-500 text-white' : '' }}">
-                <div class="shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5">
-                <i class="fas fa-hourglass-start text-gray-500"></i>
-                <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M6 2l12 0M6 22l12 0M6 7l12 0M6 17l12 0M6 7l0 10M18 7l0 10"></path>
-              </svg>
-
-                </div>
-                <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Countdown</span>
-              </a>
-          </li>
-        @endif
         @if (session('role') == 'wd3')
           <li class="mt-0.5 w-full">
           <a href="{{ route('pedoman.index') }}" 
@@ -494,8 +478,6 @@
                         Histori Pengajuan
                     @elseif(Route::currentRouteName() == 'pengajuan-proposal')
                         Pengajuan Kegiatan
-                    @elseif(Route::currentRouteName() == 'countdown')
-                        Countdown
                     @elseif(Route::currentRouteName() == 'pedoman.index')
                         Pedoman Kemahasiswaan
                     @elseif(Route::currentRouteName() == 'organisasi-mahasiswa.index')

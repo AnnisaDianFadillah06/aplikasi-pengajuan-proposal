@@ -60,12 +60,6 @@
                 </div>
             </div>
         </div>
-                            <!-- Countdown Timer -->
-                            <br>
-    <div class="bg-orange-400 text-white rounded-xl p-4 text-center">
-        <h2 class="text-xl font-semibold mb-2">Pengajuan Kegiatan Dibuka Dalam</h2>
-        <div id="countdown" class="text-3xl font-bold">Loading...</div> <!-- Wadah countdown timer -->
-    </div>
 
         <!-- Tabel Menunggu Review -->
         <!-- Tabel Menunggu Review -->
@@ -526,46 +520,5 @@
                 $(this).css('width', (text.length + 4) + 'ch');
             });
         }
-
-        document.addEventListener('DOMContentLoaded', () => {
-      // Mengambil nilai remainingTime dari PHP
-      let remainingTime = parseInt('{{ $remainingTime }}', 10); // Pastikan nilai adalah angka integer
-      // Debugging untuk memastikan remainingTime ada
-      console.log('Remaining Time:', remainingTime);
-  
-      const countdownElement = document.getElementById('countdown');
-  
-      // Fungsi untuk memperbarui countdown
-      const updateCountdown = () => {
-          if (remainingTime <= 0) {
-              // Ketika waktu sudah habis, tampilkan pesan "Pengajuan Kegiatan Sudah Ditutup"
-              countdownElement.innerHTML = `
-                  <div class="bg-red-500 text-white rounded-xl p-4 text-center">
-                      <h2 class="text-xl font-semibold mb-2">Pengajuan Kegiatan Sudah Ditutup</h2>
-                  </div>`;
-              clearInterval(interval); // Berhentikan interval
-          } else {
-              // Menghitung hari, jam, menit, dan detik
-              const days = Math.floor(remainingTime / (60 * 60 * 24)); // Menghitung hari
-              const hours = Math.floor((remainingTime % (60 * 60 * 24)) / (60 * 60)); // Menghitung jam
-              const minutes = Math.floor((remainingTime % (60 * 60)) / 60); // Menghitung menit
-              const seconds = remainingTime % 60; // Menghitung detik
-  
-              // Format detik menjadi 2 digit
-              const formattedSeconds = ('0' + seconds).slice(-2); // Menambahkan 0 di depan jika detik < 10
-  
-              // Menampilkan countdown dalam format: Hari Jam Menit Detik
-              countdownElement.innerHTML = `
-                  <div class="text-3xl font-bold">
-                      ${days} Days ${hours} Hours ${minutes} Minutes ${formattedSeconds} Seconds
-                  </div>`;
-              remainingTime--; // Kurangi remaining time setiap detik
-          }
-      };
-  
-      // Memastikan countdown langsung dimulai pada saat halaman dimuat
-      updateCountdown(); // Panggil updateCountdown langsung
-      const interval = setInterval(updateCountdown, 1000); // Menjalankan updateCountdown setiap detik
-  });
 </script>
 @endsection
