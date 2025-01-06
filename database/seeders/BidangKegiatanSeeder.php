@@ -31,15 +31,15 @@ class BidangKegiatanSeeder extends Seeder
                 'created_by' => null,
                 'updated_by' => null
             ],
-            // [
-            //     'id_bidang_kegiatan' => 4, 
-            //     'nama_bidang_kegiatan' => 'lpj',
-            //     'status' => 'tidak aktif',
-            //     'created_at' => now(),
-            //     'updated_at' => now(),
-            //     'created_by' => null,
-            //     'updated_by' => null
-            // ],
+            [
+                'id_bidang_kegiatan' => 3, 
+                'nama_bidang_kegiatan' => 'latihan rutin',
+                'status' => 'tidak aktif',
+                'created_at' => now(),
+                'updated_at' => now(),
+                'created_by' => null,
+                'updated_by' => null
+            ],
         ]);
     }
 }

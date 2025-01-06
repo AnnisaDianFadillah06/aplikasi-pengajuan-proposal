@@ -33,9 +33,9 @@ class MahasiswaAuthController extends Controller
             session([
                 'username' => $pengaju->username,
                 'id' => $pengaju->id,
-                'ormawa' => $pengaju->ormawa->nama_ormawa,
+                // 'ormawa' => $pengaju->ormawa->nama_ormawa,
                 'email' => $pengaju->email,                
-                'id_ormawa' => $pengaju->id_ormawa,
+                // 'id_ormawa' => $pengaju->id_ormawa,
 
             ]);
             return redirect()->intended('/dashboard-pengaju');

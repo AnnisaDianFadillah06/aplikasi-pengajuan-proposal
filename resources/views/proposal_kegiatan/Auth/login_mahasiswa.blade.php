@@ -36,6 +36,37 @@
     </script>
     <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp,container-queries"></script>
     @vite(['resources/css/app.css','resources/js/app.js'])
+
+    <style>
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+        
+        .animated-gradient {
+            background: linear-gradient(-45deg, #ee7752, #ee7752, #23a6d5, #ee7752);
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
+        }
+        
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .float-effect {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+    </style>
 </head>
 <body>
     
@@ -44,6 +75,7 @@
             <main class="flex items-center justify-center h-screen bg-gray-100">
         <section class="relative flex flex-col lg:flex-row w-full max-w-4xl h-auto lg:h-[30rem] rounded-3xl overflow-hidden shadow-lg">
             <!-- First Column (App Name + Background Image + Overlay) -->
+            <div class="animated-gradient fixed inset-0 opacity-50"></div>
             <div class="relative lg:w-1/2 w-full h-64 lg:h-full bg-cover bg-center flex items-start justify-center" style="background-image: url('{{ asset('img/curved-images/curved14.jpg') }}');">
                 <div class="absolute inset-0 bg-black opacity-30"></div>
                 <div class="relative z-10 p-8">

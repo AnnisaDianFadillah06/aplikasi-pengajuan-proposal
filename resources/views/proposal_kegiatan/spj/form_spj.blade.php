@@ -11,119 +11,176 @@
     </div>
 @endif
 
-<main class="mt-0 transition-all duration-200 ease-soft-in-out">
-    <section class="flex items-center justify-center min-h-screen bg-gray-50">
-        <div class="container max-w-lg p-8 mx-auto bg-white rounded-3xl shadow-md">
-            <h3 class="text-3xl font-extrabold text-center text-gray-800">Form Laporan Kegiatan</h3>
-            <p class="mt-2 text-center text-gray-500">Silakan isi form di bawah ini</p>
+<main class="min-h-screen py-12">
+    <section class="container mx-auto px-4 max-w-2xl">
+        <div class="bg-white rounded-2xl shadow-xl p-8">
+            <!-- Header Section -->
+            <div class="text-center mb-8">
+                <h3 class="text-3xl font-extrabold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+                    Form Laporan Kegiatan
+                </h3>
+                <p class="mt-2 text-gray-500">Silakan lengkapi dokumentasi kegiatan Anda</p>
+            </div>
             
-            <form class="mt-8" action="{{ route('spj.store') }}" method="post" enctype="multipart/form-data">
-                @csrf <!-- Token CSRF Laravel -->
-                <input type="hidden" name="id_proposal" value="{{ $id_proposal }}">                
+            <form action="{{ route('spj.store') }}" method="post" enctype="multipart/form-data" class="space-y-6">
+                @csrf
+                <input type="hidden" name="id_proposal" value="{{ $id_proposal }}">
                 
-                <ul class="space-y-6">
-                    <!-- Inputan File SPTB -->
-                    <li class="flex flex-col">
-                        <label for="file_sptb" class="mb-2 font-semibold text-gray-700">Upload dokumen SPTB</label>
-                        <div class="flex items-center space-x-2">
-                            <input type="file" id="file_sptb" name="file_sptb" accept=".pdf" 
-                                class="block w-full text-gray-500 file:mr-4 file:py-2 file:px-4 file:border-0 file:rounded-lg file:text-sm file:bg-blue-500 file:text-white hover:file:bg-blue-600" />
-                            <button type="button" onclick="cancelUpload('file_sptb')" 
-                                class="inline-flex items-center px-2 py-1 text-sm font-medium text-red-500 border border-red-500 rounded-lg hover:bg-red-500 hover:text-white transition-colors duration-300">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4 mr-1">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                                </svg>
-                                Cancel
-                            </button>
+                <!-- File Upload Section -->
+                <div class="space-y-6">
+                    <!-- SPTB Upload -->
+                    <div class="rounded-xl border-2 border-dashed border-gray-200 transition-all duration-300 hover:border-blue-400 group">
+                        <div class="p-6 relative">
+                            <label for="file_sptb" class="block mb-2 font-semibold text-gray-700">Upload dokumen SPTB</label>
+                            <div class="relative">
+                                <div class="flex flex-col items-center justify-center gap-3">
+                                    <svg class="w-8 h-8 text-gray-400 group-hover:text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                                    </svg>
+                                    <div class="text-center">
+                                        <p class="text-sm font-medium text-gray-600 group-hover:text-blue-600">
+                                            Drag & drop file PDF atau klik untuk memilih
+                                        </p>
+                                        <p class="text-xs text-gray-400 mt-1">Maksimal 2MB</p>
+                                    </div>
+                                </div>
+                                <input type="file" id="file_sptb" name="file_sptb" accept=".pdf" 
+                                    class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" />
+                            </div>
+                            <div class="preview-sptb hidden mt-4"></div>
                         </div>
-                        <span style="color:red">@error('file_sptb') {{ $message }} @enderror</span>
-                    </li>
+                        @error('file_sptb')
+                            <p class="mt-1 text-sm text-red-500 px-6">{{ $message }}</p>
+                        @enderror
+                    </div>
 
-                    <!-- Inputan File SPJ -->
-                    <li class="flex flex-col">
-                        <label for="file_spj" class="mb-2 font-semibold text-gray-700">Upload SPJ</label>
-                        <div class="flex items-center space-x-2">
-                            <input type="file" id="file_spj" name="file_spj" accept=".pdf" 
-                                class="block w-full text-gray-500 file:mr-4 file:py-2 file:px-4 file:border-0 file:rounded-lg file:text-sm file:bg-blue-500 file:text-white hover:file:bg-blue-600" />
-                            <button type="button" onclick="cancelUpload('file_spj')" 
-                                class="inline-flex items-center px-2 py-1 text-sm font-medium text-red-500 border border-red-500 rounded-lg hover:bg-red-500 hover:text-white transition-colors duration-300">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4 mr-1">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                                </svg>
-                                Cancel
-                            </button>
+                    <!-- SPJ Upload -->
+                    <div class="rounded-xl border-2 border-dashed border-gray-200 transition-all duration-300 hover:border-blue-400 group">
+                        <div class="p-6 relative">
+                            <label for="file_spj" class="block mb-2 font-semibold text-gray-700">Upload SPJ</label>
+                            <div class="relative">
+                                <div class="flex flex-col items-center justify-center gap-3">
+                                    <svg class="w-8 h-8 text-gray-400 group-hover:text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                                    </svg>
+                                    <div class="text-center">
+                                        <p class="text-sm font-medium text-gray-600 group-hover:text-blue-600">
+                                            Drag & drop file PDF atau klik untuk memilih
+                                        </p>
+                                        <p class="text-xs text-gray-400 mt-1">Maksimal 10MB</p>
+                                    </div>
+                                </div>
+                                <input type="file" id="file_spj" name="file_spj" accept=".pdf" 
+                                    class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" />
+                            </div>
+                            <div class="preview-spj hidden mt-4"></div>
                         </div>
-                        <span style="color:red">@error('file_spj') {{ $message }} @enderror</span>
-                    </li>
-                    
-                    <!-- Inputan Dokumen Berita Acara -->
-                    <li class="flex flex-col">
-                        <label for="dokumen_berita_acara" class="mb-2 font-semibold text-gray-700">Upload Berita acara kegiatan</label>
-                        <div class="flex items-center space-x-2">
-                            <input type="file" id="dokumen_berita_acara" name="dokumen_berita_acara" accept=".pdf"
-                                class="block w-full text-gray-500 file:mr-4 file:py-2 file:px-4 file:border-0 file:rounded-lg file:text-sm file:bg-blue-500 file:text-white hover:file:bg-blue-600" />
-                            <button type="button" onclick="cancelUpload('dokumen_berita_acara')" 
-                                class="inline-flex items-center px-2 py-1 text-sm font-medium text-red-500 border border-red-500 rounded-lg hover:bg-red-500 hover:text-white transition-colors duration-300">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4 mr-1">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                                </svg>
-                                Cancel
-                            </button>
+                        @error('file_spj')
+                            <p class="mt-1 text-sm text-red-500 px-6">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <!-- Berita Acara Upload -->
+                    <div class="rounded-xl border-2 border-dashed border-gray-200 transition-all duration-300 hover:border-blue-400 group">
+                        <div class="p-6 relative">
+                            <label for="dokumen_berita_acara" class="block mb-2 font-semibold text-gray-700">Upload Berita Acara Kegiatan</label>
+                            <div class="relative">
+                                <div class="flex flex-col items-center justify-center gap-3">
+                                    <svg class="w-8 h-8 text-gray-400 group-hover:text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                                    </svg>
+                                    <div class="text-center">
+                                        <p class="text-sm font-medium text-gray-600 group-hover:text-blue-600">
+                                            Drag & drop file PDF atau klik untuk memilih
+                                        </p>
+                                        <p class="text-xs text-gray-400 mt-1">Maksimal 2MB</p>
+                                    </div>
+                                </div>
+                                <input type="file" id="dokumen_berita_acara" name="dokumen_berita_acara" accept=".pdf" 
+                                    class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" />
+                            </div>
+                            <div class="preview-berita-acara hidden mt-4"></div>
                         </div>
-                        <span style="color:red">@error('dokumen_berita_acara') {{ $message }} @enderror</span>
-                    </li>
-                    
-                    <!-- Inputan Gambar Bukti Pemberian SPJ -->
-                    <li class="flex flex-col">
-                        <label for="gambar_bukti_spj" class="mb-2 font-semibold text-gray-700">Upload Gambar Bukti Pemberian SPJ (Image)</label>
-                        <div class="flex items-center space-x-2">
-                            <input type="file" id="gambar_bukti_spj" name="gambar_bukti_spj" accept="image/*"
-                                class="block w-full text-gray-500 file:mr-4 file:py-2 file:px-4 file:border-0 file:rounded-lg file:text-sm file:bg-blue-500 file:text-white hover:file:bg-blue-600" />
-                            <button type="button" onclick="cancelUpload('gambar_bukti_spj')" 
-                                class="inline-flex items-center px-2 py-1 text-sm font-medium text-red-500 border border-red-500 rounded-lg hover:bg-red-500 hover:text-white transition-colors duration-300">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4 mr-1">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                                </svg>
-                                Cancel
-                            </button>
+                        @error('dokumen_berita_acara')
+                            <p class="mt-1 text-sm text-red-500 px-6">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <!-- Image Upload -->
+                    <div class="rounded-xl border-2 border-dashed border-gray-200 transition-all duration-300 hover:border-blue-400 group">
+                        <div class="p-6 relative">
+                            <label for="gambar_bukti_spj" class="block mb-2 font-semibold text-gray-700">Upload Bukti Gambar SPJ</label>
+                            <div class="relative">
+                                <div class="flex flex-col items-center justify-center gap-3">
+                                    <svg class="w-8 h-8 text-gray-400 group-hover:text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                    </svg>
+                                    <div class="text-center">
+                                        <p class="text-sm font-medium text-gray-600 group-hover:text-blue-600">
+                                            Drag & drop gambar atau klik untuk memilih
+                                        </p>
+                                        <p class="text-xs text-gray-400 mt-1">JPG, PNG (Maks. 5MB)</p>
+                                    </div>
+                                </div>
+                                <input type="file" id="gambar_bukti_spj" name="gambar_bukti_spj" accept="image/*" 
+                                    class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" />
+                            </div>
+                            <div class="preview-gambar hidden mt-4"></div>
                         </div>
-                        <span style="color:red">@error('gambar_bukti_spj') {{ $message }} @enderror</span>
-                    </li>
-                    
-                    <!-- Inputan Video Kegiatan -->
-                    <li class="flex flex-col">
-                        <label for="video_kegiatan" class="mb-2 font-semibold text-gray-700">Upload Video Kegiatan</label>
-                        <div class="flex items-center space-x-2">
-                            <input type="file" id="video_kegiatan" name="video_kegiatan" accept=".mp4"
-                            class="block w-full text-gray-500 file:mr-4 file:py-2 file:px-4 file:border-0 file:rounded-lg file:text-sm file:bg-blue-500 file:text-white hover:file:bg-blue-600" />
-                            {{-- <button type="button" onclick="cancelUpload('video_kegiatan')" class="px-3 py-1 mt-3 text-white bg-red-500 rounded-lg hover:bg-red-600">Cancel</button> --}}
-                            <button type="button" onclick="cancelUpload('video_kegiatan')" 
-                                class="inline-flex items-center px-2 py-1 text-sm font-medium text-red-500 border border-red-500 rounded-lg hover:bg-red-500 hover:text-white transition-colors duration-300">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4 mr-1">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                                </svg>
-                                Cancel
-                            </button>
+                        @error('gambar_bukti_spj')
+                            <p class="mt-1 text-sm text-red-500 px-6">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <!-- Video Upload -->
+                    <div class="rounded-xl border-2 border-dashed border-gray-200 transition-all duration-300 hover:border-blue-400 group">
+                        <div class="p-6 relative">
+                            <label for="video_kegiatan" class="block mb-2 font-semibold text-gray-700">Upload Video Kegiatan</label>
+                            <div class="relative">
+                                <div class="flex flex-col items-center justify-center gap-3">
+                                    <svg class="w-8 h-8 text-gray-400 group-hover:text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                                    </svg>
+                                    <div class="text-center">
+                                        <p class="text-sm font-medium text-gray-600 group-hover:text-blue-600">
+                                            Drag & drop video atau klik untuk memilih
+                                        </p>
+                                        <p class="text-xs text-gray-400 mt-1">Format MP4 (Maks. 100MB)</p>
+                                    </div>
+                                </div>
+                                <input type="file" id="video_kegiatan" name="video_kegiatan" accept=".mp4" 
+                                    class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" />
+                            </div>
+                            <div class="preview-video hidden mt-4"></div>
                         </div>
-                        <span style="color:red">@error('video_kegiatan') {{ $message }} @enderror</span>
-                    </li>
-                </ul>
-                
-                <!-- Inputan Caption Video -->
-                <li class="flex flex-col">
-                    <label for="caption_video" class="mb-2 font-semibold text-gray-700">Caption Video</label>
-                    <textarea id="caption_video" name="caption_video" rows="3"
-                        class="block w-full p-3 text-gray-700 border rounded-md focus:outline-none focus:ring focus:ring-blue-300"></textarea>
-                    <span style="color:red">@error('caption_video') {{ $message }} @enderror</span>
-                </li>
-                
-                <!-- Tombol Submit -->
-                <div class="mt-6 text-center">
-                    <button type="submit"
-                        class="w-full px-4 py-3 font-semibold text-white transition-colors duration-300 bg-blue-500 rounded-xl shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        Submit
-                    </button>
-                </div>                
+                        @error('video_kegiatan')
+                            <p class="mt-1 text-sm text-red-500 px-6">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                </div>
+
+                <!-- Caption Video -->
+                <div class="space-y-2">
+                    <label for="caption_video" class="block font-semibold text-gray-700">Caption Video</label>
+                    <textarea 
+                        id="caption_video" 
+                        name="caption_video" 
+                        rows="4"
+                        class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 resize-none"
+                        placeholder="Tulis caption untuk video Anda..."></textarea>
+                    @error('caption_video')
+                        <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="w-full py-4 px-6 bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-medium rounded-xl hover:from-blue-600 hover:to-indigo-700 transition-all duration-300 shadow-lg hover:shadow-xl flex items-center justify-center gap-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
+                    </svg>
+                    Submit Laporan
+                </button>
             </form>
         </div>
     </section>
@@ -134,5 +191,210 @@
     function cancelUpload(inputId) {
         document.getElementById(inputId).value = '';
     }
+
+    // Fungsi untuk menangani preview dan status file
+    function handleFileUpload() {
+        const fileInputs = document.querySelectorAll('input[type="file"]');
+        const maxSizes = {
+            'file_sptb': 10, // 10MB
+            'file_spj': 10, // 10MB
+            'dokumen_berita_acara': 10, // 10MB
+            'gambar_bukti_spj': 5, // 5MB
+            'video_kegiatan': 100 // 100MB
+        };
+
+        fileInputs.forEach(input => {
+            const inputId = input.id;
+            const container = input.closest('.rounded-xl');
+            let preview = container.querySelector('.preview');
+
+            // Tambahkan div preview jika belum ada
+            if (!preview) {
+                preview = document.createElement('div');
+                preview.className = 'preview hidden mt-4 p-4 bg-gray-50 rounded-lg';
+                container.appendChild(preview);
+            }
+
+            // Event listener untuk file yang dipilih
+            input.addEventListener('change', function(e) {
+                const file = this.files[0];
+                if (!file) {
+                    preview.classList.add('hidden');
+                    return;
+                }
+
+                // Validasi ukuran file
+                const fileSize = file.size / (1024 * 1024); // Convert to MB
+                const maxSize = maxSizes[inputId];
+                
+                if (fileSize > maxSize) {
+                    showNotification(`File terlalu besar. Maksimal ${maxSize}MB`, 'error');
+                    this.value = ''; // Reset input
+                    return;
+                }
+
+                // Update UI untuk menunjukkan file yang dipilih
+                preview.classList.remove('hidden');
+                preview.innerHTML = `
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center space-x-3">
+                            ${getFileIcon(file.type)}
+                            <div>
+                                <p class="text-sm font-medium text-gray-700">${file.name}</p>
+                                <p class="text-xs text-gray-500">${formatFileSize(file.size)}</p>
+                            </div>
+                        </div>
+                        <button type="button" 
+                            onclick="cancelUpload('${inputId}')"
+                            class="text-red-500 hover:text-red-700 transition-colors duration-200">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                            </svg>
+                        </button>
+                    </div>
+                `;
+
+                // Preview untuk gambar
+                if (file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        preview.innerHTML += `
+                            <div class="mt-3">
+                                <img src="${e.target.result}" class="max-h-40 rounded-lg" alt="Preview">
+                            </div>
+                        `;
+                    };
+                    reader.readAsDataURL(file);
+                }
+
+                showNotification('File berhasil dipilih', 'success');
+            });
+
+            // Drag and drop handlers
+            container.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                this.classList.add('border-blue-500', 'bg-blue-50');
+            });
+
+            container.addEventListener('dragleave', function(e) {
+                e.preventDefault();
+                this.classList.remove('border-blue-500', 'bg-blue-50');
+            });
+
+            container.addEventListener('drop', function(e) {
+                e.preventDefault();
+                this.classList.remove('border-blue-500', 'bg-blue-50');
+                
+                const file = e.dataTransfer.files[0];
+                if (file) {
+                    // Validasi tipe file sesuai dengan accept attribute
+                    const acceptedTypes = input.accept.split(',');
+                    const fileType = file.type;
+                    const fileExtension = '.' + file.name.split('.').pop();
+                    
+                    if (acceptedTypes.some(type => 
+                        type === fileType || 
+                        type === fileExtension || 
+                        (type === 'image/*' && fileType.startsWith('image/'))
+                    )) {
+                        input.files = e.dataTransfer.files;
+                        input.dispatchEvent(new Event('change'));
+                    } else {
+                        showNotification('Tipe file tidak didukung', 'error');
+                    }
+                }
+            });
+        });
+    }
+
+    // Fungsi untuk membatalkan upload file
+    function cancelUpload(inputId) {
+        const input = document.getElementById(inputId);
+        const container = input.closest('.rounded-xl');
+        const preview = container.querySelector('.preview');
+
+        input.value = '';
+        if (preview) {
+            preview.classList.add('hidden');
+        }
+        showNotification('File dibatalkan', 'info');
+    }
+
+    // Fungsi untuk menampilkan notifikasi
+    function showNotification(message, type = 'info') {
+        const notification = document.createElement('div');
+        notification.className = `fixed top-4 right-4 p-4 rounded-lg shadow-lg transition-opacity duration-500 ${
+            type === 'error' ? 'bg-red-500' :
+            type === 'success' ? 'bg-green-500' :
+            'bg-blue-500'
+        } text-white`;
+        
+        notification.innerHTML = `
+            <div class="flex items-center space-x-2">
+                ${getNotificationIcon(type)}
+                <p>${message}</p>
+            </div>
+        `;
+
+        document.body.appendChild(notification);
+
+        // Fade out dan hapus notifikasi
+        setTimeout(() => {
+            notification.style.opacity = '0';
+            setTimeout(() => notification.remove(), 500);
+        }, 3000);
+    }
+
+    // Fungsi helper untuk format ukuran file
+    function formatFileSize(bytes) {
+        if (bytes === 0) return '0 Bytes';
+        const k = 1024;
+        const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+    }
+
+    // Fungsi untuk mendapatkan icon file berdasarkan tipe
+    function getFileIcon(fileType) {
+        if (fileType.startsWith('image/')) {
+            return `<svg class="w-8 h-8 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                    d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+            </svg>`;
+        } else if (fileType === 'video/mp4') {
+            return `<svg class="w-8 h-8 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                    d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+            </svg>`;
+        } else {
+            return `<svg class="w-8 h-8 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                    d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+            </svg>`;
+        }
+    }
+
+    // Fungsi untuk mendapatkan icon notifikasi
+    function getNotificationIcon(type) {
+        switch (type) {
+            case 'success':
+                return `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                </svg>`;
+            case 'error':
+                return `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                </svg>`;
+            default:
+                return `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>`;
+        }
+    }
+
+    // Inisialisasi ketika dokumen dimuat
+    document.addEventListener('DOMContentLoaded', function() {
+        handleFileUpload();
+    });
 </script>
 @endsection
