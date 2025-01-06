@@ -36,7 +36,8 @@ Route::get('/', function () {
 Route::get('/modal', function () {
     return view('proposal_kegiatan.komponen-modal'); // Pastikan ini benar
 });
-
+// Route untuk menampilkan detail proposal yang discan qrcodenya
+Route::get('/proposal/{id_proposal}/detail', [FrontendDetailController::class, 'show'])->name('proposal.detail');
 Route::get('/frontend-detail', [FrontendDetailController::class, 'show']);
 
 Route::get('/profil', [ProfileController::class, 'index'])->name('profile.index');

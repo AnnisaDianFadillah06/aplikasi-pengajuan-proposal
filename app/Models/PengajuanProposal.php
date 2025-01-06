@@ -35,6 +35,8 @@ class PengajuanProposal extends Model
         'status_kegiatan',
         'tanggal_mulai',
         'tanggal_akhir',
+        'qr_code_path',
+        'proposal_url_path',
     ];
 
     public function pengguna()
