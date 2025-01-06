@@ -8,6 +8,7 @@ use Dompdf\Options;
 use Dompdf\Dompdf;
 use App\Models\PengajuanProposal;
 use Illuminate\Support\Facades\DB;
+use SimpleSoftwareIO\QrCode\Facades\QrCode; 
 
 class HalamanPengesahanController extends Controller
 {
@@ -20,6 +21,32 @@ class HalamanPengesahanController extends Controller
         if (!$proposal) {
             abort(404, 'Proposal tidak ditemukan');
         }
+
+       // Dapatkan path relatif URL detail proposal
+        $proposalUrlPath = '/proposal/' . $proposal->id_proposal . '/detail';
+
+        // Cek apakah QR Code path sudah ada di database
+        if (empty($proposal->qr_code_path)) {
+            // Tentukan path untuk menyimpan gambar QR Code
+            $qrCodeFilePath = public_path('qr_codes/qrcode_' . $proposal->id_proposal . '.png');
+            
+            // Buat URL lengkap dari konfigurasi APP_URL
+            $fullUrl = config('app.url') . $proposalUrlPath;
+
+            // Generate QR Code dan simpan ke dalam file
+            QrCode::size(300)->format('png')->generate($fullUrl, $qrCodeFilePath);
+
+            // Simpan path relatif QR Code dan URL proposal ke database
+            $proposal->qr_code_path = '/qr_codes/qrcode_' . $proposal->id_proposal . '.png'; // Path gambar QR Code
+            $proposal->proposal_url_path = $proposalUrlPath; // Path URL proposal
+            $proposal->save();
+        }
+        $qrCodeFilePath2 = public_path('qr_codes/qrcode_' . $proposal->id_proposal . '.png');
+        // Ambil path QR Code dan URL dari database
+        $type2 = pathinfo($qrCodeFilePath2, PATHINFO_EXTENSION);
+        $data2 = file_get_contents($qrCodeFilePath2);
+        $pic2 = 'data:image/'.$type2.';base64,'. base64_encode($data2);
+
         // Dapatkan nama Ormawa dari proposal (sesuaikan dengan nama kolom yang relevan)
         $ormawa = $proposal->ormawa; // Asumsikan kolom ini menyimpan nama Ormawa
 
@@ -44,7 +71,7 @@ class HalamanPengesahanController extends Controller
         $pic = 'data:image/'.$type.';base64,'. base64_encode($data);
 
         // Load view Blade yang ada di folder proposal_kegiatan
-        $pdf = PDF::loadView('proposal_kegiatan.halaman_pengesahan', compact( 'revisions', 'pic', 'proposal'));
+        $pdf = PDF::loadView('proposal_kegiatan.halaman_pengesahan', compact( 'revisions', 'pic', 'pic2', 'proposal'));
         
         // Return PDF yang di-stream
         return $pdf->stream('pengesahan.pdf');

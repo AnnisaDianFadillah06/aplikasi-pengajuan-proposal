@@ -3,28 +3,19 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\PengajuanProposal;
 
 class FrontendDetailController extends Controller
 {
-    public function show()
+    public function show($id_proposal)
     {
-        $proposal = [
-            'nama_kegiatan' => 'Seminar Teknologi',
-            'tanggal_mulai' => '2024-01-15',
-            'tanggal_akhir' => '2024-01-16',
-            'tmpt_kegiatan' => 'Aula Kampus',
-            'kategori' => 'Seminar',
-            'asal_ormawa' => 'Himpunan Mahasiswa Informatika',
-            'pengisi_acara' => 'Dr. John Doe',
-            'sponsorship' => 'PT. Teknologi Masa Depan',
-            'media_partner' => 'Tech Times',
-            'dana_dipa' => 5000000,
-            'dana_swadaya' => 3000000,
-            'dana_sponsor' => 2000000,
-        ];
+        // Cari proposal berdasarkan ID
+        $proposal = PengajuanProposal::where('id_proposal', $id_proposal)->firstOrFail();
+
+        if (!$proposal) {
+            abort(404, 'Proposal tidak ditemukan');
+        }
     
-        $currentStep = 1; // Nilai default atau logika lainnya untuk menentukan step
-    
-        return view('proposal_kegiatan.frontend_detail', compact('proposal', 'currentStep'));
+        return view('proposal_kegiatan.frontend_detail', compact('proposal'));
     }    
 }

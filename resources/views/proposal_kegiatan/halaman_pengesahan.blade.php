@@ -237,9 +237,9 @@
                         </p>
                     </td>
                     <td style="text-align: left; margin-left: 50px">
-                        <p style="margin-top: 5px; padding-bottom: 75px; margin-left: 300px">
-                            {{-- BARCODE --}}
-                        </p>
+    
+                        <img src="{{ $pic2 }}" height="200" width="200" alt="Logo">
+     
                     </td>
                 </tr>
             </table>
