@@ -45,14 +45,14 @@
                         <h3 class="text-xl font-bold">List Proposal</h3>
                     </div>
                     {{-- ======================= TABEL 1 ======================= --}}
-                    <table id="myTable" class="items-center w-full mb-0 align-top border-gray-200 text-slate-500">
+                    <table id="table-proposal" class="items-center w-full mb-0 align-top border-gray-200 text-slate-500">
                         <thead class="align-bottom">
                         <tr class="w-full bg-gray-100 text-gray-700 uppercase text-sm leading-normal">
                             <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Penyelenggara</th>
                             <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Nama kegiatan</th>
                             <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Status</th>
                             <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Tanggal Kegiatan</th>
-                            <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Tanggal Pengajuan</th>
+                            <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Tanggal Pengajuan Proposal</th>
                             <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Aksi</th>
                         </tr>
                         </thead>
@@ -103,7 +103,7 @@
                                 <span class="text-xs font-semibold leading-tight text-slate-400">{{ $item->tanggal_mulai }}</span>
                             </td>
                             <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                                <span class="text-xs font-semibold leading-tight text-slate-400">{{ $item->created_at->format('Y-m-d')  }}</span>
+                                <span class="text-xs font-semibold leading-tight text-slate-400">{{ $item->updated_at->format('Y-m-d')  }}</span>
                             </td>
                             <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
                             <a href="{{ route('proposal.show', ['reviewProposal' => $item->id_proposal]) }}"  onclick="logProposalId({{ $item->id }})" class="bg-blue-500 text-white px-2 py-1 rounded hover:underline">Review</a>
@@ -114,12 +114,12 @@
                     </table>
                 </div>
             
-                <div id="content-lpj" class="tab-content hidden">
+                <div id="content-spj" class="tab-content hidden">
                     <div class="flex justify-between items-center mb-4">
-                        <h3 class="text-xl font-bold">List LPJ</h3>
+                        <h3 class="text-xl font-bold">List SPJ</h3>
                     </div>
                     {{-- ======================= TABEL 2 ======================= --}}
-                    <table id="myTable2" class="items-center w-full mb-0 align-top border-gray-200 text-slate-500">
+                    <table id="table-spj" class="items-center w-full mb-0 align-top border-gray-200 text-slate-500">
                         <thead class="align-bottom">
                         <tr class="w-full bg-gray-100 text-gray-700 uppercase text-sm leading-normal">
                             <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Penyelenggara</th>
@@ -131,24 +131,24 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach ($lpjAll as $item2)
+                        @foreach ($spjAll as $spj)
                         <tr>
                             <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
                             <div class="flex px-2 py-1">
                                 <div class="flex flex-col justify-center">
-                                <h6 class="mb-0 text-sm leading-normal">{{ $item2->username }}</h6>
+                                <h6 class="mb-0 text-sm leading-normal">{{ $spj->username }}</h6>
                                 <!-- <p class="mb-0 text-xs leading-tight text-slate-400">john@creative-tim.com</p> -->
                                 </div>
                             </div>
                             </td>
                             <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                            <p class="mb-0 text-xs font-semibold leading-tight">{{ $item2->nama_kegiatan }}</p>
+                            <p class="mb-0 text-xs font-semibold leading-tight">{{ $spj->nama_kegiatan }}</p>
                             <!-- <p class="mb-0 text-xs leading-tight text-slate-400">Organization</p> -->
                             </td>
                             <td class="p-2 text-sm leading-normal text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
                                 @php
                                     // Prioritaskan status dari latestRevision jika ada, gunakan item->status jika tidak
-                                    $status = $item2->status_lpj;
+                                    $status = $spj->status_spj;
                                 @endphp
                                 @if ($status == 0)
                                     <span class="bg-gradient-to-tl from-yellow-500 to-yellow-300 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">
@@ -173,13 +173,13 @@
                                 @endif
                             </td>
                             <td class="p-2 text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                                <span class="text-xs font-semibold leading-tight text-slate-400">{{ $item2->tanggal_mulai }}</span>
+                                <span class="text-xs font-semibold leading-tight text-slate-400">{{ $spj->tanggal_mulai }}</span>
                             </td>
                             <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                                <span class="text-xs font-semibold leading-tight text-slate-400">{{ \Carbon\Carbon::parse($item2->created_at)->format('Y-m-d') }}</span>
+                                <span class="text-xs font-semibold leading-tight text-slate-400">{{ \Carbon\Carbon::parse($spj->updated_at)->format('Y-m-d') }}</span>
                             </td>
                             <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                            <a href="{{ route('reviewLPJ.show', ['reviewLPJ' => $item2->id_lpj]) }}"  onclick="logProposalId({{ $item2->id_lpj }})" class="bg-blue-500 text-white px-2 py-1 rounded hover:underline">Review</a>
+                            <a href="{{ route('reviewSPJ.show', ['reviewSPJ' => $spj->id_spj]) }}"  onclick="logProposalId({{ $spj->id_spj }})" class="bg-blue-500 text-white px-2 py-1 rounded hover:underline">Review</a>
                             </td>
                         </tr>
                         @endforeach
@@ -187,52 +187,52 @@
                     </table>
                 </div>
 
-                <div id="content-spj" class="tab-content hidden">
+                <div id="content-lpj" class="tab-content hidden">
                     <div class="flex justify-between items-center mb-4">
-                        <h3 class="text-xl font-bold">List SPJ</h3>
+                        <h3 class="text-xl font-bold">List LPJ</h3>
                     </div>
                     {{-- ======================= TABEL 3 ======================= --}}
-                    <table id="myTable3" class="items-center w-full mb-0 align-top border-gray-200 text-slate-500">
-                        <thead class="align-bottom">
+                    <table id="table-lpj" class="items-center w-full mb-0 align-top border-gray-200 text-slate-500">
+                    <thead class="align-bottom">
                         <tr class="w-full bg-gray-100 text-gray-700 uppercase text-sm leading-normal">
                             <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Penyelenggara</th>
                             <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Nama kegiatan</th>
                             <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Status</th>
                             <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Tanggal Kegiatan</th>
-                            <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Tanggal Pengajuan SPJ</th>
+                            <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Tanggal Pengajuan LPJ</th>
                             <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Aksi</th>
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach ($lpjs as $item)
+                        @foreach ($lpjAll as $lpj)
                         <tr>
                             <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
                             <div class="flex px-2 py-1">
                                 <div class="flex flex-col justify-center">
-                                <h6 class="mb-0 text-sm leading-normal">{{ $item->username }}</h6>
+                                <h6 class="mb-0 text-sm leading-normal">{{ $lpj->username }}</h6>
                                 <!-- <p class="mb-0 text-xs leading-tight text-slate-400">john@creative-tim.com</p> -->
                                 </div>
                             </div>
+                            
                             </td>
                             <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                            <p class="mb-0 text-xs font-semibold leading-tight">{{ $item->nama_kegiatan }}</p>
+                            <p class="mb-0 text-xs font-semibold leading-tight">{{ $lpj->nama_kegiatan }}</p>
                             <!-- <p class="mb-0 text-xs leading-tight text-slate-400">Organization</p> -->
                             </td>
                             <td class="p-2 text-sm leading-normal text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
                                 @php
                                     // Prioritaskan status dari latestRevision jika ada, gunakan item->status jika tidak
-                                    $status = $item->latestRevision ? $item->latestRevision->status_revisi : $item->status_approve_lpj;
-                                    $tahap = $item->latestRevision ? $item->latestRevision->id_dosen : 1;
+                                    $status = $lpj->status_lpj;
                                 @endphp
                                 @if ($status == 0)
                                     <span class="bg-gradient-to-tl from-yellow-500 to-yellow-300 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">
                                         Menunggu
                                     </span>
-                                @elseif ($status == 1 && $tahap < $sessionId)
+                                @elseif ($status == 1)
                                     <span class="bg-gradient-to-tl from-yellow-500 to-yellow-300 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">
                                         Menunggu
                                     </span>
-                                @elseif ($status == 1 && $tahap >= $sessionId)
+                                @elseif ($status == 1)
                                     <span class="bg-gradient-to-tl from-green-600 to-lime-400 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">
                                         Disetujui
                                     </span>
@@ -247,13 +247,13 @@
                                 @endif
                             </td>
                             <td class="p-2 text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                                <span class="text-xs font-semibold leading-tight text-slate-400">{{ $item->tgl_kegiatan }}</span>
+                                <span class="text-xs font-semibold leading-tight text-slate-400">{{ $lpj->tanggal_mulai }}</span>
                             </td>
                             <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                                <span class="text-xs font-semibold leading-tight text-slate-400">{{ $item->created_at->format('Y-m-d')  }}</span>
+                                <span class="text-xs font-semibold leading-tight text-slate-400">{{ \Carbon\Carbon::parse($lpj->updated_at)->format('Y-m-d') }}</span>
                             </td>
                             <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                            <a href="{{ route('proposal.show', ['reviewProposal' => $item->id_proposal]) }}"  onclick="logProposalId({{ $item->id }})" class="bg-blue-500 text-white px-2 py-1 rounded hover:underline">Review</a>
+                            <a href="{{ route('reviewLPJ.show', ['reviewLPJ' => $lpj->id_lpj]) }}"  onclick="logProposalId({{ $spj->id_lpj }})" class="bg-blue-500 text-white px-2 py-1 rounded hover:underline">Review</a>
                             </td>
                         </tr>
                         @endforeach
@@ -284,47 +284,11 @@
 
 
 <!-- Script DataTables -->
-<!-- <script>
-    $(document).ready(function() {
-        $('#myTable').DataTable({
-            "paging": true,
-            "searching": true,
-            "ordering": true,
-            "info": true,
-            "lengthMenu": [5, 10, 25, 50],
-            "language": {
-                "search": "Cari:",
-                "lengthMenu": "Tampilkan MENU entri",
-                "info": "Menampilkan START hingga END dari TOTAL entri",
-                "infoEmpty": "Menampilkan 0 hingga 0 dari 0 entri",
-                "infoFiltered": "(disaring dari MAX total entri)",
-                "paginate": {
-                    "first": "Pertama",
-                    "last": "Terakhir",
-                    "next": "Selanjutnya",
-                    "previous": "Sebelumnya"
-                }
-            }
-        });
 
-        // Script untuk menyesuaikan ukuran dropdown secara otomatis
-        function adjustSelectWidth() {
-            var select = $('.dataTables_length select');
-            select.each(function() {
-                var text = $(this).find('option:selected').text();
-                $(this).css('width', (text.length + 4) + 'ch'); // +2 untuk padding tambahan
-            });
-        }
-
-        // Panggil fungsi saat halaman dimuat dan saat dropdown berubah
-        adjustSelectWidth();
-        $('.dataTables_length select').change(adjustSelectWidth);
-    });
-</script> -->
 
 <script>
     $(document).ready(function() {
-        $('#myTable').DataTable({
+        $('#table-proposal').DataTable({
             "paging": true,
             "searching": true,
             "ordering": true,
@@ -349,7 +313,7 @@
             }
         });
 
-        $('#myTable2').DataTable({
+        $('#table-spj').DataTable({
             "paging": true,
             "searching": true,
             "ordering": true,
@@ -374,7 +338,7 @@
             }
         });
 
-        $('#myTable3').DataTable({
+        $('#table-lpj').DataTable({
             "paging": true,
             "searching": true,
             "ordering": true,

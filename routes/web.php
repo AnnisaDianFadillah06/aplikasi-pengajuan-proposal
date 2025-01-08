@@ -27,6 +27,8 @@ use App\Http\Controllers\PengajuanProposalController;
 use App\Http\Controllers\OrganisasiMahasiswaController;
 use App\Http\Controllers\PedomanKemahasiswaanController;
 use App\Http\Controllers\HistoriPengajuanReviewerController;
+use App\Http\Controllers\ManajemenReviewSpjController;
+use App\Http\Controllers\ManajemenReviewLpjController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -91,11 +93,12 @@ Route::controller(AuthController::class)->group(function () {
 Route::middleware('isReviewer')->group(function () {
     // Annisa Dian
     Route::get('/manajemen-review', [ReviewController::class, 'index'])->name('proposal.index');
-    
+    Route::get('/detail-review-lpj/{reviewLPJ}', [ManajemenReviewLpjController::class, 'show'])->name('reviewLPJ.show');
+    Route::get('/detail-review-spj/{reviewSPJ}', [ManajemenReviewSpjController::class, 'show'])->name('reviewSPJ.show');
     Route::get('/detail-review/{reviewProposal}', [ReviewController::class, 'show'])->name('proposal.show');
-    Route::get('/detail-review-lpj/{reviewLPJ}', [LpjController::class, 'show'])->name('reviewLPJ.show');
     // Rute untuk menyimpan data revisi ke dalam tabel revisi_file
-    Route::post('/manajemen-review-lpj/store', [LpjController::class, 'store'])->name('reviewLPJ.store');
+    Route::post('/manajemen-review-lpj/store', [ManajemenReviewLpjController::class, 'store'])->name('reviewLPJ.store');
+    Route::post('/manajemen-review-spj/store', [ManajemenReviewSpjController::class, 'store'])->name('reviewSPJ.store');
     Route::post('/manajemen-review/store', [ReviewController::class, 'store'])->name('proposal.store');
     Route::get('/organisasi-mahasiswa', [OrmawaController::class, 'index']);
     Route::get('/dashboard/chart-data', [DashboardController::class, 'getChartData'])->name('proposal_kegiatan.getChartData');

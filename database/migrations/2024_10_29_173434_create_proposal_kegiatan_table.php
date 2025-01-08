@@ -44,6 +44,7 @@ return new class extends Migration
             $table->timestamp('updated_at')->nullable()->useCurrent();
             $table->integer('created_by')->nullable();
             $table->integer('updated_by')->nullable();
+            $table->integer('status_spj');
             
             $table->foreign('id_ormawa')->references('id_ormawa')->on('ormawa')->onDelete('cascade');
         });

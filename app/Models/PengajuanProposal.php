@@ -37,6 +37,9 @@ class PengajuanProposal extends Model
         'tanggal_akhir',
         'qr_code_path',
         'proposal_url_path',
+        'jml_peserta',
+        'jml_panitia',
+        'link_surat_izin_ortu',
     ];
 
     public function pengguna()
@@ -62,5 +65,9 @@ class PengajuanProposal extends Model
     public function revisions()
     {
         return $this->hasMany(ReviewProposal::class, 'id_proposal', 'id_proposal');
+    }
+    public function spjs()
+    {
+        return $this->hasMany(SPJ::class, 'id_proposal', 'id_proposal');
     }
 }

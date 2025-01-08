@@ -163,22 +163,22 @@
                         </td>
                         <td class="p-2 text-sm leading-normal text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
                         <form method="GET" action="{{ route('pengesahan.pdf', $item->id_proposal) }}">
-    @csrf
-    <button type="submit"
-        class="px-2 py-1 rounded 
-        text-white 
-        @if($item->updated_by != 6 || $item->status != 1) 
-            bg-gray-400 cursor-not-allowed 
-        @else 
-            bg-blue-500 hover:bg-blue-600 
-        @endif"
-        @if($item->updated_by != 6 || $item->status != 1)
-            disabled
-            title="Belum bisa diunduh karena belum di-approve hingga WD 3"
-        @endif>
-        Pengesahan
-    </button>
-</form>
+                                @csrf
+                                <button type="submit"
+                                    class="px-2 py-1 rounded 
+                                    text-white 
+                                    @if($item->updated_by != 6 || $item->status != 1) 
+                                        bg-gray-400 cursor-not-allowed 
+                                    @else 
+                                        bg-blue-500 hover:bg-blue-600 
+                                    @endif"
+                                    @if($item->updated_by != 6 || $item->status != 1)
+                                        disabled
+                                        title="Belum bisa diunduh karena belum di-approve hingga WD 3"
+                                    @endif>
+                                    Pengesahan
+                                </button>
+                            </form>
                         </td>
                         
                     </tr>

@@ -1,90 +1,219 @@
-@extends('welcome')
+@extends('proposal_kegiatan\reviewer')
 
 @section('konten')
-@php
-    $filePath = $lpjterpilih->file_lpj; // Ambil path dari lpjterpilih
-@endphp
 
 <div class="w-full p-6 mx-auto">
-    <div class="flex flex-wrap -mx-3">
-        <div class="flex-none w-full max-w-full px-3">
-            <iframe src="{{ asset($filePath) }}" width="900px" height="600px"></iframe>
+    <!-- Main Container -->
+    <div class="max-w-7xl mx-auto">
+      <!-- Header Section -->
+      <div class="mb-8">
+        <h1 class="text-3xl font-bold text-gray-800">Review LPJ</h1>
+        <p class="text-gray-600 mt-2">Review dan evaluasi proposal kegiatan mahasiswa</p>
+      </div>
+
+      <!-- Tabs Navigation -->
+      <div class="mb-6 bg-white rounded-xl shadow-sm p-2">
+        <div class="flex flex-wrap gap-2">
+          <button class="tab-btn px-6 py-3 rounded-lg text-sm font-medium transition-all hover:bg-blue-50 hover:text-blue-600 focus:ring-2 focus:ring-blue-500 focus:outline-none" data-target="tab-lpj">
+            <i class="fas fa-file-alt mr-2"></i>LPJ Ormawa
+          </button>
+          <button class="tab-btn px-6 py-3 rounded-lg text-sm font-medium transition-all hover:bg-blue-50 hover:text-blue-600" data-target="tab-spj">
+            <i class="fas fa-file-signature mr-2"></i>SPJ Ormawa
+          </button>
+          <button class="tab-btn px-6 py-3 rounded-lg text-sm font-medium transition-all hover:bg-blue-50 hover:text-blue-600" data-target="tab-sptb">
+            <i class="fas fa-university mr-2"></i>SPTB Ormawa
+          </button>
         </div>
-    </div>
-</div>
+      </div>
 
-<section>
-    <div class="w-full p-6 mx-auto">
-        <div class="flex flex-wrap -mx-3">
-            <!-- Informasi Kegiatan -->
-            <div class="w-full max-w-full px-3 lg-max:mt-6 xl:w-5/12">
-                <div class="relative flex flex-col h-full min-w-0 break-words bg-white border-0 shadow-soft-xl rounded-2xl bg-clip-border">
-                    <div class="p-4 pb-0 mb-0 bg-white border-b-0 rounded-t-2xl">
-                        <div class="flex flex-wrap -mx-3">
-                            <div class="flex items-center w-full max-w-full px-3 shrink-0 md:w-8/12 md:flex-none">
-                                <h6 class="mb-0">Informasi Kegiatan</h6>
-                            </div>
-                            <div class="w-full max-w-full px-3 text-right shrink-0 md:w-4/12 md:flex-none">
-                                <a href="javascript:;" data-target="tooltip_trigger" data-placement="top">
-                                    <i class="leading-normal fas fa-user-edit text-sm text-slate-400"></i>
-                                </a>
-                                <div data-target="tooltip" class="hidden px-2 py-1 text-center text-white bg-black rounded-lg text-sm" role="tooltip">
-                                    Informasi Kegiatan
-                                    <div class="invisible absolute h-2 w-2 bg-inherit before:visible before:absolute before:h-2 before:w-2 before:rotate-45 before:bg-inherit before:content-['']" data-popper-arrow></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="flex-auto p-4">
-                        <ul class="flex flex-col pl-0 mb-0 rounded-lg">
-                            <li class="relative block px-4 py-2 pt-0 pl-0 leading-normal bg-white border-0 rounded-t-lg text-sm text-inherit">
-                                <strong class="text-slate-700">Nama Kegiatan:</strong> &nbsp; {{ $lpjterpilih->proposalKegiatan->nama_kegiatan }}
-                            </li>
-                            <li class="relative block px-4 py-2 pl-0 leading-normal bg-white border-0 border-t-0 text-sm text-inherit">
-                                <strong class="text-slate-700">Tanggal Kegiatan:</strong> &nbsp; {{ $lpjterpilih->proposalKegiatan->tanggal_mulai }}
-                            </li>
-                            <li class="relative block px-4 py-2 pl-0 leading-normal bg-white border-0 border-t-0 text-sm text-inherit">
-                                <strong class="text-slate-700">Tempat Kegiatan:</strong> &nbsp; {{ $lpjterpilih->proposalKegiatan->tmpt_kegiatan }}
-                            </li>
-                            <li class="relative block px-4 py-2 pl-0 leading-normal bg-white border-0 border-t-0 text-sm text-inherit">
-                                <strong class="text-slate-700">Jenis Kegiatan:</strong> &nbsp; {{ $lpjterpilih->proposalKegiatan->jenisKegiatan->nama_jenis_kegiatan ?? 'Tidak Diketahui' }}
-                            </li>
-                            <li class="relative block px-4 py-2 pl-0 leading-normal bg-white border-0 border-t-0 text-sm text-inherit">
-                                <strong class="text-slate-700">Ormawa:</strong> &nbsp; {{ $lpjterpilih->proposalKegiatan->ormawa->nama_ormawa ?? 'Tidak Diketahui' }}
-                            </li>
-                            <li class="relative block px-4 py-2 pl-0 leading-normal bg-white border-0 border-t-0 text-sm text-inherit">
-                                <strong class="text-slate-700">Nama Penyelenggara:</strong> &nbsp; {{ $lpjterpilih->proposalKegiatan->pengguna->username ?? 'Tidak Diketahui' }}
-                            </li>
-                        </ul>
-                    </div>
+      <!-- Main Content Grid -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- Left Column - Document Preview -->
+        <div class="bg-white rounded-xl shadow-sm overflow-hidden">
+          <!-- Proposal Tab -->
+          <div class="tab-content hidden" id="tab-lpj">
+            <div class="p-4 border-b">
+              <h3 class="font-semibold text-gray-800">LPJ Ormawa</h3>
+            </div>
+            <div class="p-4">
+              <iframe src="{{ asset($reviewLpj->file_lpj) }}" class="w-full h-[600px] rounded-lg border"></iframe>
+            </div>
+          </div>
+
+          <!-- Ketuplak Tab -->
+          <div class="tab-content hidden" id="tab-spj">
+            <div class="p-4 border-b">
+              <h3 class="font-semibold text-gray-800">SPJ Ormawa</h3>
+            </div>
+            <div class="p-4">
+              <iframe src="{{ asset($reviewLpj->file_spj) }}" class="w-full h-[600px] rounded-lg border"></iframe>
+            </div>
+          </div>
+
+          <!-- Ormawa Tab -->
+          <div class="tab-content hidden" id="tab-sptb">
+            <div class="p-4 border-b">
+              <h3 class="font-semibold text-gray-800">SPTB Ormawa</h3>
+            </div>
+            <div class="p-4">
+              <iframe src="{{ asset($reviewLpj->file_sptb) }}" class="w-full h-[600px] rounded-lg border"></iframe>
+            </div>
+          </div>
+          </div>
+        
+
+        <!-- Right Column - Review Form -->
+        <div class="space-y-6">
+          <!-- Information Card -->
+          <div class="bg-white rounded-xl shadow-sm overflow-hidden">
+            <div class="p-6">
+              <h2 class="text-xl font-semibold text-gray-800 mb-4">
+                <i class="fas fa-info-circle mr-2 text-blue-500"></i>Informasi Ormawa
+              </h2>
+              
+              <!-- Event Details Grid -->
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="space-y-3">
+                  <div>
+                    <label class="text-sm font-medium text-gray-500">Nama Ormawa</label>
+                    <p class="text-gray-800">{{ $reviewLpj->ormawa->nama_ormawa }}</p>
+                  </div>
+                  <div>
+                    <label class="text-sm font-medium text-gray-500">Tanggal Diajukan</label>
+                    <p class="text-gray-800">{{ \Carbon\Carbon::parse($reviewLpj->updated_at)->format('Y-m-d') }}</p>
+                  </div>
                 </div>
-                
-              </div>
-              <div class="flex-auto p-4">
-              <form action="{{ route('reviewLPJ.store') }}" method="POST">
-                    @csrf
-                    <input type="hidden" name="id_lpj" value="{{ $lpjterpilih->id_lpj }}">
-                                    <label class="mb-2 ml-1 font-bold text-xs text-slate-700" for="catatan_revisi">Revisi</label>
-                                    <div class="mb-4">
-                                    <textarea name="catatan_revisi" id="catatan_revisi"  rows="5" placeholder="Write your thoughts here..." class="focus:shadow-soft-primary-outline min-h-unset text-sm leading-5.6 ease-soft block h-auto w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-fuchsia-300 focus:outline-none"></textarea>
-                                    </div>
-                                    <div class="relative mb-4">
-                                        <label class="mb-2 ml-1 font-bold text-xs text-slate-700" for="status_revisi">Status</label>
-                                        <select id="status_revisi" name="status_revisi"  class="focus:shadow-soft-primary-outline text-sm leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:outline-none focus:transition-shadow">
-                                        <option value="">Pilih Status</option>
-                                        <option value="1">Setujui</option>
-                                        <option value="3">Revisi</option>
-                                        <option value="2">Tolak</option>
-                                        </select>
-                                    </div>
-
-                    <div class="flex flex-wrap items-center justify-end p-3 border-t border-solid shrink-0 border-slate-100 rounded-b-xl">
-                        <button type="button"  class="inline-block px-8 py-2 m-1 mb-4 text-xs font-bold text-center text-white uppercase align-middle transition-all border-0 rounded-lg cursor-pointer ease-soft-in leading-pro tracking-tight-soft bg-gradient-to-tl from-slate-600 to-slate-300 shadow-soft-md bg-150 bg-x-25 hover:scale-102 active:opacity-85">Close</button>
-                        <button type="submit" class="inline-block px-8 py-2 m-1 mb-4 text-xs font-bold text-center text-white uppercase align-middle transition-all border-0 rounded-lg cursor-pointer ease-soft-in leading-pro tracking-tight-soft bg-gradient-to-tl from-purple-700 to-pink-500 shadow-soft-md bg-150 bg-x-25 hover:scale-102 active:opacity-85">Simpan</button>
-                    </div>
-                </form>
               </div>
             </div>
+          </div>
+
+          <!-- Review Form -->
+          <form action="{{ route('reviewLPJ.store') }}" method="POST" class="bg-white rounded-xl shadow-sm overflow-hidden">
+            @csrf
+            <div class="p-6">
+              <h2 class="text-xl font-semibold text-gray-800 mb-6">
+                <i class="fas fa-clipboard-check mr-2 text-blue-500"></i>Form Review
+              </h2>
+
+              <!-- Revision Checkboxes -->
+              <div class="space-y-4 mb-6">
+                <h3 class="font-medium text-gray-700">Dokumen yang Perlu Direvisi</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <label class="flex items-center p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer">
+                    <input type="checkbox" name="revisi_items[]" value="LPJ" class="w-4 h-4 text-blue-600 rounded focus:ring-blue-500">
+                    <span class="ml-3 text-sm font-medium text-gray-700">LPJ</span>
+                  </label>
+                  <label class="flex items-center p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer">
+                    <input type="checkbox" name="revisi_items[]" value="SPJ" class="w-4 h-4 text-blue-600 rounded focus:ring-blue-500">
+                    <span class="ml-3 text-sm font-medium text-gray-700">SPJ</span>
+                  </label>
+                  <label class="flex items-center p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer">
+                    <input type="checkbox" name="revisi_items[]" value="SPTB" class="w-4 h-4 text-blue-600 rounded focus:ring-blue-500">
+                    <span class="ml-3 text-sm font-medium text-gray-700">SPTB</span>
+                  </label>
+                </div>
+              </div>
+
+              <input type="hidden" name="id_ormawa" value="{{ $reviewLpj->id_ormawa }}">
+
+              <!-- Review Notes -->
+              <div class="mb-6">
+                <label class="block text-sm font-medium text-gray-700 mb-2" for="catatan_revisi">Catatan Review</label>
+                <textarea
+                  name="catatan_revisi"
+                  id="catatan_revisi"
+                  rows="5"
+                  class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none"
+                  placeholder="Tuliskan catatan review di sini..."
+                ></textarea>
+              </div>
+
+              <!-- Status Selection -->
+              <div class="mb-6">
+                <label class="block text-sm font-medium text-gray-700 mb-2" for="status_revisi">Status Review</label>
+                <select
+                  name="status_revisi"
+                  id="status_revisi"
+                  class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                >
+                  <option value="">Pilih Status</option>
+                  <option value="1" class="text-green-600">Setujui</option>
+                  <option value="3" class="text-yellow-600">Revisi</option>
+                  <option value="2" class="text-red-600">Tolak</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Form Actions -->
+            <div class="flex items-center justify-end gap-4 px-6 py-4 bg-gray-50">
+              <button type="button" class="px-6 py-2.5 rounded-lg text-sm font-medium text-gray-700 bg-white border border-gray-300 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-500">
+                Batal
+              </button>
+              <button
+                id="submit_button"
+                type="submit"
+                class="px-6 py-2.5 rounded-lg text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                disabled>
+                Simpan Review
+            </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+            <script>
+                document.addEventListener("DOMContentLoaded", function () {
+                    const tabButtons = document.querySelectorAll(".tab-btn");
+                    const tabContents = document.querySelectorAll(".tab-content");
+            
+                    // Function to show a specific tab
+                    function showTab(targetId) {
+                        tabContents.forEach(content => {
+                            content.classList.add("hidden");
+                        });
+                        document.getElementById(targetId).classList.remove("hidden");
+            
+                        tabButtons.forEach(button => {
+                            button.classList.remove("border-blue-500");
+                        });
+                        document.querySelector(`[data-target="${targetId}"]`).classList.add("border-blue-500");
+                    }
+            
+                    // Attach click event to each tab button
+                    tabButtons.forEach(button => {
+                        button.addEventListener("click", () => {
+                            showTab(button.dataset.target);
+                        });
+                    });
+            
+                    // Show the first tab by default
+                    showTab("tab-lpj");
+                });
+
+                // ----
+                // Tab switching functionality
+                document.addEventListener('DOMContentLoaded', function() {
+                  const tabs = document.querySelectorAll('.tab-btn');
+                  const contents = document.querySelectorAll('.tab-content');
+
+                  tabs.forEach(tab => {
+                    tab.addEventListener('click', () => {
+                      // Remove active classes
+                      tabs.forEach(t => t.classList.remove('bg-blue-50', 'text-blue-600'));
+                      contents.forEach(c => c.classList.add('hidden'));
+
+                      // Add active classes
+                      tab.classList.add('bg-blue-50', 'text-blue-600');
+                      const target = document.getElementById(tab.dataset.target);
+                      if (target) target.classList.remove('hidden');
+                    });
+                  });
+
+                  // Activate first tab by default
+                  tabs[0].click();
+                });
+            </script>
         </div>
     </div>
 </section>

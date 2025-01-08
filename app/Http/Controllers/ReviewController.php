@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\kirimEmail; // Pastikan file Mail sesuai namespace
 use App\Models\ReviewLPJ;
 use App\Models\LPJ;
-use App\Models\SPJ;
+use App\Models\Spj;
 use Illuminate\Support\Facades\DB;
 
 
@@ -24,15 +24,11 @@ class ReviewController extends Controller
             // Tangani kasus jika sesi 'id' tidak ada
             abort(403, 'Session ID tidak ditemukan.');
         }
-    
-        // Ambil semua proposal yang sesuai dengan kondisi
-        // $proposals = PengajuanProposal::where('updated_by', $sessionId)->get();
 
-        // Ambil semua proposal dengan status_lpj != 1 yang sesuai dengan kondisi
+        // Ambil semua proposal
         $idRole = session('id_role');
 
-        $proposals = PengajuanProposal::where('updated_by', $sessionId)
-                                        ->where('status_lpj', '!=', 1);
+        $proposals = PengajuanProposal::where('updated_by', $sessionId);
 
         if ($idRole == 2 || $idRole == 3) {
             $proposals = $proposals->where('id_ormawa', session('id_ormawa'));
@@ -42,9 +38,7 @@ class ReviewController extends Controller
 
 
         // Ambil semua proposal dengan status_lpj = 1
-        $lpjs = PengajuanProposal::where('updated_by', $sessionId)
-                                ->where('status_lpj', 1)
-                                ->get();
+        $lpjs = PengajuanProposal::where('updated_by', $sessionId)->get();
 
 
         // Ambil revisi terbaru untuk setiap proposal
@@ -54,10 +48,10 @@ class ReviewController extends Controller
                                         ->groupBy('id_proposal');
         
         // Ambil revisi terbaru untuk setiap LPJ
-        $latestRevisionsLpjs = ReviewLPJ::whereIn('id_proposal', $lpjs->pluck('id_proposal'))
-                                        ->orderBy('id_revisi', 'desc')
-                                        ->get()
-                                        ->groupBy('id_proposal');
+        // $latestRevisionsLpjs = ReviewLPJ::whereIn('id_ormawa', $lpjs->pluck('id_ormawa'))
+        //                                 ->orderBy('id_revisi', 'desc')
+        //                                 ->get()
+        //                                 ->groupBy('id_proposal');
 
         // Gabungkan proposal dengan revisi terakhir
         foreach ($proposals as $proposal) {
@@ -65,15 +59,15 @@ class ReviewController extends Controller
         }
 
         // Gabungkan LPJ dengan revisi terakhir
-        foreach ($lpjs as $lpj) {
-            $lpj->latestRevision = $latestRevisionsLpjs->get($lpj->id_proposal)?->first(); // Ambil revisi terakhir atau null
-        }
+        // foreach ($lpjs as $lpj) {
+        //     $lpj->latestRevision = $latestRevisionsLpjs->get($lpj->id_proposal)?->first(); // Ambil revisi terakhir atau null
+        // }
 
 
         // Mendapatkan semua data lpj dan spj dari database
         $spjAll = Spj::all();
         $lpjAll = DB::table('lpj')
-            ->join('proposal_kegiatan', 'lpj.id_proposal', '=', 'proposal_kegiatan.id_proposal')
+            ->join('proposal_kegiatan', 'lpj.id_ormawa', '=', 'proposal_kegiatan.id_ormawa')
             ->join('pengaju', 'proposal_kegiatan.id_pengguna', '=', 'pengaju.id')
             ->select(
                 'lpj.*', // Ambil semua kolom dari tabel `lpj`
@@ -90,7 +84,8 @@ class ReviewController extends Controller
             'lpjs' => $lpjs,
             'spjAll' => $spjAll,
             'lpjAll' => $lpjAll,
-            'sessionId' => $sessionId, // Kirim sessionId ke view
+            'sessionId' => $sessionId, 
+            'idRole' => $idRole// Kirim sessionId ke view
         ]);
     }
     
@@ -110,7 +105,7 @@ class ReviewController extends Controller
         return view('proposal_kegiatan.manajemen_review', compact('reviewProposal','latestRevision'));
     }
 
-    // Fungsi untuk menampilkan data proposal yang akan direvisi
+    // Fungsi untuk menampilkan data proposal yang akan direvisi ANGEL
     public function historiReview($id_proposal)
     {
         // Cari review proposal berdasarkan id_proposal

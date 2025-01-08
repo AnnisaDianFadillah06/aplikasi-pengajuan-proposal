@@ -1,26 +1,6 @@
 @extends('proposal_kegiatan\reviewer')
 
 @section('konten')
-@php
-    $filePath = $latestRevision && $latestRevision->file_revisi 
-                ? $latestRevision->file_revisi 
-                : $reviewProposal->file_proposal;
-
-                $fileKetuplakPath = $latestRevision && $latestRevision->file_ketuplak_revisi 
-                        ? $latestRevision->file_ketuplak_revisi 
-                        : $reviewProposal->surat_berkegiatan_ketuplak;
-
-    // Surat Pernyataan Ormawa
-    $fileOrmawaPath = $latestRevision && $latestRevision->file_ormawa_revisi 
-                    ? $latestRevision->file_ormawa_revisi 
-                    : $reviewProposal->surat_pernyataan_ormawa;
-
-    // Surat Peminjaman Sarpras
-    $fileSarprasPath = $latestRevision && $latestRevision->file_sarpras_revisi 
-                    ? $latestRevision->file_sarpras_revisi 
-                    : $reviewProposal->surat_peminjaman_sarpras;
-
-@endphp
 
 <div class="w-full p-6 mx-auto">
     <!-- Main Container -->
@@ -46,6 +26,9 @@
           <button class="tab-btn px-6 py-3 rounded-lg text-sm font-medium transition-all hover:bg-blue-50 hover:text-blue-600" data-target="tab-sarpras">
             <i class="fas fa-tools mr-2"></i>Surat Sarpras
           </button>
+          <button class="tab-btn px-6 py-3 rounded-lg text-sm font-medium transition-all hover:bg-blue-50 hover:text-blue-600" data-target="tab-poster">
+            <i class="fas fa-tools mr-2"></i>Poster Kegiatan
+          </button>
         </div>
       </div>
 
@@ -59,7 +42,7 @@
               <h3 class="font-semibold text-gray-800">Proposal Kegiatan</h3>
             </div>
             <div class="p-4">
-              <iframe src="{{ asset($filePath) }}" class="w-full h-[600px] rounded-lg border"></iframe>
+              <iframe src="{{ asset($reviewProposal->file_proposal) }}" class="w-full h-[600px] rounded-lg border"></iframe>
             </div>
           </div>
 
@@ -69,7 +52,7 @@
               <h3 class="font-semibold text-gray-800">Surat Berkegiatan Ketuplak</h3>
             </div>
             <div class="p-4">
-              <iframe src="{{ asset($fileKetuplakPath) }}" class="w-full h-[600px] rounded-lg border"></iframe>
+              <iframe src="{{ asset($reviewProposal->surat_berkegiatan_ketuplak) }}" class="w-full h-[600px] rounded-lg border"></iframe>
             </div>
           </div>
 
@@ -79,7 +62,7 @@
               <h3 class="font-semibold text-gray-800">Surat Pernyataan Ormawa</h3>
             </div>
             <div class="p-4">
-              <iframe src="{{ asset($fileOrmawaPath) }}" class="w-full h-[600px] rounded-lg border"></iframe>
+              <iframe src="{{ asset($reviewProposal->surat_pernyataan_ormawa) }}" class="w-full h-[600px] rounded-lg border"></iframe>
             </div>
           </div>
 
@@ -89,7 +72,18 @@
               <h3 class="font-semibold text-gray-800">Surat Peminjaman Sarpras</h3>
             </div>
             <div class="p-4">
-              <iframe src="{{ asset($fileSarprasPath) }}" class="w-full h-[600px] rounded-lg border"></iframe>
+              <iframe src="{{ asset($reviewProposal->surat_peminjaman_sarpras) }}" class="w-full h-[600px] rounded-lg border"></iframe>
+            </div>
+          </div>
+
+          <!-- Poster Tab -->
+          <div class="tab-content hidden" id="tab-poster">
+            <div class="p-4 border-b">
+              <h3 class="font-semibold text-gray-800">Poster Kegiatan</h3>
+            </div>
+            <div class="p-4">
+            <img src="{{ asset($reviewProposal->poster_kegiatan) }}" alt="Gambar Kegiatan" class="w-full rounded-lg shadow-md">
+              
             </div>
           </div>
         </div>
@@ -115,9 +109,31 @@
                     <p class="text-gray-800">{{ $reviewProposal->nama_penanggung_jawab }}</p>
                   </div>
                   <div>
-                    <label class="text-sm font-medium text-gray-500">Kontak</label>
-                    <p class="text-gray-800">{{ $reviewProposal->email_penanggung_jawab }}</p>
-                    <p class="text-gray-600">{{ $reviewProposal->no_hp_penanggung_jawab }}</p>
+                    <label class="text-sm font-medium text-gray-500">Jumlah Panitia</label>
+                    <p class="text-gray-800">{{ $reviewProposal->jml_panitia }}</p>
+                  </div>
+                  <div>
+                    <label class="text-sm font-medium text-gray-500">Jumlah Peserta</label>
+                    <p class="text-gray-800">{{ $reviewProposal->jml_peserta }}</p>
+                  </div>
+                  <div>
+                    <label class="text-sm font-medium text-gray-500">Caption Poster</label>
+                    <div class="overflow-y-auto max-h-32 border border-gray-300 p-2 rounded-lg">
+                        <p id="caption-text" class="text-gray-800 text-sm">
+                            {{ $reviewProposal->caption_poster }}
+                        </p>
+                    </div>
+                  </div>
+                  <div class="mt-2 flex items-center">
+                      <button 
+                          id="copy-caption-btn" 
+                          class="flex items-center px-2 py-1 text-sm text-white bg-blue-600 hover:bg-blue-700 rounded">
+                          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                              <path d="M8 4a1 1 0 011-1h5a2 2 0 012 2v10a2 2 0 01-2 2h-5a1 1 0 01-1-1V4z" />
+                              <path d="M4 8a1 1 0 011-1h5a2 2 0 012 2v7a2 2 0 01-2 2H5a1 1 0 01-1-1V8z" />
+                          </svg>
+                          Salin Caption
+                      </button>
                   </div>
                 </div>
                 
@@ -133,6 +149,19 @@
                   <div>
                     <label class="text-sm font-medium text-gray-500">Kategori</label>
                     <p class="text-gray-800">{{ $reviewProposal->jenisKegiatan->nama_jenis_kegiatan }}</p>
+                  </div>
+                  <div>
+                    <label class="text-sm font-medium text-gray-500">Kontak</label>
+                    <p class="text-gray-800">{{ $reviewProposal->email_penanggung_jawab }}</p>
+                    <p class="text-gray-600">{{ $reviewProposal->no_hp_penanggung_jawab }}</p>
+                  </div>
+                  
+                  <div>
+                    <br>
+                    <a href="{{ $reviewProposal->link_surat_izin_ortu }}" 
+                    class="px-6 py-2.5 rounded-lg text-sm font-medium text-white bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    Lihat Surat Izin Orang Tua
+                    </a>
                   </div>
                 </div>
               </div>
@@ -217,6 +246,15 @@
                   <option value="2" class="text-red-600">Tolak</option>
                 </select>
               </div>
+              @if (session('id_role') == 2)
+              <div id="checkbox-container" class="mb-6 hidden">
+                  <label class="flex items-center p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer">
+                    <input type="checkbox" id="checkbox_menyetujui"
+                    name="menyetujui" value="Pendamping" class="w-4 h-4 text-blue-600 rounded focus:ring-blue-500">
+                    <span class="ml-3 text-sm font-medium text-gray-700">Dengan ini saya menyatakan menyetujui kegiatan ini. Saya, selaku pembina, bersedia untuk membimbing dan mendampingi para panitia serta seluruh peserta, serta bertanggung jawab atas segala hal yang terjadi selama kegiatan tersebut berlangsung.</span>
+                  </label>
+              </div>
+              @endif
             </div>
 
             <!-- Form Actions -->
@@ -224,61 +262,45 @@
               <button type="button" class="px-6 py-2.5 rounded-lg text-sm font-medium text-gray-700 bg-white border border-gray-300 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-500">
                 Batal
               </button>
-              <button type="submit" class="px-6 py-2.5 rounded-lg text-sm font-medium text-white bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-500">
+              <button
+                id="submit_button"
+                type="submit"
+                class="px-6 py-2.5 rounded-lg text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                disabled>
                 Simpan Review
-              </button>
+            </button>
             </div>
           </form>
         </div>
       </div>
     </div>
   </div>
-
-            <!-- Review Proposal Kegiatan -->
-            <!-- <div class="w-full max-w-full px-3 lg-max:mt-6 xl:w-7/12">
-                <div class="relative flex flex-col h-full min-w-0 break-words bg-white border-0 shadow-soft-xl rounded-2xl bg-clip-border">
-                    <div class="p-4 pb-0 mb-0 bg-white border-b-0 rounded-t-2xl">
-                        <div class="flex flex-wrap -mx-3">
-                            <div class="flex items-center w-full max-w-full px-3 shrink-0 md:w-8/12 md:flex-none">
-                                <h6 class="mb-0">Review Proposal Kegiatan</h6>
-                            </div>
-                            <div class="w-full max-w-full px-3 text-right shrink-0 md:w-4/12 md:flex-none">
-                                <a href="javascript:;" data-target="tooltip_trigger" data-placement="top">
-                                    <i class="leading-normal fas fa-user-edit text-sm text-slate-400"></i>
-                                </a>
-                                <div data-target="tooltip" class="hidden px-2 py-1 text-center text-white bg-black rounded-lg text-sm" role="tooltip">
-                                    Edit Profile
-                                    <div class="invisible absolute h-2 w-2 bg-inherit before:visible before:absolute before:h-2 before:w-2 before:rotate-45 before:bg-inherit before:content-['']" data-popper-arrow></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="flex-auto p-4">
-                        <form action="{{ route('proposal.store') }}" method="POST">
-                            @csrf
-                            <input type="hidden" name="id_proposal" value="{{ $reviewProposal->id_proposal }}">
-                            <label class="mb-2 ml-1 font-bold text-xs text-slate-700" for="catatan_revisi">Revisi</label>
-                            <div class="mb-4">
-                                <textarea name="catatan_revisi" id="catatan_revisi" rows="5" placeholder="Write your thoughts here..." class="focus:shadow-soft-primary-outline min-h-unset text-sm leading-5.6 ease-soft block h-auto w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-fuchsia-300 focus:outline-none"></textarea>
-                            </div>
-                            <div class="relative mb-4">
-                                <label class="mb-2 ml-1 font-bold text-xs text-slate-700" for="status_revisi">Status</label>
-                                <select id="status_revisi" name="status_revisi" class="focus:shadow-soft-primary-outline text-sm leading-5.6 ease-soft block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 transition-all focus:border-fuchsia-300 focus:outline-none focus:transition-shadow">
-                                    <option value="">Pilih Status</option>
-                                    <option value="1">Lolos</option>
-                                    <option value="0">Revisi</option>
-                                    <option value="-1">Tolak</option>
-                                </select>
-                            </div>
-                            <div class="flex flex-wrap items-center justify-end p-3 border-t border-solid shrink-0 border-slate-100 rounded-b-xl">
-                                <button type="button" class="inline-block px-8 py-2 m-1 mb-4 text-xs font-bold text-center text-white uppercase align-middle transition-all border-0 rounded-lg cursor-pointer ease-soft-in leading-pro tracking-tight-soft bg-gradient-to-tl from-slate-600 to-slate-300 shadow-soft-md bg-150 bg-x-25 hover:scale-102 active:opacity-85">Close</button>
-                                <button type="submit" class="inline-block px-8 py-2 m-1 mb-4 text-xs font-bold text-center text-white uppercase align-middle transition-all border-0 rounded-lg cursor-pointer ease-soft-in leading-pro tracking-tight-soft bg-gradient-to-tl from-purple-700 to-pink-500 shadow-soft-md bg-150 bg-x-25 hover:scale-102 active:opacity-85">Simpan</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div> -->
             <script>
+
+                document.addEventListener("DOMContentLoaded", function () {
+                    const copyButton = document.querySelector("#copy-caption-btn"); // Tombol salin
+                    const captionText = document.querySelector("#caption-text"); // Elemen teks caption
+
+                    // Function untuk menyalin teks caption
+                    function copyCaption() {
+                        if (captionText) {
+                            const caption = captionText.textContent; // Ambil teks dari elemen caption
+                            navigator.clipboard.writeText(caption)
+                                .then(() => {
+                                    alert("Caption berhasil disalin!");
+                                })
+                                .catch(err => {
+                                    console.error("Gagal menyalin teks:", err);
+                                });
+                        }
+                    }
+
+                    // Tambahkan event listener ke tombol salin
+                    if (copyButton) {
+                        copyButton.addEventListener("click", copyCaption);
+                    }
+                });
+
                 document.addEventListener("DOMContentLoaded", function () {
                     const tabButtons = document.querySelectorAll(".tab-btn");
                     const tabContents = document.querySelectorAll(".tab-content");
@@ -308,27 +330,77 @@
                 });
 
                 // ----
-    // Tab switching functionality
-    document.addEventListener('DOMContentLoaded', function() {
-      const tabs = document.querySelectorAll('.tab-btn');
-      const contents = document.querySelectorAll('.tab-content');
+                // Tab switching functionality
+                document.addEventListener('DOMContentLoaded', function() {
+                  const tabs = document.querySelectorAll('.tab-btn');
+                  const contents = document.querySelectorAll('.tab-content');
 
-      tabs.forEach(tab => {
-        tab.addEventListener('click', () => {
-          // Remove active classes
-          tabs.forEach(t => t.classList.remove('bg-blue-50', 'text-blue-600'));
-          contents.forEach(c => c.classList.add('hidden'));
+                  tabs.forEach(tab => {
+                    tab.addEventListener('click', () => {
+                      // Remove active classes
+                      tabs.forEach(t => t.classList.remove('bg-blue-50', 'text-blue-600'));
+                      contents.forEach(c => c.classList.add('hidden'));
 
-          // Add active classes
-          tab.classList.add('bg-blue-50', 'text-blue-600');
-          const target = document.getElementById(tab.dataset.target);
-          if (target) target.classList.remove('hidden');
-        });
-      });
+                      // Add active classes
+                      tab.classList.add('bg-blue-50', 'text-blue-600');
+                      const target = document.getElementById(tab.dataset.target);
+                      if (target) target.classList.remove('hidden');
+                    });
+                  });
 
-      // Activate first tab by default
-      tabs[0].click();
-    });
+                  // Activate first tab by default
+                  tabs[0].click();
+                });
+
+
+                const statusRevisi = document.getElementById('status_revisi');
+                const checkboxContainer = document.getElementById('checkbox-container');
+                const checkboxMenyetujui = document.getElementById('checkbox_menyetujui');
+                const submitButton = document.getElementById('submit_button');
+
+                // Fungsi untuk mengecek kondisi dan mengaktifkan/menonaktifkan tombol submit
+                function validateForm() {
+                    if (statusRevisi.value === '1') {
+                        // Jika status "Setujui" dipilih
+                        checkboxContainer.classList.remove('hidden');
+                        
+                        // Periksa kondisi checkbox
+                        if (checkboxMenyetujui.checked) {
+                            toggleButtonState(false, ""); // Aktifkan tombol
+                        } else {
+                            toggleButtonState(true, "Centang persetujuan untuk mengaktifkan tombol");
+                        }
+                    } else {
+                        // Jika status selain "Setujui" dipilih
+                        checkboxContainer.classList.add('hidden');
+                        toggleButtonState(false, ""); // Selalu aktifkan tombol
+                    }
+                }
+
+                // Fungsi toggle untuk mengatur tombol disabled/aktif
+                function toggleButtonState(isDisabled, tooltipText) {
+                    submitButton.disabled = isDisabled;
+
+                    if (isDisabled) {
+                        // Jika tombol disabled
+                        submitButton.classList.add('cursor-not-allowed', 'bg-gray-400');
+                        submitButton.classList.remove('bg-blue-600', 'hover:bg-blue-700');
+                        submitButton.setAttribute('title', tooltipText);
+                    } else {
+                        // Jika tombol aktif
+                        submitButton.classList.remove('cursor-not-allowed', 'bg-gray-400');
+                        submitButton.classList.add('bg-blue-600', 'hover:bg-blue-700');
+                        submitButton.removeAttribute('title');
+                    }
+                }
+
+                // Event listener untuk dropdown status_revisi
+                statusRevisi.addEventListener('change', validateForm);
+
+                // Event listener untuk checkbox_menyetujui
+                checkboxMenyetujui.addEventListener('change', validateForm);
+
+
             </script>
         </div>
     </div>
