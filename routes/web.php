@@ -164,17 +164,20 @@ Route::middleware('isPengaju')->group(function () {
     Route::get('/proposal/{id_proposal}/approval-proof', [PengajuanProposalController::class, 'approvalProof'])->name('proposal.approvalProof');
     // Route untuk generate link dengan token
     Route::get('proposal/{id_proposal}/generate-link', [PengajuanProposalController::class, 'generateLinkForProposal'])
-        ->name('proposal.generateLinkForProposal');
+    ->name('proposal.generateLinkForProposal');
     // Route untuk bukti disetujui berdasarkan token
     Route::get('proposal/bukti-disetujui/{token}', [PengajuanProposalController::class, 'approvalProofWithToken'])
-        ->name('proposal.approvalProofWithToken');
+    ->name('proposal.approvalProofWithToken');
     
     //Masuk tahap LPJ
     Route::get('/pengajuan-lpj', [PengajuanLpjController::class, 'index'])->name('pengajuan-lpj');
     Route::get('/tambah-pengajuan-lpj', [TambahPengajuanLpj::class, 'index']);
     Route::post('/add-lpj', [TambahPengajuanLpj::class, 'add'])->name('lpj.store');
-
-    Route::get('/detail-lpj/{id_proposal}', [TambahPengajuanLpj::class, 'show'])->name('lpj.detail'); //route untuk detail_proposal
+    
+    Route::get('/detail-lpj/{id_proposal}', [PengajuanLpjController::class, 'show'])->name('lpj.detail'); //route untuk detail_proposal
+    // Route untuk Next Step dan Previous Step
+    Route::post('/detail-lpk/{id_lpj}/next', [PengajuanLpjController::class, 'nextStep'])->name('lpj.nextStep');
+    Route::post('/detail-lpj/{id_lpj}/prev', [PengajuanLpjController::class, 'prevStep'])->name('lpj.prevStep');
 
     // Route::post('/proposal/{id_proposal}/form-lpj', [PengajuanProposalController::class, 'formLPJ'])->name('proposal.formLPJ');
     // // submit LPJ

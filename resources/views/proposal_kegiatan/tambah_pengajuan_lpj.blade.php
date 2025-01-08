@@ -57,6 +57,22 @@
                             class="block w-full text-gray-500 file:mr-4 file:py-2 file:px-4 file:border-0 file:rounded-lg file:text-sm file:bg-blue-500 file:text-white hover:file:bg-blue-600" />
                         <span class="mt-1 text-sm text-red-500">@error('file_lpj') {{ $message }} @enderror</span>
                     </li>
+
+                    <!-- Input File SPJ -->
+                    <li class="flex flex-col">
+                        <label for="file_spj" class="mb-2 text-sm font-medium text-gray-700">Upload File SPJ</label>
+                        <input type="file" id="file_spj" name="file_spj"
+                            class="block w-full text-gray-500 file:mr-4 file:py-2 file:px-4 file:border-0 file:rounded-lg file:text-sm file:bg-blue-500 file:text-white hover:file:bg-blue-600" />
+                        <span class="mt-1 text-sm text-red-500">@error('file_spj') {{ $message }} @enderror</span>
+                    </li>
+
+                    <!-- Input File SPTB -->
+                    <li class="flex flex-col">
+                        <label for="file_sptb" class="mb-2 text-sm font-medium text-gray-700">Upload File SPTB</label>
+                        <input type="file" id="file_sptb" name="file_sptb"
+                            class="block w-full text-gray-500 file:mr-4 file:py-2 file:px-4 file:border-0 file:rounded-lg file:text-sm file:bg-blue-500 file:text-white hover:file:bg-blue-600" />
+                        <span class="mt-1 text-sm text-red-500">@error('file_sptb') {{ $message }} @enderror</span>
+                    </li>
                 </ul>
         
                 <!-- Tombol Submit -->

@@ -201,10 +201,10 @@ class SpjController extends Controller
         return view('proposal_kegiatan.spj.detail_spj', [
             'proposal' => $proposal,
             'spj' => $spj,
-            'updatedByStep' => $updatedByStep,
             'status' => $status,
             'filePath' => $filePath,
             'nama_ormawa' => $nama_ormawa,
+            'updatedByStep' => $updatedByStep,
             'currentStep' => $currentStep,
             'filePathBeritaAcara' => $filePathBeritaAcara,
             'filePathBuktiSpj' => $filePathBuktiSpj,

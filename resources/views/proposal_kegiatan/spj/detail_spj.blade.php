@@ -83,7 +83,7 @@
 @endif
 
 {{-- Bagian Detail Proposal --}}
-@if ($status == 1)
+@if ($status == 1 || $currentStep < $updatedByStep)
     @include('proposal_kegiatan.SectionDetail.DetailProposal.detail_only')
 @elseif ($status == 0)
     @include('proposal_kegiatan.SectionDetail.DetailProposal.waiting_review')
