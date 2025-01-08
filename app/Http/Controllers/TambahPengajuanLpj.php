@@ -45,19 +45,40 @@ class TambahPengajuanLpj extends Controller
         $request->validate([
             'jenis_lpj' => 'required',
             'file_lpj' => 'required|file|mimes:pdf|max:2048',
+            'file_spj' => 'required|file|mimes:pdf|max:2048',
+            'file_sptb' => 'required|file|mimes:pdf|max:2048',
         ]);
     
+        // File LPJ
         $fileLpj = $request->file('file_lpj');
         $fileLpjPath = $fileLpj ? 'uploads/lpj/' . time() . '_' . $fileLpj->getClientOriginalName() : null;
-    
+
         if ($fileLpj) {
             $fileLpj->move(public_path('uploads/lpj'), $fileLpjPath);
         }
-    
+
+        // File SPJ
+        $fileSpj = $request->file('file_spj');
+        $fileSpjPath = $fileSpj ? 'uploads/spj/' . time() . '_' . $fileSpj->getClientOriginalName() : null;
+
+        if ($fileSpj) {
+            $fileSpj->move(public_path('uploads/spj'), $fileSpjPath);
+        }
+
+        // File SPTB
+        $fileSptb = $request->file('file_sptb');
+        $fileSptbPath = $fileSptb ? 'uploads/sptb/' . time() . '_' . $fileSptb->getClientOriginalName() : null;
+
+        if ($fileSptb) {
+            $fileSptb->move(public_path('uploads/sptb'), $fileSptbPath);
+        }
+
         $query = DB::table('lpj')->insert([
             'id_ormawa' => session('id_ormawa'),
             'jenis_lpj' => $request->input('jenis_lpj'),
             'file_lpj' => $fileLpjPath,
+            'file_spj' => $fileSpjPath,
+            'file_sptb' => $fileSptbPath,
             'tgl_upload' => now(),
             'created_at' => now(),
             'updated_at' => now(),

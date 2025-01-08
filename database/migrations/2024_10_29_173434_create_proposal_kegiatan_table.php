@@ -32,12 +32,16 @@ return new class extends Migration
             $table->integer('status_approve_lpj')->nullable();
             $table->integer('status_spj')->default(0); // 0: belum mengajukan, 1: sudah mengajukan, 2: tidak memerlukan
             $table->integer('jumlah_spj')->nullable()->default(0); // Jumlah SPJ yang perlu dikumpulkan
+            $table->string('qr_code_path', 255)->nullable();
+            $table->string('proposal_url_path', 255)->nullable();
         });
         
         Schema::connection('pgsql')->create('lpj', function (Blueprint $table) {
             $table->increments('id_lpj');
             $table->unsignedInteger('id_ormawa');
             $table->string('file_lpj');
+            $table->string('file_sptb');
+            $table->string('file_spj');
             $table->integer('jenis_lpj'); // 1: LPJ 60%, 2: LPJ 100%
             $table->timestamp('tgl_upload')->nullable()->useCurrent();
             $table->timestamp('created_at')->nullable()->useCurrent();

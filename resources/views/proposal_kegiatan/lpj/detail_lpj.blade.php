@@ -2,21 +2,20 @@
 @section('konten')
 
 {{-- Untuk pengecekan --}}
-{{-- <p>Proposal: {{ $proposal }}</p>
+<p>Lpj: {{ $lpj }}</p>
 <p>Current Step: {{ $currentStep }}</p>
 <p>Updated By Step: {{ $updatedByStep }}</p>
 <p>Status: {{ $status }}</p>
-<p>Status LPJ: {{ $status_lpj }}</p> --}}
 
-    <style>
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-        .step-pulse {
-            animation: pulse 2s infinite;
-        }
-    </style>
+<style>
+    @keyframes pulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+    }
+    .step-pulse {
+        animation: pulse 2s infinite;
+    }
+</style>
 
 
 {{-- Progress bar --}}
@@ -188,15 +187,43 @@
 @endif
 
 {{-- Bagian Detail Proposal --}}
+<div class="container mx-auto p-6">
+    <div class="bg-white rounded-xl shadow-lg overflow-hidden max-w-5xl mx-auto">
+        <div class="p-6">
 @if ($status == 1 || $currentStep < $updatedByStep)
-    @include('proposal_kegiatan.SectionDetail.DetailProposal.detail_only')
+                <div class="flex items-center gap-2 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                    <div class="w-2 h-2 bg-blue-400 rounded-full animate-pulse"></div>
+                    <p class="text-blue-700 font-medium">LPJ ini sedang dalam tahap review : 
+                        @if ($updatedByStep == 1)
+                            BEM
+                        @elseif ($updatedByStep == 2)
+                            Pembina
+                        @elseif ($updatedByStep == 3)
+                            >Ketua Jurusan
+                        @elseif ($updatedByStep == 4)
+                            KLI
+                        @elseif ($updatedByStep == 5)
+                            Wadir 3
+                        @endif
+                    </p>
+                </div>
 @elseif ($status == 0)
-    @include('proposal_kegiatan.SectionDetail.DetailProposal.waiting_review')
-@elseif ($status == 2)
-    @include('proposal_kegiatan.SectionDetail.DetailProposal.rejected')
-@elseif ($status == 3)
-    @include('proposal_kegiatan.SectionDetail.DetailProposal.revision_form')
-@endif
+                <div class="flex items-center gap-2 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+                    <div class="w-2 h-2 bg-yellow-400 rounded-full animate-pulse"></div>
+                    <p class="text-yellow-700 font-medium">LPJ ini sedang dalam proses review</p>
+                </div>
+            @elseif ($status == 2)
+                <div class="mt-4 p-3 bg-red-100 text-red-700 rounded">
+                    <p>Proposal ini telah ditolak.</p>
+                </div>
+            @elseif ($status == 3)
+                <div class="mt-4 p-3 bg-red-100 text-red-700 rounded">
+                    <p>Form revisi : Upload kembali.</p>
+                </div>
+            @endif
+            </div>
+        </div>
+    </div>
 
 {{-- File Proposal terkini --}}
 <div class="container mx-auto p-6 space-y-6">
@@ -229,7 +256,7 @@
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                         </svg>
-                        Proposal
+                        File LPJ
                     </div>
                 </button>
                 <button onclick="toggleDocSection('doc-ketuplak')" 
@@ -238,7 +265,7 @@
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                         </svg>
-                        Surat Ketuplak
+                        File SPJ
                     </div>
                 </button>
                 <button onclick="toggleDocSection('doc-ormawa')" 
@@ -247,16 +274,7 @@
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                         </svg>
-                        Surat Ormawa
-                    </div>
-                </button>
-                <button onclick="toggleDocSection('doc-sarpras')" 
-                        class="nav-btn px-4 py-2 rounded-lg font-medium transition-all duration-200 hover:bg-blue-600 focus:ring-2 focus:ring-blue-300">
-                    <div class="flex items-center gap-2">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                        </svg>
-                        Surat Sarpras
+                        File SPTB
                     </div>
                 </button>
             </div>
@@ -264,16 +282,13 @@
             <!-- Content Sections -->
             <div class="bg-gray-50 rounded-lg p-4">
                 <div id="doc-proposal" class="doc-section w-full">
-                    <iframe src="{{ asset($filePath) }}" class="w-full h-[700px] rounded-lg"></iframe>
+                    <iframe src="{{ asset($fileLpjPath) }}" class="w-full h-[700px] rounded-lg"></iframe>
                 </div>
                 <div id="doc-ketuplak" class="doc-section hidden w-full">
-                    <iframe src="{{ asset($fileKetuplakPath) }}" class="w-full h-[700px] rounded-lg"></iframe>
+                    <iframe src="{{ asset($fileSpjPath) }}" class="w-full h-[700px] rounded-lg"></iframe>
                 </div>
                 <div id="doc-ormawa" class="doc-section hidden w-full">
-                    <iframe src="{{ asset($fileOrmawaPath) }}" class="w-full h-[700px] rounded-lg"></iframe>
-                </div>
-                <div id="doc-sarpras" class="doc-section hidden w-full">
-                    <iframe src="{{ asset($fileSarprasPath) }}" class="w-full h-[700px] rounded-lg"></iframe>
+                    <iframe src="{{ asset($fileSptbPath) }}" class="w-full h-[700px] rounded-lg"></iframe>
                 </div>
             </div>
         </div>
@@ -506,41 +521,20 @@
 {{-- Next and Prev Button --}}
 <div class="flex justify-center items-center mt-4 space-x-4">
     @if ($currentStep != 0)
-        <form method="POST" action="{{ route('proposal.prevStep', $proposal->id_proposal) }}">
+        <form method="POST" action="{{ route('lpj.prevStep', $lpj->id_lpj) }}">
             @csrf
             <button type="submit" class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2">
                 Prev
             </button>
         </form>
     @endif
-    @if ($currentStep < 5 && ($currentStep < $updatedByStep || $status_lpj == 1))
-        <form method="POST" action="{{ route('proposal.nextStep', $proposal->id_proposal) }}">
+    @if ($currentStep < 5 && ($currentStep < $updatedByStep))
+        <form method="POST" action="{{ route('lpj.nextStep', $lpj->id_lpj) }}">
             @csrf
             <button type="submit" class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2">
                 Next
             </button>
         </form>
-    @elseif ($status_lpj == 1)
-        {{-- button untuk pindah ke section lpj --}}
-        <form method="POST" action="{{ route('laporan.nextStep', $proposal->id_proposal) }}">
-            @csrf
-            <!-- Hidden input sebagai penanda -->
-            <input type="hidden" name="is_first_access" value="true">
-            <button type="submit" class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2">
-                Next : LPJ
-            </button>
-        </form>
-    @endif
-    {{-- Cek kondisi khusus untuk halaman bukti proposal disetujui --}}
-    @if (($updatedByStep === 7 && $proposal->status === 1 && $currentStep === 5) || $status_lpj == 1)
-        
-        <form method="GET" action="{{ route('proposal.generateLinkForProposal', $proposal->id_proposal) }}">
-            @csrf
-            <button type="submit" class="text-white bg-gradient-to-r from-green-500 via-green-600 to-green-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2">
-                Simpan Link Bukti Proposal Disetujui
-            </button>
-        </form>
-        
     @endif
 </div>
 
