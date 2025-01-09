@@ -16,6 +16,9 @@ class ReviewSPJ extends Model
     // Tentukan primary key jika berbeda dari 'id'
     protected $primaryKey = 'id_revisi';
 
+    // Nonaktifkan timestamps
+    public $timestamps = false;
+    
     // Tentukan kolom yang bisa diisi massal
     protected $fillable = [
         'catatan_revisi',

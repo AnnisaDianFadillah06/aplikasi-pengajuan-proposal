@@ -159,7 +159,7 @@ Route::middleware('isPengaju')->group(function () {
     Route::post('/detail-proposal/{id_proposal}/next', [PengajuanProposalController::class, 'nextStep'])->name('proposal.nextStep');
     Route::post('/detail-proposal/{id_proposal}/prev', [PengajuanProposalController::class, 'prevStep'])->name('proposal.prevStep');
     // Upload revisi
-    Route::post('/upload-file/{id_proposal}', [PengajuanProposalController::class, 'uploadFile'])->name('proposal.uploadFileRevisi');
+    Route::post('/upload-file/{id_proposal}', [PengajuanProposalController::class, 'update'])->name('proposal.uploadFileRevisi');
     // Bukti proposal disetujui WD3
     Route::get('/proposal/{id_proposal}/approval-proof', [PengajuanProposalController::class, 'approvalProof'])->name('proposal.approvalProof');
     // Route untuk generate link dengan token
@@ -178,6 +178,7 @@ Route::middleware('isPengaju')->group(function () {
     // Route untuk Next Step dan Previous Step
     Route::post('/detail-lpk/{id_lpj}/next', [PengajuanLpjController::class, 'nextStep'])->name('lpj.nextStep');
     Route::post('/detail-lpj/{id_lpj}/prev', [PengajuanLpjController::class, 'prevStep'])->name('lpj.prevStep');
+    Route::post('/upload-lpj/{id_lpj}', [PengajuanLpjController::class, 'update'])->name('lpj.uploadFileRevisi');
 
     // Route::post('/proposal/{id_proposal}/form-lpj', [PengajuanProposalController::class, 'formLPJ'])->name('proposal.formLPJ');
     // // submit LPJ
@@ -198,7 +199,7 @@ Route::middleware('isPengaju')->group(function () {
     Route::post('/detail-spj/{id_spj}/next', [SpjController::class, 'nextStep'])->name('spj.nextStep');
     Route::post('/detail-spj/{id_spj}/prev', [SpjController::class, 'prevStep'])->name('spj.prevStep');
     // Upload revisi
-    Route::post('/upload-file/{id_proposal}', [SpjController::class, 'uploadFile'])->name('spj.uploadFileRevisi');
+    Route::post('/upload-spj/{id_spj}', [SpjController::class, 'update'])->name('spj.uploadFileRevisi');
 
 
     // Timothy

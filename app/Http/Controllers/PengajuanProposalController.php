@@ -3,13 +3,16 @@
 namespace App\Http\Controllers;
 
 
+use Carbon\Carbon;
 use App\Models\Ormawa;
+
+
 use App\Models\Reviewer;
-
-
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Models\JenisKegiatan;
 use App\Models\ProposalToken;
+use App\Models\BidangKegiatan;
 use App\Models\ReviewProposal;
 use App\Models\PengajuanProposal;
 use Illuminate\Support\Facades\DB;
@@ -50,6 +53,8 @@ class PengajuanProposalController extends Controller
     {
         // Cek apakah proposal ditemukan
         $proposal = PengajuanProposal::findOrFail($id_proposal);
+        $jenis_kegiatans = JenisKegiatan::all();
+        $bidang_kegiatans = BidangKegiatan::all();
 
         if (!$proposal) {
             abort(404, 'Proposal tidak ditemukan');
@@ -100,12 +105,6 @@ class PengajuanProposalController extends Controller
                                         ->groupBy('id_dosen')
                                         ->orderBy('last_revisi', 'desc')
                                         ->first(); // Hanya satu grup untuk reviewer pada tahap ini
-        
-        // mengambil dokumen revisi terakhir
-        $latestDokumen = ReviewProposal::where('id_proposal', $proposal->id_proposal)
-                            ->whereNotNull('file_revisi') // Pastikan kolom file_revisi tidak null
-                            ->orderBy('id_revisi', 'desc')
-                            ->first();
 
         // Ambil data reviewer dan ormawa terkait
         $ormawa = Ormawa::find($proposal->id_ormawa);
@@ -114,9 +113,7 @@ class PengajuanProposalController extends Controller
         $nama_ormawa = $ormawa->nama_ormawa ?? '';
 
         // File proposal
-        $filePath = $latestDokumen && $latestDokumen->file_revisi 
-                    ? $latestDokumen->file_revisi 
-                    : $proposal->file_proposal;
+        $filePath = $proposal->file_proposal;
 
         // Surat Berkegiatan Ketuplak
         $fileKetuplakPath = $proposal->surat_berkegiatan_ketuplak;
@@ -137,10 +134,11 @@ class PengajuanProposalController extends Controller
             'groupedRevisions' => $allRevision,
             'filePath' => $filePath,
             'nama_ormawa' => $nama_ormawa,
-            'latestDokumen' => $latestDokumen,
             'fileKetuplakPath' => $fileKetuplakPath,
             'fileOrmawaPath' => $fileOrmawaPath,
             'fileSarprasPath' => $fileSarprasPath,
+            'jenis_kegiatans' => $jenis_kegiatans, 
+            'bidang_kegiatans' => $bidang_kegiatans,
         ]);
     }
 
@@ -277,88 +275,130 @@ class PengajuanProposalController extends Controller
         return redirect()->route('proposal.detail', $id_proposal)->with('success', 'File revisi berhasil diunggah.');
     }
 
-    // Membuat Token Unik untuk Setiap Proposal
-    public function generateLinkForProposal($id_proposal)
+
+    public function update(Request $request, $id_proposal)
     {
-        $proposal = PengajuanProposal::findOrFail($id_proposal);
-
-        // Generate a unique token
-        $token = Str::random(32);
-
-        // Simpan token dalam tabel proposal_tokens
-        ProposalToken::create([
-            'proposal_id' => $id_proposal,
-            'token' => $token,
-        ]);
-
-        // Redirect ke halaman bukti disetujui dengan token
-        return redirect()->route('proposal.approvalProofWithToken', ['token' => $token]);
-    }
-
-    // bukti proposal sudah disetujui WD3 
-    public function approvalProofWithToken($token)
-    {
-        // Cari token di database
-        $tokenRecord = DB::table('proposal_tokens')->where('token', $token)->first();
-
-        if (!$tokenRecord) {
-            abort(404, 'Link tidak valid atau sudah kadaluarsa.');
-        }
-
-        // Ambil proposal berdasarkan ID yang terkait dengan token
-        $proposal = PengajuanProposal::findOrFail($tokenRecord->proposal_id);
-
-        // Kirim data proposal ke view bukti proposal disetujui
-        return view('proposal_kegiatan.bukti_disetujui', compact('proposal'));
-    }
-
-    // show form LPJ
-    public function formLPJ($id_proposal)
-    {
-        $proposal = PengajuanProposal::findOrFail($id_proposal);
-
-        // Update status proposal untuk tahap pengajuan laporan pertanggung jawaban
-        $proposal->status = 1;
-        $proposal->updated_by = 1;
-        $proposal->status_lpj = 1;
-        $proposal->status_approve_lpj = 0;
-        $proposal->save();
-
-        // Redirect ke halaman pengajuan laporan pertanggung jawaban
-        return view('proposal_kegiatan.form_lpj', compact('proposal'));
-    }
-
-    // Submit LPJ
-    public function submitLPJ(Request $request, $id_proposal)
-    {
-        $proposal = PengajuanProposal::findOrFail($id_proposal);
-
-        // Validasi dan upload file laporan pertanggung jawaban
         $request->validate([
-            'report_file' => 'required|file|mimes:pdf,doc,docx',
+            'nama_kegiatan' => 'required',
+            'tempat_kegiatan' => 'required',
+            'id_jenis_kegiatan' => 'required',
+            'id_bidang_kegiatan' => 'required',
+            'id_ormawa' => 'nullable',
+            'file_proposal' => 'nullable|file|mimes:pdf|max:2048',
+            'surat_berkegiatan_ketuplak' => 'nullable|file|mimes:pdf|max:2048',
+            'surat_pernyataan_ormawa' => 'nullable|file|mimes:pdf|max:2048',
+            'surat_peminjaman_sarpras' => 'nullable|file|mimes:pdf|max:2048',
+            'tanggal_mulai' => 'required','date',
+            'tanggal_akhir' => 'required|date',
+            'dana_dipa' => 'nullable|numeric|min:0',
+            'dana_swadaya' => 'nullable|numeric|min:0',
+            'dana_sponsor' => 'nullable|numeric|min:0',
+            'pengisi_acara' => 'nullable|string|max:255',
+            'sponsorship' => 'nullable|string|max:255',
+            'media_partner' => 'nullable|string|max:255',
+            'jumlah_spj' => 'required|numeric|min:1',
+            'nama_penanggung_jawab' => 'required|string|max:255',
+            'email_penanggung_jawab' => 'required|email|max:255',
+            'no_hp_penanggung_jawab' => 'required|string|max:15',
+            'poster_kegiatan' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'caption_poster' => 'nullable|string|max:1000',
+            'jml_peserta' => 'required|integer|min:0',
+            'jml_panitia' => 'required|integer|min:0',
+            'link_surat_izin_ortu' => 'required|url|max:255',
         ]);
 
-        // Simpan file laporan pertanggung jawaban
-        if ($request->hasFile('report_file')) {
-            $file = $request->file('report_file');
-            $fileName = time().'_'.$file->getClientOriginalName(); // Generate nama file unik
-            $filePath = 'laraview/' . $fileName; // Path untuk disimpan di public/laraview
+        $proposal = DB::table('proposal_kegiatan')->where('id_proposal', $id_proposal)->first();
 
-
-            // Simpan file langsung ke folder public/laraview
-            $file->move(public_path('laraview'), $fileName);
-            
-            // update kolom file_lpj
-            $proposal->update(['file_lpj' => $filePath]);
+        if (!$proposal) {
+            return redirect()->back()->withErrors(['error' => 'Proposal tidak ditemukan.']);
         }
 
-        
+        $file_proposal_path = $proposal->file_proposal;
+        if ($request->hasFile('file_proposal')) {
+            $file = $request->file('file_proposal');
+            $file_proposal_path = 'laraview/' . time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('laraview'), $file_proposal_path);
+        }
 
-        // return redirect()->route('proposal.detail', $proposal->id_proposal)->with('success', 'Laporan pertanggung jawaban berhasil diajukan.');
-        return redirect()->route('laporan.detail', [
-            'id' => $proposal->id_proposal,
-            'is_first_access' => true, // Menambahkan ke query string 
-            ])->with('success', 'Laporan pertanggungjawaban berhasil diajukan.');
+        $file_berkegiatan_ketuplak_path = $proposal->surat_berkegiatan_ketuplak;
+        if ($request->hasFile('surat_berkegiatan_ketuplak')) {
+            $file = $request->file('surat_berkegiatan_ketuplak');
+            $file_berkegiatan_ketuplak_path = 'laraview/' . time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('laraview'), $file_berkegiatan_ketuplak_path);
+        }
+
+        $file_pernyataan_ormawa_path = $proposal->surat_pernyataan_ormawa;
+        if ($request->hasFile('surat_pernyataan_ormawa')) {
+            $file = $request->file('surat_pernyataan_ormawa');
+            $file_pernyataan_ormawa_path = 'laraview/' . time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('laraview'), $file_pernyataan_ormawa_path);
+        }
+
+        $file_peminjaman_sarpras_path = $proposal->surat_peminjaman_sarpras;
+        if ($request->hasFile('surat_peminjaman_sarpras')) {
+            $file = $request->file('surat_peminjaman_sarpras');
+            $file_peminjaman_sarpras_path = 'laraview/' . time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('laraview'), $file_peminjaman_sarpras_path);
+        }
+
+        $poster_path = $proposal->poster_kegiatan;
+        if ($request->hasFile('poster_kegiatan')) {
+            $poster = $request->file('poster_kegiatan');
+            $poster_path = 'laraview/' . time() . '_' . $poster->getClientOriginalName();
+            $poster->move(public_path('laraview'), $poster_path);
+        }
+
+        // Cari revisi terbaru berdasarkan id_proposal
+        $latestRevision = ReviewProposal::where('id_proposal', $id_proposal)
+                                        // ->orderBy('tgl_revisi', 'desc')
+                                        ->orderBy('id_revisi', 'desc')
+                                        ->first();
+
+        // Pastikan latestRevision ada
+        if (!$latestRevision) {
+            return redirect()->back()->withErrors(['error' => 'Tidak ada revisi yang ditemukan untuk proposal ini.']);
+        }
+
+        // Update status_revisi pada ReviewProposal menjadi 0
+        $latestRevision->update(['status_revisi' => 0]);
+
+        $query = DB::table('proposal_kegiatan')->where('id_proposal', $id_proposal)->update([
+            'nama_kegiatan' => $request->input('nama_kegiatan'),
+            'tmpt_kegiatan' => $request->input('tempat_kegiatan'),
+            'file_proposal' => $file_proposal_path,
+            'surat_berkegiatan_ketuplak' => $file_berkegiatan_ketuplak_path,
+            'surat_pernyataan_ormawa' => $file_pernyataan_ormawa_path,
+            'surat_peminjaman_sarpras' => $file_peminjaman_sarpras_path,
+            'id_jenis_kegiatan' => $request->input('id_jenis_kegiatan'),
+            'id_bidang_kegiatan' => $request->input('id_bidang_kegiatan'),
+            'id_ormawa' => session('id_ormawa'),
+            'updated_at' => now(),
+            // 'updated_by' => session('id'),
+            'tanggal_mulai' => $request->input('tanggal_mulai'),
+            'tanggal_akhir' => $request->input('tanggal_akhir'),
+            'dana_dipa' => $request->input('dana_dipa', 0),
+            'dana_swadaya' => $request->input('dana_swadaya', 0),
+            'dana_sponsor' => $request->input('dana_sponsor', 0),
+            'pengisi_acara' => $request->input('pengisi_acara'),
+            'sponsorship' => $request->input('sponsorship'),
+            'media_partner' => $request->input('media_partner'),
+            'jumlah_spj' => $request->input('jumlah_spj', 1),
+            'nama_penanggung_jawab' => $request->input('nama_penanggung_jawab'),
+            'email_penanggung_jawab' => $request->input('email_penanggung_jawab'),
+            'no_hp_penanggung_jawab' => $request->input('no_hp_penanggung_jawab'),
+            'poster_kegiatan' => $poster_path,
+            'caption_poster' => $request->input('caption_poster'),
+            'jml_peserta' => $request->input('jml_peserta', 0),
+            'jml_panitia' => $request->input('jml_panitia', 0),
+            'link_surat_izin_ortu' => $request->input('link_surat_izin_ortu'),
+        ]);
+
+        if ($query) {
+            return redirect()->route('proposal.detail', $id_proposal)->with('success', 'Data revisi berhasil diunggah.');
+        } else {
+            return redirect('/pengajuan-proposal')->with('error', 'Terjadi kesalahan saat memperbarui data.');
+        }
     }
+
 }
 

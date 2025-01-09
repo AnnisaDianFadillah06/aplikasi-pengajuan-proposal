@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('surat_peminjaman_sarpras')->nullable();
             $table->date('tanggal_mulai')->nullable();
             $table->date('tanggal_akhir')->nullable();
-            $table->decimal('dana_dipa', 15, 2)->nullable()->default(0)->after('status_spj'); // Dana DIPA Polban
+            $table->decimal('dana_dipa', 15, 2)->nullable()->default(0)->after('jml_panitia'); // Dana DIPA Polban
             $table->decimal('dana_swadaya', 15, 2)->nullable()->default(0)->after('dana_dipa'); // Dana Swadaya
             $table->decimal('dana_sponsor', 15, 2)->nullable()->default(0)->after('dana_swadaya'); // Dana Sponsor
             $table->string('pengisi_acara', 255)->nullable()->after('dana_sponsor'); // Pengisi Acara/Narasumber/Juri

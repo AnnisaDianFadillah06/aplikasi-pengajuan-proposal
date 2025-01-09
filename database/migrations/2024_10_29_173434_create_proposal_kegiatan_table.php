@@ -34,6 +34,9 @@ return new class extends Migration
             $table->integer('jumlah_spj')->nullable()->default(0); // Jumlah SPJ yang perlu dikumpulkan
             $table->string('qr_code_path', 255)->nullable();
             $table->string('proposal_url_path', 255)->nullable();
+            $table->string('link_surat_izin_ortu', 255)->nullable();
+            $table->integer('jml_peserta')->nullable()->default(0);
+            $table->integer('jml_panitia')->nullable()->default(0);
         });
         
         Schema::connection('pgsql')->create('lpj', function (Blueprint $table) {

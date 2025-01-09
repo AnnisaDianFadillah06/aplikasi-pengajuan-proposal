@@ -27,10 +27,10 @@ class TambahPengajuanProposal extends Controller
             'id_jenis_kegiatan' => 'required',
             'id_bidang_kegiatan' => 'required',
             'id_ormawa' => 'nullable',
-            'file_proposal' => 'required|file|mimes:pdf',
-            'surat_berkegiatan_ketuplak' => 'required|file|mimes:pdf',
-            'surat_pernyataan_ormawa' => 'required|file|mimes:pdf',
-            'surat_peminjaman_sarpras' => 'required|file|mimes:pdf',
+            'file_proposal' => 'required|file|mimes:pdf|max:2048',
+            'surat_berkegiatan_ketuplak' => 'required|file|mimes:pdf|max:2048',
+            'surat_pernyataan_ormawa' => 'required|file|mimes:pdf|max:2048',
+            'surat_peminjaman_sarpras' => 'required|file|mimes:pdf|max:2048',
             // 'tanggal_mulai' => 'nullable|date',
             'tanggal_mulai' => [
                 'required',
@@ -55,6 +55,9 @@ class TambahPengajuanProposal extends Controller
             'no_hp_penanggung_jawab' => 'required|string|max:15',
             'poster_kegiatan' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
             'caption_poster' => 'nullable|string|max:1000',
+            'jml_peserta' => 'required|integer|min:0',
+            'jml_panitia' => 'required|integer|min:0',
+            'link_surat_izin_ortu' => 'required|url|max:255',
         ]);
 
         $id_pengaju = session('id'); // Ambil id pengguna dari session
@@ -121,6 +124,9 @@ class TambahPengajuanProposal extends Controller
             'no_hp_penanggung_jawab' => $request->input('no_hp_penanggung_jawab'),
             'poster_kegiatan' => $poster_path,
             'caption_poster' => $request->input('caption_poster'),
+            'jml_peserta' => $request->input('jml_peserta', 0),
+            'jml_panitia' => $request->input('jml_panitia', 0),
+            'link_surat_izin_ortu' => $request->input('link_surat_izin_ortu'),
         ]);
 
         if ($query) {

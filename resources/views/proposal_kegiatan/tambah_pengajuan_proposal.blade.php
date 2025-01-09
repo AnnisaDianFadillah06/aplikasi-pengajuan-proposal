@@ -93,7 +93,10 @@
                                     class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 ease-in-out">
                                     <option value="">-- Pilih Bidang Kegiatan --</option>
                                     @foreach($bidang_kegiatans as $bk)
-                                        <option value="{{ $bk->id_bidang_kegiatan }}">{{ $bk->nama_bidang_kegiatan }}</option>
+                                        <option value="{{ $bk->id_bidang_kegiatan }}" 
+                                            {{ old('id_bidang_kegiatan') == $bk->id_bidang_kegiatan ? 'selected' : '' }}>
+                                            {{ $bk->nama_bidang_kegiatan }}
+                                        </option>
                                     @endforeach
                                 </select>
                                 <span class="mt-1 text-sm text-red-500">@error('bidang_kegiatan') {{ $message }} @enderror</span>
@@ -107,7 +110,10 @@
                                     class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 ease-in-out">
                                     <option value="">-- Pilih Jenis Kegiatan --</option>
                                     @foreach($jenis_kegiatans as $jk)
-                                        <option value="{{ $jk->id_jenis_kegiatan }}">{{ $jk->nama_jenis_kegiatan }}</option>
+                                        <option value="{{ $jk->id_jenis_kegiatan }}" 
+                                            {{ old('id_jenis_kegiatan') == $jk->id_jenis_kegiatan ? 'selected' : '' }}>
+                                            {{ $jk->nama_jenis_kegiatan }}
+                                        </option>
                                     @endforeach
                                 </select>
                                 <span class="mt-1 text-sm text-red-500">@error('jenis_kegiatan') {{ $message }} @enderror</span>
@@ -135,6 +141,53 @@
                                 <span class="mt-1 text-sm text-red-500">@error('tanggal_akhir') {{ $message }} @enderror</span>
                             </div>
                         </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label for="jml_peserta" class="block text-sm font-medium text-gray-700 mb-2">
+                                    Jumlah Peserta
+                                </label>
+                                <input type="number" id="jml_peserta" name="jml_peserta" step="1" oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                                    class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 ease-in-out"
+                                    placeholder="Masukkan jumlah peserta" value="{{ old('jml_peserta', 0) }}" />
+                                <span class="mt-1 text-sm text-red-500">@error('jml_peserta') {{ $message }} @enderror</span>
+                            </div>
+                
+                            <div>
+                                <label for="jml_panitia" class="block text-sm font-medium text-gray-700 mb-2">
+                                    Jumlah Panitia
+                                </label>
+                                <input type="number" id="jml_panitia" name="jml_panitia" step="1" oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                                    class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 ease-in-out"
+                                    placeholder="Masukkan jumlah panitia" value="{{ old('jml_panitia', 0) }}" />
+                                <span class="mt-1 text-sm text-red-500">@error('jml_panitia') {{ $message }} @enderror</span>
+                            </div>
+                        </div>
+
+                        <div class="mb-6">
+                            <label for="jumlah_spj" class="block text-sm font-medium text-gray-700 mb-2">
+                                Jumlah SPJ
+                            </label>
+                            <div class="relative">
+                                <!-- Input Field -->
+                                <input 
+                                    type="number" 
+                                    id="jumlah_spj" 
+                                    name="jumlah_spj"
+                                    min="0"
+                                    step="1" oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                                    class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl 
+                                           focus:ring-2 focus:ring-blue-500 focus:border-transparent 
+                                           transition duration-200 ease-in-out
+                                           pl-12"
+                                    placeholder="Masukan jumlah SPJ" 
+                                    value="{{ old('jumlah_spj') }}" 
+                                />
+                            </div>
+                            <!-- Error Message -->
+                            <span class="mt-1 text-sm text-red-500">@error('jumlah_spj') {{ $message }} @enderror</span>
+                        </div>
+
                     </div>
                 </div>
 
@@ -146,7 +199,7 @@
                             <label for="dana_dipa" class="block text-sm font-medium text-gray-700 mb-2">
                                 Dana DIPA Polban
                             </label>
-                            <input type="number" id="dana_dipa" name="dana_dipa" step="0.01"
+                            <input type="number" id="dana_dipa" name="dana_dipa" step="1" oninput="this.value = this.value.replace(/[^0-9]/g, '')"
                                 class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 ease-in-out"
                                 placeholder="Masukan jumlah dana DIPA" value="{{ old('dana_dipa') }}" />
                             <span class="mt-1 text-sm text-red-500">@error('dana_dipa') {{ $message }} @enderror</span>
@@ -156,7 +209,7 @@
                             <label for="dana_swadaya" class="block text-sm font-medium text-gray-700 mb-2">
                                 Dana Swadaya
                             </label>
-                            <input type="number" id="dana_swadaya" name="dana_swadaya" step="0.01"
+                            <input type="number" id="dana_swadaya" name="dana_swadaya" step="1" oninput="this.value = this.value.replace(/[^0-9]/g, '')"
                                 class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 ease-in-out"
                                 placeholder="Masukan jumlah dana swadaya" value="{{ old('dana_swadaya') }}" />
                             <span class="mt-1 text-sm text-red-500">@error('dana_swadaya') {{ $message }} @enderror</span>
@@ -166,7 +219,7 @@
                             <label for="dana_sponsor" class="block text-sm font-medium text-gray-700 mb-2">
                                 Dana Sponsor
                             </label>
-                            <input type="number" id="dana_sponsor" name="dana_sponsor" step="0.01"
+                            <input type="number" id="dana_sponsor" name="dana_sponsor" step="1" oninput="this.value = this.value.replace(/[^0-9]/g, '')"
                                 class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 ease-in-out"
                                 placeholder="Masukan jumlah dana sponsor" value="{{ old('dana_sponsor') }}" />
                             <span class="mt-1 text-sm text-red-500">@error('dana_sponsor') {{ $message }} @enderror</span>
@@ -207,29 +260,6 @@
                                 placeholder="Masukan nama media partner">{{ old('media_partner') }}</textarea>
                             <span class="mt-1 text-sm text-red-500">@error('media_partner') {{ $message }} @enderror</span>
                         </div>
-
-                        <div class="mb-6">
-                            <label for="jumlah_spj" class="block text-sm font-medium text-gray-700 mb-2">
-                                Jumlah SPJ
-                            </label>
-                            <div class="relative">
-                                <!-- Input Field -->
-                                <input 
-                                    type="number" 
-                                    id="jumlah_spj" 
-                                    name="jumlah_spj"
-                                    min="0"
-                                    class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl 
-                                           focus:ring-2 focus:ring-blue-500 focus:border-transparent 
-                                           transition duration-200 ease-in-out
-                                           pl-12"
-                                    placeholder="Masukan jumlah SPJ" 
-                                    value="{{ old('jumlah_spj') }}" 
-                                />
-                            </div>
-                            <!-- Error Message -->
-                            <span class="mt-1 text-sm text-red-500">@error('jumlah_spj') {{ $message }} @enderror</span>
-                        </div>
                     
 
                     <h4 class="text-lg font-semibold text-gray-700 border-b pb-2 mb-6">Lampiran</h4>
@@ -241,7 +271,7 @@
                             <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                             </svg>
-                            <span>Upload Dokumen Proposal</span>
+                            <span>Upload Dokumen Proposal (Maks 2MB)</span>
                         </label>
                         <div class="flex items-center space-x-3">
                             <div class="relative flex-1">
@@ -283,7 +313,7 @@
                             <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                             </svg>
-                            <span>Lampiran Surat Berkegiatan Ketuplak</span>
+                            <span>Lampiran Surat Berkegiatan Ketuplak (Maks 2MB)</span>
                         </label>
                         <div class="flex items-center space-x-3">
                             <div class="relative flex-1">
@@ -325,7 +355,7 @@
                             <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                             </svg>
-                            <span>Lampiran Surat Pernyataan Ormawa</span>
+                            <span>Lampiran Surat Pernyataan Ormawa (Maks 2MB)</span>
                         </label>
                         <div class="flex items-center space-x-3">
                             <div class="relative flex-1">
@@ -367,7 +397,7 @@
                             <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                             </svg>
-                            <span>Lampiran Penggunaan Sarana Prasarana</span>
+                            <span>Lampiran Penggunaan Sarana Prasarana (Maks 2MB)</span>
                         </label>
                         <div class="flex items-center space-x-3">
                             <div class="relative flex-1">
@@ -404,14 +434,25 @@
                         </div>
                         <span class="mt-1 text-sm text-red-500">@error('surat_peminjaman_sarpras') {{ $message }} @enderror</span>
                     </li>   
-                    
+                    <li class="flex flex-col file-upload-container mb-6" data-input-name="link_surat_izin_ortu">
+                        <div>
+                            <label for="link_surat_izin_ortu" class="block text-sm font-medium text-gray-700 mb-2">
+                                Link Surat Izin Orang Tua (contoh : <code>https://drive.google.com/...</code>)
+                            </label>
+                            <input type="url" id="link_surat_izin_ortu" name="link_surat_izin_ortu"
+                                class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 ease-in-out"
+                                placeholder="Masukkan link surat izin orang tua" value="{{ old('link_surat_izin_ortu') }}" />
+                            <span class="mt-1 text-sm text-red-500">@error('link_surat_izin_ortu') {{ $message }} @enderror</span>
+                        </div>
+                    </li>
+
                     <!-- Inputan Poster Kegiatan -->
                     <li class="flex flex-col file-upload-container mb-6" data-input-name="poster_kegiatan">
                         <label class="mb-2 font-medium text-gray-700 flex items-center space-x-2">
                             <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-pink-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                             </svg>
-                            <span>Poster Kegiatan</span>
+                            <span>Poster Kegiatan (Maks 2MB)</span>
                         </label>
                         <div class="flex items-center space-x-3">
                             <div class="relative flex-1">

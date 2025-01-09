@@ -116,6 +116,7 @@ class PengajuanLpjController extends Controller
             'fileSptbPath' => $fileSptbPath,
             'currentStep' => $currentStep,
             'groupedRevisions' => $allRevision,
+            'latestRevision' => $latestReview, // Ganti nama untuk view
         ]);
     }
 
@@ -205,5 +206,79 @@ class PengajuanLpjController extends Controller
 
 
         return redirect()->route('lpj.detail', $id);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'jenis_lpj' => 'required',
+            'file_lpj' => 'nullable|file|mimes:pdf|max:2048',
+            'file_spj' => 'nullable|file|mimes:pdf|max:2048',
+            'file_sptb' => 'nullable|file|mimes:pdf|max:2048',
+        ]);
+
+        // Cari data LPJ berdasarkan ID
+        $lpj = DB::table('lpj')->where('id_lpj', $id)->first();
+
+        if (!$lpj) {
+            return redirect()->back()->with('error', 'Data LPJ tidak ditemukan.');
+        }
+
+        // File LPJ
+        $fileLpj = $request->file('file_lpj');
+        $fileLpjPath = $lpj->file_lpj; // Tetap gunakan path lama jika tidak ada file baru
+
+        if ($fileLpj) {
+            $fileLpjPath = 'uploads/lpj/' . time() . '_' . $fileLpj->getClientOriginalName();
+            $fileLpj->move(public_path('uploads/lpj'), $fileLpjPath);
+        }
+
+        // File SPJ
+        $fileSpj = $request->file('file_spj');
+        $fileSpjPath = $lpj->file_spj; // Tetap gunakan path lama jika tidak ada file baru
+
+        if ($fileSpj) {
+            $fileSpjPath = 'uploads/spj/' . time() . '_' . $fileSpj->getClientOriginalName();
+            $fileSpj->move(public_path('uploads/spj'), $fileSpjPath);
+        }
+
+        // File SPTB
+        $fileSptb = $request->file('file_sptb');
+        $fileSptbPath = $lpj->file_sptb; // Tetap gunakan path lama jika tidak ada file baru
+
+        if ($fileSptb) {
+            $fileSptbPath = 'uploads/sptb/' . time() . '_' . $fileSptb->getClientOriginalName();
+            $fileSptb->move(public_path('uploads/sptb'), $fileSptbPath);
+        }
+
+        // mengambil review terakhir untuk mengambil proposal sedang di tahap mana
+        $latestRevision = ReviewLpj::where('id_lpj', $lpj->id_lpj)
+                                        // ->orderBy('tgl_revisi', 'desc')
+                                        ->orderBy('id_revisi', 'desc')
+                                        ->first();
+
+        // Pastikan latestRevision ada
+        if (!$latestRevision) {
+            return redirect()->back()->withErrors(['error' => 'Tidak ada revisi yang ditemukan untuk proposal ini.']);
+        }
+
+        // Update status_revisi pada ReviewProposal menjadi 0
+        $latestRevision->update(['status_revisi' => 0]);
+
+        // Update data ke database
+        $query = DB::table('lpj')->where('id_lpj', $id)->update([
+            'jenis_lpj' => $request->input('jenis_lpj'),
+            'file_lpj' => $fileLpjPath,
+            'file_spj' => $fileSpjPath,
+            'file_sptb' => $fileSptbPath,
+            'updated_at' => now(),
+            'updated_by' => session('id'),
+        ]);
+
+        if ($query) {
+            return redirect()->route('lpj.detail', $lpj->id_lpj)->with('success', 'SPJ berhasil diperbarui.');
+        } else {
+            return redirect('/pengajuan-lpj')->with('error', 'Terjadi kesalahan saat memperbarui data.');
+        }
     }
 }

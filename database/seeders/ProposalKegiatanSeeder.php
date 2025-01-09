@@ -41,9 +41,11 @@ class ProposalKegiatanSeeder extends Seeder
                 'nama_penanggung_jawab' => 'harish',
                 'email_penanggung_jawab' => 'muhammad.harish.tif23@polban.ac.id',
                 'poster_kegiatan' => 'laraview/1735965998_Untitled.png',
-                'caption_poster' => 'ini adalah caption poster semangat!'
-                ]
-            
+                'caption_poster' => 'ini adalah caption poster semangat!',
+                'link_surat_izin_ortu' => 'www.youtube.com',
+                'jml_peserta' => 0,
+                'jml_panitia' => 0,
+            ]
         ]);
     }
 }

@@ -190,7 +190,7 @@
 <div class="container mx-auto p-6">
     <div class="bg-white rounded-xl shadow-lg overflow-hidden max-w-5xl mx-auto">
         <div class="p-6">
-@if ($status == 1 || $currentStep < $updatedByStep)
+        @if ($status == 1 || $currentStep < $updatedByStep)
                 <div class="flex items-center gap-2 p-4 bg-blue-50 border border-blue-200 rounded-lg">
                     <div class="w-2 h-2 bg-blue-400 rounded-full animate-pulse"></div>
                     <p class="text-blue-700 font-medium">LPJ ini sedang dalam tahap review : 
@@ -207,20 +207,21 @@
                         @endif
                     </p>
                 </div>
-@elseif ($status == 0)
+        @elseif ($status == 0)
                 <div class="flex items-center gap-2 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
                     <div class="w-2 h-2 bg-yellow-400 rounded-full animate-pulse"></div>
                     <p class="text-yellow-700 font-medium">LPJ ini sedang dalam proses review</p>
                 </div>
-            @elseif ($status == 2)
+        @elseif ($status == 2)
                 <div class="mt-4 p-3 bg-red-100 text-red-700 rounded">
                     <p>Proposal ini telah ditolak.</p>
                 </div>
-            @elseif ($status == 3)
-                <div class="mt-4 p-3 bg-red-100 text-red-700 rounded">
+        @elseif ($status == 3)
+                <div class="mt-4 p-3 bg-yellow-100 text-red-700 rounded">
                     <p>Form revisi : Upload kembali.</p>
                 </div>
-            @endif
+                @include('proposal_kegiatan.SectionDetail.DetailProposal.revision_form_lpj')
+        @endif
             </div>
         </div>
     </div>

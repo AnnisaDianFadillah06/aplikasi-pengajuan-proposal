@@ -97,12 +97,12 @@ class ReviewController extends Controller
         
         // Cari revisi terbaru berdasarkan id_proposal
         // mengambil dokumen revisi terakhir
-        $latestRevision = ReviewProposal::where('id_proposal', $id_proposal)
-                            ->whereNotNull('file_revisi') // Pastikan kolom file_revisi tidak null
-                            ->orderBy('id_revisi', 'desc')
-                            ->first();
+        // $latestRevision = ReviewProposal::where('id_proposal', $id_proposal)
+        //                     ->whereNotNull('file_revisi') // Pastikan kolom file_revisi tidak null
+        //                     ->orderBy('id_revisi', 'desc')
+        //                     ->first();
 
-        return view('proposal_kegiatan.manajemen_review', compact('reviewProposal','latestRevision'));
+        return view('proposal_kegiatan.manajemen_review', compact('reviewProposal'));
     }
 
     // Fungsi untuk menampilkan data proposal yang akan direvisi ANGEL

@@ -147,6 +147,7 @@ class SpjController extends Controller
         $filePathVideoKegiatan = $spj->video_kegiatan;
         $filePathSptb = $spj->file_sptb;
 
+        // ==================================================================
         // mengambil review terakhir untuk mengambil proposal sedang di tahap mana
         $latestReview = ReviewSpj::where('id_spj', $spj->id_spj)
                                         // ->orderBy('tgl_revisi', 'desc')
@@ -178,6 +179,7 @@ class SpjController extends Controller
             // $currentStep = session()->get('currentStep', 1);
             $currentStep = session()->get('currentStep', 1);
         }
+        // ==================================================================
 
         // Ambil data revisi terbaru terkait proposal ini (current step)
         $allRevision = ReviewSpj::where('id_spj', $spj->id_spj)
@@ -190,12 +192,6 @@ class SpjController extends Controller
                                         ->groupBy('id_dosen')
                                         ->orderBy('last_revisi', 'desc')
                                         ->first(); // Hanya satu grup untuk reviewer pada tahap ini
-        
-        // mengambil dokumen revisi terakhir
-        $latestDokumen = ReviewSpj::where('id_spj', $spj->id_spj)
-                            ->whereNotNull('file_revisi') // Pastikan kolom file_revisi tidak null
-                            ->orderBy('id_revisi', 'desc')
-                            ->first();
 
 
         return view('proposal_kegiatan.spj.detail_spj', [
@@ -282,6 +278,87 @@ class SpjController extends Controller
         return redirect()->route('spj.detail', $id);
     }
 
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            // 'id_proposal' => 'required|exists:proposal_kegiatan,id_proposal',
+            'file_sptb' => 'nullable|mimes:pdf|max:2048', // Maksimum 2MB
+            'file_spj' => 'nullable|mimes:pdf|max:2048', // Maksimum 2MB
+            'video_kegiatan' => 'nullable|mimes:mp4|max:51200', // Maksimum 50MB
+            'dokumen_berita_acara' => 'nullable|mimes:pdf|max:2048', // Maksimum 2MB
+            'gambar_bukti_spj' => 'nullable|image|max:2048', // Maksimum 2MB
+            'caption_video' => 'nullable|string|max:255',
+        ]);
+
+        $spj = DB::table('spj')->where('id_spj', $id)->first();
+
+        if (!$spj) {
+            return redirect()->back()->with('error', 'Data SPJ tidak ditemukan.');
+        }
+
+        $file_sptb = $request->file('file_sptb');
+        $file_spj = $request->file('file_spj');
+        $video_kegiatan = $request->file('video_kegiatan');
+        $dokumen_berita_acara = $request->file('dokumen_berita_acara');
+        $gambar_bukti_spj = $request->file('gambar_bukti_spj');
+
+        $file_sptb_path = $spj->file_sptb;
+        $file_spj_path = $spj->file_spj;
+        $video_kegiatan_path = $spj->video_kegiatan;
+        $dokumen_berita_acara_path = $spj->dokumen_berita_acara;
+        $gambar_bukti_spj_path = $spj->gambar_bukti_spj;
+
+        if ($file_sptb) {
+            $file_sptb_path = 'laraview/' . time() . '_' . $file_sptb->getClientOriginalName();
+            $file_sptb->move(public_path('laraview'), $file_sptb_path);
+        }
+
+        if ($file_spj) {
+            $file_spj_path = 'laraview/' . time() . '_' . $file_spj->getClientOriginalName();
+            $file_spj->move(public_path('laraview'), $file_spj_path);
+        }
+
+        if ($video_kegiatan) {
+            $video_kegiatan_path = 'laraview/' . time() . '_' . $video_kegiatan->getClientOriginalName();
+            $video_kegiatan->move(public_path('laraview'), $video_kegiatan_path);
+        }
+
+        if ($dokumen_berita_acara) {
+            $dokumen_berita_acara_path = 'laraview/' . time() . '_' . $dokumen_berita_acara->getClientOriginalName();
+            $dokumen_berita_acara->move(public_path('laraview'), $dokumen_berita_acara_path);
+        }
+
+        if ($gambar_bukti_spj) {
+            $gambar_bukti_spj_path = 'laraview/' . time() . '_' . $gambar_bukti_spj->getClientOriginalName();
+            $gambar_bukti_spj->move(public_path('laraview'), $gambar_bukti_spj_path);
+        }
+
+        // mengambil review terakhir untuk mengambil proposal sedang di tahap mana
+        $latestRevision = ReviewSpj::where('id_spj', $spj->id_spj)
+                                        // ->orderBy('tgl_revisi', 'desc')
+                                        ->orderBy('id_revisi', 'desc')
+                                        ->first();
+
+        // Pastikan latestRevision ada
+        if (!$latestRevision) {
+            return redirect()->back()->withErrors(['error' => 'Tidak ada revisi yang ditemukan untuk proposal ini.']);
+        }
+
+        // Update status_revisi pada ReviewProposal menjadi 0
+        $latestRevision->update(['status_revisi' => 0]);
+
+        DB::table('spj')->where('id_spj', $id)->update([
+            'file_sptb' => $file_sptb_path,
+            'file_spj' => $file_spj_path,
+            'video_kegiatan' => $video_kegiatan_path,
+            'dokumen_berita_acara' => $dokumen_berita_acara_path,
+            'gambar_bukti_spj' => $gambar_bukti_spj_path,
+            'caption_video' => $request->caption_video,
+            // 'tgl_upload' => now(),
+        ]);
+
+        return redirect()->route('spj.detail', $spj->id_spj)->with('success', 'SPJ berhasil diperbarui.');
+    }
     // // upload pdf revisi
     // public function uploadFile(Request $request, $id_proposal)
     // {

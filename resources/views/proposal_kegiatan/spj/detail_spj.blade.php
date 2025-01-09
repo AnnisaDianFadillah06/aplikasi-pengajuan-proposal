@@ -2,10 +2,10 @@
 @section('konten')
 
 {{-- Untuk pengecekan --}}
-<p>Proposal: {{ $spj }}</p>
+{{-- <p>Proposal: {{ $spj }}</p>
 <p>Current Step: {{ $currentStep }}</p>
 <p>Updated By Step: {{ $updatedByStep }}</p>
-<p>Status: {{ $status }}</p>
+<p>Status: {{ $status }}</p> --}}
 
 
 {{-- Progress bar --}}
@@ -86,11 +86,11 @@
 @if ($status == 1 || $currentStep < $updatedByStep)
     @include('proposal_kegiatan.SectionDetail.DetailProposal.detail_only')
 @elseif ($status == 0)
-    @include('proposal_kegiatan.SectionDetail.DetailProposal.waiting_review')
+    @include('proposal_kegiatan.SectionDetail.DetailProposal.waiting_review_spj')
 @elseif ($status == 2)
     @include('proposal_kegiatan.SectionDetail.DetailProposal.rejected')
 @elseif ($status == 3)
-    @include('proposal_kegiatan.SectionDetail.DetailProposal.revision_form')
+    @include('proposal_kegiatan.SectionDetail.DetailProposal.revision_form_spj')
 @endif
 
 {{-- File Proposal terkini --}}
@@ -146,7 +146,7 @@
     <div class="bg-white p-5 rounded shadow">
         <button class="text-left w-full focus:outline-none" onclick="toggleCollapse('revision-section')">
             <h2 class="text-2xl font-bold mb-4 flex items-center justify-between">
-                Revisi Proposal
+                Revisi SPJ
                 <span id="toggle-revision" class="text-lg">[-]</span>
             </h2>
         </button>

@@ -121,7 +121,7 @@
             <!-- Status Banner -->
             <div class="flex items-center gap-2 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
                 <div class="w-2 h-2 bg-yellow-400 rounded-full animate-pulse"></div>
-                <p class="text-yellow-700 font-medium">Proposal ini sedang dalam proses review</p>
+                <p class="text-yellow-700 font-medium">SPJ ini sedang dalam proses review</p>
             </div>
         </div>
     </div>
