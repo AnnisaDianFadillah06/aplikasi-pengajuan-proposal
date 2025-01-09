@@ -1,16 +1,17 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\PengajuanProposal;
-use App\Models\ReviewProposal;
-use App\Models\Pengguna;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
-use App\Mail\kirimEmail; // Pastikan file Mail sesuai namespace
-use App\Models\ReviewLPJ;
 use App\Models\LPJ;
 use App\Models\Spj;
+use App\Models\Pengguna;
+use App\Models\ReviewLPJ;
+use App\Models\ReviewSPJ;
+use Illuminate\Http\Request;
+use App\Models\ReviewProposal;
+use App\Models\PengajuanProposal;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\kirimEmail; // Pastikan file Mail sesuai namespace
 
 
 class ReviewController extends Controller
@@ -36,52 +37,60 @@ class ReviewController extends Controller
 
         $proposals = $proposals->get();
 
-
-        // Ambil semua proposal dengan status_lpj = 1
-        $lpjs = PengajuanProposal::where('updated_by', $sessionId)->get();
-
-
         // Ambil revisi terbaru untuk setiap proposal
         $latestRevisions = ReviewProposal::whereIn('id_proposal', $proposals->pluck('id_proposal'))
                                         ->orderBy('id_revisi', 'desc')
                                         ->get()
                                         ->groupBy('id_proposal');
         
-        // Ambil revisi terbaru untuk setiap LPJ
-        // $latestRevisionsLpjs = ReviewLPJ::whereIn('id_ormawa', $lpjs->pluck('id_ormawa'))
-        //                                 ->orderBy('id_revisi', 'desc')
-        //                                 ->get()
-        //                                 ->groupBy('id_proposal');
-
         // Gabungkan proposal dengan revisi terakhir
         foreach ($proposals as $proposal) {
             $proposal->latestRevision = $latestRevisions->get($proposal->id_proposal)?->first(); // Ambil revisi terakhir atau null
         }
 
-        // Gabungkan LPJ dengan revisi terakhir
-        // foreach ($lpjs as $lpj) {
-        //     $lpj->latestRevision = $latestRevisionsLpjs->get($lpj->id_proposal)?->first(); // Ambil revisi terakhir atau null
-        // }
+        // Ambil semua SPJ ========
+        $spjAll = SPJ::where('updated_by', $sessionId);
 
+        if ($idRole == 2 || $idRole == 3) {
+            $spjAll = $spjAll->where('id_ormawa', session('id_ormawa'));
+        }
 
-        // Mendapatkan semua data lpj dan spj dari database
-        $spjAll = Spj::all();
-        $lpjAll = DB::table('lpj')
-            ->join('proposal_kegiatan', 'lpj.id_ormawa', '=', 'proposal_kegiatan.id_ormawa')
-            ->join('pengaju', 'proposal_kegiatan.id_pengguna', '=', 'pengaju.id')
-            ->select(
-                'lpj.*', // Ambil semua kolom dari tabel `lpj`
-                'proposal_kegiatan.nama_kegiatan', // Contoh kolom dari `proposal`
-                'proposal_kegiatan.tanggal_mulai',
-                'pengaju.username', // Kolom nama pengguna dari `pengguna`
+        $spjAll = $spjAll->get();
 
-            )
-            ->get();
+        // Ambil revisi terbaru untuk setiap spj
+        $latestRevisionsSpj = ReviewSPJ::whereIn('id_spj', $spjAll->pluck('id_spj'))
+                                        ->orderBy('id_revisi', 'desc')
+                                        ->get()
+                                        ->groupBy('id_spj');
+
+        // Gabungkan spj dengan revisi terakhir
+        foreach ($spjAll as $spj) {
+            $spj->latestRevision = $latestRevisionsSpj->get($spj->id_spj)?->first(); // Ambil revisi terakhir atau null
+        }
+
+        // Ambil semua LPJ ========
+        $lpjAll = LPJ::where('updated_by', $sessionId);
+
+        if ($idRole == 2 || $idRole == 3) {
+            $lpjAll = $lpjAll->where('id_ormawa', session('id_ormawa'));
+        }
+
+        $lpjAll = $lpjAll->get();
+
+        // Ambil revisi terbaru untuk setiap spj
+        $latestRevisionsLpj = ReviewLPJ::whereIn('id_lpj', $lpjAll->pluck('id_lpj'))
+                                        ->orderBy('id_revisi', 'desc')
+                                        ->get()
+                                        ->groupBy('id_lpj');
+
+        // Gabungkan lpj dengan revisi terakhir
+        foreach ($lpjAll as $lpj) {
+            $lpj->latestRevision = $latestRevisionsLpj->get($lpj->id_lpj)?->first(); // Ambil revisi terakhir atau null
+        }
 
         // Return ke tampilan
         return view('proposal_kegiatan.tabel_review', [
             'proposals' => $proposals,
-            'lpjs' => $lpjs,
             'spjAll' => $spjAll,
             'lpjAll' => $lpjAll,
             'sessionId' => $sessionId, 
