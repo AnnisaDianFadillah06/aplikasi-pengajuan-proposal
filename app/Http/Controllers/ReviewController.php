@@ -198,7 +198,7 @@ class ReviewController extends Controller
             ->with('success', 'Revisi berhasil disimpan, status diperbarui, dan notifikasi email telah dikirim.');
     }
     
-    public function pantau(Request $request, $id_proposal)
+    public function pantauProposal(Request $request, $id_proposal)
     {
         // Cek apakah proposal ditemukan
         $proposal = PengajuanProposal::findOrFail($id_proposal);

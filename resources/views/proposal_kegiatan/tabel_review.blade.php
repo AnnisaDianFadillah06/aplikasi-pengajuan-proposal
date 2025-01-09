@@ -157,9 +157,15 @@
                             <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Penyelenggara</th>
                             <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Nama kegiatan</th>
                             <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Status</th>
+                            @if($idRole == 5)
+                                <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Tahap</th>
+                            @endif
                             <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Tanggal Kegiatan</th>
                             <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Tanggal Pengajuan LPJ</th>
                             <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Aksi</th>
+                            @if($idRole == 5)
+                                <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Detail</th>
+                            @endif
                         </tr>
                         </thead>
                         <tbody>
@@ -180,7 +186,8 @@
                             <td class="p-2 text-sm leading-normal text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
                                 @php
                                     // Prioritaskan status dari latestRevision jika ada, gunakan item->status jika tidak
-                                    $status = $spj->status_spj;
+                                    $status = $spj->latestRevision ? $spj->latestRevision->status_revisi : $spj->status;
+                                    $tahapSpj = $spj->updated_by;
                                 @endphp
                                 @if ($status == 0)
                                     <span class="bg-gradient-to-tl from-yellow-500 to-yellow-300 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">
@@ -204,6 +211,22 @@
                                     </span>
                                 @endif
                             </td>
+                            @if($idRole == 5)
+                                <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
+                                    {{-- <a href="javascript:;" class="text-xs font-semibold leading-tight text-slate-400"> </a> --}}
+                                    @if ($tahapSpj == 1)
+                                        <p class="mb-0 text-xs font-semibold leading-tight">BEM</p>
+                                    @elseif ($tahapSpj == 2)
+                                        <p class="mb-0 text-xs font-semibold leading-tight">Pembina</p>
+                                    @elseif ($tahapSpj == 3)
+                                        <p class="mb-0 text-xs font-semibold leading-tight">Ketua Jurusan</p>
+                                    @elseif ($tahapSpj == 4)
+                                        <p class="mb-0 text-xs font-semibold leading-tight">KLI</p>
+                                    @elseif ($tahapSpj == 5)
+                                        <p class="mb-0 text-xs font-semibold leading-tight">Wadir 3</p>
+                                    @endif
+                                </td>
+                            @endif
                             <td class="p-2 text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
                                 <span class="text-xs font-semibold leading-tight text-slate-400">{{ $spj->tanggal_mulai }}</span>
                             </td>
@@ -213,6 +236,16 @@
                             <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
                                 <a href="{{ route('reviewSPJ.show', ['reviewSPJ' => $spj->id_spj]) }}"  onclick="logProposalId({{ $spj->id_spj }})" class="bg-blue-500 text-white px-2 py-1 rounded hover:underline">Review</a>
                             </td>
+                            @if($idRole == 5)
+                                <td class="p-2 text-sm leading-normal text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
+                                    <form method="GET" action="{{ route('spjWD3.detail', $spj->id_spj) }}">
+                                        @csrf
+                                        <button type="submit" class="bg-blue-500 text-white px-2 py-1 rounded">
+                                            Detail
+                                        </button>
+                                    </form>
+                                </td>
+                            @endif
                         </tr>
                         @endforeach
                         </tbody>
@@ -230,9 +263,15 @@
                             <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Penyelenggara</th>
                             <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Nama kegiatan</th>
                             <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Status</th>
+                            @if($idRole == 5)
+                                <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Tahap</th>
+                            @endif
                             <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Tanggal Kegiatan</th>
                             <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Tanggal Pengajuan LPJ</th>
                             <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Aksi</th>
+                            @if($idRole == 5)
+                                <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Detail</th>
+                            @endif
                         </tr>
                         </thead>
                         <tbody>
@@ -254,7 +293,8 @@
                             <td class="p-2 text-sm leading-normal text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
                                 @php
                                     // Prioritaskan status dari latestRevision jika ada, gunakan item->status jika tidak
-                                    $status = $lpj->status_lpj;
+                                    $status = $lpj->latestRevision ? $lpj->latestRevision->status_revisi : $lpj->status_lpj;
+                                    $tahapLpj = $lpj->updated_by;
                                 @endphp
                                 @if ($status == 0)
                                     <span class="bg-gradient-to-tl from-yellow-500 to-yellow-300 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">
@@ -278,6 +318,22 @@
                                     </span>
                                 @endif
                             </td>
+                            @if($idRole == 5)
+                                <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
+                                    {{-- <a href="javascript:;" class="text-xs font-semibold leading-tight text-slate-400"> </a> --}}
+                                    @if ($tahapLpj == 1)
+                                        <p class="mb-0 text-xs font-semibold leading-tight">BEM</p>
+                                    @elseif ($tahapLpj == 2)
+                                        <p class="mb-0 text-xs font-semibold leading-tight">Pembina</p>
+                                    @elseif ($tahapLpj == 3)
+                                        <p class="mb-0 text-xs font-semibold leading-tight">Ketua Jurusan</p>
+                                    @elseif ($tahapLpj == 4)
+                                        <p class="mb-0 text-xs font-semibold leading-tight">KLI</p>
+                                    @elseif ($tahapLpj == 5)
+                                        <p class="mb-0 text-xs font-semibold leading-tight">Wadir 3</p>
+                                    @endif
+                                </td>
+                            @endif
                             <td class="p-2 text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
                                 <span class="text-xs font-semibold leading-tight text-slate-400">{{ $lpj->tanggal_mulai }}</span>
                             </td>
@@ -287,6 +343,16 @@
                             <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
                             <a href="{{ route('reviewLPJ.show', ['reviewLPJ' => $lpj->id_lpj]) }}"  onclick="logProposalId({{ $spj->id_lpj }})" class="bg-blue-500 text-white px-2 py-1 rounded hover:underline">Review</a>
                             </td>
+                            @if($idRole == 5)
+                                <td class="p-2 text-sm leading-normal text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
+                                    <form method="GET" action="{{ route('lpjWD3.detail', $lpj->id_lpj) }}">
+                                        @csrf
+                                        <button type="submit" class="bg-blue-500 text-white px-2 py-1 rounded">
+                                            Detail
+                                        </button>
+                                    </form>
+                                </td>
+                            @endif
                         </tr>
                         @endforeach
                         </tbody>

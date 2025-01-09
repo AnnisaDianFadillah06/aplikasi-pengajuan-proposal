@@ -96,7 +96,9 @@ Route::middleware('isReviewer')->group(function () {
     Route::get('/detail-review-lpj/{reviewLPJ}', [ManajemenReviewLpjController::class, 'show'])->name('reviewLPJ.show');
     Route::get('/detail-review-spj/{reviewSPJ}', [ManajemenReviewSpjController::class, 'show'])->name('reviewSPJ.show');
     Route::get('/detail-review/{reviewProposal}', [ReviewController::class, 'show'])->name('proposal.show');
-    Route::get('/detail-proposalwd/{id_proposal}', [ReviewController::class, 'pantau'])->name('proposalWD3.detail');
+    Route::get('/detail-proposalWD/{id_proposal}', [ReviewController::class, 'pantauProposal'])->name('proposalWD3.detail');
+    Route::get('/detail-spjWD/{id_spj}', [ReviewController::class, 'pantauSPJ'])->name('spjWD3.detail');
+    Route::get('/detail-lpjWD/{id_lpj}', [ReviewController::class, 'pantauLPJ'])->name('lpjWD3.detail');
     // Rute untuk menyimpan data revisi ke dalam tabel revisi_file
     Route::post('/manajemen-review-lpj/store', [ManajemenReviewLpjController::class, 'store'])->name('reviewLPJ.store');
     Route::post('/manajemen-review-spj/store', [ManajemenReviewSpjController::class, 'store'])->name('reviewSPJ.store');
@@ -177,18 +179,9 @@ Route::middleware('isPengaju')->group(function () {
     
     Route::get('/detail-lpj/{id_proposal}', [PengajuanLpjController::class, 'show'])->name('lpj.detail'); //route untuk detail_proposal
     // Route untuk Next Step dan Previous Step
-    Route::post('/detail-lpk/{id_lpj}/next', [PengajuanLpjController::class, 'nextStep'])->name('lpj.nextStep');
+    Route::post('/detail-lpj/{id_lpj}/next', [PengajuanLpjController::class, 'nextStep'])->name('lpj.nextStep');
     Route::post('/detail-lpj/{id_lpj}/prev', [PengajuanLpjController::class, 'prevStep'])->name('lpj.prevStep');
     Route::post('/upload-lpj/{id_lpj}', [PengajuanLpjController::class, 'update'])->name('lpj.uploadFileRevisi');
-
-    // Route::post('/proposal/{id_proposal}/form-lpj', [PengajuanProposalController::class, 'formLPJ'])->name('proposal.formLPJ');
-    // // submit LPJ
-    // Route::post('/proposal/{id_proposal}/submit-lpj', [PengajuanProposalController::class, 'submitLPJ'])->name('proposal.submitLPJ');
-    // // Route untuk menampilkan detail lpj dengan navigasi
-    // Route::get('/laporan/{id}', [LaporanController::class, 'show'])->name('laporan.detail');
-    // // Route untuk Next Step dan Previous Step
-    // Route::post('/detail-laporan/{id_proposal}/next', [LaporanController::class, 'nextStep'])->name('laporan.nextStep');
-    // Route::post('/detail-laporan/{id_proposal}/prev', [LaporanController::class, 'prevStep'])->name('laporan.prevStep');
 
     // SPJ
     Route::get('/pengajuan-proposal/spj/{id_proposal}', [SpjController::class, 'index'])->name('spj.index');
