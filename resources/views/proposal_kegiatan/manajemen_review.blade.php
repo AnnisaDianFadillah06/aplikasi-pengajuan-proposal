@@ -353,52 +353,61 @@
                 });
 
 
-                const statusRevisi = document.getElementById('status_revisi');
-                const checkboxContainer = document.getElementById('checkbox-container');
-                const checkboxMenyetujui = document.getElementById('checkbox_menyetujui');
-                const submitButton = document.getElementById('submit_button');
+                // Ambil id_role dari blade ke dalam JavaScript
+                const idRole = {{ session('id_role') }};
+                
+                if (idRole === 2) {
+                    const statusRevisi = document.getElementById('status_revisi');
+                    const checkboxContainer = document.getElementById('checkbox-container');
+                    const checkboxMenyetujui = document.getElementById('checkbox_menyetujui');
+                    const submitButton = document.getElementById('submit_button');
 
-                // Fungsi untuk mengecek kondisi dan mengaktifkan/menonaktifkan tombol submit
-                function validateForm() {
-                    if (statusRevisi.value === '1') {
-                        // Jika status "Setujui" dipilih
-                        checkboxContainer.classList.remove('hidden');
-                        
-                        // Periksa kondisi checkbox
-                        if (checkboxMenyetujui.checked) {
-                            toggleButtonState(false, ""); // Aktifkan tombol
+                    // Fungsi untuk mengecek kondisi dan mengaktifkan/menonaktifkan tombol submit
+                    function validateForm() {
+                        if (statusRevisi.value === '1') {
+                            // Jika status "Setujui" dipilih
+                            checkboxContainer.classList.remove('hidden');
+                            
+                            // Periksa kondisi checkbox
+                            if (checkboxMenyetujui.checked) {
+                                toggleButtonState(false, ""); // Aktifkan tombol
+                            } else {
+                                toggleButtonState(true, "Centang persetujuan untuk mengaktifkan tombol");
+                            }
                         } else {
-                            toggleButtonState(true, "Centang persetujuan untuk mengaktifkan tombol");
+                            // Jika status selain "Setujui" dipilih
+                            checkboxContainer.classList.add('hidden');
+                            toggleButtonState(false, ""); // Selalu aktifkan tombol
                         }
-                    } else {
-                        // Jika status selain "Setujui" dipilih
-                        checkboxContainer.classList.add('hidden');
-                        toggleButtonState(false, ""); // Selalu aktifkan tombol
                     }
-                }
 
-                // Fungsi toggle untuk mengatur tombol disabled/aktif
-                function toggleButtonState(isDisabled, tooltipText) {
-                    submitButton.disabled = isDisabled;
+                    // Fungsi toggle untuk mengatur tombol disabled/aktif
+                    function toggleButtonState(isDisabled, tooltipText) {
+                        submitButton.disabled = isDisabled;
 
-                    if (isDisabled) {
-                        // Jika tombol disabled
-                        submitButton.classList.add('cursor-not-allowed', 'bg-gray-400');
-                        submitButton.classList.remove('bg-blue-600', 'hover:bg-blue-700');
-                        submitButton.setAttribute('title', tooltipText);
-                    } else {
-                        // Jika tombol aktif
-                        submitButton.classList.remove('cursor-not-allowed', 'bg-gray-400');
-                        submitButton.classList.add('bg-blue-600', 'hover:bg-blue-700');
-                        submitButton.removeAttribute('title');
+                        if (isDisabled) {
+                            // Jika tombol disabled
+                            submitButton.classList.add('cursor-not-allowed', 'bg-gray-400');
+                            submitButton.classList.remove('bg-blue-600', 'hover:bg-blue-700');
+                            submitButton.setAttribute('title', tooltipText);
+                        } else {
+                            // Jika tombol aktif
+                            submitButton.classList.remove('cursor-not-allowed', 'bg-gray-400');
+                            submitButton.classList.add('bg-blue-600', 'hover:bg-blue-700');
+                            submitButton.removeAttribute('title');
+                        }
                     }
+
+                    // Event listener untuk dropdown status_revisi
+                    statusRevisi.addEventListener('change', validateForm);
+
+                    // Event listener untuk checkbox_menyetujui
+                    checkboxMenyetujui.addEventListener('change', validateForm);
+                } else {
+                    // Jika id_role bukan 2, tombol tetap aktif
+                    const submitButton = document.getElementById('submit_button');
+                    submitButton.disabled = false;
                 }
-
-                // Event listener untuk dropdown status_revisi
-                statusRevisi.addEventListener('change', validateForm);
-
-                // Event listener untuk checkbox_menyetujui
-                checkboxMenyetujui.addEventListener('change', validateForm);
 
 
             </script>
