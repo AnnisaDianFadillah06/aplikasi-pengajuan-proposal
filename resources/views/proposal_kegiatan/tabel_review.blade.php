@@ -51,9 +51,15 @@
                             <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Penyelenggara</th>
                             <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Nama kegiatan</th>
                             <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Status</th>
+                            @if($idRole == 5)
+                                <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Tahap</th>
+                            @endif
                             <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Tanggal Kegiatan</th>
                             <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Tanggal Pengajuan Proposal</th>
                             <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Aksi</th>
+                            @if($idRole == 5)
+                                <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Detail</th>
+                            @endif
                         </tr>
                         </thead>
                         <tbody>
@@ -75,7 +81,7 @@
                                 @php
                                     // Prioritaskan status dari latestRevision jika ada, gunakan item->status jika tidak
                                     $status = $item->latestRevision ? $item->latestRevision->status_revisi : $item->status;
-                                    $tahap = $item->latestRevision ? $item->latestRevision->id_dosen : 1;
+                                    $tahap = $item->updated_by;
                                 @endphp
                                 @if ($status == 0)
                                     <span class="bg-gradient-to-tl from-yellow-500 to-yellow-300 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">
@@ -99,6 +105,22 @@
                                     </span>
                                 @endif
                             </td>
+                            @if($idRole == 5)
+                                <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
+                                    {{-- <a href="javascript:;" class="text-xs font-semibold leading-tight text-slate-400"> </a> --}}
+                                    @if ($tahap == 1)
+                                        <p class="mb-0 text-xs font-semibold leading-tight">BEM</p>
+                                    @elseif ($tahap == 2)
+                                        <p class="mb-0 text-xs font-semibold leading-tight">Pembina</p>
+                                    @elseif ($tahap == 3)
+                                        <p class="mb-0 text-xs font-semibold leading-tight">Ketua Jurusan</p>
+                                    @elseif ($tahap == 4)
+                                        <p class="mb-0 text-xs font-semibold leading-tight">KLI</p>
+                                    @elseif ($tahap == 5)
+                                        <p class="mb-0 text-xs font-semibold leading-tight">Wadir 3</p>
+                                    @endif
+                                </td>
+                            @endif
                             <td class="p-2 text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
                                 <span class="text-xs font-semibold leading-tight text-slate-400">{{ $item->tanggal_mulai }}</span>
                             </td>
@@ -106,8 +128,18 @@
                                 <span class="text-xs font-semibold leading-tight text-slate-400">{{ $item->updated_at->format('Y-m-d')  }}</span>
                             </td>
                             <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                            <a href="{{ route('proposal.show', ['reviewProposal' => $item->id_proposal]) }}"  onclick="logProposalId({{ $item->id }})" class="bg-blue-500 text-white px-2 py-1 rounded hover:underline">Review</a>
+                                <a href="{{ route('proposal.show', ['reviewProposal' => $item->id_proposal]) }}"  onclick="logProposalId({{ $item->id }})" class="bg-blue-500 text-white px-2 py-1 rounded hover:underline">Review</a>
                             </td>
+                            @if($idRole == 5)
+                                <td class="p-2 text-sm leading-normal text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
+                                    <form method="GET" action="{{ route('proposalWD3.detail', $item->id_proposal) }}">
+                                        @csrf
+                                        <button type="submit" class="bg-blue-500 text-white px-2 py-1 rounded">
+                                            Detail
+                                        </button>
+                                    </form>
+                                </td>
+                            @endif
                         </tr>
                         @endforeach
                         </tbody>
@@ -179,7 +211,7 @@
                                 <span class="text-xs font-semibold leading-tight text-slate-400">{{ \Carbon\Carbon::parse($spj->updated_at)->format('Y-m-d') }}</span>
                             </td>
                             <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                            <a href="{{ route('reviewSPJ.show', ['reviewSPJ' => $spj->id_spj]) }}"  onclick="logProposalId({{ $spj->id_spj }})" class="bg-blue-500 text-white px-2 py-1 rounded hover:underline">Review</a>
+                                <a href="{{ route('reviewSPJ.show', ['reviewSPJ' => $spj->id_spj]) }}"  onclick="logProposalId({{ $spj->id_spj }})" class="bg-blue-500 text-white px-2 py-1 rounded hover:underline">Review</a>
                             </td>
                         </tr>
                         @endforeach

@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 use App\Models\LPJ;
 use App\Models\Spj;
+use App\Models\Ormawa;
 use App\Models\Pengguna;
 use App\Models\ReviewLPJ;
 use App\Models\ReviewSPJ;
 use Illuminate\Http\Request;
+use App\Models\JenisKegiatan;
+use App\Models\BidangKegiatan;
 use App\Models\ReviewProposal;
 use App\Models\PengajuanProposal;
 use Illuminate\Support\Facades\DB;
@@ -29,13 +32,18 @@ class ReviewController extends Controller
         // Ambil semua proposal
         $idRole = session('id_role');
 
-        $proposals = PengajuanProposal::where('updated_by', $sessionId);
-
-        if ($idRole == 2 || $idRole == 3) {
-            $proposals = $proposals->where('id_ormawa', session('id_ormawa'));
+        $proposals = PengajuanProposal::query();
+        if ($idRole == 5) {
+            // Ambil semua proposal tanpa filter
+            $proposals = $proposals->get();
+        } else {
+            // Filter berdasarkan updated_by dan id_ormawa
+            $proposals = $proposals->where('updated_by', $sessionId);
+            if ($idRole == 2 || $idRole == 3) {
+                $proposals = $proposals->where('id_ormawa', session('id_ormawa'));
+            }
+            $proposals = $proposals->get();
         }
-
-        $proposals = $proposals->get();
 
         // Ambil revisi terbaru untuk setiap proposal
         $latestRevisions = ReviewProposal::whereIn('id_proposal', $proposals->pluck('id_proposal'))
@@ -49,13 +57,18 @@ class ReviewController extends Controller
         }
 
         // Ambil semua SPJ ========
-        $spjAll = SPJ::where('updated_by', $sessionId);
-
-        if ($idRole == 2 || $idRole == 3) {
-            $spjAll = $spjAll->where('id_ormawa', session('id_ormawa'));
+        $spjAll = SPJ::query();
+        if ($idRole == 5) {
+            // Ambil semua SPJ tanpa filter
+            $spjAll = $spjAll->get();
+        } else {
+            // Filter berdasarkan updated_by dan id_ormawa
+            $spjAll = $spjAll->where('updated_by', $sessionId);
+            if ($idRole == 2 || $idRole == 3) {
+                $spjAll = $spjAll->where('id_ormawa', session('id_ormawa'));
+            }
+            $spjAll = $spjAll->get();
         }
-
-        $spjAll = $spjAll->get();
 
         // Ambil revisi terbaru untuk setiap spj
         $latestRevisionsSpj = ReviewSPJ::whereIn('id_spj', $spjAll->pluck('id_spj'))
@@ -69,13 +82,18 @@ class ReviewController extends Controller
         }
 
         // Ambil semua LPJ ========
-        $lpjAll = LPJ::where('updated_by', $sessionId);
-
-        if ($idRole == 2 || $idRole == 3) {
-            $lpjAll = $lpjAll->where('id_ormawa', session('id_ormawa'));
+        $lpjAll = LPJ::query();
+        if ($idRole == 5) {
+            // Ambil semua LPJ tanpa filter
+            $lpjAll = $lpjAll->get();
+        } else {
+            // Filter berdasarkan updated_by dan id_ormawa
+            $lpjAll = $lpjAll->where('updated_by', $sessionId);
+            if ($idRole == 2 || $idRole == 3) {
+                $lpjAll = $lpjAll->where('id_ormawa', session('id_ormawa'));
+            }
+            $lpjAll = $lpjAll->get();
         }
-
-        $lpjAll = $lpjAll->get();
 
         // Ambil revisi terbaru untuk setiap spj
         $latestRevisionsLpj = ReviewLPJ::whereIn('id_lpj', $lpjAll->pluck('id_lpj'))
@@ -180,5 +198,59 @@ class ReviewController extends Controller
             ->with('success', 'Revisi berhasil disimpan, status diperbarui, dan notifikasi email telah dikirim.');
     }
     
+    public function pantau(Request $request, $id_proposal)
+    {
+        // Cek apakah proposal ditemukan
+        $proposal = PengajuanProposal::findOrFail($id_proposal);
+        $jenis_kegiatans = JenisKegiatan::all();
+        $bidang_kegiatans = BidangKegiatan::all();
+
+        if (!$proposal) {
+            abort(404, 'Proposal tidak ditemukan');
+        }
+
+
+        // Ambil data revisi terbaru terkait proposal ini (semua revisi)
+        $allRevisions = ReviewProposal::where('id_proposal', $proposal->id_proposal)
+                                        ->select(
+                                            'id_dosen',
+                                            'catatan_revisi',
+                                            'tgl_revisi'
+                                        )
+                                        ->orderBy('id_dosen') // Urutkan berdasarkan id_dosen
+                                        ->orderBy('tgl_revisi', 'desc') // Revisi terbaru di atas
+                                        ->get()
+                                        ->groupBy('id_dosen'); // Grup berdasarkan id_dosen
+
+        // Ambil data reviewer dan ormawa terkait
+        $ormawa = Ormawa::find($proposal->id_ormawa);
+
+        // Nama ormawa yang diambil dari relasi tabel
+        $nama_ormawa = $ormawa->nama_ormawa ?? '';
+
+        // File proposal
+        $filePath = $proposal->file_proposal;
+
+        // Surat Berkegiatan Ketuplak
+        $fileKetuplakPath = $proposal->surat_berkegiatan_ketuplak;
+
+        // Surat Pernyataan Ormawa
+        $fileOrmawaPath = $proposal->surat_pernyataan_ormawa;
+
+        // Surat Peminjaman Sarpras
+        $fileSarprasPath = $proposal->surat_peminjaman_sarpras;
+                            
+        return view('proposal_kegiatan.detail_proposal_wd3', [
+            'proposal' => $proposal,
+            'groupedRevisions' => $allRevisions,
+            'filePath' => $filePath,
+            'nama_ormawa' => $nama_ormawa,
+            'fileKetuplakPath' => $fileKetuplakPath,
+            'fileOrmawaPath' => $fileOrmawaPath,
+            'fileSarprasPath' => $fileSarprasPath,
+            'jenis_kegiatans' => $jenis_kegiatans, 
+            'bidang_kegiatans' => $bidang_kegiatans,
+        ]);
+    }
 
 }

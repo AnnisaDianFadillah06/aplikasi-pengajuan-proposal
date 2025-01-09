@@ -96,6 +96,7 @@ Route::middleware('isReviewer')->group(function () {
     Route::get('/detail-review-lpj/{reviewLPJ}', [ManajemenReviewLpjController::class, 'show'])->name('reviewLPJ.show');
     Route::get('/detail-review-spj/{reviewSPJ}', [ManajemenReviewSpjController::class, 'show'])->name('reviewSPJ.show');
     Route::get('/detail-review/{reviewProposal}', [ReviewController::class, 'show'])->name('proposal.show');
+    Route::get('/detail-proposalwd/{id_proposal}', [ReviewController::class, 'pantau'])->name('proposalWD3.detail');
     // Rute untuk menyimpan data revisi ke dalam tabel revisi_file
     Route::post('/manajemen-review-lpj/store', [ManajemenReviewLpjController::class, 'store'])->name('reviewLPJ.store');
     Route::post('/manajemen-review-spj/store', [ManajemenReviewSpjController::class, 'store'])->name('reviewSPJ.store');
