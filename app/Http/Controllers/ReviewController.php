@@ -15,6 +15,7 @@ use App\Models\PengajuanProposal;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\kirimEmail; // Pastikan file Mail sesuai namespace
+use Symfony\Component\Mailer\Exception\TransportException;
 
 
 class ReviewController extends Controller
@@ -57,7 +58,9 @@ class ReviewController extends Controller
         }
 
         // Ambil semua SPJ ========
-        $spjAll = SPJ::query();
+        $spjAll = Spj::with([
+            'proposalKegiatan.pengguna'       // Relasi ke `pengguna` melalui `proposal`
+        ]);
         if ($idRole == 5) {
             // Ambil semua SPJ tanpa filter
             $spjAll = $spjAll->get();
@@ -85,7 +88,9 @@ class ReviewController extends Controller
         }
 
         // Ambil semua LPJ ========
-        $lpjAll = LPJ::query();
+        $lpjAll = LPJ::with([
+            'ormawa'
+        ]);
         if ($idRole == 5) {
             // Ambil semua LPJ tanpa filter
             $lpjAll = $lpjAll->get();
@@ -144,61 +149,83 @@ class ReviewController extends Controller
     }
     
 
-    // Fungsi untuk menyimpan data revisi ke dalam tabel revisi_file
     public function store(Request $request)
     {
-        // Validasi input
-        $request->validate([
-            'status_revisi' => 'required',
-        ]);
-    
-        // Simpan data revisi ke dalam tabel revisi_file
-        ReviewProposal::create([
-            'catatan_revisi' => $request->input('catatan_revisi'),
-            'tgl_revisi' => now()->format('Y-m-d'),
-            'id_dosen' => session('id_role'), //yang disimpan itu role id role (bem, wd3, dst) bukan id_reviewernya
-            'id_proposal' => $request->input('id_proposal'),
-            'status_revisi' => $request->input('status_revisi'),
-        ]);
-    
-        // Update status proposal
-        $proposal = PengajuanProposal::find($request->input('id_proposal'));
-        if ($proposal) {
-            // Kirim notifikasi email
-            $pengaju = $proposal->pengguna; // Ambil data pengguna terkait proposal
-            if ($pengaju && $pengaju->email) {
-                // Format dokumen yang harus direvisi menjadi string dengan pemisah newline
-                $revisi_items = $request->input('revisi_items', []);
-                $revisi_items_string = implode("\n", $revisi_items);
-    
-                $data_email = [
-                    'subject' => 'Revisi Proposal',
-                    'sender_name' => 'proposalkupolban@gmail.com',
-                    'judul' => $proposal->nama_kegiatan,
-                    'username' => $pengaju->username,
-                    'revisi_items' => $revisi_items_string,
-                    'isi' => $request->input('catatan_revisi'),
-                ];
-    
-                Mail::to($pengaju->email)->send(new kirimEmail($data_email));
+        try {
+            // Validasi input
+            $request->validate([
+                'status_revisi' => 'required',
+            ]);
+
+            // Mulai transaksi database
+            DB::beginTransaction();
+
+            // Simpan data revisi ke dalam tabel revisi_file
+            ReviewProposal::create([
+                'catatan_revisi' => $request->input('catatan_revisi'),
+                'tgl_revisi' => now()->format('Y-m-d'),
+                'id_dosen' => session('id_role'),
+                'id_proposal' => $request->input('id_proposal'),
+                'status_revisi' => $request->input('status_revisi'),
+            ]);
+
+            // Update status proposal
+            $proposal = PengajuanProposal::find($request->input('id_proposal'));
+            if ($proposal) {
+                $pengaju = $proposal->pengguna;
+                if ($pengaju && $pengaju->email) {
+                    // Format dokumen revisi
+                    $revisi_items = $request->input('revisi_items', []);
+                    $revisi_items_string = implode("\n", $revisi_items);
+
+                    $data_email = [
+                        'subject' => 'Revisi Proposal',
+                        'sender_name' => 'proposalkupolban@gmail.com',
+                        'judul' => $proposal->nama_kegiatan,
+                        'username' => $pengaju->username,
+                        'revisi_items' => $revisi_items_string,
+                        'isi' => $request->input('catatan_revisi'),
+                        'route' => 'proposal',
+                        'status_revisi' => $request->input('status_revisi'),
+                        'id_role' => session('id_role'),
+                    ];
+
+                    // Kirim email
+                    Mail::to($pengaju->email)->send(new kirimEmail($data_email));
+                }
+
+                // Update status proposal dan kegiatan
+                if (session()->has('id_role') && session('id_role') == 5) {
+                    $proposal->status = $request->input('status_revisi');
+                    $proposal->status_kegiatan = 2;
+                }
+
+                // Update updated_by jika status revisi = 1
+                if ($request->input('status_revisi') == 1 && session()->has('id')) {
+                    $proposal->updated_by = session('id_role') + 1;
+                }
+
+                $proposal->save();
             }
-    
-            // Update status proposal dan kegiatan
-            if (session()->has('id_role') && session('id_role') == 5) {
-                $proposal->status = $request->input('status_revisi');
-                $proposal->status_kegiatan = 2;
-            }
-    
-            // Update updated_by jika status revisi = 1
-            if ($request->input('status_revisi') == 1 && session()->has('id')) {
-                $proposal->updated_by = session('id_role') + 1;
-            }
-    
-            $proposal->save();
+
+            // Commit transaksi jika semuanya sukses
+            DB::commit();
+
+            return redirect('/manajemen-review')
+                ->with('success', 'Revisi berhasil disimpan, status diperbarui, dan notifikasi email telah dikirim.');
+        } catch (TransportException $e) {
+            // Rollback transaksi jika pengiriman email gagal
+            DB::rollBack();
+
+            return redirect('/manajemen-review')
+                ->with('error', 'Email gagal dikirim. Data revisi tidak disimpan. Periksa koneksi jaringan Anda.');
+        } catch (\Exception $e) {
+            // Rollback transaksi jika terjadi error lain
+            DB::rollBack();
+
+            return redirect('/manajemen-review')
+                ->with('error', 'Terjadi kesalahan saat menyimpan data. Silakan coba lagi.');
         }
-    
-        return redirect('/manajemen-review')
-            ->with('success', 'Revisi berhasil disimpan, status diperbarui, dan notifikasi email telah dikirim.');
     }
     
     public function pantauProposal(Request $request, $id_proposal)

@@ -25,8 +25,7 @@ class ReviewSPJ extends Model
         'status_revisi',
         'tgl_revisi',
         'id_spj',
-        'id_dosen',
-        'file_revisi',
+        'id_dosen'
     ];
 
     // Tentukan relasi dengan model Spj

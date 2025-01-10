@@ -28,7 +28,7 @@ class kirimEmail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Kirim Email',
+            subject: 'Hasil Review',
         );
     }
 
@@ -37,8 +37,22 @@ class kirimEmail extends Mailable
      */
     public function content(): Content
     {
+        // Tentukan tampilan berdasarkan nilai 'status_revisi'
+        switch ($this->data_email['status_revisi']) {
+            case 1: // Setujui
+                $view = 'proposal_kegiatan.templateEmailSetuju';
+                break;
+            case 2: // Tolak
+                $view = 'proposal_kegiatan.templateEmailTolak';
+                break;
+            case 3: // Revisi
+            default:
+                $view = 'proposal_kegiatan.templateEmailRevisi';
+                break;
+        }
+
         return new Content(
-            view: 'proposal_kegiatan.templateEmail',
+            view: $view,
         );
     }
 
