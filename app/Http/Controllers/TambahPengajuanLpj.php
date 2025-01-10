@@ -84,7 +84,7 @@ class TambahPengajuanLpj extends Controller
             'updated_at' => now(),
             'created_by' => session('id'),
             'updated_by' => 1,
-            'status_spj' => 0,
+            'status_lpj' => 0,
         ]);
 
         if ($query) {

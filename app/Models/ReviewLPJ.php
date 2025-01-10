@@ -15,4 +15,9 @@ class ReviewLPJ extends Model
     protected $primaryKey = 'id_revisi';
     // Nonaktifkan timestamps
     public $timestamps = false;
+
+    public function reviewer()
+    {
+        return $this->belongsTo(Reviewer::class, 'id_dosen'); // 'id_dosen' adalah foreign key
+    }
 }

@@ -2,10 +2,10 @@
 @section('konten')
 
 {{-- Untuk pengecekan --}}
-<p>Lpj: {{ $lpj }}</p>
+{{-- <p>Lpj: {{ $lpj }}</p>
 <p>Current Step: {{ $currentStep }}</p>
 <p>Updated By Step: {{ $updatedByStep }}</p>
-<p>Status: {{ $status }}</p>
+<p>Status: {{ $status }}</p> --}}
 
 <style>
     @keyframes pulse {
@@ -321,41 +321,50 @@
                     <thead class="bg-gray-50">
                         <tr>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Tahap (Reviewer)
+                                Reviewer
+                            </th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Role
                             </th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 Catatan Revisi
                             </th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Tanggal Revisi Terakhir
+                                Tanggal Revisi
+                            </th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Status Revisi
                             </th>
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
-                        @if ($groupedRevisions)
-                            @php
-                                $catatanRevisiList = explode(' | ', $groupedRevisions->catatan_revisi);
-                            @endphp
-                            @foreach ($catatanRevisiList as $catatan)
+                        @forelse ($groupedRevisions as $idDosen => $revisions)
+                            @foreach ($revisions as $revision)
                             <tr class="hover:bg-gray-50">
                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                    Reviewer {{ $groupedRevisions->id_dosen }}
-                                </td>
-                                <td class="px-6 py-4 text-sm text-gray-500">
-                                    {{ $catatan }}
+                                    {{ $revision->reviewer->username ?? 'Unknown' }}
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                    {{ \Carbon\Carbon::parse($groupedRevisions->last_revisi)->format('d-m-Y H:i') }}
+                                    {{ $revision->reviewer->role->role ?? 'Unknown' }}
+                                </td>
+                                <td class="px-6 py-4 text-sm text-gray-500">
+                                    {{ $revision->catatan_revisi }}
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                    {{ \Carbon\Carbon::parse($revision->tgl_revisi)->format('d-m-Y H:i') }}
+                                </td>
+                                <td class="px-6 py-4 text-sm text-gray-500">
+                                    {{ $revision->status_label }}
                                 </td>
                             </tr>
                             @endforeach
-                        @else
+                        @empty
                             <tr>
-                                <td colspan="3" class="px-6 py-4 text-sm text-gray-500 text-center">
+                                <td colspan="4" class="px-6 py-4 text-sm text-gray-500 text-center">
                                     Tidak ada revisi pada tahap ini.
                                 </td>
                             </tr>
-                        @endif
+                        @endforelse
                     </tbody>
                 </table>
             </div>

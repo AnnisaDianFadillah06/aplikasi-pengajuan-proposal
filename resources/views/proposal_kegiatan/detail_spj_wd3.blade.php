@@ -35,8 +35,6 @@
     </div>
 @endif
 
-{{-- Bagian Detail Proposal --}}
-@include('proposal_kegiatan.SectionDetail.DetailProposal.detail_only')
 
 {{-- File Proposal terkini --}}
 <div class="container mx-auto p-6 space-y-6">
@@ -116,7 +114,6 @@
         </div>
     </div>
 </div>
-
 
 <script>
 

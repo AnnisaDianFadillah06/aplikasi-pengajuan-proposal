@@ -65,7 +65,10 @@ class ReviewController extends Controller
             // Filter berdasarkan updated_by dan id_ormawa
             $spjAll = $spjAll->where('updated_by', $sessionId);
             if ($idRole == 2 || $idRole == 3) {
-                $spjAll = $spjAll->where('id_ormawa', session('id_ormawa'));
+                // Filter berdasarkan id_ormawa melalui relasi proposalKegiatan
+                $spjAll = $spjAll->whereHas('proposalKegiatan', function ($query) {
+                    $query->where('id_ormawa', session('id_ormawa'));
+                });
             }
             $spjAll = $spjAll->get();
         }
@@ -212,14 +215,27 @@ class ReviewController extends Controller
 
         // Ambil data revisi terbaru terkait proposal ini (semua revisi)
         $allRevisions = ReviewProposal::where('id_proposal', $proposal->id_proposal)
+                                        ->with(['reviewer.role']) // Eager loading reviewer dan role
                                         ->select(
                                             'id_dosen',
                                             'catatan_revisi',
-                                            'tgl_revisi'
+                                            'tgl_revisi',
+                                            'status_revisi' 
                                         )
                                         ->orderBy('id_dosen') // Urutkan berdasarkan id_dosen
                                         ->orderBy('tgl_revisi', 'desc') // Revisi terbaru di atas
                                         ->get()
+                                        ->map(function ($revision) {
+                                            // Tambahkan label status
+                                            $statusLabels = [
+                                                0 => 'Menunggu',
+                                                1 => 'Disetujui',
+                                                2 => 'Ditolak',
+                                                3 => 'Revisi',
+                                            ];
+                                            $revision->status_label = $statusLabels[$revision->status_revisi] ?? 'Tidak Diketahui';
+                                            return $revision;
+                                        })
                                         ->groupBy('id_dosen'); // Grup berdasarkan id_dosen
 
         // Ambil data reviewer dan ormawa terkait
@@ -248,6 +264,122 @@ class ReviewController extends Controller
             'fileKetuplakPath' => $fileKetuplakPath,
             'fileOrmawaPath' => $fileOrmawaPath,
             'fileSarprasPath' => $fileSarprasPath,
+            'jenis_kegiatans' => $jenis_kegiatans, 
+            'bidang_kegiatans' => $bidang_kegiatans,
+        ]);
+    }
+
+    public function pantauSPJ(Request $request, $id_spj)
+    {
+        // Cek apakah proposal ditemukan
+        $spj = SPJ::findOrFail($id_spj);
+        $jenis_kegiatans = JenisKegiatan::all();
+        $bidang_kegiatans = BidangKegiatan::all();
+
+        if (!$spj) {
+            abort(404, 'spj tidak ditemukan');
+        }
+
+        // Ambil data revisi terbaru terkait spj ini (semua revisi)
+        $allRevisions = ReviewSPJ::where('id_spj', $spj->id_spj)
+                                        ->with(['reviewer.role']) // Eager loading reviewer dan role
+                                        ->select(
+                                            'id_dosen',
+                                            'catatan_revisi',
+                                            'tgl_revisi',
+                                            'status_revisi' 
+                                        )
+                                        ->orderBy('id_dosen') // Urutkan berdasarkan id_dosen
+                                        ->orderBy('tgl_revisi', 'desc') // Revisi terbaru di atas
+                                        ->get()
+                                        ->map(function ($revision) {
+                                            // Tambahkan label status
+                                            $statusLabels = [
+                                                0 => 'Menunggu',
+                                                1 => 'Disetujui',
+                                                2 => 'Ditolak',
+                                                3 => 'Revisi',
+                                            ];
+                                            $revision->status_label = $statusLabels[$revision->status_revisi] ?? 'Tidak Diketahui';
+                                            return $revision;
+                                        })
+                                        ->groupBy('id_dosen'); // Grup berdasarkan id_dosen
+                                        
+
+        // Ambil data ormawa terkait melalui relasi proposalKegiatan
+        $id_ormawa = $spj->proposalKegiatan->id_ormawa ?? null;
+
+        // Pastikan id_ormawa ditemukan sebelum mencoba mengambil data Ormawa
+        if ($id_ormawa) {
+            $ormawa = Ormawa::find($id_ormawa);
+            $nama_ormawa = $ormawa->nama_ormawa ?? 'Nama Ormawa Tidak Ditemukan';
+        } else {
+            $nama_ormawa = 'Nama Ormawa Tidak Ditemukan';
+        }
+
+        // File spj
+        $filePath = $spj->file_spj;
+                            
+        return view('proposal_kegiatan.detail_spj_wd3', [
+            'spj' => $spj,
+            'groupedRevisions' => $allRevisions,
+            'filePath' => $filePath,
+            'nama_ormawa' => $nama_ormawa,
+            'jenis_kegiatans' => $jenis_kegiatans, 
+            'bidang_kegiatans' => $bidang_kegiatans,
+        ]);
+    }
+
+    public function pantauLPJ(Request $request, $id_lpj)
+    {
+        // Cek apakah proposal ditemukan
+        $lpj = LPJ::findOrFail($id_lpj);
+        $jenis_kegiatans = JenisKegiatan::all();
+        $bidang_kegiatans = BidangKegiatan::all();
+
+        if (!$lpj) {
+            abort(404, 'lpj tidak ditemukan');
+        }
+
+        // Ambil data revisi terbaru terkait lpj ini (semua revisi)
+        $allRevisions = ReviewLPJ::where('id_lpj', $lpj->id_lpj)
+                                        ->with(['reviewer.role']) // Eager loading reviewer dan role
+                                        ->select(
+                                            'id_dosen',
+                                            'catatan_revisi',
+                                            'tgl_revisi',
+                                            'status_revisi' 
+                                        )
+                                        ->orderBy('id_dosen') // Urutkan berdasarkan id_dosen
+                                        ->orderBy('tgl_revisi', 'desc') // Revisi terbaru di atas
+                                        ->get()
+                                        ->map(function ($revision) {
+                                            // Tambahkan label status
+                                            $statusLabels = [
+                                                0 => 'Menunggu',
+                                                1 => 'Disetujui',
+                                                2 => 'Ditolak',
+                                                3 => 'Revisi',
+                                            ];
+                                            $revision->status_label = $statusLabels[$revision->status_revisi] ?? 'Tidak Diketahui';
+                                            return $revision;
+                                        })
+                                        ->groupBy('id_dosen'); // Grup berdasarkan id_dosen
+
+        // Ambil data reviewer dan ormawa terkait
+        $ormawa = Ormawa::find($lpj->id_ormawa);
+
+        // Nama ormawa yang diambil dari relasi tabel
+        $nama_ormawa = $ormawa->nama_ormawa ?? '';
+
+        // File lpj
+        $filePath = $lpj->file_lpj;
+                            
+        return view('proposal_kegiatan.detail_lpj_wd3', [
+            'lpj' => $lpj,
+            'groupedRevisions' => $allRevisions,
+            'filePath' => $filePath,
+            'nama_ormawa' => $nama_ormawa,
             'jenis_kegiatans' => $jenis_kegiatans, 
             'bidang_kegiatans' => $bidang_kegiatans,
         ]);

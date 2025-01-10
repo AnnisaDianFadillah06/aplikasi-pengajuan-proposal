@@ -250,7 +250,7 @@
                         @endforeach
                         </tbody>
                     </table>
-                </div>
+                </div> 
 
                 <div id="content-lpj" class="tab-content hidden">
                     <div class="flex justify-between items-center mb-4">

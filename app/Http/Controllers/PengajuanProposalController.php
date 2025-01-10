@@ -97,14 +97,28 @@ class PengajuanProposalController extends Controller
         // Ambil data revisi terbaru terkait proposal ini (current step)
         $allRevision = ReviewProposal::where('id_proposal', $proposal->id_proposal)
                                         ->where('id_dosen', $currentStep) // Filter berdasarkan currentStep
+                                        ->with(['reviewer.role']) // Eager loading reviewer dan role
                                         ->select(
                                             'id_dosen',
-                                            DB::raw('STRING_AGG(catatan_revisi, \' | \') as catatan_revisi'), // Gabungkan dengan delimiter ' | '
-                                            DB::raw('MAX(tgl_revisi) as last_revisi')
+                                            'catatan_revisi',
+                                            'tgl_revisi',
+                                            'status_revisi' 
                                         )
-                                        ->groupBy('id_dosen')
-                                        ->orderBy('last_revisi', 'desc')
-                                        ->first(); // Hanya satu grup untuk reviewer pada tahap ini
+                                        ->orderBy('id_dosen') // Urutkan berdasarkan id_dosen
+                                        ->orderBy('tgl_revisi', 'desc') // Revisi terbaru di atas
+                                        ->get()
+                                        ->map(function ($revision) {
+                                            // Tambahkan label status
+                                            $statusLabels = [
+                                                0 => 'Menunggu',
+                                                1 => 'Disetujui',
+                                                2 => 'Ditolak',
+                                                3 => 'Revisi',
+                                            ];
+                                            $revision->status_label = $statusLabels[$revision->status_revisi] ?? 'Tidak Diketahui';
+                                            return $revision;
+                                        })
+                                        ->groupBy('id_dosen'); // Grup berdasarkan id_dosen
 
         // Ambil data reviewer dan ormawa terkait
         $ormawa = Ormawa::find($proposal->id_ormawa);

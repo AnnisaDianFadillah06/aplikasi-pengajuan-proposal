@@ -184,14 +184,28 @@ class SpjController extends Controller
         // Ambil data revisi terbaru terkait proposal ini (current step)
         $allRevision = ReviewSpj::where('id_spj', $spj->id_spj)
                                         ->where('id_dosen', $currentStep) // Filter berdasarkan currentStep
+                                        ->with(['reviewer.role']) // Eager loading reviewer dan role
                                         ->select(
                                             'id_dosen',
-                                            DB::raw('STRING_AGG(catatan_revisi, \' | \') as catatan_revisi'), // Gabungkan dengan delimiter ' | '
-                                            DB::raw('MAX(tgl_revisi) as last_revisi')
+                                            'catatan_revisi',
+                                            'tgl_revisi',
+                                            'status_revisi' 
                                         )
-                                        ->groupBy('id_dosen')
-                                        ->orderBy('last_revisi', 'desc')
-                                        ->first(); // Hanya satu grup untuk reviewer pada tahap ini
+                                        ->orderBy('id_dosen') // Urutkan berdasarkan id_dosen
+                                        ->orderBy('tgl_revisi', 'desc') // Revisi terbaru di atas
+                                        ->get()
+                                        ->map(function ($revision) {
+                                            // Tambahkan label status
+                                            $statusLabels = [
+                                                0 => 'Menunggu',
+                                                1 => 'Disetujui',
+                                                2 => 'Ditolak',
+                                                3 => 'Revisi',
+                                            ];
+                                            $revision->status_label = $statusLabels[$revision->status_revisi] ?? 'Tidak Diketahui';
+                                            return $revision;
+                                        })
+                                        ->groupBy('id_dosen'); // Grup berdasarkan id_dosen
 
 
         return view('proposal_kegiatan.spj.detail_spj', [
@@ -236,15 +250,27 @@ class SpjController extends Controller
                 : $latestReview->status_revisi;
         } else {
             $updatedByStep = 1;
-            $status = 0;
         }
-        
-        // Jika currentStep adalah 2, tambah 2
-        if ($currentStep == 2) {
-            session()->put('currentStep', $currentStep + 2);
-        } elseif ($currentStep <= $updatedByStep) {
-            session()->put('currentStep', $currentStep + 1);
-        } 
+
+        // Kondisi khusus untuk Ormawa yang bukan UKM, BEM, atau MPM
+        if (str_contains($ormawa, 'UKM') || str_contains($ormawa, 'BEM') || str_contains($ormawa, 'MPM')) {
+            // Jika currentStep adalah 2, tambah 2
+            if ($currentStep == 2) {
+                session()->put('currentStep', $currentStep + 2);
+            } elseif ($currentStep <= $updatedByStep) {
+                session()->put('currentStep', $currentStep + 1);
+            } elseif ($currentStep == 5) {
+                $currentStep = 1;
+            }
+        } else {
+            // Perilaku default untuk ormawa lain
+            
+            if ($currentStep <= $updatedByStep) {
+                session()->put('currentStep', $currentStep + 1);
+            } elseif ($currentStep == 5) {
+                $currentStep = 1;
+            }
+        }
         
         return redirect()->route('spj.detail', $id);
     }
@@ -268,11 +294,21 @@ class SpjController extends Controller
             $currentStep = session()->get('currentStep', 1);
         }
 
-        // Jika currentStep adalah 5, kurangi 2
-        if ($currentStep == 5) {
-            session()->put('currentStep', $currentStep - 3);
-        } elseif ($currentStep >= 1) {
-            session()->put('currentStep', $currentStep - 1);
+        // Kondisi khusus untuk Ormawa yang bukan UKM, BEM, atau MPM
+        if (str_contains($ormawa, 'UKM') || str_contains($ormawa, 'BEM') || str_contains($ormawa, 'MPM')) {
+            // Jika currentStep adalah 5, kurangi 2
+            if ($currentStep == 4) {
+                session()->put('currentStep', $currentStep - 2);
+            } elseif ($currentStep >= 1) {
+                session()->put('currentStep', $currentStep - 1);
+            }
+        } else {
+            // Perilaku default untuk ormawa lain
+            if ($currentStep >= 1) {
+                session()->put('currentStep', $currentStep - 1);
+            } elseif ($currentStep == 0) {
+                $currentStep == 6;
+            }
         }
 
         return redirect()->route('spj.detail', $id);
