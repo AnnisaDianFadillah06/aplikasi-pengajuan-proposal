@@ -16,8 +16,6 @@ use App\Models\JenisKegiatan;
 use App\Models\BidangKegiatan;
 use App\Models\ReviewProposal;
 use App\Models\PengajuanProposal;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Mail;
 use App\Mail\kirimEmail;
 use App\Mail\notifikasiReviewer;
 use App\Models\Reviewer;
@@ -143,29 +141,40 @@ class ReviewController extends Controller
     
     public function show($id_proposal)
     {
-        // Ambil proposal saat ini berdasarkan id_proposal
-        $reviewProposal = PengajuanProposal::where('id_proposal', $id_proposal)->firstOrFail();
+        try {
+             // Ambil proposal saat ini berdasarkan id_proposal
+            $reviewProposal = PengajuanProposal::where('id_proposal', $id_proposal)->firstOrFail();
 
-        // Dapatkan ID Ormawa dari proposal saat ini
-        $idOrmawa = $reviewProposal->id_ormawa;
+            // Dapatkan ID Ormawa dari proposal saat ini
+            $idOrmawa = $reviewProposal->id_ormawa;
 
-        // Cari proposal lain dengan status_spj = 0 untuk ormawa ini
-        $pendingSpjProposals = PengajuanProposal::where('id_ormawa', $idOrmawa)
-            ->where('status_spj', 0) // Status SPJ belum diajukan
-            ->where('status', 1)     // Status proposal aktif/disetujui sudah berjalan tapi belum ada spj
-            ->where('id_proposal', '!=', $id_proposal) // Bukan proposal saat ini
-            ->get();
+            // Cari proposal lain dengan status_spj = 0 untuk ormawa ini
+            $pendingSpjProposals = PengajuanProposal::where('id_ormawa', $idOrmawa)
+                ->where('status_spj', 0) // Status SPJ belum diajukan
+                ->where('status', 1)     // Status proposal aktif/disetujui sudah berjalan tapi belum ada spj
+                ->where('id_proposal', '!=', $id_proposal) // Bukan proposal saat ini
+                ->get();
 
-        // Jika terdapat proposal lain yang belum menyelesaikan SPJ
-        if ($pendingSpjProposals->isNotEmpty()) {
-            session()->flash('error', 'Terdapat proposal lain pada ormawa ini yang belum menyelesaikan SPJ. Harap dipertimbangkan untuk menyetujui proposal ini.');
+            // Jika terdapat proposal lain yang belum menyelesaikan SPJ
+            if ($pendingSpjProposals->isNotEmpty()) {
+                session()->flash('error', 'Terdapat proposal lain pada ormawa ini yang belum menyelesaikan SPJ. Harap dipertimbangkan untuk menyetujui proposal ini.');
+            }
+
+            // Kirim data ke view untuk ditampilkan
+            return view('proposal_kegiatan.manajemen_review', [
+                'reviewProposal' => $reviewProposal,
+                'pendingSpjProposals' => $pendingSpjProposals,
+            ]);
+        } catch (\Throwable $e) {
+            // Kirim notifikasi email
+            $developerEmails = explode(',', env('DEVELOPER_EMAILS'));
+            foreach ($developerEmails as $email) {
+                Mail::to(trim($email))->send(new \App\Mail\ErrorNotification($e));
+            }
+
+            // Kembalikan respons error
+            return response()->view('errors.500', [], 500);
         }
-
-        // Kirim data ke view untuk ditampilkan
-        return view('proposal_kegiatan.manajemen_review', [
-            'reviewProposal' => $reviewProposal,
-            'pendingSpjProposals' => $pendingSpjProposals,
-        ]);
     }
 
 
@@ -483,29 +492,55 @@ class ReviewController extends Controller
             foreach ($developerEmails as $email) {
                 Mail::to(trim($email))->send(new \App\Mail\ErrorNotification($e));
             }
+
+            // Kembalikan respons error
+            return response()->view('errors.500', [], 500);
         }
     }
+
     public function getReviewerEmail($roleId)
     {
-        // Ambil email reviewer berdasarkan role_id
-        $reviewerEmails = Reviewer::where('id_role', $roleId)->pluck('email');
-        return $reviewerEmails;
+        try {
+            // Ambil email reviewer berdasarkan role_id
+            $reviewerEmails = Reviewer::where('id_role', $roleId)->pluck('email');
+            return $reviewerEmails;
+        } catch (\Throwable $e) {
+            // Kirim notifikasi email
+            $developerEmails = explode(',', env('DEVELOPER_EMAILS'));
+            foreach ($developerEmails as $email) {
+                Mail::to(trim($email))->send(new \App\Mail\ErrorNotification($e));
+            }
+
+            // Kembalikan respons error
+            return response()->view('errors.500', [], 500);
+        }
     }
 
     // Method ini bisa dipanggil di event Proposal
     public function sendReviewNotification($proposal)
     {
-        // Ambil email reviewer berdasarkan updated_by yang ada pada proposal
-        $reviewerEmails = $this->getReviewerEmail($proposal->updated_by);
+        try {
+            // Ambil email reviewer berdasarkan updated_by yang ada pada proposal
+            $reviewerEmails = $this->getReviewerEmail($proposal->updated_by);
 
-        // Siapkan data untuk email
-        $data_email = [
-            'judul' => $proposal->nama_kegiatan,
-        ];
+            // Siapkan data untuk email
+            $data_email = [
+                'judul' => $proposal->nama_kegiatan,
+            ];
 
-        // Kirim email ke semua reviewer
-        foreach ($reviewerEmails as $email) {
-            Mail::to($email)->send(new notifikasiReviewer($data_email));
+            // Kirim email ke semua reviewer
+            foreach ($reviewerEmails as $email) {
+                Mail::to($email)->send(new notifikasiReviewer($data_email));
+            } 
+        } catch (\Throwable $e) {
+            // Kirim notifikasi email
+            $developerEmails = explode(',', env('DEVELOPER_EMAILS'));
+            foreach ($developerEmails as $email) {
+                Mail::to(trim($email))->send(new \App\Mail\ErrorNotification($e));
+            }
+
+            // Kembalikan respons error
+            return response()->view('errors.500', [], 500);
         }
     }
 }
