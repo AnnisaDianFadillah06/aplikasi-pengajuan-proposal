@@ -1,8 +1,3 @@
-<!-- <h1>{{ $data_email['subject'] }}</h1>
-<p>Halo,</p>
-<p>{{ $data_email['isi'] }}</p>
-<p>Salam,</p>
-<p>{{ $data_email['sender_name'] }}</p> -->
 <!DOCTYPE html>
 <html>
 <head>
@@ -40,9 +35,25 @@
 </head>
 <body>
     <div class="email-container">
-        <h1>Revisi Proposal</h1>
+        <!-- Judul Berdasarkan Tipe -->
+        @if ($data_email['route'] === 'proposal')
+            <h1>Revisi Proposal</h1>
+        @elseif ($data_email['route'] === 'spj')
+            <h1>Revisi SPJ</h1>
+        @elseif ($data_email['route'] === 'lpj')
+            <h1>Revisi LPJ</h1>
+        @endif
+
         <p>Halo, <strong>{{ $data_email['username'] }}</strong>,</p>
-        <p>Berikut merupakan revisi untuk proposal dengan judul <strong>"{{ $data_email['judul'] }}"</strong>.</p>
+
+        <!-- Isi Berdasarkan Tipe -->
+        @if ($data_email['route'] === 'proposal')
+            <p>Berikut merupakan revisi untuk proposal dengan judul <strong>"{{ $data_email['judul'] }}"</strong>.</p>
+        @elseif ($data_email['route'] === 'spj')
+            <p>Berikut merupakan revisi SPJ ke <strong>"{{ $data_email['spj_ke'] }}"</strong> untuk proposal dengan judul <strong>"{{ $data_email['judul'] }}"</strong>.</p>
+        @elseif ($data_email['route'] === 'lpj')
+            <p>Berikut merupakan revisi LPJ jenis <strong>"{{ $data_email['jenis_lpj'] }}"</strong> untuk ormawa <strong>"{{ $data_email['username'] }}"</strong>.</p>
+        @endif
 
         <p><strong>Yang Harus Direvisi:</strong></p>
         <ul>

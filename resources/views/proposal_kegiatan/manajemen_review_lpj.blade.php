@@ -68,9 +68,8 @@
           <div class="bg-white rounded-xl shadow-sm overflow-hidden">
             <div class="p-6">
               <h2 class="text-xl font-semibold text-gray-800 mb-4">
-                <i class="fas fa-info-circle mr-2 text-blue-500"></i>Informasi Ormawa
+                <i class="fas fa-info-circle mr-2 text-blue-500"></i>Informasi LPJ
               </h2>
-              
               <!-- Event Details Grid -->
               <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div class="space-y-3">
@@ -81,6 +80,16 @@
                   <div>
                     <label class="text-sm font-medium text-gray-500">Tanggal Diajukan</label>
                     <p class="text-gray-800">{{ \Carbon\Carbon::parse($reviewLpj->updated_at)->format('Y-m-d') }}</p>
+                  </div>
+                </div>
+                <div class="space-y-3">
+                  <div>
+                    <label class="text-sm font-medium text-gray-500">Jenis LPJ</label>
+                    @if ($reviewLpj->jenis_lpj == 1)
+                      <p class="text-gray-800">60%</p>
+                    @elseif ($reviewLpj->jenis_lpj == 2)
+                      <p class="text-gray-800">100%</p>
+                    @endif
                   </div>
                 </div>
               </div>
@@ -114,7 +123,7 @@
                 </div>
               </div>
 
-              <input type="hidden" name="id_ormawa" value="{{ $reviewLpj->id_ormawa }}">
+              <input type="hidden" name="id_lpj" value="{{ $reviewLpj->id_lpj }}">
 
               <!-- Review Notes -->
               <div class="mb-6">

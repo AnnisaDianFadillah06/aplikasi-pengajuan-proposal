@@ -20,6 +20,19 @@
 <link rel="stylesheet" href="//cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
 <title>@yield('title', 'Manajemen Review')</title>
 
+@if (session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+@endif
+
+@if (session('error'))
+    <div class="alert alert-danger">
+        {{ session('error') }}
+    </div>
+@endif
+
+
 <div class="flex flex-wrap -mx-3">
     <div class="flex-none w-full max-w-full px-3">
         <div class="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-soft-xl rounded-2xl bg-clip-border">
@@ -116,7 +129,7 @@
                                         <p class="mb-0 text-xs font-semibold leading-tight">Ketua Jurusan</p>
                                     @elseif ($tahap == 4)
                                         <p class="mb-0 text-xs font-semibold leading-tight">KLI</p>
-                                    @elseif ($tahap == 5)
+                                    @elseif ($tahap == 5 || 6)
                                         <p class="mb-0 text-xs font-semibold leading-tight">Wadir 3</p>
                                     @endif
                                 </td>
@@ -174,13 +187,13 @@
                             <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
                             <div class="flex px-2 py-1">
                                 <div class="flex flex-col justify-center">
-                                <h6 class="mb-0 text-sm leading-normal">{{ $spj->username }}</h6>
+                                <h6 class="mb-0 text-sm leading-normal">{{ $spj->proposalKegiatan->pengguna->username }}</h6>
                                 <!-- <p class="mb-0 text-xs leading-tight text-slate-400">john@creative-tim.com</p> -->
                                 </div>
                             </div>
                             </td>
                             <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                            <p class="mb-0 text-xs font-semibold leading-tight">{{ $spj->nama_kegiatan }}</p>
+                            <p class="mb-0 text-xs font-semibold leading-tight">{{ $spj->proposalKegiatan->nama_kegiatan }}</p>
                             <!-- <p class="mb-0 text-xs leading-tight text-slate-400">Organization</p> -->
                             </td>
                             <td class="p-2 text-sm leading-normal text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
@@ -222,13 +235,13 @@
                                         <p class="mb-0 text-xs font-semibold leading-tight">Ketua Jurusan</p>
                                     @elseif ($tahapSpj == 4)
                                         <p class="mb-0 text-xs font-semibold leading-tight">KLI</p>
-                                    @elseif ($tahapSpj == 5)
+                                    @elseif ($tahapSpj == 5 || 6)  {{-- Akan selalu bertambah 1 jika telah di acc jadi 5 atau 6 --}}
                                         <p class="mb-0 text-xs font-semibold leading-tight">Wadir 3</p>
                                     @endif
                                 </td>
                             @endif
                             <td class="p-2 text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                                <span class="text-xs font-semibold leading-tight text-slate-400">{{ $spj->tanggal_mulai }}</span>
+                                <span class="text-xs font-semibold leading-tight text-slate-400">{{ $spj->proposalKegiatan->tanggal_mulai }}</span>
                             </td>
                             <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
                                 <span class="text-xs font-semibold leading-tight text-slate-400">{{ \Carbon\Carbon::parse($spj->updated_at)->format('Y-m-d') }}</span>
@@ -261,12 +274,11 @@
                     <thead class="align-bottom">
                         <tr class="w-full bg-gray-100 text-gray-700 uppercase text-sm leading-normal">
                             <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Penyelenggara</th>
-                            <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Nama kegiatan</th>
+                            <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Jenis LPJ</th>
                             <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Status</th>
                             @if($idRole == 5)
                                 <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Tahap</th>
                             @endif
-                            <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Tanggal Kegiatan</th>
                             <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Tanggal Pengajuan LPJ</th>
                             <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Aksi</th>
                             @if($idRole == 5)
@@ -280,15 +292,17 @@
                             <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
                             <div class="flex px-2 py-1">
                                 <div class="flex flex-col justify-center">
-                                <h6 class="mb-0 text-sm leading-normal">{{ $lpj->username }}</h6>
-                                <!-- <p class="mb-0 text-xs leading-tight text-slate-400">john@creative-tim.com</p> -->
+                                <h6 class="mb-0 text-sm leading-normal">{{ $lpj->ormawa->nama_ormawa }}</h6>
                                 </div>
                             </div>
                             
                             </td>
                             <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                            <p class="mb-0 text-xs font-semibold leading-tight">{{ $lpj->nama_kegiatan }}</p>
-                            <!-- <p class="mb-0 text-xs leading-tight text-slate-400">Organization</p> -->
+                                    @if ($lpj->jenis_lpj == 1)
+                                        <p class="mb-0 text-xs font-semibold leading-tight">60%</p>
+                                    @elseif ($lpj->jenis_lpj == 2)
+                                        <p class="mb-0 text-xs font-semibold leading-tight">100%</p>
+                                    @endif
                             </td>
                             <td class="p-2 text-sm leading-normal text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
                                 @php
@@ -329,14 +343,11 @@
                                         <p class="mb-0 text-xs font-semibold leading-tight">Ketua Jurusan</p>
                                     @elseif ($tahapLpj == 4)
                                         <p class="mb-0 text-xs font-semibold leading-tight">KLI</p>
-                                    @elseif ($tahapLpj == 5)
+                                    @elseif ($tahapLpj == 5 || 6) 
                                         <p class="mb-0 text-xs font-semibold leading-tight">Wadir 3</p>
                                     @endif
                                 </td>
                             @endif
-                            <td class="p-2 text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                                <span class="text-xs font-semibold leading-tight text-slate-400">{{ $lpj->tanggal_mulai }}</span>
-                            </td>
                             <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
                                 <span class="text-xs font-semibold leading-tight text-slate-400">{{ \Carbon\Carbon::parse($lpj->updated_at)->format('Y-m-d') }}</span>
                             </td>
