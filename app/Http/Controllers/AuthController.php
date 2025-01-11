@@ -3,9 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Dosen;
+use App\Models\Mahasiswa;
 use Illuminate\Http\Request;
+use App\Mail\VerifyCodeEmail;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Session;
 
 class AuthController extends Controller
@@ -99,51 +105,127 @@ class AuthController extends Controller
 
         return back()->withErrors(['email' => 'Email atau password salah.'])->onlyInput('email');
     }
-
-    /**
-     * Handle forgot password form submission.
-     */
-    public function forgotPassword(Request $request)
+    public function sendVerificationCode(Request $request)
     {
+        // Validasi input email
         $request->validate([
             'email' => 'required|email',
-            'auth_code' => 'required'
         ]);
 
-        $user = User::where('email', $request->email)->first();
+        // Generate kode verifikasi
+        $verificationCode = rand(100000, 999999);
 
-        if (!$user) {
-            return response()->json(['message' => 'Email tidak ditemukan!'], 400);
+        // Simpan kode verifikasi dalam cache dengan waktu kedaluwarsa 10 menit
+        Cache::put('verification_code_' . $request->email, $verificationCode, now()->addMinutes(10));
+
+        // Data email untuk dikirimkan
+        $data_email = [
+            'subject' => 'Your Verification Code',
+            'sender_name' => 'proposalkupolban@gmail.com',
+            'verification_code' => $verificationCode,
+        ];
+
+        // Kirim email ke pengguna
+        Mail::to($request->email)->send(new VerifyCodeEmail($data_email));
+
+        return response()->json(['message' => 'Verification code sent successfully.']);
+    }
+
+    public function forgotPassword(Request $request)
+    {
+        // Validasi input email dan kode autentikasi
+        $request->validate([
+            'email' => 'required|email',
+            'auth_code' => 'required|numeric',
+        ]);
+        Log::info('Input request: ' . json_encode($request->all()));
+
+        $email = $request->input('email');
+        $authCode = $request->input('auth_code');
+
+        // Ambil kode verifikasi dari cache
+        $cachedCode = Cache::get('verification_code_' . $email);
+
+
+        if (!$cachedCode) {
+            return response()->json(['message' => 'Verification code expired or not found.'], 400);
         }
 
-        if ($request->auth_code !== '123456') {
-            return response()->json(['message' => 'Kode autentikasi salah!'], 400);
+        if ($authCode != $cachedCode) {
+            return response()->json(['message' => 'Invalid verification code.'], 400);
         }
 
-        Session::put('auth_email', $request->email);
+        // Hapus kode dari cache setelah diverifikasi
+        Cache::forget('verification_code_' . $email);
+
+        // Simpan email ke dalam sesi
+        session(['email' => $email]);
+
         return response()->json(['message' => 'Verified!'], 200);
     }
 
-    /**
-     * Handle reset password submission.
-     */
     public function resetPassword(Request $request)
     {
+        // Validasi input password
         $request->validate([
-            'password' => 'required|min:6|confirmed',
+            'password' => 'required|min:8',
         ]);
 
-        $email = Session::get('auth_email');
+        // // Ambil pengguna berdasarkan email (dalam sesi atau dari data sebelumnya)
+        $email = session('email'); // Pastikan email tersimpan di sesi sebelumnya
+
         if (!$email) {
-            return response()->json(['message' => 'Unauthorized request. Please restart the process.'], 400);
+            return response()->json(['message' => 'Session expired. Please restart the process.'], 400);
         }
 
-        $user = User::where('email', $email)->first();
+        // Perbarui password pengguna
+        $user = Mahasiswa::where('email', $email)->first();
+
+        if (!$user) {
+            return response()->json(['message' => 'User not found.'], 404);
+        }
+
         $user->password = Hash::make($request->password);
         $user->save();
+        // Log::info('Password baru tersimpan: ' . $request->password);
+        // Log::info('Password baru tersimpan: ' . $user->password);
 
-        Session::forget('auth_email');
-        return response()->json(['message' => 'Password updated successfully!'], 200);
+        // Hapus sesi email reset
+        session()->forget('email');
+
+        return redirect()->route('login.mahasiswa')->with('success', 'Password updated successfully!');
+    }
+
+    public function resetPasswordDosen(Request $request)
+    {
+        // Validasi input password
+        $request->validate([
+            'password' => 'required|min:8',
+        ]);
+
+        // // Ambil pengguna berdasarkan email (dalam sesi atau dari data sebelumnya)
+        $email = session('email'); // Pastikan email tersimpan di sesi sebelumnya
+
+        if (!$email) {
+            return response()->json(['message' => 'Session expired. Please restart the process.'], 400);
+        }
+
+        // Perbarui password pengguna
+        $user = Dosen::where('email', $email)->first();
+
+        if (!$user) {
+            return response()->json(['message' => 'User not found.'], 404);
+        }
+
+        $user->password = Hash::make($request->password);
+        $user->save();
+        // Log::info('Password baru tersimpan: ' . $request->password);
+        // Log::info('Password baru tersimpan: ' . $user->password);
+
+        // Hapus sesi email reset
+        session()->forget('email');
+
+        return redirect()->route('login.dosen')->with('success', 'Password updated successfully!');
     }
 
     /**

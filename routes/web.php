@@ -29,6 +29,7 @@ use App\Http\Controllers\PedomanKemahasiswaanController;
 use App\Http\Controllers\HistoriPengajuanReviewerController;
 use App\Http\Controllers\ManajemenReviewSpjController;
 use App\Http\Controllers\ManajemenReviewLpjController;
+use App\Http\Controllers\ForgotPasswordController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -63,27 +64,32 @@ Route::get('/detail-kegiatan/{id_proposal}', [EventListController::class, 'show'
 
 // ========================================================================================
 // AUTHENTICATION ROUTES ==================================================================
-Route::controller(AuthController::class)->group(function () {
-    // Route::get('/login', 'index')->name('login');
-    Route::get('/login-mahasiswa', [AuthController::class, 'showLoginFormMahasiswa'])->name('login.mahasiswa');
-    Route::get('/login-dosen', [AuthController::class, 'showLoginFormDosen'])->name('login.dosen');
-    
-    // Route::post('/login', 'login')->name('login.submit');
-    Route::post('/login-mahasiswa', [AuthController::class, 'loginMahasiswa'])->name('login.mahasiswa.submit');
-    Route::get('/check-pengaju', [MahasiswaAuthController::class, 'checkPengaju'])->name('check.pengaju');
-    Route::post('/login-dosen', [AuthController::class, 'loginDosen'])->name('login.dosen.submit');
-    Route::get('/check-reviewer', [ReviewerAuthController::class, 'checkReviewer'])->name('check.reviewer');
+Route::middleware(['web'])->group(function () {
+    Route::controller(AuthController::class)->group(function () {
+        // Route::get('/login', 'index')->name('login');
+        Route::get('/login-mahasiswa', [AuthController::class, 'showLoginFormMahasiswa'])->name('login.mahasiswa');
+        Route::get('/login-dosen', [AuthController::class, 'showLoginFormDosen'])->name('login.dosen');
+        
+        // Route::post('/login', 'login')->name('login.submit');
+        Route::post('/login-mahasiswa', [AuthController::class, 'loginMahasiswa'])->name('login.mahasiswa.submit');
+        Route::get('/check-pengaju', [MahasiswaAuthController::class, 'checkPengaju'])->name('check.pengaju');
+        Route::post('/login-dosen', [AuthController::class, 'loginDosen'])->name('login.dosen.submit');
+        Route::get('/check-reviewer', [ReviewerAuthController::class, 'checkReviewer'])->name('check.reviewer');
 
-    // Forgot password process
-    Route::post('/forgot-password', 'forgotPassword')->name('password.forgot');
-    Route::post('/verify-code', 'verifyCode')->name('password.verifyCode');
-    Route::get('/reset-password', 'showResetPasswordForm')->name('password.reset');
-    Route::post('/reset-password', 'resetPassword')->name('password.update');
-
-    // Logout route should be outside the '/home' route
-    Route::post('/logout-dosen', [ReviewerAuthController::class, 'logout'])->name('logout.dosen');
-    Route::post('/logout-mahasiswa', [MahasiswaAuthController::class, 'logout'])->name('logout.mahasiswa');
-    Route::post('/logout', 'logout')->name('logout');
+        // Forgot password process
+        Route::post('/send-verification-code', [AuthController::class, 'sendVerificationCode'])->name('password.sendVerificationCode');
+        Route::post('/forgot-password', [AuthController::class, 'forgotPassword'])->name('password.forgot');
+        Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('password.update');
+        Route::post('/reset-password-dosen', [AuthController::class, 'resetPasswordDosen'])->name('passwordDosen.update');
+        Route::post('/verify-code', 'verifyCode')->name('password.verifyCode');
+        Route::get('/reset-password', 'showResetPasswordForm')->name('password.reset');
+        
+        
+        // Logout route should be outside the '/home' route
+        Route::post('/logout-dosen', [ReviewerAuthController::class, 'logout'])->name('logout.dosen');
+        Route::post('/logout-mahasiswa', [MahasiswaAuthController::class, 'logout'])->name('logout.mahasiswa');
+        Route::post('/logout', 'logout')->name('logout');
+    });
 });
 //---------------------------------------------------------------------------------------
 
