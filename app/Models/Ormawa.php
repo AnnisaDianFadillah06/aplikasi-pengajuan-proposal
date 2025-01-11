@@ -21,7 +21,7 @@ class Ormawa extends Model
         'created_at',
         'updated_at'
     ];
-
+ 
     public function pengguna()
     {
         return $this->belongsTo(Pengguna::class, 'created_by','id_pengguna');

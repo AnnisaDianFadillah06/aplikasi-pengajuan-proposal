@@ -85,12 +85,15 @@ class ManajemenReviewSpjController extends Controller
                     }
     
                     // Update status SPJ di tabel proposal kegiatan jika sampai tahap akhir (session id = 6)
-                    if (session()->has('id') && session('id') == 6) {
-                        $proposal->status_spj = $request->input('status_revisi');
+                    // if (session()->has('id') && session('id') == 6) {
+                    //     $proposal->status_spj = $request->input('status_revisi');
+                    // }
+                    if (session()->has('id_role') && session('id_role') == 5 && $request->input('status_revisi') == 1) {
+                        $proposal->status_spj = 1;
                     }
     
                     // Update updated_by jika status revisi di tabel revisi SPJ = 1
-                    if ($request->input('status_revisi') == 1 && session()->has('id')) {
+                    if ($request->input('status_revisi') == 1 && session()->has('id_role')) {
                         $proposal->updated_by = session('id_role') + 1; // Misal role yang melakukan revisi
                     }
     
