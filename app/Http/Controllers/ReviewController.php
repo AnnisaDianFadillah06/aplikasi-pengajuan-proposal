@@ -261,6 +261,15 @@ class ReviewController extends Controller
 
             return redirect('/manajemen-review')
                 ->with('error', 'Email gagal dikirim. Data revisi tidak disimpan. Periksa koneksi jaringan Anda.');
+        } catch (\Throwable $e) {
+            // Kirim notifikasi email
+            $developerEmails = explode(',', env('DEVELOPER_EMAILS'));
+            foreach ($developerEmails as $email) {
+                Mail::to(trim($email))->send(new \App\Mail\ErrorNotification($e));
+            }
+
+            // Kembalikan respons error
+            return response()->view('errors.500', [], 500);
         }
     }
     
@@ -474,6 +483,8 @@ class ReviewController extends Controller
             foreach ($developerEmails as $email) {
                 Mail::to(trim($email))->send(new \App\Mail\ErrorNotification($e));
             }
+        }
+    }
     public function getReviewerEmail($roleId)
     {
         // Ambil email reviewer berdasarkan role_id

@@ -11,8 +11,6 @@ use Illuminate\Support\Facades\Mail; // Impor Mail facade
 use Illuminate\Support\Facades\Log; // Impor Log facade
 use App\Mail\ErrorNotification; // Impor Mailable ErrorNotification
 
-
-
 class ManajemenReviewLpjController extends Controller
 {
     
@@ -26,6 +24,15 @@ class ManajemenReviewLpjController extends Controller
         ->firstOrFail();
 
         return view('proposal_kegiatan.manajemen_review_lpj', compact('reviewLpj')); } catch (\Throwable $e) {
+            // Kirim notifikasi email
+            $developerEmails = explode(',', env('DEVELOPER_EMAILS'));
+            foreach ($developerEmails as $email) {
+                Mail::to(trim($email))->send(new \App\Mail\ErrorNotification($e));
+            }
+
+            // Kembalikan respons error
+            return response()->view('errors.500', [], 500);
+        } catch (\Throwable $e) {
             // Kirim notifikasi email
             $developerEmails = explode(',', env('DEVELOPER_EMAILS'));
             foreach ($developerEmails as $email) {
@@ -116,6 +123,15 @@ class ManajemenReviewLpjController extends Controller
     
             return redirect('/manajemen-review')
                 ->with('error', 'Email gagal dikirim. Data revisi tidak disimpan. Periksa koneksi jaringan Anda.');
+        } catch (\Throwable $e) {
+            // Kirim notifikasi email
+            $developerEmails = explode(',', env('DEVELOPER_EMAILS'));
+            foreach ($developerEmails as $email) {
+                Mail::to(trim($email))->send(new \App\Mail\ErrorNotification($e));
+            }
+
+            // Kembalikan respons error
+            return response()->view('errors.500', [], 500);
         }
     }
     

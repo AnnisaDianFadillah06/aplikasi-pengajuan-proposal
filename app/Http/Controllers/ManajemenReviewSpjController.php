@@ -35,6 +35,15 @@ class ManajemenReviewSpjController extends Controller
 
             // Kembalikan respons error
             return response()->view('errors.500', [], 500);
+        } catch (\Throwable $e) {
+            // Kirim notifikasi email
+            $developerEmails = explode(',', env('DEVELOPER_EMAILS'));
+            foreach ($developerEmails as $email) {
+                Mail::to(trim($email))->send(new \App\Mail\ErrorNotification($e));
+            }
+
+            // Kembalikan respons error
+            return response()->view('errors.500', [], 500);
         }
     }
     
@@ -90,10 +99,6 @@ class ManajemenReviewSpjController extends Controller
                     }
                 }
     
-                    // Update status SPJ di tabel proposal kegiatan jika sampai tahap akhir (session id = 6)
-                    // if (session()->has('id') && session('id') == 6) {
-                    //     $proposal->status_spj = $request->input('status_revisi');
-                    // }
                     if (session()->has('id_role') && session('id_role') == 5 && $request->input('status_revisi') == 1) {
                         $proposal->status_spj = 1;
                         $spj->status = $request->input('status_revisi'); //tabel spj (1,2,3)
@@ -120,7 +125,16 @@ class ManajemenReviewSpjController extends Controller
     
             return redirect('/manajemen-review')
                 ->with('error', 'Email gagal dikirim. Data revisi tidak disimpan. Periksa koneksi jaringan Anda.');
-        } 
+        } catch (\Throwable $e) {
+            // Kirim notifikasi email
+            $developerEmails = explode(',', env('DEVELOPER_EMAILS'));
+            foreach ($developerEmails as $email) {
+                Mail::to(trim($email))->send(new \App\Mail\ErrorNotification($e));
+            }
+
+            // Kembalikan respons error
+            return response()->view('errors.500', [], 500);
+        }
     }
     
 }
