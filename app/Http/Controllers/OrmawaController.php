@@ -1,10 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers; //ga kepake
 
 use App\Models\Ormawa;
 use App\Models\Pengguna;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail; // Impor Mail facade
+use Illuminate\Support\Facades\Log; // Impor Log facade
+use App\Mail\ErrorNotification; // Impor Mailable ErrorNotification
 
 class OrmawaController extends Controller
 {
@@ -13,18 +16,26 @@ class OrmawaController extends Controller
      */
     public function index()
     {
-        // Menampilkan semua organisasi mahasiswa
-        $organisasiMahasiswa = Ormawa::all();
+        try {
+            // Menampilkan semua organisasi mahasiswa
+            $organisasiMahasiswa = Ormawa::all();
 
+            return view('proposal_kegiatan.manajemen_organisasi_mahasiswa', compact('organisasiMahasiswa'));
+        }  catch (\Throwable $e) {
+            // Kirim notifikasi email
+            $developerEmails = explode(',', env('DEVELOPER_EMAILS'));
+            foreach ($developerEmails as $email) {
+                Mail::to(trim($email))->send(new \App\Mail\ErrorNotification($e));
+            }
 
-        return view('proposal_kegiatan.manajemen_organisasi_mahasiswa', compact('organisasiMahasiswa'));
+            // Kembalikan respons error
+            return response()->view('errors.500', [], 500);
+        }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create(Request $request)
     {
+        try {
         // Validasi input
         $validated = $request->validate([
             'id_ormawa' => 'required|unique:ormawa,id_ormawa',
@@ -40,39 +51,40 @@ class OrmawaController extends Controller
             'status' => 1 // Status aktif
         ]);
         return redirect()->route('/organisasi-mahasiswa')->with('success', 'Organisasi Mahasiswa berhasil ditambahkan.');
+        } catch (\Throwable $e) {
+            // Kirim notifikasi email
+            $developerEmails = explode(',', env('DEVELOPER_EMAILS'));
+            foreach ($developerEmails as $email) {
+                Mail::to(trim($email))->send(new \App\Mail\ErrorNotification($e));
+            }
+
+            // Kembalikan respons error
+            return response()->view('errors.500', [], 500);
+        }
+
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
     public function show($id_ormawa)
     {
-        $organisasiMahasiswa = Ormawa::where('id_ormawa', $id_ormawa)->firstOrFail();
+        try {
+            $organisasiMahasiswa = Ormawa::where('id_ormawa', $id_ormawa)->firstOrFail();
         
-        return response()->json($organisasiMahasiswa);
+            return response()->json($organisasiMahasiswa);
+        } catch (\Throwable $e) {
+            // Kirim notifikasi email
+            $developerEmails = explode(',', env('DEVELOPER_EMAILS'));
+            foreach ($developerEmails as $email) {
+                Mail::to(trim($email))->send(new \App\Mail\ErrorNotification($e));
+            }
+
+            // Kembalikan respons error
+            return response()->view('errors.500', [], 500);
+        }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Ormawa $organisasiMahasiswa)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Ormawa $organisasiMahasiswa)
     {
+        try {
         // Validasi input
         $validated = $request->validate([
             'nama_ormawa' => 'required',
@@ -86,13 +98,21 @@ class OrmawaController extends Controller
         ]);
 
         return redirect()->route('/organisasi-mahasiswa')->with('success', 'Organisasi Mahasiswa berhasil diperbarui.');
+        } catch (\Throwable $e) {
+            // Kirim notifikasi email
+            $developerEmails = explode(',', env('DEVELOPER_EMAILS'));
+            foreach ($developerEmails as $email) {
+                Mail::to(trim($email))->send(new \App\Mail\ErrorNotification($e));
+            }
+
+            // Kembalikan respons error
+            return response()->view('errors.500', [], 500);
+        }
     }
 
-    /**
-     * Remove the specified resource from storage (soft delete by setting status to 0).
-     */
     public function destroy(Ormawa $organisasiMahasiswa)
     {
+        try {
         // Mengubah status menjadi 0, menandakan bahwa organisasi ini "dihapus"
         $organisasiMahasiswa->update([
             'status' => 0,
@@ -100,5 +120,15 @@ class OrmawaController extends Controller
         ]);
 
         return redirect()->route('organisasi-mahasiswa.index')->with('success', 'Organisasi Mahasiswa berhasil dihapus.');
+        } catch (\Throwable $e) {
+            // Kirim notifikasi email
+            $developerEmails = explode(',', env('DEVELOPER_EMAILS'));
+            foreach ($developerEmails as $email) {
+                Mail::to(trim($email))->send(new \App\Mail\ErrorNotification($e));
+            }
+
+            // Kembalikan respons error
+            return response()->view('errors.500', [], 500);
+        }
     }
 }

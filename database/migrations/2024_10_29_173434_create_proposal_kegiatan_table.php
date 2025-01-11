@@ -32,6 +32,8 @@ return new class extends Migration
             $table->integer('status_approve_lpj')->nullable();
             $table->integer('status_spj')->default(0); // 0: belum mengajukan, 1: sudah mengajukan, 2: tidak memerlukan
             $table->integer('jumlah_spj')->nullable()->default(0); // Jumlah SPJ yang perlu dikumpulkan
+            $table->string('qr_code_path', 255)->nullable();
+            $table->string('proposal_url_path', 255)->nullable();
         });
         
         Schema::connection('pgsql')->create('lpj', function (Blueprint $table) {

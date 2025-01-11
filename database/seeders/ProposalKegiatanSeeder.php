@@ -41,6 +41,7 @@ class ProposalKegiatanSeeder extends Seeder
                 'updated_by' => 3,
                 'status' => 1,
                 'status_kegiatan' => 2,  
+                ''
             ],
             [
                 'nama_kegiatan' => 'Dies Natalis',
