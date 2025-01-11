@@ -61,11 +61,11 @@ class ManajemenReviewSpjController extends Controller
                 $proposal = $spj->proposalKegiatan; // Pastikan relasi di model Spj sudah dibuat
                 if ($proposal) {
                     // Ambil data pengguna terkait proposal
-                    $pengaju = $proposal->pengguna; // Relasi ke pengguna dari proposal
+                    $pengajuList = $proposal->pengaju; // Relasi ke pengaju dari proposal
                     // Format dokumen yang harus direvisi menjadi string dengan pemisah newline
                     $revisi_items = $request->input('revisi_items', []);
                     $revisi_items_string = implode("\n", $revisi_items);
-    
+                    foreach ($pengajuList as $pengaju) {
                     if ($pengaju && $pengaju->email) {
                         // Kirim notifikasi email
                         $data_email = [
@@ -83,18 +83,21 @@ class ManajemenReviewSpjController extends Controller
     
                         Mail::to($pengaju->email)->send(new kirimEmail($data_email));
                     }
+                }
     
                     // Update status SPJ di tabel proposal kegiatan jika sampai tahap akhir (session id = 6)
                     if (session()->has('id') && session('id') == 6) {
-                        $proposal->status_spj = $request->input('status_revisi');
+                        $spj->status = $request->input('status_revisi'); //tabel spj (1,2,3)
+                        $proposal->status_spj = $request->input('status_revisi'); //tabel proposal kegiatan (0,1)
                     }
     
                     // Update updated_by jika status revisi di tabel revisi SPJ = 1
                     if ($request->input('status_revisi') == 1 && session()->has('id')) {
-                        $proposal->updated_by = session('id_role') + 1; // Misal role yang melakukan revisi
+                        $spj->updated_by = session('id_role') + 1; // Misal role yang melakukan revisi
                     }
     
-                    $proposal->save(); // Simpan perubahan pada tabel proposal kegiatan
+                    $spj->save(); 
+                    $proposal->save(); // Simpan perubahan pada tabel spj
                 }
             }
     

@@ -4,6 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Http\Controllers\ReviewController;
+use Illuminate\Support\Facades\Log;
+
 
 class PengajuanProposal extends Model
 {
@@ -16,7 +19,6 @@ class PengajuanProposal extends Model
     protected $fillable = [
         'nama_kegiatan',
         'tmpt_kegiatan',
-        'tgl_kegiatan', // ini jadi gakepake kan ya diganti tanggal_mulai tanggal_akhir kan?
         'file_proposal',
         'surat_berkegiatan_ketuplak',
         'surat_pernyataan_ormawa',
@@ -70,4 +72,44 @@ class PengajuanProposal extends Model
     {
         return $this->hasMany(SPJ::class, 'id_proposal', 'id_proposal');
     }
+    public function pengaju()
+    {
+        return $this->hasMany(Pengguna::class, 'id_ormawa', 'id_ormawa');
+    }
+
+    protected static function booted()
+{
+    static::updating(function ($proposal) {
+        Log::info('Proposal sebelum update:', $proposal->toArray()); // Log data sebelum update
+        Log::info('Proposal yang berubah:', $proposal->getDirty());  // Log perubahan yang terjadi
+        
+        if ($proposal->isDirty([
+            'nama_kegiatan',
+            'tmpt_kegiatan',
+            'file_proposal',
+            'surat_berkegiatan_ketuplak',
+            'surat_pernyataan_ormawa',
+            'surat_kesediaan_pendampingan',
+            'surat_peminjaman_sarpras',
+            'id_jenis_kegiatan',
+            'id_bidang_kegiatan',
+            'updated_at',
+            'updated_by',
+            'status', // ini status umum event, revisi, dsb (status_spj jangan sampai dicek)
+            'tanggal_mulai',
+            'tanggal_akhir',
+            'jml_peserta',
+            'jml_panitia',
+            'link_surat_izin_ortu',
+        ])) {
+            Log::info('Data proposal berubah:', $proposal->getDirty());
+            $proposalController = new ReviewController();
+            $proposalController->sendReviewNotification($proposal);
+        } else {
+            Log::info('Tidak ada perubahan yang relevan pada proposal.');
+        }
+    });
+}
+
+    
 }

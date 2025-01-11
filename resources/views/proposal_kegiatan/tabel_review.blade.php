@@ -352,7 +352,7 @@
                                 <span class="text-xs font-semibold leading-tight text-slate-400">{{ \Carbon\Carbon::parse($lpj->updated_at)->format('Y-m-d') }}</span>
                             </td>
                             <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                            <a href="{{ route('reviewLPJ.show', ['reviewLPJ' => $lpj->id_lpj]) }}"  onclick="logProposalId({{ $spj->id_lpj }})" class="bg-blue-500 text-white px-2 py-1 rounded hover:underline">Review</a>
+                            <a href="{{ route('reviewLPJ.show', ['reviewLPJ' => $lpj->id_lpj]) }}"  onclick="logProposalId({{ $lpj->id_lpj }})" class="bg-blue-500 text-white px-2 py-1 rounded hover:underline">Review</a>
                             </td>
                             @if($idRole == 5)
                                 <td class="p-2 text-sm leading-normal text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">

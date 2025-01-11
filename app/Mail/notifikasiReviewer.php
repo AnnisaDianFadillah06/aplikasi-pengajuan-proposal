@@ -9,7 +9,7 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class kirimEmail extends Mailable
+class notifikasiReviewer extends Mailable
 {
     use Queueable, SerializesModels;
     public $data_email;
@@ -28,7 +28,7 @@ class kirimEmail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Hasil Review',
+            subject: 'Menunggu Review',
         );
     }
 
@@ -37,22 +37,8 @@ class kirimEmail extends Mailable
      */
     public function content(): Content
     {
-        // Tentukan tampilan berdasarkan nilai 'status_revisi'
-        switch ($this->data_email['status_revisi']) {
-            case 1: // Setujui
-                $view = 'proposal_kegiatan.template_email_setuju';
-                break;
-            case 2: // Tolak
-                $view = 'proposal_kegiatan.template_email_tolak';
-                break;
-            case 3: // Revisi
-            default:
-                $view = 'proposal_kegiatan.template_email_revisi';
-                break;
-        }
-
         return new Content(
-            view: $view,
+            view: 'proposal_kegiatan.template_email_reviewer',
         );
     }
 

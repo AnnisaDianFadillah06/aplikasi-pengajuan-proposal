@@ -26,6 +26,10 @@ class Ormawa extends Model
     {
         return $this->belongsTo(Pengguna::class, 'created_by','id_pengguna');
     }
+    public function pengaju() // mengambil id pengaju berdasarkan id ormawanya
+    {
+        return $this->hasMany(Pengguna::class, 'id_ormawa', 'id_ormawa');
+    }
 
 
 }

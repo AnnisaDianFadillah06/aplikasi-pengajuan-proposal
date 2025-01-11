@@ -14,7 +14,9 @@ use App\Models\ReviewProposal;
 use App\Models\PengajuanProposal;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
-use App\Mail\kirimEmail; // Pastikan file Mail sesuai namespace
+use App\Mail\kirimEmail;
+use App\Mail\notifikasiReviewer;
+use App\Models\Reviewer;
 use Symfony\Component\Mailer\Exception\TransportException;
 
 
@@ -124,21 +126,33 @@ class ReviewController extends Controller
         ]);
     }
     
-    // Fungsi untuk menampilkan data proposal yang akan direvisi
     public function show($id_proposal)
     {
-        // Cari review proposal berdasarkan id_proposal
+        // Ambil proposal saat ini berdasarkan id_proposal
         $reviewProposal = PengajuanProposal::where('id_proposal', $id_proposal)->firstOrFail();
-        
-        // Cari revisi terbaru berdasarkan id_proposal
-        // mengambil dokumen revisi terakhir
-        // $latestRevision = ReviewProposal::where('id_proposal', $id_proposal)
-        //                     ->whereNotNull('file_revisi') // Pastikan kolom file_revisi tidak null
-        //                     ->orderBy('id_revisi', 'desc')
-        //                     ->first();
 
-        return view('proposal_kegiatan.manajemen_review', compact('reviewProposal'));
+        // Dapatkan ID Ormawa dari proposal saat ini
+        $idOrmawa = $reviewProposal->id_ormawa;
+
+        // Cari proposal lain dengan status_spj = 0 untuk ormawa ini
+        $pendingSpjProposals = PengajuanProposal::where('id_ormawa', $idOrmawa)
+            ->where('status_spj', 0) // Status SPJ belum diajukan
+            ->where('status', 1)     // Status proposal aktif/disetujui sudah berjalan tapi belum ada spj
+            ->where('id_proposal', '!=', $id_proposal) // Bukan proposal saat ini
+            ->get();
+
+        // Jika terdapat proposal lain yang belum menyelesaikan SPJ
+        if ($pendingSpjProposals->isNotEmpty()) {
+            session()->flash('error', 'Terdapat proposal lain pada ormawa ini yang belum menyelesaikan SPJ. Harap dipertimbangkan untuk menyetujui proposal ini.');
+        }
+
+        // Kirim data ke view untuk ditampilkan
+        return view('proposal_kegiatan.manajemen_review', [
+            'reviewProposal' => $reviewProposal,
+            'pendingSpjProposals' => $pendingSpjProposals,
+        ]);
     }
+
 
     // Fungsi untuk menampilkan data proposal yang akan direvisi ANGEL
     public function historiReview($id_proposal)
@@ -172,7 +186,8 @@ class ReviewController extends Controller
             // Update status proposal
             $proposal = PengajuanProposal::find($request->input('id_proposal'));
             if ($proposal) {
-                $pengaju = $proposal->pengguna;
+                $pengajuList = $proposal->pengaju;
+                foreach ($pengajuList as $pengaju) {
                 if ($pengaju && $pengaju->email) {
                     // Format dokumen revisi
                     $revisi_items = $request->input('revisi_items', []);
@@ -193,6 +208,7 @@ class ReviewController extends Controller
                     // Kirim email
                     Mail::to($pengaju->email)->send(new kirimEmail($data_email));
                 }
+            }
 
                 // Update status proposal dan kegiatan
                 if (session()->has('id_role') && session('id_role') == 5) {
@@ -219,12 +235,6 @@ class ReviewController extends Controller
 
             return redirect('/manajemen-review')
                 ->with('error', 'Email gagal dikirim. Data revisi tidak disimpan. Periksa koneksi jaringan Anda.');
-        } catch (\Exception $e) {
-            // Rollback transaksi jika terjadi error lain
-            DB::rollBack();
-
-            return redirect('/manajemen-review')
-                ->with('error', 'Terjadi kesalahan saat menyimpan data. Silakan coba lagi.');
         }
     }
     
@@ -410,6 +420,30 @@ class ReviewController extends Controller
             'jenis_kegiatans' => $jenis_kegiatans, 
             'bidang_kegiatans' => $bidang_kegiatans,
         ]);
+    }
+
+    public function getReviewerEmail($roleId)
+    {
+        // Ambil email reviewer berdasarkan role_id
+        $reviewerEmails = Reviewer::where('id_role', $roleId)->pluck('email');
+        return $reviewerEmails;
+    }
+
+    // Method ini bisa dipanggil di event Proposal
+    public function sendReviewNotification($proposal)
+    {
+        // Ambil email reviewer berdasarkan updated_by yang ada pada proposal
+        $reviewerEmails = $this->getReviewerEmail($proposal->updated_by);
+
+        // Siapkan data untuk email
+        $data_email = [
+            'judul' => $proposal->nama_kegiatan,
+        ];
+
+        // Kirim email ke semua reviewer
+        foreach ($reviewerEmails as $email) {
+            Mail::to($email)->send(new notifikasiReviewer($data_email));
+        }
     }
 
 }

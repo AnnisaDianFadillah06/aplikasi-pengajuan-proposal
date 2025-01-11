@@ -1,7 +1,11 @@
 @extends('proposal_kegiatan\reviewer')
 
 @section('konten')
-
+@if (session('error'))
+    <div class="alert alert-danger">
+        {{ session('error') }}
+    </div>
+@endif
 <div class="w-full p-6 mx-auto">
     <!-- Main Container -->
     <div class="max-w-7xl mx-auto">
@@ -265,8 +269,9 @@
               <button
                 id="submit_button"
                 type="submit"
-                class="px-6 py-2.5 rounded-lg text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                disabled>
+                class="px-6 py-2.5 rounded-lg text-sm font-medium text-white 
+                    {{ session('id_role') == 5 && session('error') ? 'bg-red-600 hover:bg-red-700 focus:ring-red-500' : 'bg-blue-600 hover:bg-blue-700 focus:ring-blue-500' }} 
+                    focus:outline-none" disabled>
                 Simpan Review
             </button>
             </div>
