@@ -16,14 +16,16 @@ class ReviewSPJ extends Model
     // Tentukan primary key jika berbeda dari 'id'
     protected $primaryKey = 'id_revisi';
 
+    // Nonaktifkan timestamps
+    public $timestamps = false;
+    
     // Tentukan kolom yang bisa diisi massal
     protected $fillable = [
         'catatan_revisi',
         'status_revisi',
         'tgl_revisi',
         'id_spj',
-        'id_dosen',
-        'file_revisi',
+        'id_dosen'
     ];
 
     // Tentukan relasi dengan model Spj
@@ -31,5 +33,8 @@ class ReviewSPJ extends Model
     {
         return $this->belongsTo(Spj::class, 'id_spj');
     }
-
+    public function reviewer()
+    {
+        return $this->belongsTo(Reviewer::class, 'id_dosen'); // 'id_dosen' adalah foreign key
+    }
 }

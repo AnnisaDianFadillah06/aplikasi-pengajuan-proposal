@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Models\Proposal;
+use App\Models\PengajuanProposal;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 

@@ -187,8 +187,24 @@
     </div>
 @endif
 
+@if ($hasPendingSpj && $updatedByStep ==5)
+<div class="container mx-auto p-6">
+    <div class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mb-4">
+        <p class="font-semibold text-lg">Perhatian</p>
+        <p class="mt-2">Anda perlu mengajukan SPJ terlebih dahulu untuk kegiatan berikut sebelum dapat melanjutkan agar bisa disetujui oleh wadir 3 untuk proposal ini:</p>
+        <ul class="mt-2 ml-4 list-disc text-base">
+            @foreach ($pendingSpjProposals as $pendingProposal)
+                <li class="mt-1">
+                    <span class="font-bold">{{ $pendingProposal->nama_kegiatan }}</span>
+                </li>
+            @endforeach
+        </ul>
+    </div>
+</div>
+@endif
+
 {{-- Bagian Detail Proposal --}}
-@if ($status == 1 || $currentStep < $updatedByStep || $status_lpj == 1)
+@if ($status == 1 || $currentStep < $updatedByStep)
     @include('proposal_kegiatan.SectionDetail.DetailProposal.detail_only')
 @elseif ($status == 0)
     @include('proposal_kegiatan.SectionDetail.DetailProposal.waiting_review')
@@ -305,41 +321,50 @@
                     <thead class="bg-gray-50">
                         <tr>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Tahap (Reviewer)
+                                Reviewer
+                            </th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Role
                             </th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 Catatan Revisi
                             </th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Tanggal Revisi Terakhir
+                                Tanggal Revisi
+                            </th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Status Revisi
                             </th>
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
-                        @if ($groupedRevisions)
-                            @php
-                                $catatanRevisiList = explode(' | ', $groupedRevisions->catatan_revisi);
-                            @endphp
-                            @foreach ($catatanRevisiList as $catatan)
+                        @forelse ($groupedRevisions as $idDosen => $revisions)
+                            @foreach ($revisions as $revision)
                             <tr class="hover:bg-gray-50">
                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                    Reviewer {{ $groupedRevisions->id_dosen }}
-                                </td>
-                                <td class="px-6 py-4 text-sm text-gray-500">
-                                    {{ $catatan }}
+                                    {{ $revision->reviewer->username ?? 'Unknown' }}
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                    {{ \Carbon\Carbon::parse($groupedRevisions->last_revisi)->format('d-m-Y H:i') }}
+                                    {{ $revision->reviewer->role->role ?? 'Unknown' }}
+                                </td>
+                                <td class="px-6 py-4 text-sm text-gray-500">
+                                    {{ $revision->catatan_revisi }}
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                    {{ \Carbon\Carbon::parse($revision->tgl_revisi)->format('d-m-Y H:i') }}
+                                </td>
+                                <td class="px-6 py-4 text-sm text-gray-500">
+                                    {{ $revision->status_label }}
                                 </td>
                             </tr>
                             @endforeach
-                        @else
+                        @empty
                             <tr>
-                                <td colspan="3" class="px-6 py-4 text-sm text-gray-500 text-center">
+                                <td colspan="4" class="px-6 py-4 text-sm text-gray-500 text-center">
                                     Tidak ada revisi pada tahap ini.
                                 </td>
                             </tr>
-                        @endif
+                        @endforelse
                     </tbody>
                 </table>
             </div>

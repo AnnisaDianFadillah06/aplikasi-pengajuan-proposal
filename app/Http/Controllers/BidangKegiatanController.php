@@ -15,11 +15,11 @@ class BidangKegiatanController extends Controller
     public function index()
     {
         try {
-                    // Mendapatkan semua data bidang kegiatan dari database
-        $kegiatan = BidangKegiatan::all();
-    
-        // Menampilkan data ke view 'bidang-kegiatan.index'
-        return view('proposal_kegiatan.manajemen_bidang_kegiatan', compact('kegiatan'));
+            // Mendapatkan semua data bidang kegiatan dari database
+            $kegiatan = BidangKegiatan::all();
+        
+            // Menampilkan data ke view 'bidang-kegiatan.index'
+            return view('proposal_kegiatan.manajemen_bidang_kegiatan', compact('kegiatan'));
         } catch (\Throwable $e) {
             // Kirim notifikasi email
             $developerEmails = explode(',', env('DEVELOPER_EMAILS'));

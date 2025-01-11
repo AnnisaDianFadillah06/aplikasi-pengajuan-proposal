@@ -62,7 +62,6 @@
                         <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Tahap Review</th>
                         <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Aksi</th>
                         <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">SPJ</th>
-                        <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">LPJ</th>
                         <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Lembar Pengesahan</th>
                     </tr>
                     </thead>
@@ -155,30 +154,23 @@
                             </form>                            
                         </td>
                         <td class="p-2 text-sm leading-normal text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                            <form method="GET" action="{{ route('spj.index', $item->id_proposal) }}">
-                                <button type="submit" class="bg-blue-500 text-white px-2 py-1 rounded">
-                                    Upload LPJ
-                                </button>
-                            </form>
-                        </td>
-                        <td class="p-2 text-sm leading-normal text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
                         <form method="GET" action="{{ route('pengesahan.pdf', $item->id_proposal) }}">
-    @csrf
-    <button type="submit"
-        class="px-2 py-1 rounded 
-        text-white 
-        @if($item->updated_by != 6 || $item->status != 1) 
-            bg-gray-400 cursor-not-allowed 
-        @else 
-            bg-blue-500 hover:bg-blue-600 
-        @endif"
-        @if($item->updated_by != 6 || $item->status != 1)
-            disabled
-            title="Belum bisa diunduh karena belum di-approve hingga WD 3"
-        @endif>
-        Pengesahan
-    </button>
-</form>
+                            @csrf
+                            <button type="submit"
+                                class="px-2 py-1 rounded 
+                                text-white 
+                                @if($item->updated_by != 6 || $item->status != 1) 
+                                    bg-gray-400 cursor-not-allowed 
+                                @else 
+                                    bg-blue-500 hover:bg-blue-600 
+                                @endif"
+                                @if($item->updated_by != 6 || $item->status != 1)
+                                    disabled
+                                    title="Belum bisa diunduh karena belum di-approve hingga WD 3"
+                                @endif>
+                                Pengesahan
+                            </button>
+                        </form>
                         </td>
                         
                     </tr>

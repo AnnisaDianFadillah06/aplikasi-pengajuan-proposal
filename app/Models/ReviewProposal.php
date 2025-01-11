@@ -20,10 +20,8 @@ class ReviewProposal extends Model
     {
         return $this->belongsTo(PengajuanProposal::class, 'id_proposal'); // Ganti 'id_proposal' jika nama kolom foreign key berbeda
     }
-    public function dosen()
+    public function reviewer()
     {
         return $this->belongsTo(Reviewer::class, 'id_dosen'); // 'id_dosen' adalah foreign key
     }
-
-
 }

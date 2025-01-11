@@ -1,8 +1,3 @@
-<!-- <h1>{{ $data_email['subject'] }}</h1>
-<p>Halo,</p>
-<p>{{ $data_email['isi'] }}</p>
-<p>Salam,</p>
-<p>{{ $data_email['sender_name'] }}</p> -->
 <!DOCTYPE html>
 <html>
 <head>
@@ -40,24 +35,10 @@
 </head>
 <body>
     <div class="email-container">
-        <h1>Revisi Proposal</h1>
-        <p>Halo, <strong>{{ $data_email['username'] }}</strong>,</p>
-        <p>Berikut merupakan revisi untuk proposal dengan judul <strong>"{{ $data_email['judul'] }}"</strong>.</p>
-
-        <p><strong>Yang Harus Direvisi:</strong></p>
-        <ul>
-            @foreach(explode("\n", $data_email['revisi_items']) as $line)
-                @if(trim($line) !== '')
-                    <li>{{ $line }}</li>
-                @endif
-            @endforeach
-        </ul>
-
-        <p>{{ $data_email['isi'] }}</p>
-        <p>
-            <span class="highlight">Catatan:</span> Perbaiki dan unggah revisi maksimal dalam waktu 
-            <span class="highlight">3 hari</span>.
-        </p>
+        <h1>{{ $data_email['subject'] }}</h1>
+        <p>Halo,</p>
+        <p>Kode verifikasi Anda adalah: <span class="highlight">{{ $data_email['verification_code'] }}</span></p>
+        <p>Gunakan kode ini untuk melanjutkan proses verifikasi. Kode ini berlaku selama <span class="highlight">10 menit</span>.</p>
         <p>Salam,</p>
         <p><strong>{{ $data_email['sender_name'] }}</strong></p>
         <div class="footer">

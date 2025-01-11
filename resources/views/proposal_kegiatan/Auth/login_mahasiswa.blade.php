@@ -66,10 +66,30 @@
             50% { transform: translateY(-20px); }
             100% { transform: translateY(0px); }
         }
+
+        /* Efek notifikasi */
+        @keyframes fade-in {
+            0% { opacity: 0; transform: translateY(-20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fade-out {
+            0% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+
+        #notification {
+            animation: fade-in 0.5s ease-out, fade-out 0.5s ease-in 2.5s forwards;
+            background-color: #4caf50; /* Green background */
+            color: white;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
     </style>
 </head>
 <body>
-    
     <body class="overflow-hidden">
         <main class="min-h-screen overflow-y-auto">
             <main class="flex items-center justify-center h-screen bg-gray-100">
@@ -87,6 +107,12 @@
 
             <!-- Second Column (Login, Forgot Password, and Reset Password Forms) -->
             <div class="w-full lg:w-1/2 flex flex-col p-10 bg-white relative">
+                <!-- Notifikasi -->
+                @if (session('success'))
+                    <div id="notification" class="fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded shadow-md animate-slide-in">
+                        {{ session('success') }}
+                    </div>
+                @endif
                 <!-- Login Form -->
                 <div id="loginForm" class="absolute inset-0 transition-transform duration-700 ease-in-out flex flex-col justify-between p-10 bg-white">
                     <div class="title mb-6">
@@ -131,9 +157,14 @@
                                 <label for="reset-email" class="block pb-3 text-sm font-medium text-gray-700">Email</label>
                                 <input type="email" name="email" id="reset-email" class="focus:shadow-soft-primary-outline text-sm block w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-700" placeholder="example@polban.ac.id" required>
                             </div>
+                            <div class="mt-6">
+                                <button type="button" id="sendVerificationCode" class="inline-block w-full px-6 py-3 font-bold text-white uppercase bg-blue-500 hover:bg-blue-700 rounded-lg">
+                                    Send Verification Code
+                                </button>
+                            </div>
                             <div>
                                 <label for="auth_code" class="block pb-3 text-sm font-medium text-gray-700">Kode Autentikasi</label>
-                                <input type="text" name="auth_code" id="auth_code" class="border border-gray-300 rounded-lg w-full px-4 py-2" placeholder="123456" required>
+                                <input type="text" name="auth_code" id="auth_code" class="border border-gray-300 rounded-lg w-full px-4 py-2" placeholder="xxxxxx" required>
                             </div>
                         </div>
                         <div class="mt-6">
@@ -147,9 +178,9 @@
                 <!-- Reset Password Form -->
                 <div id="resetPasswordForm" class="absolute inset-0 transform translate-x-full transition-transform duration-700 ease-in-out flex flex-col justify-between p-10 bg-white hidden">
                     <div class="title mb-6">
-                        <h1 class="text-2xl font-bold">Reset Password</h1>
+                        <h1 class="text-2xl font-bold">Reset Password </h1>
                     </div>
-                    <form id="resetPasswordFormSubmit">
+                    <form action="{{ route('password.update') }}" method="POST">
                         @csrf
                         <div class="space-y-5">
                             <div>
@@ -166,7 +197,7 @@
                                 Reset Password
                             </button>
                         </div>
-                    </form>
+                    </form>                    
                 </div>
 
                 <!-- Success Message -->
@@ -179,6 +210,37 @@
         </section>
     </main>
 
+    {{-- script untuk send verifikasi kode --}}
+    <script>
+        document.getElementById('sendVerificationCode').addEventListener('click', function () {
+            const email = document.getElementById('reset-email').value;
+    
+            if (!email) {
+                alert('Please enter your email.');
+                return;
+            }
+    
+            fetch("{{ route('password.sendVerificationCode') }}", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                },
+                body: JSON.stringify({ email })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.message) {
+                    alert(data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Failed to send verification code.');
+            });
+        });
+    </script>
+    
     <script>
         const forgotPasswordLink = document.getElementById('forgotPasswordLink');
         const backToLogin = document.getElementById('backToLogin');

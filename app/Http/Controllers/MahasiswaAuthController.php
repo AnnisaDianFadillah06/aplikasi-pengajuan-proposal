@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Mail; // Impor Mail facade
 use Illuminate\Support\Facades\Log; // Impor Log facade
 use App\Mail\ErrorNotification; // Impor Mailable ErrorNotification
 
-
 class MahasiswaAuthController extends Controller
 {
     public function checkPengaju()
@@ -29,9 +28,9 @@ class MahasiswaAuthController extends Controller
                 session([
                     'username' => $pengaju->username,
                     'id' => $pengaju->id,
-                    // 'ormawa' => $pengaju->ormawa->nama_ormawa,
+                    'ormawa' => $pengaju->ormawa->nama_ormawa,
                     'email' => $pengaju->email,                
-                    // 'id_ormawa' => $pengaju->id_ormawa,
+                    'id_ormawa' => $pengaju->id_ormawa,
 
                 ]);
                 return redirect()->intended('/dashboard-pengaju');
@@ -72,6 +71,5 @@ class MahasiswaAuthController extends Controller
             // Kembalikan respons error
             return response()->view('errors.500', [], 500);
         }
-
     }
 }

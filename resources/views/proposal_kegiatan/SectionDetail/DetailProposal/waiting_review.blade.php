@@ -53,6 +53,14 @@
                         <p class="text-sm text-gray-500">Lokasi</p>
                         <p class="font-medium">{{ $proposal->tmpt_kegiatan }}</p>
                     </div>
+                    <div class="p-4 bg-gray-50 rounded-lg">
+                        <p class="text-sm text-gray-500">Jumlah peserta</p>
+                        <p class="font-medium">{{ $proposal->jml_peserta }}</p>
+                    </div>
+                    <div class="p-4 bg-gray-50 rounded-lg">
+                        <p class="text-sm text-gray-500">Jumlah pantiai</p>
+                        <p class="font-medium">{{ $proposal->jml_panitia }}</p>
+                    </div>
                 </div>
             </div>
 

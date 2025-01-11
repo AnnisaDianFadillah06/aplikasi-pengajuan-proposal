@@ -15,7 +15,7 @@ class SpjSeeder extends Seeder
     {
         DB::connection('pgsql')->table('spj')->insert([
             [
-                'id_proposal' => 3,
+                'id_proposal' => 1,
                 'spj_ke' => 1,
                 'file_sptb' => 'laraview/1735966858_Dokumen Proposal.pdf',
                 'file_spj' => 'laraview/1735966858_Surat Berkegiatan Ketuplak.pdf',

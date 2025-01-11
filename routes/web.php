@@ -27,6 +27,9 @@ use App\Http\Controllers\PengajuanProposalController;
 use App\Http\Controllers\OrganisasiMahasiswaController;
 use App\Http\Controllers\PedomanKemahasiswaanController;
 use App\Http\Controllers\HistoriPengajuanReviewerController;
+use App\Http\Controllers\ManajemenReviewSpjController;
+use App\Http\Controllers\ManajemenReviewLpjController;
+use App\Http\Controllers\ForgotPasswordController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -61,27 +64,32 @@ Route::get('/detail-kegiatan/{id_proposal}', [EventListController::class, 'show'
 
 // ========================================================================================
 // AUTHENTICATION ROUTES ==================================================================
-Route::controller(AuthController::class)->group(function () {
-    // Route::get('/login', 'index')->name('login');
-    Route::get('/login-mahasiswa', [AuthController::class, 'showLoginFormMahasiswa'])->name('login.mahasiswa');
-    Route::get('/login-dosen', [AuthController::class, 'showLoginFormDosen'])->name('login.dosen');
-    
-    // Route::post('/login', 'login')->name('login.submit');
-    Route::post('/login-mahasiswa', [AuthController::class, 'loginMahasiswa'])->name('login.mahasiswa.submit');
-    Route::get('/check-pengaju', [MahasiswaAuthController::class, 'checkPengaju'])->name('check.pengaju');
-    Route::post('/login-dosen', [AuthController::class, 'loginDosen'])->name('login.dosen.submit');
-    Route::get('/check-reviewer', [ReviewerAuthController::class, 'checkReviewer'])->name('check.reviewer');
+Route::middleware(['web'])->group(function () {
+    Route::controller(AuthController::class)->group(function () {
+        // Route::get('/login', 'index')->name('login');
+        Route::get('/login-mahasiswa', [AuthController::class, 'showLoginFormMahasiswa'])->name('login.mahasiswa');
+        Route::get('/login-dosen', [AuthController::class, 'showLoginFormDosen'])->name('login.dosen');
+        
+        // Route::post('/login', 'login')->name('login.submit');
+        Route::post('/login-mahasiswa', [AuthController::class, 'loginMahasiswa'])->name('login.mahasiswa.submit');
+        Route::get('/check-pengaju', [MahasiswaAuthController::class, 'checkPengaju'])->name('check.pengaju');
+        Route::post('/login-dosen', [AuthController::class, 'loginDosen'])->name('login.dosen.submit');
+        Route::get('/check-reviewer', [ReviewerAuthController::class, 'checkReviewer'])->name('check.reviewer');
 
-    // Forgot password process
-    Route::post('/forgot-password', 'forgotPassword')->name('password.forgot');
-    Route::post('/verify-code', 'verifyCode')->name('password.verifyCode');
-    Route::get('/reset-password', 'showResetPasswordForm')->name('password.reset');
-    Route::post('/reset-password', 'resetPassword')->name('password.update');
-
-    // Logout route should be outside the '/home' route
-    Route::post('/logout-dosen', [ReviewerAuthController::class, 'logout'])->name('logout.dosen');
-    Route::post('/logout-mahasiswa', [MahasiswaAuthController::class, 'logout'])->name('logout.mahasiswa');
-    Route::post('/logout', 'logout')->name('logout');
+        // Forgot password process
+        Route::post('/send-verification-code', [AuthController::class, 'sendVerificationCode'])->name('password.sendVerificationCode');
+        Route::post('/forgot-password', [AuthController::class, 'forgotPassword'])->name('password.forgot');
+        Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('password.update');
+        Route::post('/reset-password-dosen', [AuthController::class, 'resetPasswordDosen'])->name('passwordDosen.update');
+        Route::post('/verify-code', 'verifyCode')->name('password.verifyCode');
+        Route::get('/reset-password', 'showResetPasswordForm')->name('password.reset');
+        
+        
+        // Logout route should be outside the '/home' route
+        Route::post('/logout-dosen', [ReviewerAuthController::class, 'logout'])->name('logout.dosen');
+        Route::post('/logout-mahasiswa', [MahasiswaAuthController::class, 'logout'])->name('logout.mahasiswa');
+        Route::post('/logout', 'logout')->name('logout');
+    });
 });
 //---------------------------------------------------------------------------------------
 
@@ -91,11 +99,15 @@ Route::controller(AuthController::class)->group(function () {
 Route::middleware('isReviewer')->group(function () {
     // Annisa Dian
     Route::get('/manajemen-review', [ReviewController::class, 'index'])->name('proposal.index');
-    
+    Route::get('/detail-review-lpj/{reviewLPJ}', [ManajemenReviewLpjController::class, 'show'])->name('reviewLPJ.show');
+    Route::get('/detail-review-spj/{reviewSPJ}', [ManajemenReviewSpjController::class, 'show'])->name('reviewSPJ.show');
     Route::get('/detail-review/{reviewProposal}', [ReviewController::class, 'show'])->name('proposal.show');
-    Route::get('/detail-review-lpj/{reviewLPJ}', [LpjController::class, 'show'])->name('reviewLPJ.show');
+    Route::get('/detail-proposalWD/{id_proposal}', [ReviewController::class, 'pantauProposal'])->name('proposalWD3.detail');
+    Route::get('/detail-spjWD/{id_spj}', [ReviewController::class, 'pantauSPJ'])->name('spjWD3.detail');
+    Route::get('/detail-lpjWD/{id_lpj}', [ReviewController::class, 'pantauLPJ'])->name('lpjWD3.detail');
     // Rute untuk menyimpan data revisi ke dalam tabel revisi_file
-    Route::post('/manajemen-review-lpj/store', [LpjController::class, 'store'])->name('reviewLPJ.store');
+    Route::post('/manajemen-review-lpj/store', [ManajemenReviewLpjController::class, 'store'])->name('reviewLPJ.store');
+    Route::post('/manajemen-review-spj/store', [ManajemenReviewSpjController::class, 'store'])->name('reviewSPJ.store');
     Route::post('/manajemen-review/store', [ReviewController::class, 'store'])->name('proposal.store');
     Route::get('/organisasi-mahasiswa', [OrmawaController::class, 'index']);
     Route::get('/dashboard/chart-data', [DashboardController::class, 'getChartData'])->name('proposal_kegiatan.getChartData');
@@ -156,31 +168,26 @@ Route::middleware('isPengaju')->group(function () {
     Route::post('/detail-proposal/{id_proposal}/next', [PengajuanProposalController::class, 'nextStep'])->name('proposal.nextStep');
     Route::post('/detail-proposal/{id_proposal}/prev', [PengajuanProposalController::class, 'prevStep'])->name('proposal.prevStep');
     // Upload revisi
-    Route::post('/upload-file/{id_proposal}', [PengajuanProposalController::class, 'uploadFile'])->name('proposal.uploadFileRevisi');
+    Route::post('/upload-file/{id_proposal}', [PengajuanProposalController::class, 'update'])->name('proposal.uploadFileRevisi');
     // Bukti proposal disetujui WD3
     Route::get('/proposal/{id_proposal}/approval-proof', [PengajuanProposalController::class, 'approvalProof'])->name('proposal.approvalProof');
     // Route untuk generate link dengan token
     Route::get('proposal/{id_proposal}/generate-link', [PengajuanProposalController::class, 'generateLinkForProposal'])
-        ->name('proposal.generateLinkForProposal');
+    ->name('proposal.generateLinkForProposal');
     // Route untuk bukti disetujui berdasarkan token
     Route::get('proposal/bukti-disetujui/{token}', [PengajuanProposalController::class, 'approvalProofWithToken'])
-        ->name('proposal.approvalProofWithToken');
+    ->name('proposal.approvalProofWithToken');
     
     //Masuk tahap LPJ
     Route::get('/pengajuan-lpj', [PengajuanLpjController::class, 'index'])->name('pengajuan-lpj');
     Route::get('/tambah-pengajuan-lpj', [TambahPengajuanLpj::class, 'index']);
     Route::post('/add-lpj', [TambahPengajuanLpj::class, 'add'])->name('lpj.store');
-
-    Route::get('/detail-lpj/{id_proposal}', [TambahPengajuanLpj::class, 'show'])->name('lpj.detail'); //route untuk detail_proposal
-
-    // Route::post('/proposal/{id_proposal}/form-lpj', [PengajuanProposalController::class, 'formLPJ'])->name('proposal.formLPJ');
-    // // submit LPJ
-    // Route::post('/proposal/{id_proposal}/submit-lpj', [PengajuanProposalController::class, 'submitLPJ'])->name('proposal.submitLPJ');
-    // // Route untuk menampilkan detail lpj dengan navigasi
-    // Route::get('/laporan/{id}', [LaporanController::class, 'show'])->name('laporan.detail');
-    // // Route untuk Next Step dan Previous Step
-    // Route::post('/detail-laporan/{id_proposal}/next', [LaporanController::class, 'nextStep'])->name('laporan.nextStep');
-    // Route::post('/detail-laporan/{id_proposal}/prev', [LaporanController::class, 'prevStep'])->name('laporan.prevStep');
+    
+    Route::get('/detail-lpj/{id_proposal}', [PengajuanLpjController::class, 'show'])->name('lpj.detail'); //route untuk detail_proposal
+    // Route untuk Next Step dan Previous Step
+    Route::post('/detail-lpj/{id_lpj}/next', [PengajuanLpjController::class, 'nextStep'])->name('lpj.nextStep');
+    Route::post('/detail-lpj/{id_lpj}/prev', [PengajuanLpjController::class, 'prevStep'])->name('lpj.prevStep');
+    Route::post('/upload-lpj/{id_lpj}', [PengajuanLpjController::class, 'update'])->name('lpj.uploadFileRevisi');
 
     // SPJ
     Route::get('/pengajuan-proposal/spj/{id_proposal}', [SpjController::class, 'index'])->name('spj.index');
@@ -192,7 +199,7 @@ Route::middleware('isPengaju')->group(function () {
     Route::post('/detail-spj/{id_spj}/next', [SpjController::class, 'nextStep'])->name('spj.nextStep');
     Route::post('/detail-spj/{id_spj}/prev', [SpjController::class, 'prevStep'])->name('spj.prevStep');
     // Upload revisi
-    Route::post('/upload-file/{id_proposal}', [SpjController::class, 'uploadFile'])->name('spj.uploadFileRevisi');
+    Route::post('/upload-spj/{id_spj}', [SpjController::class, 'update'])->name('spj.uploadFileRevisi');
 
 
     // Timothy
