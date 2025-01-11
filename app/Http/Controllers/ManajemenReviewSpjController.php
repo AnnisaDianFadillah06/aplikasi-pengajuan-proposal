@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
 use App\Mail\kirimEmail; // Pastikan file Mail sesuai namespace
 use App\Models\ReviewSPJ;
 use App\Models\Spj;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\Mailer\Exception\TransportException;
-
+use Illuminate\Support\Facades\Mail; // Impor Mail facade
+use Illuminate\Support\Facades\Log; // Impor Log facade
+use App\Mail\ErrorNotification; // Impor Mailable ErrorNotification
 
 class ManajemenReviewSpjController extends Controller
 {
@@ -16,6 +17,7 @@ class ManajemenReviewSpjController extends Controller
     // Fungsi untuk menampilkan data lpj yang akan direvisi
     public function show($id_spj)
     {
+        try {
         // Cari review lpj berdasarkan id_lpj
         $reviewSpj = Spj::with([
             'proposalKegiatan.jenisKegiatan', // Relasi ke `jenisKegiatan` melalui `proposal`
@@ -23,14 +25,17 @@ class ManajemenReviewSpjController extends Controller
         ])
         ->where('id_spj', $id_spj)
         ->firstOrFail();
-    
-        // // Cari revisi terbaru berdasarkan id_proposal (ini cuman buat nampilin di tabel buat statusnya ajakan ya?)
-        // // mengambil dokumen revisi terakhir
-        // $latestRevision = ReviewLpj::where('id_spj', $id_spj)
-        //                     ->orderBy('id_revisi', 'desc')
-        //                     ->first();
 
-        return view('proposal_kegiatan.manajemen_review_spj', compact('reviewSpj'));
+        return view('proposal_kegiatan.manajemen_review_spj', compact('reviewSpj')); } catch (\Throwable $e) {
+            // Kirim notifikasi email
+            $developerEmails = explode(',', env('DEVELOPER_EMAILS'));
+            foreach ($developerEmails as $email) {
+                Mail::to(trim($email))->send(new \App\Mail\ErrorNotification($e));
+            }
+
+            // Kembalikan respons error
+            return response()->view('errors.500', [], 500);
+        }
     }
     
 
@@ -86,13 +91,16 @@ class ManajemenReviewSpjController extends Controller
                 }
     
                     // Update status SPJ di tabel proposal kegiatan jika sampai tahap akhir (session id = 6)
-                    if (session()->has('id') && session('id') == 6) {
+                    // if (session()->has('id') && session('id') == 6) {
+                    //     $proposal->status_spj = $request->input('status_revisi');
+                    // }
+                    if (session()->has('id_role') && session('id_role') == 5 && $request->input('status_revisi') == 1) {
+                        $proposal->status_spj = 1;
                         $spj->status = $request->input('status_revisi'); //tabel spj (1,2,3)
-                        $proposal->status_spj = $request->input('status_revisi'); //tabel proposal kegiatan (0,1)
                     }
     
                     // Update updated_by jika status revisi di tabel revisi SPJ = 1
-                    if ($request->input('status_revisi') == 1 && session()->has('id')) {
+                    if ($request->input('status_revisi') == 1 && session()->has('id_role')) {
                         $spj->updated_by = session('id_role') + 1; // Misal role yang melakukan revisi
                     }
     

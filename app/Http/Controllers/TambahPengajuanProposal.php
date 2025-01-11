@@ -8,19 +8,38 @@ use App\Models\BidangKegiatan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Mail; // Impor Mail facade
+use Illuminate\Support\Facades\Log; // Impor Log facade
+use App\Mail\ErrorNotification; // Impor Mailable ErrorNotification
+
 
 class TambahPengajuanProposal extends Controller
 {
     public function index()
     {
+        try {
         $ormawas = Ormawa::all();
-        $jenis_kegiatans = JenisKegiatan::all();
-        $bidang_kegiatans = BidangKegiatan::all();
+        // Ambil jenis kegiatan dengan status 'aktif'
+        $jenis_kegiatans = JenisKegiatan::where('status', 'aktif')->get();
+        // Ambil bidang kegiatan dengan status 'aktif'
+        $bidang_kegiatans = BidangKegiatan::where('status', 'aktif')->get();
+
         return view('proposal_kegiatan.tambah_pengajuan_proposal', compact('jenis_kegiatans', 'ormawas', 'bidang_kegiatans'));
+        } catch (\Throwable $e) {
+            // Kirim notifikasi email
+            $developerEmails = explode(',', env('DEVELOPER_EMAILS'));
+            foreach ($developerEmails as $email) {
+                Mail::to(trim($email))->send(new \App\Mail\ErrorNotification($e));
+            }
+
+            // Kembalikan respons error
+            return response()->view('errors.500', [], 500);
+        }
     }
 
     public function add(Request $request) 
     {
+        try {
         $request->validate([
             'nama_kegiatan' => 'required',
             'tempat_kegiatan' => 'required',
@@ -91,6 +110,9 @@ class TambahPengajuanProposal extends Controller
             $poster->move(public_path('laraview'), $poster_path);
         }
 
+        // Tentukan nilai status_spj berdasarkan jumlah_spj
+        $statusSpj = $request->input('jumlah_spj') == 0 ? 1 : 0;
+
         $query = DB::table('proposal_kegiatan')->insert([
             'nama_kegiatan' => $request->input('nama_kegiatan'),
             'tmpt_kegiatan' => $request->input('tempat_kegiatan'),
@@ -108,7 +130,7 @@ class TambahPengajuanProposal extends Controller
             'created_by' => $id_pengaju,
             'updated_by' => 1,
             'status' => 0, // Default status
-            'status_lpj' => 0, // Default LPJ status
+            'status_spj' => $statusSpj,
             'status_kegiatan' => 3, // Default kegiatan status
             'tanggal_mulai' => $request->input('tanggal_mulai'),
             'tanggal_akhir' => $request->input('tanggal_akhir'),
@@ -133,6 +155,16 @@ class TambahPengajuanProposal extends Controller
             return redirect('/pengajuan-proposal')->with('sukses', 'Data berhasil tersimpan');
         } else {
             return redirect('/pengajuan-proposal')->with('error', 'Terjadi kesalahan');
+        } 
+        } catch (\Throwable $e) {
+            // Kirim notifikasi email
+            $developerEmails = explode(',', env('DEVELOPER_EMAILS'));
+            foreach ($developerEmails as $email) {
+                Mail::to(trim($email))->send(new \App\Mail\ErrorNotification($e));
+            }
+
+            // Kembalikan respons error
+            return response()->view('errors.500', [], 500);
         }
     }
 }

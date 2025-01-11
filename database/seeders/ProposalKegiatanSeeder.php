@@ -14,7 +14,6 @@ class ProposalKegiatanSeeder extends Seeder
     public function run(): void
     {
         DB::connection('pgsql')->table('proposal_kegiatan')->insert([
-            
             [
                 'nama_kegiatan' => 'Dies Natalis',
                 'tmpt_kegiatan' => 'rsg gd jtk',

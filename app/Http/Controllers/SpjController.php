@@ -8,11 +8,15 @@ use App\Models\ReviewSPJ;
 use Illuminate\Http\Request;
 use App\Models\PengajuanProposal;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail; // Impor Mail facade
+use Illuminate\Support\Facades\Log; // Impor Log facade
+use App\Mail\ErrorNotification; // Impor Mailable ErrorNotification
 
 class SpjController extends Controller
 {
     public function index($id_proposal)
     {
+        try {
         // Ambil ID dari sesi
         $sessionId = session('id');
 
@@ -45,19 +49,41 @@ class SpjController extends Controller
             'spjs' => $spjs,
             'latestReviews' => $latestReviews,
             'canUpload' => $canUpload,
-        ]);
+        ]); 
+        } catch (\Throwable $e) {
+            // Kirim notifikasi email
+            $developerEmails = explode(',', env('DEVELOPER_EMAILS'));
+            foreach ($developerEmails as $email) {
+                Mail::to(trim($email))->send(new \App\Mail\ErrorNotification($e));
+            }
+
+            // Kembalikan respons error
+            return response()->view('errors.500', [], 500);
+        } 
     }
 
     public function formIndex($id_proposal)
     {
-        return view('proposal_kegiatan.spj.form_spj', [
-            'id_proposal' => $id_proposal
-        ]);
+        try {
+           return view('proposal_kegiatan.spj.form_spj', [
+                'id_proposal' => $id_proposal
+            ]);
+        } catch (\Throwable $e) {
+            // Kirim notifikasi email
+            $developerEmails = explode(',', env('DEVELOPER_EMAILS'));
+            foreach ($developerEmails as $email) {
+                Mail::to(trim($email))->send(new \App\Mail\ErrorNotification($e));
+            }
+
+            // Kembalikan respons error
+            return response()->view('errors.500', [], 500);
+        }
     }
 
 
     public function store(Request $request)
-    {
+    { 
+        try {
         $request->validate([
             'id_proposal' => 'required|exists:proposal_kegiatan,id_proposal',
             'file_sptb' => 'required|mimes:pdf|max:2048', // Maksimum 2MB
@@ -117,11 +143,22 @@ class SpjController extends Controller
         ]);
 
         return redirect()->route('spj.index', $request->id_proposal)->with('success', 'SPJ berhasil diunggah.');
+        } catch (\Throwable $e) {
+            // Kirim notifikasi email
+            $developerEmails = explode(',', env('DEVELOPER_EMAILS'));
+            foreach ($developerEmails as $email) {
+                Mail::to(trim($email))->send(new \App\Mail\ErrorNotification($e));
+            }
+
+            // Kembalikan respons error
+            return response()->view('errors.500', [], 500);
+        }
     }
 
     // detail
     public function show(Request $request, $id_spj)
     {
+        try {
         // Ambil data SPJ berdasarkan ID
         $spj = Spj::findOrFail($id_spj);
         
@@ -222,11 +259,21 @@ class SpjController extends Controller
             'filePathSptb' => $filePathSptb,
             'latestRevision' => $latestReview, // Ganti nama untuk view
             'groupedRevisions' => $allRevision,
-        ]);
+        ]); } catch (\Throwable $e) {
+            // Kirim notifikasi email
+            $developerEmails = explode(',', env('DEVELOPER_EMAILS'));
+            foreach ($developerEmails as $email) {
+                Mail::to(trim($email))->send(new \App\Mail\ErrorNotification($e));
+            }
+
+            // Kembalikan respons error
+            return response()->view('errors.500', [], 500);
+        }
     }
 
     public function nextStep(Request $request, $id)
     {
+        try {
         // Ambil data SPJ berdasarkan ID
         $spj = Spj::findOrFail($id);
         $currentStep = session()->get('currentStep', 1);
@@ -272,11 +319,22 @@ class SpjController extends Controller
             }
         }
         
-        return redirect()->route('spj.detail', $id);
+        return redirect()->route('spj.detail', $id); 
+        } catch (\Throwable $e) {
+            // Kirim notifikasi email
+            $developerEmails = explode(',', env('DEVELOPER_EMAILS'));
+            foreach ($developerEmails as $email) {
+                Mail::to(trim($email))->send(new \App\Mail\ErrorNotification($e));
+            }
+
+            // Kembalikan respons error
+            return response()->view('errors.500', [], 500);
+        }
     }
 
     public function prevStep(Request $request, $id)
     {
+        try {
         // Ambil data SPJ berdasarkan ID
         $spj = Spj::findOrFail($id);
         $currentStep = session()->get('currentStep', 1);
@@ -311,11 +369,21 @@ class SpjController extends Controller
             }
         }
 
-        return redirect()->route('spj.detail', $id);
+        return redirect()->route('spj.detail', $id); } catch (\Throwable $e) {
+            // Kirim notifikasi email
+            $developerEmails = explode(',', env('DEVELOPER_EMAILS'));
+            foreach ($developerEmails as $email) {
+                Mail::to(trim($email))->send(new \App\Mail\ErrorNotification($e));
+            }
+
+            // Kembalikan respons error
+            return response()->view('errors.500', [], 500);
+        }
     }
 
     public function update(Request $request, $id)
-    {
+    { 
+        try {
         $request->validate([
             // 'id_proposal' => 'required|exists:proposal_kegiatan,id_proposal',
             'file_sptb' => 'nullable|mimes:pdf|max:2048', // Maksimum 2MB
@@ -393,51 +461,15 @@ class SpjController extends Controller
             // 'tgl_upload' => now(),
         ]);
 
-        return redirect()->route('spj.detail', $spj->id_spj)->with('success', 'SPJ berhasil diperbarui.');
+        return redirect()->route('spj.detail', $spj->id_spj)->with('success', 'SPJ berhasil diperbarui.'); } catch (\Throwable $e) {
+            // Kirim notifikasi email
+            $developerEmails = explode(',', env('DEVELOPER_EMAILS'));
+            foreach ($developerEmails as $email) {
+                Mail::to(trim($email))->send(new \App\Mail\ErrorNotification($e));
+            }
+
+            // Kembalikan respons error
+            return response()->view('errors.500', [], 500);
+        }
     }
-    // // upload pdf revisi
-    // public function uploadFile(Request $request, $id_proposal)
-    // {
-    //     // Validasi file
-    //     $request->validate([
-    //         'file_revisian' => 'required|file|mimes:pdf,doc,docx|max:2048',
-    //     ]);
-
-    //     // Cari proposal berdasarkan id_proposal
-    //     // $proposal = PengajuanProposal::findOrFail($id_proposal);
-
-    //     // Cari revisi terbaru berdasarkan id_proposal
-    //     $latestRevision = ReviewProposal::where('id_proposal', $id_proposal)
-    //                                     // ->orderBy('tgl_revisi', 'desc')
-    //                                     ->orderBy('id_revisi', 'desc')
-    //                                     ->first();
-
-    //     // Pastikan latestRevision ada
-    //     if (!$latestRevision) {
-    //         return redirect()->back()->withErrors(['error' => 'Tidak ada revisi yang ditemukan untuk proposal ini.']);
-    //     }
-
-    //     // Proses upload file
-    //     if ($request->hasFile('file_revisian')) {
-    //         // Simpan file ke folder tertentu (misal: `revisi_files`)
-    //         $file = $request->file('file_revisian');
-    //         $fileName = time().'_'.$file->getClientOriginalName(); // Generate nama file unik
-    //         $filePath = 'laraview/' . $fileName; // Path untuk disimpan di public/laraview
-            
-    //         // Simpan file langsung ke folder public/laraview
-    //         $file->move(public_path('laraview'), $fileName);
-            
-    //         // Update kolom file_revisi dengan path file yang baru diunggah
-    //         $latestRevision->update(['file_revisi' => $filePath]);
-
-    //         // Update status pada PengajuanProposal menjadi 0
-    //         // $proposal->update(['status' => 0]);
-
-    //         // Update status_revisi pada ReviewProposal menjadi 0
-    //         $latestRevision->update(['status_revisi' => 0]);
-    //     }
-
-    //     return redirect()->route('proposal.detail', $id_proposal)->with('success', 'File revisi berhasil diunggah.');
-    // }
-
 }

@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
 use App\Mail\kirimEmail; // Pastikan file Mail sesuai namespace
 use App\Models\ReviewLPJ;
 use App\Models\Lpj;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\Mailer\Exception\TransportException;
+use Illuminate\Support\Facades\Mail; // Impor Mail facade
+use Illuminate\Support\Facades\Log; // Impor Log facade
+use App\Mail\ErrorNotification; // Impor Mailable ErrorNotification
+
 
 
 class ManajemenReviewLpjController extends Controller
@@ -16,19 +19,22 @@ class ManajemenReviewLpjController extends Controller
     // Fungsi untuk menampilkan data lpj yang akan direvisi
     public function show($id_lpj)
     {
+        try {
         // Cari review lpj berdasarkan id_lpj
         $reviewLpj = Lpj::with('ormawa')
         ->where('id_lpj', $id_lpj)
         ->firstOrFail();
-    
-        // // Cari revisi terbaru berdasarkan id_proposal
-        // // mengambil dokumen revisi terakhir
-        // $latestRevision = ReviewProposal::where('id_proposal', $id_proposal)
-        //                     ->whereNotNull('file_revisi') // Pastikan kolom file_revisi tidak null
-        //                     ->orderBy('id_revisi', 'desc')
-        //                     ->first();
 
-        return view('proposal_kegiatan.manajemen_review_lpj', compact('reviewLpj'));
+        return view('proposal_kegiatan.manajemen_review_lpj', compact('reviewLpj')); } catch (\Throwable $e) {
+            // Kirim notifikasi email
+            $developerEmails = explode(',', env('DEVELOPER_EMAILS'));
+            foreach ($developerEmails as $email) {
+                Mail::to(trim($email))->send(new \App\Mail\ErrorNotification($e));
+            }
+
+            // Kembalikan respons error
+            return response()->view('errors.500', [], 500);
+        }
     }
     
 
@@ -85,13 +91,13 @@ class ManajemenReviewLpjController extends Controller
                         }
                     }
     
-                    // Update status LPJ di tabel lpj jika sampai tahap akhir (session id = 6)
-                    if (session()->has('id') && session('id') == 6) {
+                    // Update status LPJ di tabel proposal kegiatan jika sampai tahap akhir (session id = 6)
+                    if (session()->has('id_role') && session('id_role') == 5) {
                         $lpj->status_lpj = $request->input('status_revisi');
                     }
     
                     // Update updated_by jika status revisi di tabel revisi LPJ = 1
-                    if ($request->input('status_revisi') == 1 && session()->has('id')) {
+                    if ($request->input('status_revisi') == 1 && session()->has('id_role')) {
                         $lpj->updated_by = session('id_role') + 1; // Misal role yang melakukan revisi
                     }
     

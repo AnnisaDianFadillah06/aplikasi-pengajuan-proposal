@@ -187,6 +187,22 @@
     </div>
 @endif
 
+@if ($hasPendingSpj && $updatedByStep ==5)
+<div class="container mx-auto p-6">
+    <div class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mb-4">
+        <p class="font-semibold text-lg">Perhatian</p>
+        <p class="mt-2">Anda perlu mengajukan SPJ terlebih dahulu untuk kegiatan berikut sebelum dapat melanjutkan agar bisa disetujui oleh wadir 3 untuk proposal ini:</p>
+        <ul class="mt-2 ml-4 list-disc text-base">
+            @foreach ($pendingSpjProposals as $pendingProposal)
+                <li class="mt-1">
+                    <span class="font-bold">{{ $pendingProposal->nama_kegiatan }}</span>
+                </li>
+            @endforeach
+        </ul>
+    </div>
+</div>
+@endif
+
 {{-- Bagian Detail Proposal --}}
 @if ($status == 1 || $currentStep < $updatedByStep)
     @include('proposal_kegiatan.SectionDetail.DetailProposal.detail_only')

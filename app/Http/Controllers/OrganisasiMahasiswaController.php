@@ -6,53 +6,65 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\OrganisasiMahasiswa;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
-
+use Illuminate\Support\Facades\Mail; // Impor Mail facade
+use Illuminate\Support\Facades\Log; // Impor Log facade
+use App\Mail\ErrorNotification; // Impor Mailable ErrorNotification
 
 class OrganisasiMahasiswaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
+        try {
         // Mendapatkan semua data organisasi mahasiswa dari database
         $ormawa = OrganisasiMahasiswa::all();
     
         // Menampilkan data ke view 'organisasi-mahasiswa.index'
         return view('proposal_kegiatan.manajemen_organisasi_mahasiswa', compact('ormawa'));
+        } catch (\Throwable $e) {
+            // Kirim notifikasi email
+            $developerEmails = explode(',', env('DEVELOPER_EMAILS'));
+            foreach ($developerEmails as $email) {
+                Mail::to(trim($email))->send(new \App\Mail\ErrorNotification($e));
+            }
+
+            // Kembalikan respons error
+            return response()->view('errors.500', [], 500);
+        }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        $request->validate([
-            'nama_ormawa' => 'required|string|max:255',
-            'status' => 'required|in:aktif,tidak aktif', // Validasi untuk kolom status
-        ]);
-
         try{
-            // Tambahkan data baru
-            OrganisasiMahasiswa::create([
-                'nama_ormawa' => $request->nama_ormawa,
-                'created_by' => Auth::id() ?? null, // ID user yang sedang login atau null jika belum tersedia
-                'updated_by' => Auth::id() ?? null,
-                'status' =>  $request->status,
+            $request->validate([
+                'nama_ormawa' => 'required|string|max:255',
+                'status' => 'required|in:aktif,tidak aktif', // Validasi untuk kolom status
             ]);
+    
+            // Pastikan ID yang akan digunakan tidak duplikat (opsional, jika ID di-generate manual)
+            $nextId = OrganisasiMahasiswa::max('id_ormawa') + 1;
+    
+            // Tambahkan data baru
+            $organisasiMahasiswa = new OrganisasiMahasiswa();
+            $organisasiMahasiswa->id_ormawa = $nextId; // Atur ID manual (jika tidak pakai sequence)
+            $organisasiMahasiswa->nama_ormawa = $request->nama_ormawa;
+            $organisasiMahasiswa->created_by = Auth::id() ?? null; // ID user yang sedang login atau null jika belum tersedia
+            $organisasiMahasiswa->updated_by = Auth::id() ?? null;
+            $organisasiMahasiswa->status = $request->status;
+            $organisasiMahasiswa->save();
+    
             // Mengembalikan response JSON untuk AJAX
             return response()->json(['success' => true]);
-        } catch (\Exception $e) {
-            return response()->json(['success' => false, 'error' => $e->getMessage()], 500);
+
+
+        } catch (\Throwable $e) {
+            // Kirim notifikasi email
+            $developerEmails = explode(',', env('DEVELOPER_EMAILS'));
+            foreach ($developerEmails as $email) {
+                Mail::to(trim($email))->send(new \App\Mail\ErrorNotification($e));
+            }
+
+            // Kembalikan respons error
+            return response()->view('errors.500', [], 500);
         }
     }
 
@@ -73,31 +85,15 @@ class OrganisasiMahasiswaController extends Controller
                     'status' => $organisasiMahasiswa->status,       
                 ]);
             }
-        } catch (\Exception $e) {
-            return response()->json(['success' => false, 'error' => $e->getMessage()]);
+        } catch (\Throwable $e) {
+            // Kirim notifikasi email
+            $developerEmails = explode(',', env('DEVELOPER_EMAILS'));
+            foreach ($developerEmails as $email) {
+                Mail::to(trim($email))->send(new \App\Mail\ErrorNotification($e));
+            }
+
+            // Kembalikan respons error
+            return response()->view('errors.500', [], 500);
         }
-    }
-    
-
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(OrganisasiMahasiswa $organisasiMahasiswa)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(OrganisasiMahasiswa $organisasiMahasiswa)
-    {
-        //
-    }
-    
-    public function destroy(OrganisasiMahasiswa $organisasiMahasiswa)
-    {
-        //
     }
 }
