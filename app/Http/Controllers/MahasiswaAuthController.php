@@ -24,9 +24,10 @@ class MahasiswaAuthController extends Controller
         //     ->where('username', $username)
         //     ->first();
         
-            // Cari reviewer menggunakan Eloquent
+        // Cari reviewer menggunakan Eloquent
         $pengaju = Pengguna::with('ormawa') // Memuat relasi role
             ->where('username', $username)
+            ->where('status', 1)
             ->first();
 
         if ($pengaju) {

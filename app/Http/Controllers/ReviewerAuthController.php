@@ -21,6 +21,7 @@ class ReviewerAuthController extends Controller
         // Cari reviewer menggunakan Eloquent
         $reviewer = Reviewer::with('role','ormawa') // Memuat relasi role
             ->where('username', $username)
+            ->where('status', 1)
             ->first();
             
         if ($reviewer) {
