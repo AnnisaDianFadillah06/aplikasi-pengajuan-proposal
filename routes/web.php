@@ -134,8 +134,20 @@ Route::middleware('isReviewer')->group(function () {
 
     // Harish
     Route::get('/manage-roles', [RoleController::class, 'manageRoles'])->name('admin.manageRoles');
-    Route::post('/assign-pengaju', [RoleController::class, 'assignPengaju'])->name('admin.assignPengaju');
-    Route::post('/assign-reviewer', [RoleController::class, 'assignReviewer'])->name('admin.assignReviewer');
+
+    Route::get('/manage-roles/pengaju/{id}/edit', [RoleController::class, 'editPengaju'])->name('edit.pengaju');
+    Route::post('/manage-roles/pengaju/{id}/update', [RoleController::class, 'updatePengaju'])->name('update.pengaju');
+    
+    Route::get('/manage-roles/reviewer/{id}/edit', [RoleController::class, 'editReviewer'])->name('edit.reviewer');
+    Route::post('/manage-roles/reviewer/{id}/update', [RoleController::class, 'updateReviewer'])->name('update.reviewer');
+
+    // Routes untuk tambah pengaju
+    Route::get('/admin/pengaju/create', [RoleController::class, 'createPengaju'])->name('create.pengaju');
+    Route::post('/admin/pengaju/store', [RoleController::class, 'storePengaju'])->name('store.pengaju');
+
+    // Routes untuk tambah reviewer
+    Route::get('/admin/reviewer/create', [RoleController::class, 'createReviewer'])->name('create.reviewer');
+    Route::post('/admin/reviewer/store', [RoleController::class, 'storeReviewer'])->name('store.reviewer');
     
     Route::delete('/remove-pengaju/{id}', [RoleController::class, 'removePengaju'])->name('admin.removePengaju');
     Route::delete('/remove-reviewer/{id}', [RoleController::class, 'removeReviewer'])->name('admin.removeReviewer');

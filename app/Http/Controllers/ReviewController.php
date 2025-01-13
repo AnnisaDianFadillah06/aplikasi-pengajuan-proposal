@@ -211,13 +211,14 @@ class ReviewController extends Controller
             }
 
                 // Update status proposal dan kegiatan
-                if (session()->has('id_role') && session('id_role') == 5) {
+                // if (session()->has('id_role') && session('id_role') == 5) {
+                if (session()->has('id_role') && session('id_role') == 5 && $request->input('status_revisi') == 1) {
                     $proposal->status = $request->input('status_revisi');
                     $proposal->status_kegiatan = 2;
                 }
 
                 // Update updated_by jika status revisi = 1
-                if ($request->input('status_revisi') == 1 && session()->has('id')) {
+                if ($request->input('status_revisi') == 1 && session()->has('id_role')) {
                     $proposal->updated_by = session('id_role') + 1;
                 }
 

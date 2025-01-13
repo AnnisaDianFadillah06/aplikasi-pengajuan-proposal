@@ -85,13 +85,13 @@ class ManajemenReviewLpjController extends Controller
                         }
                     }
     
-                    // Update status LPJ di tabel lpj jika sampai tahap akhir (session id = 6)
-                    if (session()->has('id') && session('id') == 6) {
+                    // Update status LPJ di tabel proposal kegiatan jika sampai tahap akhir (session id = 6)
+                    if (session()->has('id_role') && session('id_role') == 5) {
                         $lpj->status_lpj = $request->input('status_revisi');
                     }
     
                     // Update updated_by jika status revisi di tabel revisi LPJ = 1
-                    if ($request->input('status_revisi') == 1 && session()->has('id')) {
+                    if ($request->input('status_revisi') == 1 && session()->has('id_role')) {
                         $lpj->updated_by = session('id_role') + 1; // Misal role yang melakukan revisi
                     }
     

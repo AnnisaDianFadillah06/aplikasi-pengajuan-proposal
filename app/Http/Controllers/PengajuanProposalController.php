@@ -60,6 +60,20 @@ class PengajuanProposalController extends Controller
             abort(404, 'Proposal tidak ditemukan');
         }
 
+        // Ambil id_ormawa dari proposal saat ini
+        $idOrmawa = $proposal->id_ormawa;
+
+        // Periksa apakah ada proposal lain dari Ormawa yang sama dengan status_spj belum diajukan
+        $pendingSpjProposals = PengajuanProposal::where('id_ormawa', $idOrmawa)
+            ->where('status_spj', 0) //  status 0 berarti belum diajukan
+            ->where('status', 1) 
+            ->where('id_proposal', '!=', $id_proposal) // Pastikan bukan proposal saat ini
+            ->get(); // Ambil data proposal yang sesuai kondisi
+
+        // Cek apakah ada proposal dengan status_spj belum diajukan
+        $hasPendingSpj = $pendingSpjProposals->isNotEmpty();
+
+        // =====================================================================
         // mengambil review terakhir untuk mengambil proposal sedang di tahap mana
         $latestReview = ReviewProposal::where('id_proposal', $proposal->id_proposal)
                                         // ->orderBy('tgl_revisi', 'desc')
@@ -68,18 +82,19 @@ class PengajuanProposalController extends Controller
         
         // assign var updatedByStep sesuai kondisi status pada tabel revisi file
         if ($latestReview) {
-            $updatedByStep = $latestReview->status_revisi == 1 
-                ? $latestReview->id_dosen + 1 
-                : $latestReview->id_dosen;
+            // $updatedByStep = $latestReview->status_revisi == 1 
+            //     ? $latestReview->id_dosen + 1 
+            //     : $latestReview->id_dosen;
 
             $status = $latestReview->status_revisi == 1 
                 ? 0 
                 : $latestReview->status_revisi;
         } else {
-            $updatedByStep = 1;
+            // $updatedByStep = 1;
             $status = 0;
         }
 
+        $updatedByStep = $proposal->updated_by;
         $status_lpj = $proposal->status_lpj;
         
         // Periksa jika ini adalah akses pertama kali
@@ -93,6 +108,7 @@ class PengajuanProposalController extends Controller
             // $currentStep = session()->get('currentStep', 1);
             $currentStep = session()->get('currentStep', 1);
         }
+        // =====================================================================
 
         // Ambil data revisi terbaru terkait proposal ini (current step)
         $allRevision = ReviewProposal::where('id_proposal', $proposal->id_proposal)
@@ -153,6 +169,8 @@ class PengajuanProposalController extends Controller
             'fileSarprasPath' => $fileSarprasPath,
             'jenis_kegiatans' => $jenis_kegiatans, 
             'bidang_kegiatans' => $bidang_kegiatans,
+            'hasPendingSpj' => $hasPendingSpj, // Variabel notifikasi
+            'pendingSpjProposals' => $pendingSpjProposals,
         ]);
     }
 

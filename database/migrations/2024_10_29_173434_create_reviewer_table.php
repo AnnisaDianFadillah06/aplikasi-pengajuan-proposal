@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::connection('pgsql')->create('reviewer', function (Blueprint $table) {
-            $table->integer('id')->primary();
+            $table->increments('id');
             $table->string('username', 100);
             // $table->string('role', 15);
             $table->unsignedBigInteger('id_role'); // Foreign key ke tabel roles
@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('nama_lengkap', 150)->nullable();
             $table->string('foto_profil')->nullable(); // Path file foto
             $table->date('tanggal_bergabung')->nullable(); // Tanggal bergabung ke sistem
+            $table->integer('status')->default(1); // Kolom status, default aktif (1)
 
             // Foreign key constraint
             $table->foreign('id_role')->references('id_role')->on('roles')->onDelete('cascade');

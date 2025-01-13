@@ -14,7 +14,6 @@ class ReviewerSeeder extends Seeder
     {
         DB::connection('pgsql')->table('reviewer')->insert([
             [
-                'id' => 1,
                 'username' => 'prita',
                 'id_role' => 1, // Referensi ke id_role di tabel roles
                 'id_ormawa' => 0, // Referensi ke id_role di tabel ormawa
@@ -24,7 +23,6 @@ class ReviewerSeeder extends Seeder
                 'tanggal_bergabung' => '2022-01-15',
             ],
             [
-                'id' => 2,
                 'username' => 'ucup',
                 'id_role' => 1, // Referensi ke id_role di tabel roles
                 'id_ormawa' => 2,
@@ -34,7 +32,6 @@ class ReviewerSeeder extends Seeder
                 'tanggal_bergabung' => '2021-09-10',
             ],
             [
-                'id' => 3,
                 'username' => 'idoy',
                 'id_role' => 2, // Referensi ke id_role di tabel roles
                 'id_ormawa' => 9,
@@ -44,7 +41,6 @@ class ReviewerSeeder extends Seeder
                 'tanggal_bergabung' => '2020-05-20',
             ],
             [
-                'id' => 7,
                 'username' => 'rizz',
                 'id_role' => 2, // Referensi ke id_role di tabel roles
                 'id_ormawa' => 3,
@@ -54,7 +50,6 @@ class ReviewerSeeder extends Seeder
                 'tanggal_bergabung' => '2020-05-20',
             ],
             [
-                'id' => 8,
                 'username' => 'razz',
                 'id_role' => 2, // Referensi ke id_role di tabel roles
                 'id_ormawa' => 9,
@@ -64,7 +59,6 @@ class ReviewerSeeder extends Seeder
                 'tanggal_bergabung' => '2020-05-20',
             ],
             [
-                'id' => 4,
                 'username' => 'hikmah',
                 'id_role' => 3, // Referensi ke id_role di tabel roles
                 'id_ormawa' => 2,
@@ -74,7 +68,6 @@ class ReviewerSeeder extends Seeder
                 'tanggal_bergabung' => '2019-08-15',
             ],
             [
-                'id' => 5,
                 'username' => 'komli',
                 'id_role' => 4, // Referensi ke id_role di tabel roles
                 'id_ormawa' => 0,
@@ -84,7 +77,6 @@ class ReviewerSeeder extends Seeder
                 'tanggal_bergabung' => '2023-03-01',
             ],
             [
-                'id' => 6,
                 'username' => 'toni',
                 'id_role' => 5, // Referensi ke id_role di tabel roles
                 'id_ormawa' => 0,
