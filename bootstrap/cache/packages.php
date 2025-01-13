@@ -60,15 +60,16 @@
       0 => 'Termwind\\Laravel\\TermwindServiceProvider',
     ),
   ),
-  'simplesoftwareio/simple-qrcode' => 
+
+'simplesoftwareio/simple-qrcode' => 
+array (
+  'providers' => 
   array (
-    'providers' => 
-    array (
-      0 => 'SimpleSoftwareIO\\QrCode\\QrCodeServiceProvider',
-    ),
-    'aliases' => 
-    array (
-      'QrCode' => 'SimpleSoftwareIO\\QrCode\Facades\\QrCode',
-    ),
+    0 => 'SimpleSoftwareIO\\QrCode\\QrCodeServiceProvider',
   ),
+  'aliases' => 
+  array (
+    'QrCode' => 'SimpleSoftwareIO\\QrCode\Facades\\QrCode',
+  ),
+),
 );

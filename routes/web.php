@@ -171,7 +171,7 @@ Route::middleware('isPengaju')->group(function () {
     
     // Harish
     Route::get('/pengajuan-proposal', [PengajuanProposalController::class, 'index'])->name('pengajuan-proposal');
-    Route::get('/tambah-pengajuan-proposal', [TambahPengajuanProposal::class, 'index']);
+    Route::get('/tambah-pengajuan-proposal', [TambahPengajuanProposal::class, 'index'])->name('tambah-pengajuan-proposal');
     Route::post('/add', [TambahPengajuanProposal::class, 'add']);
     
     // Route untuk menampilkan detail proposal dengan navigasi multipage

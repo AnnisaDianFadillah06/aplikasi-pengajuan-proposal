@@ -23,6 +23,8 @@ return new class extends Migration
             $table->string('pengisi_acara', 255)->nullable()->after('dana_sponsor'); // Pengisi Acara/Narasumber/Juri
             $table->string('sponsorship', 255)->nullable()->after('pengisi_acara'); // Sponsorship
             $table->string('media_partner', 255)->nullable()->after('sponsorship'); // Media Partner
+            $table->string('qr_code_path', 255)->nullable();
+            $table->string('proposal_url_path', 255)->nullable();
         });
     }
     

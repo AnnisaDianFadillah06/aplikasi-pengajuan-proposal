@@ -1,192 +1,165 @@
 @extends('proposal_kegiatan\reviewer')
 @section('konten')
-<h1>Selamat datang di Dashboard Dosen</h1>
 
-{{-- Untuk cek session --}}
-{{-- <h1>Welcome to the Dashboardd, {{ $username }}</h1>
-<p>Your role is: {{ $role }}</p> --}}
+<!-- Main Dashboard Container -->
+<div class="min-h-screen bg-gray-50 p-4 lg:p-8">
+    <!-- Welcome Section -->
+    <div class="mb-8">
+        <h1 class="text-2xl font-bold text-gray-800 mb-2">Dashboard Reviewer</h1>
+        @if (session()->has('username') && session()->has('id'))
+            <p class="text-gray-600">Selamat datang, <span class="font-medium text-indigo-600">{{ session('username') }}</span></p>
+        @else
+            <p class="text-gray-600">Anda belum login.</p>
+        @endif
+    </div>
 
-@if (session()->has('username') && session()->has('id'))
-    <p>Selamat datang, {{ session('username') }}!</p>
-    <p>id Anda: {{ session('id') }}</p>
-    <p>id role Anda: {{ session('id_role') }}</p>
-    <p>role Anda: {{ session('role') }}</p>
-    <p>ormawa: {{ session('ormawa') }}</p>
-@else
-    <p>Anda belum login.</p>
-@endif 
-
-<!-- Link Tailwind CSS dan FontAwesome untuk ikon -->
-<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-<link rel="stylesheet" href="//cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
-
-
-    <div class="p-4 sm:p-6 lg:p-8">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <!-- Statistik Waktu Pelaksanaan Card -->
-            <div class="bg-white rounded-lg shadow dark:bg-gray-800 p-4 md:p-6">
-                <div class="flex justify-between pb-4 mb-4 border-b border-gray-200 dark:border-gray-700">
-                    <div class="flex items-center">
-                        <div class="w-12 h-12 rounded-lg bg-gray-100 dark:bg-gray-700 flex items-center justify-center me-3">
-                            <svg class="w-6 h-6 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 19">
-                                <path d="M14.5 0A3.987 3.987 0 0 0 11 2.1a4.977 4.977 0 0 1 3.9 5.858A3.989 3.989 0 0 0 14.5 0ZM9 13h2a4 4 0 0 1 4 4v2H5v-2a4 4 0 0 1 4-4Z"/>
-                                <path d="M5 19h10v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2ZM5 7a5.008 5.008 0 0 1 4-4.9 3.988 3.988 0 1 0-3.9 5.859A4.974 4.974 0 0 1 5 7Zm5 3a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm5-1h-.424a5.016 5.016 0 0 1-1.942 2.232A6.007 6.007 0 0 1 17 17h2a1 1 0 0 0 1-1v-2a5.006 5.006 0 0 0-5-5ZM5.424 9H5a5.006 5.006 0 0 0-5 5v2a1 1 0 0 0 1 1h2a6.007 6.007 0 0 1 4.366-5.768A5.016 5.016 0 0 1 5.424 9Z"/>
-                            </svg>
-                        </div>
-                        <div>
-                            <h2 class="text-lg font-semibold mb-4">Statistik Waktu Pelaksanaan</h2>
-                        </div>
-                    </div>
+    <!-- Notification Section -->
+    @if(!$notifications->isEmpty())
+        <div class="mb-8">
+            <div class="bg-amber-50 border-l-4 border-amber-500 p-4 rounded-lg">
+                <div class="flex items-center">
+                    <svg class="h-6 w-6 text-amber-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                    </svg>
+                    <h2 class="text-lg font-semibold text-amber-800">Notifikasi Review Terlambat</h2>
                 </div>
-
-                <div class="grid grid-cols-2">
-                    <dl class="flex items-center">
-                        <dt class="text-gray-500 dark:text-gray-400 text-sm font-normal me-1">Total Pengajuan: {{ $totalDisetujui + $totalDitolak }}</dt>
-                        <dd class="text-gray-900 text-sm dark:text-white font-semibold"></dd>
-                    </dl>
-                    <dl class="flex items-center justify-end">
-                        <dt class="text-gray-500 dark:text-gray-400 text-sm font-normal me-1">Rata-rata/bulan: {{ round(($totalDisetujui + $totalDitolak) / 12) }}</dt>
-                    </dl>
-                </div>
-
-                <div id="column-chart"></div>
-            </div>
-
-            <!-- Statistik Kegiatan Ormawa -->
-            <div class="bg-gray-100 rounded-lg shadow-sm p-6">
-                <h2 class="text-lg font-semibold mb-4">Statistik Kegiatan Ormawa</h2>
-                <div class="relative" style="height: 300px;">
-                    <canvas id="ormawaChart"></canvas>
-                </div>
+                @foreach($notifications as $notification)
+                    <p class="mt-2 text-amber-700">{{ $notification }}</p>
+                @endforeach
             </div>
         </div>
+    @endif
 
-        <!-- Tabel Menunggu Review -->
-        <!-- Tabel Menunggu Review -->
-<div class="mt-6 bg-white rounded-lg shadow-sm">
-    <div class="p-6">
-    <div class="container mx-auto mt-4">
-    <!-- Heading dan Tombol Add New -->
-    <div class="flex justify-between items-center mb-4">
-        <h3 class="text-xl font-bold">Menunggu Review</h3>
-        
-        {{-- alert sukses kirim form --}}
+    <!-- Statistics Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+        <!-- Chart Card 1 -->
+        <div class="bg-white rounded-xl shadow-sm p-6 transition-all duration-200 hover:shadow-md">
+            <div class="flex items-center justify-between mb-6">
+                <div class="flex items-center space-x-3">
+                    <div class="p-3 bg-blue-50 rounded-lg">
+                        <svg class="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-800">Statistik Waktu Pelaksanaan</h3>
+                </div>
+                <div class="text-sm text-gray-500">
+                    Total: {{ $totalDisetujui + $totalDitolak }}
+                </div>
+            </div>
+            <div id="column-chart" class="h-[300px]"></div>
+        </div>
+
+        <!-- Chart Card 2 -->
+        <div class="bg-white rounded-xl shadow-sm p-6 transition-all duration-200 hover:shadow-md">
+            <div class="flex items-center space-x-3 mb-6">
+                <div class="p-3 bg-purple-50 rounded-lg">
+                    <svg class="w-6 h-6 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                    </svg>
+                </div>
+                <h3 class="text-lg font-semibold text-gray-800">Statistik Kegiatan Ormawa</h3>
+            </div>
+            <div class="relative h-[300px]">
+                <canvas id="ormawaChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Review Tables Section -->
+    <div class="bg-white rounded-xl shadow-sm p-6">
+        <!-- Tabs -->
+        <div class="border-b border-gray-200 mb-6">
+            <nav class="flex space-x-4" aria-label="Tabs">
+                <button id="tab-proposal" class="tab-button px-4 py-2 text-sm font-medium rounded-t-lg border-b-2 border-blue-500 text-blue-600">
+                    Daftar Review Proposal
+                </button>
+                <button id="tab-lpj" class="tab-button px-4 py-2 text-sm font-medium text-gray-500 hover:text-gray-700">
+                    Daftar Review LPJ
+                </button>
+            </nav>
+        </div>
+
+        <!-- Success/Error Messages -->
         @if(Session::get('sukses'))
-            <div id="alert-sukses" class="bg-green-500 text-white px-4 py-2 rounded">
+            <div id="alert-sukses" class="mb-4 p-4 bg-green-50 border-l-4 border-green-500 text-green-700 rounded">
                 {{ Session::get('sukses') }}
             </div>
         @endif
         @if(Session::get('gagal'))
-            <div id="alert-gagal" class="bg-red-500 text-white px-4 py-2 rounded">
+            <div id="alert-gagal" class="mb-4 p-4 bg-red-50 border-l-4 border-red-500 text-red-700 rounded">
                 {{ Session::get('gagal') }}
             </div>
         @endif
-        <script>
-            // Fungsi untuk menghilangkan alert setelah 3 detik
-            setTimeout(() => {
-                const suksesAlert = document.getElementById('alert-sukses');
-                const gagalAlert = document.getElementById('alert-gagal');
-                if (suksesAlert) {
-                    suksesAlert.style.display = 'none';
-                }
-                if (gagalAlert) {
-                    gagalAlert.style.display = 'none';
-                }
-            }, 3000); // 3000 ms = 3 detik
-        </script>
-    </div>
-    
-    <div class="flex flex-wrap -mx-3">
-        <div class="flex-none w-full max-w-full px-3">
-            <div class="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-soft-xl rounded-2xl bg-clip-border">
-                <div class="container mx-auto mt-8 mb-8">
-                    <div class="mb-4">
-                        <!-- Tabs Navigation -->
-                        <ul class="flex border-b">
-                            <li class="-mb-px mr-1">
-                                <a id="tab-proposal" href="#" class="tab-button bg-white inline-block py-2 px-4 text-blue-500 font-semibold border-l border-t border-r rounded-t focus:outline-none">Daftar Review Proposal</a>
-                            </li>
-                            <li class="mr-1">
-                                <a id="tab-lpj" href="#" class="tab-button inline-block py-2 px-4 text-gray-500 hover:text-blue-500 font-semibold">Daftar Review LPJ</a>
-                            </li>
-                        </ul>
-                    </div>
 
-                
-                    <!-- Tab Content -->
-                    <div id="content-proposal" class="tab-content">
-                        <div class="flex justify-between items-center mb-4">
-                            <h3 class="text-xl font-bold">List Proposal</h3>
-                        </div>
-                        {{-- ======================= TABEL 1 ======================= --}}
-                        <table id="myTable" class="items-center w-full mb-0 align-top border-gray-200 text-slate-500">
-                            <thead class="align-bottom">
-                            <tr class="w-full bg-gray-100 text-gray-700 uppercase text-sm leading-normal">
-                                <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Penyelenggara</th>
-                                <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Nama kegiatan</th>
-                                <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Status</th>
-                                <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Tanggal Kegiatan</th>
-                                <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Tanggal Pengajuan</th>
-                                <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Aksi</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            @foreach ($proposals as $item)
-                            <tr>
-                                <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                                <div class="flex px-2 py-1">
-                                    <div class="flex flex-col justify-center">
-                                    <h6 class="mb-0 text-sm leading-normal">{{ $item->pengguna->username }}</h6>
-                                    <!-- <p class="mb-0 text-xs leading-tight text-slate-400">john@creative-tim.com</p> -->
-                                    </div>
-                                </div>
+        <!-- Table Contents -->
+        <div id="content-proposal" class="tab-content">
+            <div class="overflow-x-auto">
+                <table id="myTable" class="w-full">
+                    <thead>
+                        <tr class="bg-gray-50">
+                            <th class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">Penyelenggara</th>
+                            <th class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">Nama Kegiatan</th>
+                            <th class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                            <th class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">Tanggal Kegiatan</th>
+                            <th class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">Tanggal Pengajuan</th>
+                            <th class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        @foreach ($proposals as $item)
+                            <tr class="hover:bg-gray-50">
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm font-medium text-gray-900">{{ $item->pengguna->username }}</div>
                                 </td>
-                                <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                                <p class="mb-0 text-xs font-semibold leading-tight">{{ $item->nama_kegiatan }}</p>
-                                <!-- <p class="mb-0 text-xs leading-tight text-slate-400">Organization</p> -->
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm text-gray-900">{{ $item->nama_kegiatan }}</div>
                                 </td>
-                                <td class="p-2 text-sm leading-normal text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
+                                <td class="px-6 py-4 whitespace-nowrap">
                                     @php
-                                        // Prioritaskan status dari latestRevision jika ada, gunakan item->status jika tidak
                                         $status = $item->latestRevision ? $item->latestRevision->status_revisi : $item->status;
                                         $tahap = $item->latestRevision ? $item->latestRevision->id_dosen : 1;
                                     @endphp
                                     @if ($status == 0)
-                                        <span class="bg-gradient-to-tl from-yellow-500 to-yellow-300 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">
+                                        <span class="px-3 py-1 text-xs font-medium rounded-full bg-yellow-100 text-yellow-800">
                                             Menunggu
                                         </span>
                                     @elseif ($status == 1 && $tahap < $sessionId)
-                                        <span class="bg-gradient-to-tl from-yellow-500 to-yellow-300 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">
+                                        <span class="px-3 py-1 text-xs font-medium rounded-full bg-yellow-100 text-yellow-800">
                                             Menunggu
                                         </span>
                                     @elseif ($status == 1 && $tahap >= $sessionId)
-                                        <span class="bg-gradient-to-tl from-green-600 to-lime-400 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">
+                                        <span class="px-3 py-1 text-xs font-medium rounded-full bg-green-100 text-green-800">
                                             Disetujui
                                         </span>
                                     @elseif ($status == 2)
-                                        <span class="bg-gradient-to-tl from-red-600 to-red-400 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">
+                                        <span class="px-3 py-1 text-xs font-medium rounded-full bg-red-100 text-red-800">
                                             Ditolak
                                         </span>
                                     @elseif ($status == 3)
-                                        <span class="bg-gradient-to-tl from-blue-600 to-blue-400 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">
+                                        <span class="px-3 py-1 text-xs font-medium rounded-full bg-blue-100 text-blue-800">
                                             Revisi
                                         </span>
                                     @endif
                                 </td>
-                                <td class="p-2 text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                                    <span class="text-xs font-semibold leading-tight text-slate-400">{{ $item->tanggal_mulai }}</span>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                    {{ $item->tanggal_mulai }}
                                 </td>
-                                <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                                    <span class="text-xs font-semibold leading-tight text-slate-400">{{ $item->created_at->format('Y-m-d')  }}</span>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                    {{ $item->created_at->format('Y-m-d') }}
                                 </td>
-                                <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                                <a href="{{ route('proposal.show', ['reviewProposal' => $item->id_proposal]) }}"  onclick="logProposalId({{ $item->id }})" class="bg-blue-500 text-white px-2 py-1 rounded hover:underline">Review</a>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <a href="{{ route('proposal.show', ['reviewProposal' => $item->id_proposal]) }}" 
+                                       class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-full shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                                        Review
+                                    </a>
                                 </td>
                             </tr>
-                            @endforeach
-                            </tbody>
-                        </table>
-                    </div>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
                 
                     <div id="content-lpj" class="tab-content hidden">
                         <div class="flex justify-between items-center mb-4">
