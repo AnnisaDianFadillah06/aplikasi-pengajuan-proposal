@@ -19,8 +19,8 @@
                 @if (session()->has('ormawa'))
                     <div class="bg-blue-50 p-4 rounded-xl">
                         <p class="text-sm font-medium text-blue-700">{{ session('ormawa') }}</p>
-                        <p class="text-xs text-blue-600">ID: {{ session('id') }}</p>
-                        <p class="text-xs text-blue-600">ID ORMAWA: {{ session('id_ormawa') }}</p>
+                        {{-- <p class="text-xs text-blue-600">ID: {{ session('id') }}</p>
+                        <p class="text-xs text-blue-600">ID ORMAWA: {{ session('id_ormawa') }}</p> --}}
                     </div>
                 @endif
             </div>

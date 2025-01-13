@@ -14,10 +14,6 @@
             <input type="email" name="email" class="form-control" id="email" value="{{ $pengaju->email }}" required>
         </div>
         <div class="mb-3">
-            <label for="nama_lengkap" class="form-label">Nama Lengkap</label>
-            <input type="text" name="nama_lengkap" class="form-control" id="nama_lengkap" value="{{ $pengaju->nama_lengkap }}" required>
-        </div>
-        <div class="mb-3">
             <label for="status" class="form-label">Status</label>
             <select name="status" class="form-control" id="status" required>
                 <option value="1" {{ $pengaju->status == 1 ? 'selected' : '' }}>Aktif</option>

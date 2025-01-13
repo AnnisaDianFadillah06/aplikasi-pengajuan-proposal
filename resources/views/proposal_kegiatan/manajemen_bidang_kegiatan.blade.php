@@ -5,26 +5,28 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 
-<div class="flex flex-wrap -mx-3">
-  <div class="flex-none w-full max-w-full px-3">
-    <div class="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-soft-xl rounded-2xl bg-clip-border">
-      <div class="p-6 pb-0 mb-0 bg-white border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
-        <h6 class="font-bold">Daftar Bidang Kegiatan</h6>
-        <!-- Wrapper untuk input search dan button -->
-        <div class="flex justify-between items-center mt-3">
-          <!-- Input Search -->
-          <div>
-            <input type="text" id="searchInput" placeholder="Searching" class="p-2 border border-gray-300 rounded w-60">
-          </div>
-          <!-- Button Tambah Bidang Kegiatan -->
-          <div>
-            <button type="button" data-modal-target="addBidangKegiatanModal" data-modal-toggle="addBidangKegiatanModal"
-                class="bg-gradient-to-tl inline-block px-6 py-3 font-bold text-center text-white uppercase align-baseline transition-all rounded-lg cursor-pointer bg-gradient-to-tl from-blue-700 to-blue-500 leading-pro text-xs ease-soft-in tracking-tight-soft shadow-soft-md bg-150 bg-x-25 hover:scale-102 active:opacity-85 hover:shadow-soft-xs">
+
+<div class="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-6">
+    <div class="max-w-7xl mx-auto">
+    <div class="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-6">
+        <div class="max-w-7xl mx-auto">
+            <div class="bg-white rounded-2xl shadow-lg mb-8 p-8">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+                <div class="space-y-2">
+                    <h1 class="text-3xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+                    Daftar Bidang Kegiatan
+                </h1>
+                <p class="text-gray-500">Kelola semua daftar bidang kegiatan</p>
+            </div>
+            <button data-modal-target="addBidangKegiatanModal" data-modal-toggle="addBidangKegiatanModal"
+                class="flex items-center px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200 group">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 group-hover:rotate-90 transition-transform duration-200" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
+                </svg>
                 Tambah Bidang Kegiatan
             </button>
-          </div>
         </div>
-      </div>
+    </div>
 
         <!-- Modal Form Tambah Bidang Kegiatan -->
         <div id="addBidangKegiatanModal" tabindex="-1" class="fixed inset-0 flex items-center justify-center hidden z-50 p-4 overflow-x-hidden overflow-y-auto" role="dialog" aria-labelledby="modalTitle" aria-hidden="true">
@@ -82,8 +84,8 @@
                             <div class="form-group">
                                 <label for="edit_status">Status:</label>
                                 <select id="edit_status" name="status" class="form-control" required>
-                                    <option value="aktif">Aktif</option>
-                                    <option value="tidak aktif">Tidak Aktif</option>
+                                    <option value="Aktif">Aktif</option>
+                                    <option value="Tidak aktif">Tidak Aktif</option>
                                 </select>
                             </div>
                         </div>
@@ -97,58 +99,81 @@
           </div>
       </div>
 
-      <div class="flex-auto px-0 pt-0 pb-2">
-        <div class="p-0 overflow-x-auto">
-          <table id="myTable" class="items-center w-full mb-0 border-gray-200 text-slate-500">
-            <thead class="align-bottom">
-              <!-- Table Headers -->
-              <tr>
-                <th class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">No</th>
-                <th class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Bidang Kegiatan</th>
-                <th class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Tanggal Dibuat</th>
-                <th class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Dibuat Oleh</th>
-                <th class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Tanggal Diedit</th>
-                <th class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Diedit Oleh</th>
-                <th class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Status</th>
-                <th class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Aksi</th>
-              </tr>
-            </thead>
-            <tbody>
-              @foreach($kegiatan as $key => $item)
-              <tr data-id="{{ $item->id_bidang_kegiatan }}">
-                  <td class="px-6 py-3 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent text-left">
-                      <p class="mb-0 text-xs font-semibold leading-tight">{{ $key + 1 }}</p>
-                  </td>
-                  <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent text-left">
-                      <p class="mb-0 text-xs font-semibold leading-tight">{{ $item->nama_bidang_kegiatan }}</p>
-                  </td>
-                  <td class="p-2 text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                      <span class="text-xs font-semibold leading-tight text-slate-400">{{ $item->created_at->format('d/m/Y') }}</span>
-                  </td>
-                  <td class="p-2 text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                      <span class="text-xs font-semibold leading-tight text-slate-400">{{ $item->created_by }}</span>
-                  </td>
-                  <td class="p-2 text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                      <span class="text-xs font-semibold leading-tight text-slate-400">{{ $item->updated_at->format('d/m/Y') }}</span>
-                  </td>
-                  <td class="p-2 text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                      <span class="text-xs font-semibold leading-tight text-slate-400">{{ $item->updated_by }}</span>
-                  </td>
-                  <td class="p-2 text-sm leading-normal text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                      <span class="bg-gradient-to-tl from-green-600 to-lime-400 px-2 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline uppercase leading-none text-white">{{ $item->status }}</span>
-                  </td>
-                  <td class="p-2 text-sm leading-normal text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                      <button class="bg-blue-500 text-white px-2 py-1 rounded" onclick="openEditModal('{{ $item->id_bidang_kegiatan }}', '{{ $item->nama_bidang_kegiatan }}', '{{ $item->status }}')">Edit</button>
-                  </td>
-              </tr>
-              @endforeach
-          </tbody>
-          </table>
+      <!-- Search & Filter Section -->
+      <div class="bg-white rounded-2xl shadow-lg mb-8 p-6">
+        <div class="flex flex-col sm:flex-row gap-4">
+            <div class="flex-1">
+                <div class="relative">
+                    <input type="text" id="searchInput" placeholder="Cari organisasi mahasiswa..."
+                        class="w-full pl-12 pr-4 py-3 border-2 border-gray-100 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200">
+                    <svg class="absolute left-4 top-3.5 h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                </div>
+            </div>
+            <div class="flex-none">
+                <select class="w-full sm:w-48 px-4 py-3 border-2 border-gray-100 rounded-xl focus:ring-2 focus:ring-blue-500 transition-all duration-200">
+                    <option value="">Semua Status</option>
+                    <option value="aktif">Aktif</option>
+                    <option value="tidak aktif">Tidak Aktif</option>
+                </select>
+            </div>
         </div>
-      </div>
     </div>
+
+    {{-- tabel --}}
+    <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="w-full">
+                <thead>
+                    <tr class="bg-gray-50">
+                        <th class="px-6 py-4 text-xs font-semibold text-gray-600 uppercase tracking-wider text-left">No</th>
+                        <th class="px-6 py-4 text-xs font-semibold text-gray-600 uppercase tracking-wider text-left">Bidang Kegiatan</th>
+                        <th class="px-6 py-4 text-xs font-semibold text-gray-600 uppercase tracking-wider text-center">Tanggal Dibuat</th>
+                        <th class="px-6 py-4 text-xs font-semibold text-gray-600 uppercase tracking-wider text-center">Dibuat Oleh</th>
+                        <th class="px-6 py-4 text-xs font-semibold text-gray-600 uppercase tracking-wider text-center">Tanggal Diedit</th>
+                        <th class="px-6 py-4 text-xs font-semibold text-gray-600 uppercase tracking-wider text-center">Diedit Oleh</th>
+                        <th class="px-6 py-4 text-xs font-semibold text-gray-600 uppercase tracking-wider text-center">Status</th>
+                        <th class="px-6 py-4 text-xs font-semibold text-gray-600 uppercase tracking-wider text-center">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-100">
+                    @foreach($kegiatan as $key => $item)
+                    <tr data-id="{{ $item->id_bidang_kegiatan }}" class="hover:bg-gray-50 transition-colors duration-200">
+                        <td class="px-6 py-4 text-sm text-gray-800">{{ $key + 1 }}</td>
+                        <td class="px-6 py-4">
+                            <div class="text-sm font-medium text-gray-900">{{ $item->nama_bidang_kegiatan }}</div>
+                        </td>
+                        <td class="px-6 py-4 text-sm text-gray-500 text-center">{{ $item->created_at->format('d/m/Y') }}</td>
+                        <td class="px-6 py-4 text-sm text-gray-500 text-center">{{ $item->created_by }}</td>
+                        <td class="px-6 py-4 text-sm text-gray-500 text-center">{{ $item->updated_at->format('d/m/Y') }}</td>
+                        <td class="px-6 py-4 text-sm text-gray-500 text-center">{{ $item->updated_by }}</td>
+                        <td class="px-6 py-4 text-center">
+                            <span class="px-3 py-1 text-xs font-medium rounded-full 
+                                {{ $item->status == 'aktif' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
+                                {{ $item->status }}
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 text-center">
+                            <button onclick="openEditModal('{{ $item->id_ormawa }}', '{{ $item->nama_ormawa }}', '{{ $item->status }}')"
+                                class="inline-flex items-center px-3 py-1.5 bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100 transition-colors duration-200">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                </svg>
+                                Edit
+                            </button>
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    </div>
+
   </div>
 </div>
+
+
 
 <script>
 document.querySelector('button[data-modal-toggle="addBidangKegiatanModal"]').addEventListener('click', function() { 
