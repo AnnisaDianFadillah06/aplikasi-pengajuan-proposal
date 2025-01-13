@@ -41,7 +41,7 @@
                     <select class="w-full sm:w-48 px-4 py-3 border-2 border-gray-100 rounded-xl focus:ring-2 focus:ring-blue-500 transition-all duration-200">
                         <option value="">Semua Status</option>
                         <option value="aktif">Aktif</option>
-                        <option value="tidak_aktif">Tidak Aktif</option>
+                        <option value="tidak aktif">Tidak Aktif</option>
                     </select>
                 </div>
             </div>
