@@ -27,7 +27,6 @@
                             <th>No</th>
                             <th>Username</th>
                             <th>Email</th>
-                            <th>Nama Lengkap</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -40,7 +39,6 @@
                             <td>{{ $i++ }}</td>
                             <td>{{ $pengaju->username }}</td>
                             <td>{{ $pengaju->email }}</td>
-                            <td>{{ $pengaju->nama_lengkap }}</td>
                             <td>
                                 <a href="{{ route('edit.pengaju', $pengaju->id) }}" class="btn btn-sm btn-primary">Edit</a>
                             </td>

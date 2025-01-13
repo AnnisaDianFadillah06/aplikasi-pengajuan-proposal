@@ -121,66 +121,6 @@ class DashboardController extends Controller
         $totalDitolak = PengajuanProposal::whereYear('tanggal_mulai', $year)
             ->where('status', 2)
             ->count();
-
-        // $proposal = PengajuanProposal::where('status', 0)->get();
-        
-        // Ambil ID dari sesi
-        $sessionId = session('id_role');
-
-        if (!$sessionId) {
-            // Tangani kasus jika sesi 'id' tidak ada
-            abort(403, 'Session ID tidak ditemukan.');
-        }
-    
-        // Ambil semua proposal yang sesuai dengan kondisi
-        // $proposals = PengajuanProposal::where('updated_by', $sessionId)->get();
-
-        // Ambil semua proposal dengan status_lpj != 1 yang sesuai dengan kondisi
-        $idRole = session('id_role');
-
-        $proposals = PengajuanProposal::where('updated_by', $sessionId)
-                                        ->where('status_lpj', '!=', 1);
-
-        if ($idRole == 2 || $idRole == 3) {
-            $proposals = $proposals->where('id_ormawa', session('id_ormawa'));
-        }
-
-        $proposals = $proposals->get();
-
-
-        // Ambil semua proposal dengan status_lpj = 1
-        $lpjs = PengajuanProposal::where('updated_by', $sessionId)
-                                ->where('status_lpj', 1)
-                                ->get();
-
-
-        // Ambil revisi terbaru untuk setiap proposal
-        $latestRevisions = ReviewProposal::whereIn('id_proposal', $proposals->pluck('id_proposal'))
-                                        ->orderBy('id_revisi', 'desc')
-                                        ->get()
-                                        ->groupBy('id_proposal');
-        
-        // Ambil revisi terbaru untuk setiap LPJ
-        $latestRevisionsLpjs = ReviewLPJ::whereIn('id_proposal', $lpjs->pluck('id_proposal'))
-                                        ->orderBy('id_revisi', 'desc')
-                                        ->get()
-                                        ->groupBy('id_proposal');
-
-        // Gabungkan proposal dengan revisi terakhir
-        foreach ($proposals as $proposal) {
-            $proposal->latestRevision = $latestRevisions->get($proposal->id_proposal)?->first(); // Ambil revisi terakhir atau null
-        }
-
-        // Gabungkan LPJ dengan revisi terakhir
-        foreach ($lpjs as $lpj) {
-            $lpj->latestRevision = $latestRevisionsLpjs->get($lpj->id_proposal)?->first(); // Ambil revisi terakhir atau null
-        }
-
-        
-        
-        
-        
-
         
         return view('proposal_kegiatan.dashboard-reviewer', [
             'notifications' => $notifications,
@@ -196,9 +136,6 @@ class DashboardController extends Controller
             // 'proposal' => $proposal,
             'username' => $username, // Tambahkan ke view ===checking session===
             'role' => $role,         // Tambahkan ke view ===checking session===
-            'proposals' => $proposals,
-            'lpjs' => $lpjs,
-            'sessionId' => $sessionId, // Kirim sessionId ke view
         ]);
     }
 }
