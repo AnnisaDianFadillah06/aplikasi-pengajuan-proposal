@@ -91,7 +91,7 @@ class PengajuanProposalController extends Controller
                 : $latestReview->status_revisi;
         } else {
             // $updatedByStep = 1;
-            $status = 0;
+            $status = $proposal->status;
         }
 
         $updatedByStep = $proposal->updated_by;
@@ -113,7 +113,7 @@ class PengajuanProposalController extends Controller
         // Ambil data revisi terbaru terkait proposal ini (current step)
         $allRevision = ReviewProposal::where('id_proposal', $proposal->id_proposal)
                                         ->where('id_dosen', $currentStep) // Filter berdasarkan currentStep
-                                        ->with(['reviewer.role']) // Eager loading reviewer dan role
+                                        ->with(['reviewer']) // Eager loading reviewer dan role
                                         ->select(
                                             'id_dosen',
                                             'catatan_revisi',

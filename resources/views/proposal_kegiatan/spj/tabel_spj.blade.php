@@ -39,12 +39,16 @@
             }, 3000);
         </script>
 
-        @if($canUpload)
+        @if($canUpload && !$belumBerjalan)
             <a href="{{ route('spj.formIndex', ['id_proposal' => $proposal->id_proposal]) }}">
                 <button class="bg-blue-500 text-white py-2 px-4 rounded">
                     <i class="fas fa-plus"></i> Upload SPJ
                 </button>
             </a>
+        @elseif($belumBerjalan)
+            <button class="bg-gray-400 text-white py-2 px-4 rounded cursor-not-allowed" disabled>
+                Kegiatan belum berjalan, belum bisa upload SPJ
+            </button>
         @else
             <button class="bg-gray-400 text-white py-2 px-4 rounded cursor-not-allowed" disabled>
                 SPJ Sudah Lengkap

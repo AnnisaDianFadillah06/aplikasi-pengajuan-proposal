@@ -92,27 +92,38 @@
                             </td>
                             <td class="p-2 text-sm leading-normal text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
                                 @php
-                                    // Prioritaskan status dari latestRevision jika ada, gunakan item->status jika tidak
-                                    $status = $item->latestRevision ? $item->latestRevision->status_revisi : $item->status;
-                                    $tahap = $item->updated_by;
+                                    // Mengambil revisi terbaru yang sesuai dengan id_proposal
+                                    $latestReview = $item->latestRevision;
+
+                                    if ($latestReview) {
+                                        // Status revisi dan tahap berdasarkan review terbaru
+                                        $statusRevisi = $latestReview->status_revisi;
+                                        $tahap = $latestReview->id_dosen;
+
+                                        // Pengondisian tambahan: jika status revisi adalah 1
+                                        if ($statusRevisi == 1) {
+                                            $statusRevisi = 0; // Mengubah status revisi menjadi 0
+                                            $tahap += 1;       // Meningkatkan tahap
+                                        }
+                                    } else {
+                                        // Jika tidak ada review terbaru, gunakan nilai default dari item
+                                        $statusRevisi = $item->status;
+                                        $tahap = $item->updated_by;
+                                    }
                                 @endphp
-                                @if ($status == 0)
+                                @if ($statusRevisi == 0)
                                     <span class="bg-gradient-to-tl from-yellow-500 to-yellow-300 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">
-                                        Menunggu
+                                        Menunggu 
                                     </span>
-                                @elseif ($status == 1 && $tahap < $sessionId)
-                                    <span class="bg-gradient-to-tl from-yellow-500 to-yellow-300 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">
-                                        Menunggu
-                                    </span>
-                                @elseif ($status == 1 && $tahap >= $sessionId)
+                                @elseif ($statusRevisi == 1)
                                     <span class="bg-gradient-to-tl from-green-600 to-lime-400 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">
                                         Disetujui
                                     </span>
-                                @elseif ($status == 2)
+                                @elseif ($statusRevisi == 2)
                                     <span class="bg-gradient-to-tl from-red-600 to-red-400 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">
                                         Ditolak
                                     </span>
-                                @elseif ($status == 3)
+                                @elseif ($statusRevisi == 3)
                                     <span class="bg-gradient-to-tl from-blue-600 to-blue-400 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">
                                         Revisi
                                     </span>
@@ -198,27 +209,43 @@
                             </td>
                             <td class="p-2 text-sm leading-normal text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
                                 @php
+                                    // Mengambil revisi terbaru yang sesuai dengan id_proposal
+                                    $latestReview = $spj->latestRevision;
+
+                                    if ($latestReview) {
+                                        // Status revisi dan tahap berdasarkan review terbaru
+                                        $statusRevisi = $latestReview->status_revisi;
+                                        $tahapSpj = $latestReview->id_dosen;
+
+                                        // Pengondisian tambahan: jika status revisi adalah 1
+                                        if ($statusRevisi == 1) {
+                                            $statusRevisi = 0; // Mengubah status revisi menjadi 0
+                                            $tahapSpj += 1;       // Meningkatkan tahap
+                                        }
+                                    } else {
+                                        // Jika tidak ada review terbaru, gunakan nilai default dari item
+                                        $statusRevisi = $spj->status;
+                                        $tahapSpj = $spj->updated_by;
+                                    }
+                                @endphp
+                                @php
                                     // Prioritaskan status dari latestRevision jika ada, gunakan item->status jika tidak
                                     $status = $spj->latestRevision ? $spj->latestRevision->status_revisi : $spj->status;
                                     $tahapSpj = $spj->updated_by;
                                 @endphp
-                                @if ($status == 0)
+                                @if ($statusRevisi == 0)
                                     <span class="bg-gradient-to-tl from-yellow-500 to-yellow-300 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">
-                                        Menunggu
+                                        Menunggu 
                                     </span>
-                                @elseif ($status == 1)
-                                    <span class="bg-gradient-to-tl from-yellow-500 to-yellow-300 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">
-                                        Menunggu
-                                    </span>
-                                @elseif ($status == 1)
+                                @elseif ($statusRevisi == 1)
                                     <span class="bg-gradient-to-tl from-green-600 to-lime-400 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">
                                         Disetujui
                                     </span>
-                                @elseif ($status == 2)
+                                @elseif ($statusRevisi == 2)
                                     <span class="bg-gradient-to-tl from-red-600 to-red-400 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">
                                         Ditolak
                                     </span>
-                                @elseif ($status == 3)
+                                @elseif ($statusRevisi == 3)
                                     <span class="bg-gradient-to-tl from-blue-600 to-blue-400 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">
                                         Revisi
                                     </span>
@@ -306,27 +333,38 @@
                             </td>
                             <td class="p-2 text-sm leading-normal text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
                                 @php
-                                    // Prioritaskan status dari latestRevision jika ada, gunakan item->status jika tidak
-                                    $status = $lpj->latestRevision ? $lpj->latestRevision->status_revisi : $lpj->status_lpj;
-                                    $tahapLpj = $lpj->updated_by;
+                                    // Mengambil revisi terbaru yang sesuai dengan id_proposal
+                                    $latestReview = $spj->latestRevision;
+
+                                    if ($latestReview) {
+                                        // Status revisi dan tahap berdasarkan review terbaru
+                                        $statusRevisi = $latestReview->status_revisi;
+                                        $tahapLpj = $latestReview->id_dosen;
+
+                                        // Pengondisian tambahan: jika status revisi adalah 1
+                                        if ($statusRevisi == 1) {
+                                            $statusRevisi = 0; // Mengubah status revisi menjadi 0
+                                            $tahapLpj += 1;       // Meningkatkan tahap
+                                        }
+                                    } else {
+                                        // Jika tidak ada review terbaru, gunakan nilai default dari item
+                                        $statusRevisi = $spj->status;
+                                        $tahapLpj = $spj->updated_by;
+                                    }
                                 @endphp
-                                @if ($status == 0)
+                                @if ($statusRevisi == 0)
                                     <span class="bg-gradient-to-tl from-yellow-500 to-yellow-300 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">
-                                        Menunggu
+                                        Menunggu 
                                     </span>
-                                @elseif ($status == 1)
-                                    <span class="bg-gradient-to-tl from-yellow-500 to-yellow-300 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">
-                                        Menunggu
-                                    </span>
-                                @elseif ($status == 1)
+                                @elseif ($statusRevisi == 1)
                                     <span class="bg-gradient-to-tl from-green-600 to-lime-400 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">
                                         Disetujui
                                     </span>
-                                @elseif ($status == 2)
+                                @elseif ($statusRevisi == 2)
                                     <span class="bg-gradient-to-tl from-red-600 to-red-400 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">
                                         Ditolak
                                     </span>
-                                @elseif ($status == 3)
+                                @elseif ($statusRevisi == 3)
                                     <span class="bg-gradient-to-tl from-blue-600 to-blue-400 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">
                                         Revisi
                                     </span>
