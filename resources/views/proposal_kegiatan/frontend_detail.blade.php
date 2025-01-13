@@ -63,87 +63,124 @@
     </style>
 </head>
 
-<div class="container mx-auto mt-5">
-    <div class="bg-white p-5 rounded shadow">
-        <!-- Kop Surat -->
-        <table class="kop-surat">
-            <tr>
-                <td style="width: 100px; text-align: center;">
-                    <img src="{{ asset('img/LOGOPOLBAN4K.png') }}" alt="Logo">
-                </td>
-                <td>
-                    <div class="isi-kop">
-                        <h1>KEMENTERIAN PENDIDIKAN TINGGI, SAINS, DAN TEKNOLOGI</h1>
-                        <h2>POLITEKNIK NEGERI BANDUNG</h2>
-                        <h3>
-                            Jalan Gegerkalong Hilir, Desa Ciwaruga, Kecamatan Parongpong,<br>
-                            Kabupaten Bandung Barat 40559, Kotak Pos 1234, Telepon: (022) 2013789,<br>
-                            Faksimile: (022) 2013889, Laman: www.polban.ac.id, Pos elektronik: polban@polban.ac.id
-                        </h3>
+<div class="min-h-screen bg-gray-50 py-8">
+    <div class="max-w-5xl mx-auto">
+        <!-- Header Card -->
+        <div class="bg-white rounded-xl shadow-sm overflow-hidden mb-6">
+            <!-- Kop Surat with modern styling -->
+            <div class="p-6">
+                <div class="flex items-center gap-6">
+                    <div class="flex-shrink-0">
+                        <img src="{{ asset('img/LOGOPOLBAN4K.png') }}" alt="Logo" class="w-24 h-24 object-contain">
                     </div>
-                </td>
-            </tr>
-        </table>
-        <hr>
+                    <div class="flex-1">
+                        <div class="text-center">
+                            <p class="text-gray-600 font-semibold text-sm tracking-wide">KEMENTERIAN PENDIDIKAN TINGGI, SAINS, DAN TEKNOLOGI</p>
+                            <h1 class="text-xl font-bold text-gray-800 mt-1">POLITEKNIK NEGERI BANDUNG</h1>
+                            <p class="text-gray-500 text-sm mt-2 leading-relaxed">
+                                Jalan Gegerkalong Hilir, Desa Ciwaruga, Kecamatan Parongpong,<br>
+                                Kabupaten Bandung Barat 40559, Kotak Pos 1234, Telepon: (022) 2013789,<br>
+                                Faksimile: (022) 2013889, Laman: www.polban.ac.id, Pos elektronik: polban@polban.ac.id
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="h-px bg-gray-200"></div>
+        </div>
 
-        <!-- Detail Proposal -->
-        <h1 class="text-xl font-bold text-gray-700 px-6 py-4 mt-8">Detail Kegiatan</h1>
-        <table class="table-auto w-full">
-            <tr>
-                <th class="text-left px-4 py-2 font-medium text-gray-700">Nama Kegiatan</th>
-                <td class="px-4 py-2">{{ $proposal->nama_kegiatan }}</td>
-            </tr>
-            <tr>
-                <th class="text-left px-4 py-2 font-medium text-gray-700">Tanggal Mulai Kegiatan</th>
-                <td class="px-4 py-2">{{ $proposal->tanggal_mulai }}</td>
-            </tr>
-            <tr>
-                <th class="text-left px-4 py-2 font-medium text-gray-700">Tanggal Akhir Kegiatan</th>
-                <td class="px-4 py-2">{{ $proposal->tanggal_akhir}}</td>
-            </tr>
-            <tr>
-                <th class="text-left px-4 py-2 font-medium text-gray-700">Tempat Kegiatan</th>
-                <td class="px-4 py-2">{{ $proposal->tmpt_kegiatan}}</td>
-            </tr>
-            <tr>
-                <th class="text-left px-4 py-2 font-medium text-gray-700">Jenis Kegiatan</th>
-                <td class="px-4 py-2">{{ $proposal->jenisKegiatan->nama_jenis_kegiatan}}</td>
-            </tr>
-            <tr>
-                <th class="text-left px-4 py-2 font-medium text-gray-700">Ormawa</th>
-                <td class="px-4 py-2">{{ $proposal->ormawa->nama_ormawa}}</td>
-            </tr>
-            <tr>
-                <th class="text-left px-4 py-2 font-medium text-gray-700">Pengisi Acara</th>
-                <td class="px-4 py-2">{{ $proposal->pengisi_acara}}</td>
-            </tr>
-            <tr>
-                <th class="text-left px-4 py-2 font-medium text-gray-700">Sponsorship</th>
-                <td class="px-4 py-2">{{ $proposal->sponsorship}}</td>
-            </tr>
-            <tr>
-                <th class="text-left px-4 py-2 font-medium text-gray-700">Media Partner</th>
-                <td class="px-4 py-2">{{ $proposal->media_partner}}</td>
-            </tr>
-        </table>
+        <!-- Detail Kegiatan Card -->
+        <div class="bg-white rounded-xl shadow-sm mb-6 overflow-hidden">
+            <div class="p-6">
+                <h2 class="flex items-center text-lg font-semibold text-gray-800 mb-6">
+                    <span class="w-1 h-6 bg-blue-500 rounded-full mr-3"></span>
+                    Detail Kegiatan
+                </h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Activity Details -->
+                    <div class="bg-gray-50 rounded-lg p-4">
+                        <p class="text-sm text-gray-500">Nama Kegiatan</p>
+                        <p class="text-gray-800 font-medium">{{ $proposal->nama_kegiatan }}</p>
+                    </div>
 
-        <!-- Detail Dana -->
-        <h2 class="text-xl font-bold text-gray-700 px-6 py-4 mt-8">Detail Dana</h2>
-        <table class="table-auto w-full border border-gray-300">
-            <tbody class="divide-y divide-gray-200">
-                <tr>
-                    <th class="text-left px-4 py-2 font-medium text-gray-700">Dana DIPA Polban</th>
-                    <td>Rp {{ number_format($proposal->dana_dipa ?? 0, 0, ',', '.') }}</td>
-                </tr>
-                <tr>
-                    <th class="text-left px-4 py-2 font-medium text-gray-700">Dana Swadaya</th>
-                    <td>Rp {{ number_format($proposal->dana_swadaya ?? 0, 0, ',', '.') }}</td>
-                </tr>
-                <tr>
-                    <th class="text-left px-4 py-2 font-medium text-gray-700">Dana Sponsor</th>
-                    <td>Rp {{ number_format($proposal->dana_sponsor ?? 0, 0, ',', '.') }}</td>
-                </tr>
-            </tbody>
-        </table>
+                    <div class="bg-gray-50 rounded-lg p-4">
+                        <p class="text-sm text-gray-500">Tanggal Mulai Kegiatan</p>
+                        <p class="text-gray-800 font-medium">{{ $proposal->tanggal_mulai }}</p>
+                    </div>
+
+                    <div class="bg-gray-50 rounded-lg p-4">
+                        <p class="text-sm text-gray-500">Tanggal Akhir Kegiatan</p>
+                        <p class="text-gray-800 font-medium">{{ $proposal->tanggal_akhir }}</p>
+                    </div>
+
+                    <div class="bg-gray-50 rounded-lg p-4">
+                        <p class="text-sm text-gray-500">Tempat Kegiatan</p>
+                        <p class="text-gray-800 font-medium">{{ $proposal->tmpt_kegiatan }}</p>
+                    </div>
+
+                    <div class="bg-gray-50 rounded-lg p-4">
+                        <p class="text-sm text-gray-500">Jenis Kegiatan</p>
+                        <p class="text-gray-800 font-medium">{{ $proposal->jenisKegiatan->nama_jenis_kegiatan }}</p>
+                    </div>
+
+                    <div class="bg-gray-50 rounded-lg p-4">
+                        <p class="text-sm text-gray-500">Ormawa</p>
+                        <p class="text-gray-800 font-medium">{{ $proposal->ormawa->nama_ormawa }}</p>
+                    </div>
+
+                    <div class="bg-gray-50 rounded-lg p-4">
+                        <p class="text-sm text-gray-500">Pengisi Acara</p>
+                        <p class="text-gray-800 font-medium">{{ $proposal->pengisi_acara }}</p>
+                    </div>
+
+                    <div class="bg-gray-50 rounded-lg p-4">
+                        <p class="text-sm text-gray-500">Sponsorship</p>
+                        <p class="text-gray-800 font-medium">{{ $proposal->sponsorship }}</p>
+                    </div>
+
+                    <div class="bg-gray-50 rounded-lg p-4 md:col-span-2">
+                        <p class="text-sm text-gray-500">Media Partner</p>
+                        <p class="text-gray-800 font-medium">{{ $proposal->media_partner }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Detail Dana Card -->
+        <div class="bg-white rounded-xl shadow-sm overflow-hidden">
+            <div class="p-6">
+                <h2 class="flex items-center text-lg font-semibold text-gray-800 mb-6">
+                    <span class="w-1 h-6 bg-green-500 rounded-full mr-3"></span>
+                    Detail Dana
+                </h2>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <!-- Dana DIPA Card -->
+                    <div class="bg-blue-50 rounded-xl p-4">
+                        <h3 class="text-gray-600 text-sm mb-2">Dana DIPA Polban</h3>
+                        <p class="text-blue-600 text-xl font-bold">
+                            Rp {{ number_format($proposal->dana_dipa ?? 0, 0, ',', '.') }}
+                        </p>
+                    </div>
+
+                    <!-- Dana Swadaya Card -->
+                    <div class="bg-green-50 rounded-xl p-4">
+                        <h3 class="text-gray-600 text-sm mb-2">Dana Swadaya</h3>
+                        <p class="text-green-600 text-xl font-bold">
+                            Rp {{ number_format($proposal->dana_swadaya ?? 0, 0, ',', '.') }}
+                        </p>
+                    </div>
+
+                    <!-- Dana Sponsor Card -->
+                    <div class="bg-purple-50 rounded-xl p-4">
+                        <h3 class="text-gray-600 text-sm mb-2">Dana Sponsor</h3>
+                        <p class="text-purple-600 text-xl font-bold">
+                            Rp {{ number_format($proposal->dana_sponsor ?? 0, 0, ',', '.') }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

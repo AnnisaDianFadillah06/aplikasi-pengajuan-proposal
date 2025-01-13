@@ -9,6 +9,7 @@ use App\Models\ReviewProposal;
 use App\Models\PengajuanProposal;
 use Illuminate\Support\Facades\DB;
 use App\Models\PedomanKemahasiswaan;
+use App\Models\ReviewLog;
 
 class DashboardController extends Controller
 {
@@ -50,7 +51,24 @@ class DashboardController extends Controller
             ->whereIn('status', [1, 2]) // Only include approved and rejected
             ->groupBy('month', 'status')
             ->get();
-    
+        
+
+        // Cari reviewer yang belum melakukan review lebih dari 3 hari
+        $overdueReviews = ReviewLog::where('review_status', 'pending')
+        ->whereDate('deadline_review', '<', Carbon::now())
+        ->with(['proposal', 'reviewer'])
+        ->get();
+
+        // Format notifikasi
+        $notifications = $overdueReviews->map(function ($review) {
+            $namaReviewer = $review->reviewer->nama_lengkap;
+            $namaProposal = $review->proposal->nama_kegiatan;
+            $deadline = Carbon::parse($review->deadline_review)->format('d F Y');
+
+            return "Perhatian! {$namaReviewer} belum mereview proposal \"{$namaProposal}\" dengan deadline {$deadline}.";
+        });
+
+
         // Prepare data for the chart
         $labels1 = [];
         $data1Disetujui = [];
@@ -159,7 +177,13 @@ class DashboardController extends Controller
         }
 
         
+        
+        
+        
+
+        
         return view('proposal_kegiatan.dashboard-reviewer', [
+            'notifications' => $notifications,
             'labels1' => $labels1,
             'data1Disetujui' => array_values($data1Disetujui),
             'data1Ditolak' => array_values($data1Ditolak),

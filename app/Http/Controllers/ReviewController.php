@@ -73,7 +73,7 @@ class ReviewController extends Controller
         // Mendapatkan semua data lpj dan spj dari database
         $spjAll = Spj::all();
         $lpjAll = DB::table('lpj')
-            ->join('proposal_kegiatan', 'lpj.id_proposal', '=', 'proposal_kegiatan.id_proposal')
+            ->join('proposal_kegiatan', 'lpj.id_ormawa', '=', 'proposal_kegiatan.id_ormawa')
             ->join('pengaju', 'proposal_kegiatan.id_pengguna', '=', 'pengaju.id')
             ->select(
                 'lpj.*', // Ambil semua kolom dari tabel `lpj`
@@ -125,8 +125,23 @@ class ReviewController extends Controller
         // Validasi input
         $request->validate([
             'status_revisi' => 'required',
+            'id_proposal' => 'required|exists:pengajuan_proposal,id_proposal',
+            'id_reviewer' => 'required|integer',
         ]);
+
+        // Simpan log review ke dalam tabel review_log
+        // DB::table('review_log')->insert([
+        //     'id_proposal' => $request->id_proposal,
+        //     'id_reviewer' => $request->id_reviewer,
+        //     'review_status' => 'pending',
+        //     'review_date' => null,
+        //     'deadline_review' => '2025-01-15',
+        //     'review_notes' => 'Menunggu review.',
+        //     'created_at' => now(),
+        //     'updated_at' => now(),
+        // ]);
     
+
         // Simpan data revisi ke dalam tabel revisi_file
         ReviewProposal::create([
             'catatan_revisi' => $request->input('catatan_revisi'),
@@ -139,6 +154,35 @@ class ReviewController extends Controller
         // Update status proposal
         $proposal = PengajuanProposal::find($request->input('id_proposal'));
         if ($proposal) {
+        // Simpan log review ke dalam tabel review_log
+            $existingReviewLog = DB::table('review_log')
+                ->where('id_proposal', $request->id_proposal)
+                ->where('id_reviewer', $request->id_reviewer)
+                ->first();
+
+            if ($existingReviewLog) {
+                // Update entri yang sudah ada
+                DB::table('review_log')->where('id_review_log', $existingReviewLog->id_review_log)->update([
+                    'review_status' => $request->input('status_revisi') == 1 ? 'approved' : 'pending',
+                    'review_date' => now(),
+                    'deadline_review' => now()->addDays(7)->format('Y-m-d'),
+                    'review_notes' => $request->input('catatan_revisi'),
+                    'updated_at' => now(),
+                ]);
+            } else {
+                // Insert entri baru
+                DB::table('review_log')->insert([
+                    'id_proposal' => $proposal->id_proposal,
+                    'id_reviewer' => session('id_role'),
+                    'review_status' => 'pending',
+                    'review_date' => now(),
+                    'deadline_review' => now()->addDays(7)->format('Y-m-d'),
+                    'review_notes' => $request->input('catatan_revisi'),
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+            }
+
             // Kirim notifikasi email
             $pengaju = $proposal->pengguna; // Ambil data pengguna terkait proposal
             if ($pengaju && $pengaju->email) {
