@@ -181,7 +181,6 @@ class PengajuanProposalController extends Controller
         $ormawa = Ormawa::find($proposal->id_ormawa);
         // Nama ormawa yang diambil dari relasi tabel
         $ormawa = $ormawa->nama_ormawa ?? '';
-        $lolos_proposal = $proposal->status_lpj;
 
         //untuk mengetahui proposal sedang di tahap mana (menentukan updatedbystep)
         $latestReview = ReviewProposal::where('id_proposal', $proposal->id_proposal)
@@ -193,12 +192,8 @@ class PengajuanProposalController extends Controller
                 ? $latestReview->id_dosen + 1 
                 : $latestReview->id_dosen;
 
-            $status = $latestReview->status_revisi == 1 
-                ? 0 
-                : $latestReview->status_revisi;
         } else {
-            $updatedByStep = 1;
-            $status = 0;
+            $updatedByStep = $proposal->updated_by;
         }
 
         // Kondisi khusus untuk Ormawa yang bukan UKM, BEM, atau MPM
@@ -206,7 +201,7 @@ class PengajuanProposalController extends Controller
             // Jika currentStep adalah 2, tambah 2
             if ($currentStep == 2) {
                 session()->put('currentStep', $currentStep + 2);
-            } elseif ($currentStep <= $updatedByStep || $lolos_proposal == 1) {
+            } elseif ($currentStep <= $updatedByStep) {
                 session()->put('currentStep', $currentStep + 1);
             } elseif ($currentStep == 5) {
                 $currentStep = 1;
@@ -214,7 +209,7 @@ class PengajuanProposalController extends Controller
         } else {
             // Perilaku default untuk ormawa lain
             
-            if ($currentStep <= $updatedByStep || $proposal->status_lpj == 1) {
+            if ($currentStep <= $updatedByStep) {
                 session()->put('currentStep', $currentStep + 1);
             } elseif ($currentStep == 5) {
                 $currentStep = 1;

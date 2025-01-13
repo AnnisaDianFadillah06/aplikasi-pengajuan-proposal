@@ -239,17 +239,14 @@ class SpjController extends Controller
                                         // ->orderBy('tgl_revisi', 'desc')
                                         ->orderBy('id_revisi', 'desc')
                                         ->first();
-
+                                        
         if ($latestReview) {
             $updatedByStep = $latestReview->status_revisi == 1 
                 ? $latestReview->id_dosen + 1 
                 : $latestReview->id_dosen;
 
-            $status = $latestReview->status_revisi == 1 
-                ? 0 
-                : $latestReview->status_revisi;
         } else {
-            $updatedByStep = 1;
+            $updatedByStep = $spj->updated_by;
         }
 
         // Kondisi khusus untuk Ormawa yang bukan UKM, BEM, atau MPM

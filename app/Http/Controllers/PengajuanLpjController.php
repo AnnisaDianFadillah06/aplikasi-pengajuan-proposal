@@ -76,7 +76,7 @@ class PengajuanLpjController extends Controller
                 ? 0 
                 : $latestReview->status_revisi;
         } else {
-            $updatedByStep = 1;
+            $updatedByStep = $lpj->updated_by;
             $status = 0;
         }
 
