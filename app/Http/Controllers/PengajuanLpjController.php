@@ -76,8 +76,8 @@ class PengajuanLpjController extends Controller
                 ? 0 
                 : $latestReview->status_revisi;
         } else {
-            $updatedByStep = 1;
-            $status = 0;
+            $updatedByStep = $lpj->updated_by;
+            $status = $lpj->status;
         }
 
         // Periksa jika ini adalah akses pertama kali
@@ -96,7 +96,7 @@ class PengajuanLpjController extends Controller
         // Ambil data revisi terbaru terkait proposal ini (current step)
         $allRevision = ReviewLpj::where('id_lpj', $lpj->id_lpj)
                                         ->where('id_dosen', $currentStep) // Filter berdasarkan currentStep
-                                        ->with(['reviewer.role']) // Eager loading reviewer dan role
+                                        ->with(['reviewer']) // Eager loading reviewer dan role
                                         ->select(
                                             'id_dosen',
                                             'catatan_revisi',

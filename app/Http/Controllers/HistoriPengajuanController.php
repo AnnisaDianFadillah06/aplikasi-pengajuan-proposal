@@ -2,16 +2,25 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Proposal; // Impor model Proposal
 use Illuminate\Http\Request;
 use PDF; // Impor DOMPDF facade
+use App\Models\PengajuanProposal;
+use App\Models\Proposal; // Impor model Proposal
 
 class HistoriPengajuanController extends Controller
 {
     public function index(Request $request)
     {
-        // Ambil hanya kolom yang diperlukan
-        $proposals = Proposal::select('id_proposal', 'nama_kegiatan', 'tanggal_mulai', 'tanggal_akhir', 'tmpt_kegiatan', 'created_at', 'status',)
+        // Ambil ID dari sesi
+        $sessionId = session('id');
+
+        if (!$sessionId) {
+            // Tangani kasus jika sesi 'id' tidak ada
+            abort(403, 'Session ID tidak ditemukan.');
+        }
+
+        // Ambil semua proposal pengguna
+        $proposals = PengajuanProposal::where('id_pengguna', $sessionId)
         ->whereIn('status', [1, 2]) // Filter berdasarkan status
         ->get();
 
@@ -21,10 +30,18 @@ class HistoriPengajuanController extends Controller
 
     public function downloadPDF()
     {
-        // Ambil data proposal
-        $proposals = Proposal::select('id_proposal', 'nama_kegiatan', 'tanggal_mulai', 'tanggal_akhir', 'tmpt_kegiatan', 'created_at', 'status',)
-            ->whereIn('status', [1, 2])
-            ->get();
+        // Ambil ID dari sesi
+        $sessionId = session('id');
+
+        if (!$sessionId) {
+            // Tangani kasus jika sesi 'id' tidak ada
+            abort(403, 'Session ID tidak ditemukan.');
+        }
+
+        // Ambil semua proposal pengguna
+        $proposals = PengajuanProposal::where('id_pengguna', $sessionId)
+        ->whereIn('status', [1, 2]) // Filter berdasarkan status
+        ->get();
 
         // Tentukan label status
         $statusLabels = [
@@ -33,7 +50,7 @@ class HistoriPengajuanController extends Controller
         ];
 
         // Generate PDF menggunakan tampilan 'proposals-pdf'
-        $pdf = PDF::loadView('proposal_kegiatan.proposals-pdf', compact('proposals', 'statusLabels'));
+        $pdf = PDF::loadView('proposal_kegiatan.histori_pdf', compact('proposals', 'statusLabels'));
 
         // Unduh file PDF dengan nama 'histori_pengajuan.pdf'
         return $pdf->download('Riwayat Pengajuan Proposal.pdf');

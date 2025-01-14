@@ -55,12 +55,19 @@ class TambahPengajuanProposal extends Controller
             'jumlah_spj' => 'required|numeric|min:1',
             'nama_penanggung_jawab' => 'required|string|max:255',
             'email_penanggung_jawab' => 'required|email|max:255',
-            'no_hp_penanggung_jawab' => 'required|string|max:15',
+            'no_hp_penanggung_jawab' => [
+                'required',
+                'string',
+                'regex:/^[0-9]{10,15}$/', // Hanya angka, panjang 10-15 karakter
+            ],
             'poster_kegiatan' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
             'caption_poster' => 'nullable|string|max:1000',
             'jml_peserta' => 'required|integer|min:0',
             'jml_panitia' => 'required|integer|min:0',
             'link_surat_izin_ortu' => 'required|url|max:255',
+        ], [
+            'no_hp_penanggung_jawab.required' => 'Nomor HP penanggung jawab wajib diisi.',
+            'no_hp_penanggung_jawab.regex' => 'Nomor HP harus berupa angka dan memiliki panjang antara 10 hingga 15 karakter.',
         ]);
 
         $id_pengaju = session('id'); // Ambil id pengguna dari session

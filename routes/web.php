@@ -29,7 +29,6 @@ use App\Http\Controllers\PedomanKemahasiswaanController;
 use App\Http\Controllers\HistoriPengajuanReviewerController;
 use App\Http\Controllers\ManajemenReviewSpjController;
 use App\Http\Controllers\ManajemenReviewLpjController;
-use App\Http\Controllers\ForgotPasswordController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -113,12 +112,12 @@ Route::middleware('isReviewer')->group(function () {
     Route::get('/dashboard/chart-data', [DashboardController::class, 'getChartData'])->name('proposal_kegiatan.getChartData');
     Route::get('/pedoman-kemahasiswaan', [PedomanKemahasiswaanController::class, 'index'])->name('pedoman.index'); // Untuk menampilkan data
     Route::post('/pedoman', [PedomanKemahasiswaanController::class, 'store'])->name('pedoman.store'); // Untuk menyimpan data baru
-    Route::put('/pedoman/{id}', [PedomanKemahasiswaanController::class, 'update'])->name('pedoman.edit'); // Untuk memperbarui data
     Route::delete('/pedoman/{id}', [PedomanKemahasiswaanController::class, 'destroy'])->name('pedoman.destroy'); // Untuk menghapus data
+    Route::put('/pedoman/edit/{id}', [PedomanKemahasiswaanController::class, 'update'])->name('pedoman.update');
     
     // Angel
     Route::get('/histori-pengajuan-reviewer', [HistoriPengajuanReviewerController::class, 'index'])->name('histori.pengajuan-reviewer');
-    Route::get('/download-pdf', [HistoriPengajuanReviewerController::class, 'downloadPDF'])->name('download.pdf');
+    Route::get('/download_reviewer-pdf', [HistoriPengajuanReviewerController::class, 'downloadPDF'])->name('download_reviewer.pdf');
     
     Route::get('/jenis-kegiatan', [JenisKegiatanController::class, 'index'])->name('jenis-kegiatan.index');
     Route::post('/jenis-kegiatan/store', [JenisKegiatanController::class, 'store'])->name('jenis-kegiatan.store');

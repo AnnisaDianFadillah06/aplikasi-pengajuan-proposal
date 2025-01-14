@@ -1,15 +1,6 @@
 @extends('proposal_kegiatan\pengaju')
 
 @section('konten')
-@if ($errors->any())
-    <div class="mb-4 text-red-500">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
 
 <main class="max-w-4xl mx-auto px-4">
         <div class="bg-white rounded-2xl shadow-xl overflow-hidden">

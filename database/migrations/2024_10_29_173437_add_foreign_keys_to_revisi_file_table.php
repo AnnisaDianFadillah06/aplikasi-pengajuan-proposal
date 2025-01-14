@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::connection('pgsql')->table('revisi_file', function (Blueprint $table) {
             $table->foreign(['id_proposal'], 'fk_proposal')->references(['id_proposal'])->on('proposal_kegiatan')->onUpdate('no action')->onDelete('cascade');
-            $table->foreign(['id_dosen'], 'fk_reviewer/dosen')->references(['id'])->on('reviewer')->onUpdate('no action')->onDelete('no action');
+            // $table->foreign(['id_dosen'], 'fk_reviewer/dosen')->references(['id'])->on('reviewer')->onUpdate('no action')->onDelete('no action');
+            $table->foreign('id_dosen')->references('id_role')->on('roles')->onDelete('cascade');
         });
     }
 

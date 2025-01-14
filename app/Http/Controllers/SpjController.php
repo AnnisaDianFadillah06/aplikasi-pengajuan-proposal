@@ -29,6 +29,7 @@ class SpjController extends Controller
 
         // Periksa apakah jumlah SPJ telah mencapai jumlah_spj
         $canUpload = $spjs->count() < $proposal->jumlah_spj;
+        $belumBerjalan = $proposal->updated_by != 6 || $proposal->status != 1;
 
         // Ambil semua revisi terbaru untuk setiap proposal
         $latestReviews = ReviewSPJ::whereIn('id_spj', $spjs->pluck('id_spj'))
@@ -45,6 +46,7 @@ class SpjController extends Controller
             'spjs' => $spjs,
             'latestReviews' => $latestReviews,
             'canUpload' => $canUpload,
+            'belumBerjalan' => $belumBerjalan,
         ]);
     }
 
@@ -164,8 +166,8 @@ class SpjController extends Controller
                 ? 0 
                 : $latestReview->status_revisi;
         } else {
-            $updatedByStep = 1;
-            $status = 0;
+            $updatedByStep = $spj->updated_by;
+            $status = $spj->status;
         }
 
         // Periksa jika ini adalah akses pertama kali
@@ -184,7 +186,7 @@ class SpjController extends Controller
         // Ambil data revisi terbaru terkait proposal ini (current step)
         $allRevision = ReviewSpj::where('id_spj', $spj->id_spj)
                                         ->where('id_dosen', $currentStep) // Filter berdasarkan currentStep
-                                        ->with(['reviewer.role']) // Eager loading reviewer dan role
+                                        ->with(['reviewer']) // Eager loading reviewer dan role
                                         ->select(
                                             'id_dosen',
                                             'catatan_revisi',
@@ -239,17 +241,14 @@ class SpjController extends Controller
                                         // ->orderBy('tgl_revisi', 'desc')
                                         ->orderBy('id_revisi', 'desc')
                                         ->first();
-
+                                        
         if ($latestReview) {
             $updatedByStep = $latestReview->status_revisi == 1 
                 ? $latestReview->id_dosen + 1 
                 : $latestReview->id_dosen;
 
-            $status = $latestReview->status_revisi == 1 
-                ? 0 
-                : $latestReview->status_revisi;
         } else {
-            $updatedByStep = 1;
+            $updatedByStep = $spj->updated_by;
         }
 
         // Kondisi khusus untuk Ormawa yang bukan UKM, BEM, atau MPM
