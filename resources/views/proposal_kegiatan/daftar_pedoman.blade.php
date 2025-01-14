@@ -145,98 +145,107 @@
 
         </div>
       </div>
-      <div class="flex-auto px-0 pt-0 pb-2">
-        <div class="p-0 overflow-x-auto">
+      <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="w-full">
+                <thead>
+                    <tr class="bg-gray-50">
+                        <th class="px-6 py-4 text-xs font-semibold text-gray-600 uppercase tracking-wider text-left">No</th>
+                        <th class="px-6 py-4 text-xs font-semibold text-gray-600 uppercase tracking-wider text-left">Judul Pedoman</th>
+                        <th class="px-6 py-4 text-xs font-semibold text-gray-600 uppercase tracking-wider text-center">Pedoman</th>
+                        <th class="px-6 py-4 text-xs font-semibold text-gray-600 uppercase tracking-wider text-center">Status</th>
+                        <th class="px-6 py-4 text-xs font-semibold text-gray-600 uppercase tracking-wider text-center">Preview</th>
+                        <th class="px-6 py-4 text-xs font-semibold text-gray-600 uppercase tracking-wider text-center">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-100">
+                    @foreach($pedomanList as $pedoman)
+                    <tr data-id="{{ $loop->iteration }}" class="hover:bg-gray-50 transition-colors duration-200">
+                        <td class="px-6 py-4 text-sm text-gray-800">{{ $loop->iteration }}</td>
+                        <td class="px-6 py-4">
+                            <div class="text-sm font-medium text-gray-900">{{ $pedoman->nama_pedoman }}</div>
+                        </td>
+                        <td class="px-4 py-4 text-gray-500 text-center">
+                            <div class="text-sm font-medium text-gray-900">
+                            <canvas id="pdf-thumbnail-{{ $loop->index }}" class="w-16 h-16 mr-4"></canvas>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 text-center">
+                            @if ($pedoman -> status)
+                            <span class="px-3 py-1 text-xs font-medium rounded-full 
+                                {{ $pedoman->status == '1' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
+                                Aktif
+                            </span>
+                        @else
+                            <span class="px-3 py-1 text-xs font-medium rounded-full 
+                                {{ $pedoman->status == '0' ? 'bg-red-100 text-red-800' : 'bg-red-100 text-red-800' }}">
+                                TIdak Aktif 
+                            </span>
+                        @endif
+                        </td>
+                        <td class="px-6 py-4 text-center">
+                                <a href="{{ asset($pedoman->file_pedoman) }}" 
+                                   class="inline-flex items-center px-3 py-1.5 text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors duration-150">
+                                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                                    </svg>
+                                    Lihat Dokumen
+                                </a>
+                            </td>
+                        <td class="px-6 py-4 text-center">
+                            <button onclick="openEditModal('{{ addslashes($pedoman->nama_pedoman) }}', '{{ $pedoman->status }}', '{{ addslashes($pedoman->file_pedoman) }}', '{{ $pedoman->id_pedoman }}')"
+                                class="editBtn inline-flex items-center px-3 py-1.5 bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100 transition-colors duration-200">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                </svg>
+                                Edit
+                            </button>
+                                <button 
+                                    class="deleteBtn inline-flex items-center px-3 py-1.5 bg-red-50 text-blue-700 rounded-lg hover:bg-red-100 transition-colors duration-200"
+                                    data-id="{{ $pedoman->id_pedoman }}" 
+                                    id="deleteButton" 
+                                    data-modal-target="deleteModal" 
+                                    data-modal-toggle="deleteModal">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                    </svg>
+                                    Hapus
+                                </button>
+                            </td>
+                        </td>
+                    </tr>
+                    <script>
+              document.addEventListener('DOMContentLoaded', function() {
+                  const url = "{{ asset($pedoman->file_pedoman) }}";
+                  
+                  // Tampilkan URL di console
+                  console.log("URL PDF:", url);
 
-          <table id="myTable" class="items-center w-full mb-0 align-top border-gray-200 text-slate-500">
+                  pdfjsLib.getDocument(url).promise.then(pdf => {
+                      pdf.getPage(1).then(page => {
+                          const canvas = document.getElementById('pdf-thumbnail-{{ $loop->index }}');
+                          const context = canvas.getContext('2d');
+                          const viewport = page.getViewport({ scale: 0.5 }); // Atur skala sesuai kebutuhan
 
-            <thead class="align-bottom">
-              <!-- Table Headers -->
-              <tr>
-                <th class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">No</th>
+                          canvas.height = viewport.height;
+                          canvas.width = viewport.width;
 
-                <th class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Judul Pedoman</th>
-                <th class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Pedoman</th>
-                <!-- <th class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Dibuat Oleh</th>
-                <th class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Tanggal Diedit</th>
-                <th class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Diedit Oleh</th> -->
-                <th class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Status</th>
-                <th class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Preview</th>
-
-                <th class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Aksi</th>
-              </tr>
-            </thead>
-            <tbody>
-            @foreach ($pedomanList as $pedoman)
-              <tr>
-                <td class="px-6 py-3 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent text-left">
-                  {{ $loop->iteration }}
-                </td>
-                <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent text-left">
-                  {{ $pedoman->nama_pedoman }}
-                </td>
-                <td class="p-2 text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                  <canvas id="pdf-thumbnail-{{ $loop->index }}" class="w-16 h-16 mr-4"></canvas>
-                </td>
-                <td class="p-2 text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                  @if ($pedoman->status)
-                        <span class="bg-gradient-to-tl from-green-600 to-green-400 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">
-                            Aktif
-                        </span>
-                    @else
-                        <span class="bg-gradient-to-tl from-red-600 to-red-400 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">
-                            Tidak Aktif
-                        </span>
-                    @endif
-                </td>
-                <td class="p-2 text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                    <a href="{{ asset($pedoman->file_pedoman) }}" class="btn btn-primary mt-2" target="_blank">Lihat Dokumen</a>
-                </td>
-
-                <td class="p-2 text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                    <button class="editBtn bg-blue-500 text-white px-2 py-1 rounded" 
-                        onclick="openEditModal('{{ addslashes($pedoman->nama_pedoman) }}', '{{ $pedoman->status }}', '{{ addslashes($pedoman->file_pedoman) }}', '{{ $pedoman->id_pedoman }}')">
-                        Edit
-                    </button>
-                    <button class="deleteBtn bg-red-500 text-white px-2 py-1 rounded" 
-                        data-id="{{ $pedoman->id_pedoman }}" 
-                        id="deleteButton" 
-                        data-modal-target="deleteModal" 
-                        data-modal-toggle="deleteModal">
-                        Hapus
-                    </button>
-                </td>
-              </tr>
-                <script>
-                  document.addEventListener('DOMContentLoaded', function() {
-                      const url = "{{ asset($pedoman->file_pedoman) }}";
-                      
-                      // Tampilkan URL di console
-                      console.log("URL PDF:", url);
-
-                      pdfjsLib.getDocument(url).promise.then(pdf => {
-                          pdf.getPage(1).then(page => {
-                              const canvas = document.getElementById('pdf-thumbnail-{{ $loop->index }}');
-                              const context = canvas.getContext('2d');
-                              const viewport = page.getViewport({ scale: 0.5 }); // Atur skala sesuai kebutuhan
-
-                              canvas.height = viewport.height;
-                              canvas.width = viewport.width;
-
-                              page.render({ canvasContext: context, viewport: viewport });
-                          });
-                      }).catch(error => {
-                          console.error("Error loading PDF:", error);
+                          page.render({ canvasContext: context, viewport: viewport });
                       });
+                  }).catch(error => {
+                      console.error("Error loading PDF:", error);
                   });
-              </script>
-              @endforeach
-              <!-- Another Row -->
-            </tbody>
-          </table>
+              });
+          </script>
+                    @endforeach
+                </tbody>
+            </table>
         </div>
-      </div>
     </div>
+    </div>
+  </div>
+</div>
   </div>
 </div>
 
