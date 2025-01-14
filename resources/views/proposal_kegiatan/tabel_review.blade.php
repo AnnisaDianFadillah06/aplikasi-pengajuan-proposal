@@ -141,9 +141,16 @@
                                 <span class="text-xs font-semibold leading-tight text-slate-400">{{ $item->updated_at->format('Y-m-d')  }}</span>
                             </td>
                             <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                                <a href="{{ route('proposal.show', ['reviewProposal' => $item->id_proposal]) }}"  onclick="logProposalId({{ $item->id }})" class="bg-blue-500 text-white px-2 py-1 rounded hover:underline">Review</a>
-                            </td>
+                                <a href="{{ route('proposal.show', ['reviewProposal' => $item->id_proposal]) }}" 
+                                   onclick="logProposalId({{ $item->id }})" 
+                                   class="bg-blue-500 text-white px-2 py-1 rounded hover:underline 
+                                          {{ $idRole == 5 && $item->updated_by != 5 ? 'pointer-events-none opacity-50' : '' }}" 
+                                   {{ $idRole == 5 && $item->updated_by != 5 ? 'aria-disabled=true' : '' }}>
+                                    Review
+                                </a>
+                            </td>                            
                             @if($idRole == 5)
+
                                 <td class="p-2 text-sm leading-normal text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
                                     <form method="GET" action="{{ route('proposalWD3.detail', $item->id_proposal) }}">
                                         @csrf
@@ -247,7 +254,13 @@
                                 <span class="text-xs font-semibold leading-tight text-slate-400">{{ \Carbon\Carbon::parse($spj->updated_at)->format('Y-m-d') }}</span>
                             </td>
                             <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                                <a href="{{ route('reviewSPJ.show', ['reviewSPJ' => $spj->id_spj]) }}"  onclick="logProposalId({{ $spj->id_spj }})" class="bg-blue-500 text-white px-2 py-1 rounded hover:underline">Review</a>
+                                <a href="{{ route('reviewSPJ.show', ['reviewSPJ' => $spj->id_spj]) }}" 
+                                onclick="logProposalId({{ $spj->id_spj }})" 
+                                class="bg-blue-500 text-white px-2 py-1 rounded hover:underline 
+                                        {{ $idRole == 5 && $spj->proposalKegiatan->updated_by != 5 ? 'pointer-events-none opacity-50' : '' }}" 
+                                {{ $idRole == 5 && $spj->proposalKegiatan->updated_by != 5 ? 'aria-disabled=true' : '' }}>
+                                    Review
+                                </a>
                             </td>
                             @if($idRole == 5)
                                 <td class="p-2 text-sm leading-normal text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
@@ -352,7 +365,13 @@
                                 <span class="text-xs font-semibold leading-tight text-slate-400">{{ \Carbon\Carbon::parse($lpj->updated_at)->format('Y-m-d') }}</span>
                             </td>
                             <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                            <a href="{{ route('reviewLPJ.show', ['reviewLPJ' => $lpj->id_lpj]) }}"  onclick="logProposalId({{ $lpj->id_lpj }})" class="bg-blue-500 text-white px-2 py-1 rounded hover:underline">Review</a>
+                                <a href="{{ route('reviewLPJ.show', ['reviewLPJ' => $lpj->id_lpj]) }}" 
+                                onclick="logProposalId({{ $lpj->id_lpj }})" 
+                                class="bg-blue-500 text-white px-2 py-1 rounded hover:underline 
+                                        {{ $idRole == 5 && $lpj->proposalKegiatan->updated_by != 5 ? 'pointer-events-none opacity-50' : '' }}" 
+                                {{ $idRole == 5 && $lpj->proposalKegiatan->updated_by != 5 ? 'aria-disabled=true' : '' }}>
+                                    Review
+                                </a>
                             </td>
                             @if($idRole == 5)
                                 <td class="p-2 text-sm leading-normal text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">

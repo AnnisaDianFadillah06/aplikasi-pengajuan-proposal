@@ -73,15 +73,17 @@
     <!-- Breadcrumb -->
     <!-- sidenav  -->
 
-    <aside class="max-w-62.5 ease-nav-brand z-990 fixed inset-y-0 my-4 ml-4 block w-full -translate-x-full flex-wrap items-center justify-between overflow-y-auto rounded-2xl border-0 bg-white p-0 antialiased shadow-none transition-transform duration-200 xl:left-0 xl:translate-x-0 xl:bg-transparent">
+    <!--<aside class="max-w-62.5 ease-nav-brand z-990 fixed inset-y-0 my-4 ml-4 block w-full -translate-x-full flex-wrap items-center justify-between overflow-y-auto rounded-2xl border-0 bg-white p-0 antialiased shadow-none transition-transform duration-200 xl:left-0 xl:translate-x-0 xl:bg-transparent"> -->
+    <aside class="max-w-62.5 ease-nav-brand z-990 fixed inset-y-0 my-4 ml-4 block w-full flex-wrap items-center justify-between overflow-y-auto rounded-2xl border-0 bg-white p-0 antialiased shadow-none">
+
       <div class="flex items-center h-20 px-8 py-6">
           <!-- Icon close button -->
-          <i class="absolute top-0 right-0 hidden p-4 opacity-50 cursor-pointer fas fa-times text-slate-400 xl:hidden" sidenav-close></i>
+          <i class="absolute top-0 right-0 hidden p-4 opacity-50 cursor-pointer text-slate-400 xl:hidden" sidenav-close></i>
 
           <!-- Logo section -->
           <a href="{{ route('proposal_kegiatan.dashboard-pengaju') }}" class="flex items-center space-x-3 text-sm whitespace-nowrap text-slate-700" {{ Route::currentRouteName() == 'dashboard-pengaju' ? 'bg-blue-500 text-white' : '' }}>
               <!-- Logo image -->
-              <img src="{{ asset('img/LOGO POLBAN 4K.png') }}" class="h-12 max-w-full transition-all duration-200 ease-nav-brand" alt="main_logo" />
+              <img src="{{ asset('img/LOGOPOLBAN4K.png') }}" class="h-12 max-w-full transition-all duration-200 ease-nav-brand" alt="main_logo" />
 
               <!-- Text next to logo -->
               <span class="font-semibold transition-all duration-200 ease-nav-brand">Pengajuan Kegiatan Polban</span>
@@ -93,8 +95,6 @@
       <div class="items-center block w-auto max-h-screen overflow-auto h-sidenav grow basis-full">
         <ul class="flex flex-col pl-0 mb-0">
           <li class="mt-0.5 w-full">
-          <!-- <a class="py-2.7  rounded-lg hover:bg-orange-300 dark:hover:bg-orange-400 group text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors" href="/dashboard-pengaju"> -->
-              
               <a href="{{ route('proposal_kegiatan.dashboard-pengaju') }}" class="py-2.7  rounded-lg hover:bg-orange-300 dark:hover:bg-orange-400 group text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors  {{ Route::currentRouteName() == 'dashboard-pengaju' ? 'bg-blue-500 text-white' : '' }}">
                 <div class="bg-gradient-to-tl white shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5">
                 <i class="fas fa-home text-gray-500"></i>
@@ -250,8 +250,8 @@
               <div class="shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5">
               <i class="fas fa-project-diagram"></i>
               <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-    <path stroke-linecap="round" stroke-linejoin="round" d="M9 17v-4H6v4m4 0h6v-4h-4m2-4v-4a2 2 0 112 2h-4a2 2 0 00-2-2"></path>
-</svg>
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 17v-4H6v4m4 0h6v-4h-4m2-4v-4a2 2 0 112 2h-4a2 2 0 00-2-2"></path>
+              </svg>
 
               </div>
               <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Organisasi Mahasiswa</span>
@@ -294,7 +294,6 @@
               <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Bidang Kegiatan</span>
             </a>
           </li>
-
           <li class="w-full mt-4">
             <h6 class="pl-6 ml-2 text-xs font-bold leading-tight uppercase opacity-60">Account pages</h6>
           </li>
@@ -437,10 +436,6 @@
               
             </div>
             <ul class="flex flex-row justify-end pl-0 mb-0 list-none md-max:w-full">
-              <!-- online builder btn  -->
-              <!-- <li class="flex items-center">
-                <a class="inline-block px-8 py-2 mb-0 mr-4 text-xs font-bold text-center uppercase align-middle transition-all bg-transparent border border-solid rounded-lg shadow-none cursor-pointer leading-pro border-fuchsia-500 ease-soft-in hover:scale-102 active:shadow-soft-xs text-fuchsia-500 hover:border-fuchsia-500 active:bg-fuchsia-500 active:hover:text-fuchsia-500 hover:text-fuchsia-500 tracking-tight-soft hover:bg-transparent hover:opacity-75 hover:shadow-none active:text-white active:hover:bg-transparent" target="_blank" href="https://www.creative-tim.com/builder/soft-ui?ref=navbar-dashboard&amp;_ga=2.76518741.1192788655.1647724933-1242940210.1644448053">Online Builder</a>
-              </li> -->
               <li class="flex items-center flex justify-end">
                 <a href="/sign-in" class="block px-0 py-2 text-sm font-semibold transition-all ease-nav-brand text-slate-500 flex justify-end">
                   <i class="fa fa-user sm:mr-1 flex"></i>
@@ -459,7 +454,6 @@
               <li class="flex items-center px-4">
                 <a href="javascript:;" class="p-0 text-sm transition-all ease-nav-brand text-slate-500">
                   <i fixed-plugin-button-nav class="cursor-pointer fa fa-cog"></i>
-                  <!-- fixed-plugin-button-nav  -->
                 </a>
               </li>
 
