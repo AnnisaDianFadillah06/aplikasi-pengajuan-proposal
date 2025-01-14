@@ -1,4 +1,5 @@
 @extends('proposal_kegiatan\pengaju')
+@section('title', 'Pengajuan LPJ')
 @section('konten')
 
 {{-- Cek apakah ada sesi login dan tampilkan data pengguna --}}

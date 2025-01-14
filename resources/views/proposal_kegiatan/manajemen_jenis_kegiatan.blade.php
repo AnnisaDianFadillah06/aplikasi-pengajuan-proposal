@@ -1,4 +1,5 @@
 @extends('proposal_kegiatan\reviewer')
+@section('title', 'Manajemen Jenis Kegiatan')
 @section('konten')
 <head>
     <meta name="csrf-token" content="{{ csrf_token() }}">

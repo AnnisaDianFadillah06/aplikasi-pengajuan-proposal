@@ -1,3 +1,7 @@
+@extends('proposal_kegiatan\pengaju')
+@section('title', 'Event List')
+@section('konten')
+
 @php
     $layout = Auth::guard('mahasiswa')->check() 
                 ? 'proposal_kegiatan.pengaju' 

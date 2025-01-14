@@ -1,5 +1,8 @@
 @extends('proposal_kegiatan\reviewer')
+@section('title', 'Pedoman Kemahasiswaan')
 @section('konten')
+
+<title>@yield('title', 'Daftar Pedoman')</title>
 
 <div class="bg-white rounded-2xl shadow-lg mb-8 p-8">
     <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6">

@@ -1,6 +1,8 @@
 @extends('proposal_kegiatan\reviewer')
+@section('title', 'Histori Pengajuan')
 @section('konten')
 
+<title>@yield('title', 'Histori Pengajuan')</title>
 
 <!-- Link Tailwind CSS dan FontAwesome untuk ikon -->
 <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
