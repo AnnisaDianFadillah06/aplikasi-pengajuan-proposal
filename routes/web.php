@@ -29,7 +29,6 @@ use App\Http\Controllers\PedomanKemahasiswaanController;
 use App\Http\Controllers\HistoriPengajuanReviewerController;
 use App\Http\Controllers\ManajemenReviewSpjController;
 use App\Http\Controllers\ManajemenReviewLpjController;
-use App\Http\Controllers\ForgotPasswordController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -118,7 +117,7 @@ Route::middleware('isReviewer')->group(function () {
     
     // Angel
     Route::get('/histori-pengajuan-reviewer', [HistoriPengajuanReviewerController::class, 'index'])->name('histori.pengajuan-reviewer');
-    Route::get('/download-pdf', [HistoriPengajuanReviewerController::class, 'downloadPDF'])->name('download.pdf');
+    Route::get('/download_reviewer-pdf', [HistoriPengajuanReviewerController::class, 'downloadPDF'])->name('download_reviewer.pdf');
     
     Route::get('/jenis-kegiatan', [JenisKegiatanController::class, 'index'])->name('jenis-kegiatan.index');
     Route::post('/jenis-kegiatan/store', [JenisKegiatanController::class, 'store'])->name('jenis-kegiatan.store');

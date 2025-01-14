@@ -334,7 +334,7 @@
                             <td class="p-2 text-sm leading-normal text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
                                 @php
                                     // Mengambil revisi terbaru yang sesuai dengan id_proposal
-                                    $latestReview = $spj->latestRevision;
+                                    $latestReview = $lpj->latestRevision;
 
                                     if ($latestReview) {
                                         // Status revisi dan tahap berdasarkan review terbaru
@@ -348,8 +348,8 @@
                                         }
                                     } else {
                                         // Jika tidak ada review terbaru, gunakan nilai default dari item
-                                        $statusRevisi = $spj->status;
-                                        $tahapLpj = $spj->updated_by;
+                                        $statusRevisi = $lpj->status;
+                                        $tahapLpj = $lpj->updated_by;
                                     }
                                 @endphp
                                 @if ($statusRevisi == 0)
