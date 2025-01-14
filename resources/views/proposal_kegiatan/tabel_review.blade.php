@@ -34,7 +34,6 @@
     </div>
 @endif
 
-
 <div class="flex flex-wrap -mx-3">
     <div class="flex-none w-full max-w-full px-3">
         <div class="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-soft-xl rounded-2xl bg-clip-border">
@@ -153,9 +152,57 @@
                             <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
                                 <span class="text-xs font-semibold leading-tight text-slate-400">{{ $item->updated_at->format('Y-m-d')  }}</span>
                             </td>
+
+                            @php
+                                // Mapping tahap berdasarkan updated_by
+                                $tahapMapProposal = [
+                                    1 => 'BEM',
+                                    2 => 'Pembina',
+                                    3 => 'Ketua Jurusan',
+                                    4 => 'KLI',
+                                    5 => 'Wadir 3',
+                                    6 => 'Wadir 3', // Jika updated_by == 6, juga dianggap Wadir 3
+                                ];
+                            
+                                // Tentukan label tahap berdasarkan updated_by
+                                $tahapLabelProposal = $tahapMapProposal[$item->updated_by] ?? 'Tahap Tidak Diketahui';
+
+                                // Tentukan apakah tombol dinonaktifkan
+                                $isDisabledProposal = $idRole == 5 && $item->updated_by != 5 && $item->updated_by != 6 ;
+
+                                // Tentukan apakah updated_by == 6
+                                $isWadir3Proposal = $idRole == 5 && $item->updated_by == 6 ;
+
+                                // Tentukan apakah tombol dinonaktifkan
+                                $isDisabledProposal2 = $statusRevisi == 3 ;
+
+                                // Tentukan title dan class berdasarkan kondisi
+                                $buttonClassProposal = '';
+                                $titleTextProposal = '';
+
+                                if ($isDisabledProposal) {
+                                    $buttonClassProposal = 'cursor-not-allowed bg-gray-300 text-gray-500';
+                                    $titleTextProposal = 'Masih di tahap ' . $tahapLabelProposal;
+                                } elseif ($isWadir3Proposal) {
+                                    $buttonClassProposal = 'cursor-not-allowed bg-gray-300 text-gray-500'; // Style khusus untuk Wadir 3
+                                    $titleTextProposal = 'Sudah direview';
+                                } elseif ($isDisabledProposal2) {
+                                    $buttonClassProposal = 'cursor-not-allowed bg-gray-300 text-gray-500'; // Style khusus untuk Wadir 3
+                                    $titleTextProposal = 'Menunggu Revisi';
+                                } else {
+                                    $buttonClassProposal = 'bg-blue-500 text-white hover:bg-blue-600';
+                                    $titleTextProposal = 'Lanjutkan Review';
+                                }
+                            @endphp
+
                             <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                                <a href="{{ route('proposal.show', ['reviewProposal' => $item->id_proposal]) }}"  onclick="logProposalId({{ $item->id }})" class="bg-blue-500 text-white px-2 py-1 rounded hover:underline">Review</a>
-                            </td>
+                                <a href="{{ $isDisabledProposal ? '#' : route('proposal.show', ['reviewProposal' => $item->id_proposal]) }}" 
+                                    onclick="{{ $isDisabledProposal ? 'return false;' : 'logProposalId(' . $item->id . ')' }}" 
+                                    class="px-2 py-1 rounded hover:underline {{ $buttonClassProposal }}" 
+                                    title="{{ $titleTextProposal }}">
+                                     Review
+                                 </a>
+                            </td> 
                             @if($idRole == 5)
                                 <td class="p-2 text-sm leading-normal text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
                                     <form method="GET" action="{{ route('proposalWD3.detail', $item->id_proposal) }}">
@@ -187,7 +234,7 @@
                                 <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Tahap</th>
                             @endif
                             <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Tanggal Kegiatan</th>
-                            <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Tanggal Pengajuan LPJ</th>
+                            <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Tanggal Pengajuan SPJ</th>
                             <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Aksi</th>
                             @if($idRole == 5)
                                 <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Detail</th>
@@ -275,9 +322,56 @@
                             <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
                                 <span class="text-xs font-semibold leading-tight text-slate-400">{{ \Carbon\Carbon::parse($spj->updated_at)->format('Y-m-d') }}</span>
                             </td>
+
+                            @php
+                                // Mapping tahap berdasarkan updated_by
+                                $tahapMapSPJ = [
+                                    1 => 'BEM',
+                                    2 => 'Pembina',
+                                    3 => 'Ketua Jurusan',
+                                    4 => 'KLI',
+                                    5 => 'Wadir 3',
+                                    6 => 'Wadir 3', // Jika updated_by == 6, juga dianggap Wadir 3
+                                ];
+                            
+                                // Tentukan label tahap berdasarkan updated_by
+                                $tahapLabelSPJ = $tahapMapSPJ[$spj->updated_by] ?? 'Tahap Tidak Diketahui';
+
+                                // Tentukan apakah tombol dinonaktifkan
+                                $isDisabledSPJ = $idRole == 5 && $spj->updated_by != 5 && $spj->updated_by != 6;
+
+                                // Tentukan apakah updated_by == 6
+                                $isWadir3SPJ = $idRole == 5 && $spj->updated_by == 6;
+
+                                $isDisabledSPJ2 = $statusRevisi == 3;
+
+                                // Tentukan title dan class berdasarkan kondisi
+                                $buttonClassSPJ = '';
+                                $titleTextSPJ = '';
+
+                                if ($isDisabledSPJ) {
+                                    $buttonClassSPJ = 'cursor-not-allowed bg-gray-300 text-gray-500';
+                                    $titleTextSPJ = 'Masih di tahap ' . $tahapLabelSPJ;
+                                } elseif ($isWadir3SPJ) {
+                                    $buttonClassSPJ = 'cursor-not-allowed bg-gray-300 text-gray-500'; // Style khusus untuk Wadir 3
+                                    $titleTextSPJ = 'Sudah direview';
+                                } elseif ($isDisabledSPJ2) {
+                                    $buttonClassProposal = 'cursor-not-allowed bg-gray-300 text-gray-500'; // Style khusus untuk Wadir 3
+                                    $titleTextProposal = 'Menunggu Revisi';
+                                } else {
+                                    $buttonClassSPJ = 'bg-blue-500 text-white hover:bg-blue-600';
+                                    $titleTextSPJ = 'Lanjutkan Review';
+                                }
+                            @endphp
+
                             <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                                <a href="{{ route('reviewSPJ.show', ['reviewSPJ' => $spj->id_spj]) }}"  onclick="logProposalId({{ $spj->id_spj }})" class="bg-blue-500 text-white px-2 py-1 rounded hover:underline">Review</a>
-                            </td>
+                                <a href="{{ $isDisabledSPJ ? '#' : route('reviewSPJ.show', ['reviewSPJ' => $spj->id_spj]) }}" 
+                                    onclick="{{ $isDisabledSPJ ? 'return false;' : 'logProposalId(' . $spj->id_spj . ')' }}" 
+                                    class="px-2 py-1 rounded hover:underline {{ $buttonClassSPJ }}" 
+                                    title="{{ $titleTextSPJ }}">
+                                     Review
+                                 </a>
+                            </td> 
                             @if($idRole == 5)
                                 <td class="p-2 text-sm leading-normal text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
                                     <form method="GET" action="{{ route('spjWD3.detail', $spj->id_spj) }}">
@@ -391,9 +485,57 @@
                             <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
                                 <span class="text-xs font-semibold leading-tight text-slate-400">{{ \Carbon\Carbon::parse($lpj->updated_at)->format('Y-m-d') }}</span>
                             </td>
+
+                            @php
+                                // Mapping tahap berdasarkan updated_by
+                                $tahapMapLPJ = [
+                                    1 => 'BEM',
+                                    2 => 'Pembina',
+                                    3 => 'Ketua Jurusan',
+                                    4 => 'KLI',
+                                    5 => 'Wadir 3',
+                                    6 => 'Wadir 3', // Jika updated_by == 6, juga dianggap Wadir 3
+                                ];
+                            
+                                // Tentukan label tahap berdasarkan updated_by
+                                $tahapLabelLPJ = $tahapMapLPJ[$lpj->updated_by] ?? 'Tahap Tidak Diketahui';
+
+                                // Tentukan apakah tombol dinonaktifkan
+                                $isDisabledLPJ = $idRole == 5 && $lpj->updated_by != 5 && $lpj->updated_by != 6;
+
+                                // Tentukan apakah updated_by == 6
+                                $isWadir3LPJ = $idRole == 5 && $lpj->updated_by == 6;
+
+                                $isDisabledLPJ2 = $statusRevisi == 3;
+
+                                // Tentukan title dan class berdasarkan kondisi
+                                $buttonClassLPJ = '';
+                                $titleTextLPJ = '';
+
+                                if ($isDisabledLPJ) {
+                                    $buttonClassLPJ = 'cursor-not-allowed bg-gray-300 text-gray-500';
+                                    $titleTextLPJ = 'Masih di tahap ' . $tahapLabelLPJ;
+                                } elseif ($isWadir3LPJ) {
+                                    $buttonClassLPJ = 'cursor-not-allowed bg-gray-300 text-gray-500'; // Style khusus untuk Wadir 3
+                                    $titleTextLPJ = 'Sudah direview';
+                                } elseif ($isDisabledLPJ2) {
+                                    $buttonClassProposal = 'cursor-not-allowed bg-gray-300 text-gray-500'; // Style khusus untuk Wadir 3
+                                    $titleTextProposal = 'Menunggu Revisi';
+                                } else {
+                                    $buttonClassLPJ = 'bg-blue-500 text-white hover:bg-blue-600';
+                                    $titleTextLPJ = 'Lanjutkan Review';
+                                }
+                            @endphp
+
                             <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                            <a href="{{ route('reviewLPJ.show', ['reviewLPJ' => $lpj->id_lpj]) }}"  onclick="logProposalId({{ $lpj->id_lpj }})" class="bg-blue-500 text-white px-2 py-1 rounded hover:underline">Review</a>
-                            </td>
+                                <a href="{{ $isDisabledLPJ ? '#' : route('reviewLPJ.show', ['reviewLPJ' => $lpj->id_lpj]) }}" 
+                                   onclick="{{ $isDisabledLPJ ? 'return false;' : 'logProposalId(' . $lpj->id_lpj . ')' }}" 
+                                   class="px-2 py-1 rounded hover:underline {{ $buttonClassLPJ }}" 
+                                    title="{{ $titleTextLPJ }} ">
+                                    Review
+                                </a>
+                            </td>  
+
                             @if($idRole == 5)
                                 <td class="p-2 text-sm leading-normal text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
                                     <form method="GET" action="{{ route('lpjWD3.detail', $lpj->id_lpj) }}">
