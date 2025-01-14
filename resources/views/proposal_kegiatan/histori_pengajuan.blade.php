@@ -1,4 +1,5 @@
 @extends('proposal_kegiatan\pengaju')
+@section('title', 'Histori Pengajuan')
 @section('konten')
 
 <title>@yield('title', 'Histori Pengajuan')</title>

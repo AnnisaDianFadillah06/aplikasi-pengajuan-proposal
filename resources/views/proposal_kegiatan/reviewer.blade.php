@@ -30,9 +30,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/>
 
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="{{ asset('img/favicon.png') }}" />
+    <link rel="icon" type="image/png" href="{{ asset('img/LOGOPOLBAN4K.png') }}" />
 
-    <title>Pengajuan Proposal Kegiatan</title>
+    
+    <title>@yield('title', 'Pengajuan Proposal Kegiatan')</title>
+    
     <!--     Fonts and icons     -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
     <!-- Font Awesome Icons -->
@@ -442,14 +444,14 @@
                                     <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
                                 </svg>
                                 <span class="ml-1 text-sm font-medium text-blue-600">
-                                    @if(Route::currentRouteName() == 'proposal_kegiatan.dashboard-pengaju')
+                                    @if(Route::currentRouteName() == 'proposal_kegiatan.dashboard-reviewer')
                                         Dashboard
-                                    @elseif(Route::currentRouteName() == 'manajemen-review')
+                                    @elseif(Route::currentRouteName() == 'proposal.index')
                                         Manajemen Review
-                                    @elseif(Route::currentRouteName() == 'histori.pengajuan')
+                                    @elseif(Route::currentRouteName() == 'histori.pengajuan-reviewer')
                                         Histori Pengajuan
-                                    @elseif(Route::currentRouteName() == 'pengajuan-proposal')
-                                        Pengajuan Kegiatan
+                                    @elseif(Route::currentRouteName() == 'organisasi-mahasiswa.index')
+                                        Organisasi Mahasiswa
                                     @elseif(Route::currentRouteName() == 'pedoman.index')
                                         Pedoman Kemahasiswaan
                                     @elseif(Route::currentRouteName() == 'jenis-kegiatan.index')
@@ -458,8 +460,8 @@
                                         Bidang Kegiatan
                                     @elseif(Route::currentRouteName() == 'event-list.index')
                                         Event List
-                                    @elseif(Route::currentRouteName() == 'tambah-pengajuan-proposal')
-                                        Form Kegiatan
+                                    @elseif(Route::currentRouteName() == 'admin.manageRoles')
+                                        Manage Roles
                                     @elseif(Route::currentRouteName() == 'spj.index')
                                         Informasi SPJ
                                     @elseif(Route::currentRouteName() == 'spj.formIndex')

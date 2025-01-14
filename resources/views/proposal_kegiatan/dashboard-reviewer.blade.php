@@ -1,5 +1,8 @@
 @extends('proposal_kegiatan\reviewer')
+@section('title', 'Dashboard')
 @section('konten')
+
+<title>@yield('title', 'Dashboard')</title>
 
 <!-- Main Dashboard Container -->
 <div class="min-h-screen bg-gray-50 p-4 lg:p-8">

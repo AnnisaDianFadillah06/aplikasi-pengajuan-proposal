@@ -1,3 +1,7 @@
+@extends('proposal_kegiatan\pengaju')
+@section('title', 'Event List')
+@section('konten')
+
 <head>
     <link href="{{ asset('css/soft-ui-dashboard-tailwind.css?v=1.0.5') }}" rel="stylesheet" />    
     <!-- Nepcha Analytics (nepcha.com) -->

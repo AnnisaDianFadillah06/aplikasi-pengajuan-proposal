@@ -1,3 +1,5 @@
+<link rel="icon" type="image/png" href="{{ asset('img/LOGOPOLBAN4K.png') }}" />
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

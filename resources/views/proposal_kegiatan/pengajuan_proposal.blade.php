@@ -1,4 +1,5 @@
 @extends('proposal_kegiatan\pengaju')
+@section('title', 'Pengajuan Kegiatan')
 @section('konten')
 
 <div class="min-h-screen bg-gray-50 py-8">
