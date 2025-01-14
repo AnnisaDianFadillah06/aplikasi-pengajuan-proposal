@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Ormawa;
+use Illuminate\Http\Request;
 use App\Models\JenisKegiatan;
 use App\Models\BidangKegiatan;
-use Illuminate\Http\Request;
+use App\Models\PengajuanProposal;
 use Illuminate\Support\Facades\DB;
-use Carbon\Carbon;
 
 class TambahPengajuanProposal extends Controller
 {
@@ -104,48 +105,52 @@ class TambahPengajuanProposal extends Controller
         // Tentukan nilai status_spj berdasarkan jumlah_spj
         $statusSpj = $request->input('jumlah_spj') == 0 ? 1 : 0;
 
-        $query = DB::table('proposal_kegiatan')->insert([
-            'nama_kegiatan' => $request->input('nama_kegiatan'),
-            'tmpt_kegiatan' => $request->input('tempat_kegiatan'),
-            // 'tgl_kegiatan' => $request->input('tanggal_kegiatan'),
-            'file_proposal' => $file_proposal_path,
-            'surat_berkegiatan_ketuplak' => $file_berkegiatan_ketuplak_path,
-            'surat_pernyataan_ormawa' => $file_pernyataan_ormawa_path,
-            'surat_peminjaman_sarpras' => $file_peminjaman_sarpras_path,
-            'id_jenis_kegiatan' => $request->input('id_jenis_kegiatan'),
-            'id_bidang_kegiatan' => $request->input('id_bidang_kegiatan'),
-            'id_ormawa' => session('id_ormawa'),
-            'id_pengguna' => $id_pengaju,
-            'created_at' => now(),
-            'updated_at' => now(),
-            'created_by' => $id_pengaju,
-            'updated_by' => 1,
-            'status' => 0, // Default status
-            'status_spj' => $statusSpj,
-            'status_kegiatan' => 3, // Default kegiatan status
-            'tanggal_mulai' => $request->input('tanggal_mulai'),
-            'tanggal_akhir' => $request->input('tanggal_akhir'),
-            'dana_dipa' => $request->input('dana_dipa', 0),
-            'dana_swadaya' => $request->input('dana_swadaya', 0),
-            'dana_sponsor' => $request->input('dana_sponsor', 0),
-            'pengisi_acara' => $request->input('pengisi_acara'),
-            'sponsorship' => $request->input('sponsorship'),
-            'media_partner' => $request->input('media_partner'),
-            'jumlah_spj' => $request->input('jumlah_spj', 1),
-            'nama_penanggung_jawab' => $request->input('nama_penanggung_jawab'),
-            'email_penanggung_jawab' => $request->input('email_penanggung_jawab'),
-            'no_hp_penanggung_jawab' => $request->input('no_hp_penanggung_jawab'),
-            'poster_kegiatan' => $poster_path,
-            'caption_poster' => $request->input('caption_poster'),
-            'jml_peserta' => $request->input('jml_peserta', 0),
-            'jml_panitia' => $request->input('jml_panitia', 0),
-            'link_surat_izin_ortu' => $request->input('link_surat_izin_ortu'),
-        ]);
+        $pengajuan = new PengajuanProposal();
 
-        if ($query) {
+        // Set atribut-atributnya
+        $pengajuan->nama_kegiatan = $request->input('nama_kegiatan');
+        $pengajuan->tmpt_kegiatan = $request->input('tempat_kegiatan');
+        // $pengajuan->tgl_kegiatan = $request->input('tanggal_kegiatan');
+        $pengajuan->file_proposal = $file_proposal_path;
+        $pengajuan->surat_berkegiatan_ketuplak = $file_berkegiatan_ketuplak_path;
+        $pengajuan->surat_pernyataan_ormawa = $file_pernyataan_ormawa_path;
+        $pengajuan->surat_peminjaman_sarpras = $file_peminjaman_sarpras_path;
+        $pengajuan->id_jenis_kegiatan = $request->input('id_jenis_kegiatan');
+        $pengajuan->id_bidang_kegiatan = $request->input('id_bidang_kegiatan');
+        $pengajuan->id_ormawa = session('id_ormawa');
+        $pengajuan->id_pengguna = $id_pengaju;
+        $pengajuan->created_at = now();
+        $pengajuan->updated_at = now();
+        $pengajuan->created_by = $id_pengaju;
+        $pengajuan->updated_by = 1;
+        $pengajuan->status = 0; // Default status
+        $pengajuan->status_spj = $statusSpj;
+        $pengajuan->status_kegiatan = 3; // Default kegiatan status
+        $pengajuan->tanggal_mulai = $request->input('tanggal_mulai');
+        $pengajuan->tanggal_akhir = $request->input('tanggal_akhir');
+        $pengajuan->dana_dipa = $request->input('dana_dipa', 0);
+        $pengajuan->dana_swadaya = $request->input('dana_swadaya', 0);
+        $pengajuan->dana_sponsor = $request->input('dana_sponsor', 0);
+        $pengajuan->pengisi_acara = $request->input('pengisi_acara');
+        $pengajuan->sponsorship = $request->input('sponsorship');
+        $pengajuan->media_partner = $request->input('media_partner');
+        $pengajuan->jumlah_spj = $request->input('jumlah_spj', 1);
+        $pengajuan->nama_penanggung_jawab = $request->input('nama_penanggung_jawab');
+        $pengajuan->email_penanggung_jawab = $request->input('email_penanggung_jawab');
+        $pengajuan->no_hp_penanggung_jawab = $request->input('no_hp_penanggung_jawab');
+        $pengajuan->poster_kegiatan = $poster_path;
+        $pengajuan->caption_poster = $request->input('caption_poster');
+        $pengajuan->jml_peserta = $request->input('jml_peserta', 0);
+        $pengajuan->jml_panitia = $request->input('jml_panitia', 0);
+        $pengajuan->link_surat_izin_ortu = $request->input('link_surat_izin_ortu');
+
+        // Simpan data ke database
+        $pengajuan->save();
+        // Simpan data ke database dan cek hasilnya
+        if ($pengajuan->save()) {
             return redirect('/pengajuan-proposal')->with('sukses', 'Data berhasil tersimpan');
         } else {
-            return redirect('/pengajuan-proposal')->with('error', 'Terjadi kesalahan');
+            return redirect('/pengajuan-proposal')->with('error', 'Terjadi kesalahan saat menyimpan data');
         }
     }
 }
