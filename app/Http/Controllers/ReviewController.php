@@ -210,6 +210,12 @@ class ReviewController extends Controller
                 }
             }
 
+            // Ambil data ormawa proposal terkait
+            $ormawa = Ormawa::find($proposal->id_ormawa);
+
+            // Nama ormawa yang diambil dari relasi tabel
+            $nama_ormawa = $ormawa->nama_ormawa ?? '';
+            
                 // Update status proposal dan kegiatan
                 // if (session()->has('id_role') && session('id_role') == 5) {
                 if (session()->has('id_role') && session('id_role') == 5 && $request->input('status_revisi') == 1) {
@@ -219,7 +225,13 @@ class ReviewController extends Controller
 
                 // Update updated_by jika status revisi = 1
                 if ($request->input('status_revisi') == 1 && session()->has('id_role')) {
-                    $proposal->updated_by = session('id_role') + 1;
+                    // Kondisi khusus untuk Ormawa UKM, BEM, atau MPM
+                    if (str_contains($nama_ormawa, 'UKM') || str_contains($nama_ormawa, 'BEM') || str_contains($nama_ormawa, 'MPM')) {
+                        $proposal->updated_by = session('id_role') + 2;
+                    } else {
+                        // Kondisi default untuk Ormawa lainnya
+                        $proposal->updated_by = session('id_role') + 1;
+                    }
                 }
 
                 $proposal->save();
