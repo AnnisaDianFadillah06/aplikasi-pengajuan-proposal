@@ -257,51 +257,6 @@ class PengajuanProposalController extends Controller
         return redirect()->route('proposal.detail', $id);
     }
 
-    // upload pdf revisi
-    public function uploadFile(Request $request, $id_proposal)
-    {
-        // Validasi file
-        $request->validate([
-            'file_revisian' => 'required|file|mimes:pdf,doc,docx|max:2048',
-        ]);
-
-        // Cari proposal berdasarkan id_proposal
-        // $proposal = PengajuanProposal::findOrFail($id_proposal);
-
-        // Cari revisi terbaru berdasarkan id_proposal
-        $latestRevision = ReviewProposal::where('id_proposal', $id_proposal)
-                                        // ->orderBy('tgl_revisi', 'desc')
-                                        ->orderBy('id_revisi', 'desc')
-                                        ->first();
-
-        // Pastikan latestRevision ada
-        if (!$latestRevision) {
-            return redirect()->back()->withErrors(['error' => 'Tidak ada revisi yang ditemukan untuk proposal ini.']);
-        }
-
-        // Proses upload file
-        if ($request->hasFile('file_revisian')) {
-            // Simpan file ke folder tertentu (misal: `revisi_files`)
-            $file = $request->file('file_revisian');
-            $fileName = time().'_'.$file->getClientOriginalName(); // Generate nama file unik
-            $filePath = 'laraview/' . $fileName; // Path untuk disimpan di public/laraview
-            
-            // Simpan file langsung ke folder public/laraview
-            $file->move(public_path('laraview'), $fileName);
-            
-            // Update kolom file_revisi dengan path file yang baru diunggah
-            $latestRevision->update(['file_revisi' => $filePath]);
-
-            // Update status pada PengajuanProposal menjadi 0
-            // $proposal->update(['status' => 0]);
-
-            // Update status_revisi pada ReviewProposal menjadi 0
-            $latestRevision->update(['status_revisi' => 0]);
-        }
-
-        return redirect()->route('proposal.detail', $id_proposal)->with('success', 'File revisi berhasil diunggah.');
-    }
-
 
     public function update(Request $request, $id_proposal)
     {
@@ -389,7 +344,7 @@ class PengajuanProposalController extends Controller
         // Update status_revisi pada ReviewProposal menjadi 0
         $latestRevision->update(['status_revisi' => 0]);
 
-        $query = DB::table('proposal_kegiatan')->where('id_proposal', $id_proposal)->update([
+        $data = [
             'nama_kegiatan' => $request->input('nama_kegiatan'),
             'tmpt_kegiatan' => $request->input('tempat_kegiatan'),
             'file_proposal' => $file_proposal_path,
@@ -418,9 +373,11 @@ class PengajuanProposalController extends Controller
             'jml_peserta' => $request->input('jml_peserta', 0),
             'jml_panitia' => $request->input('jml_panitia', 0),
             'link_surat_izin_ortu' => $request->input('link_surat_izin_ortu'),
-        ]);
+        ];
 
-        if ($query) {
+        $proposal = PengajuanProposal::where('id_proposal', $id_proposal)->update($data);
+
+        if ($proposal) {
             return redirect()->route('proposal.detail', $id_proposal)->with('success', 'Data revisi berhasil diunggah.');
         } else {
             return redirect('/pengajuan-proposal')->with('error', 'Terjadi kesalahan saat memperbarui data.');

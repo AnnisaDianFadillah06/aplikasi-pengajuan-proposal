@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Ormawa;
+use Illuminate\Http\Request;
 use App\Models\JenisKegiatan;
 use App\Models\BidangKegiatan;
-use Illuminate\Http\Request;
+use App\Models\PengajuanProposal;
 use Illuminate\Support\Facades\DB;
-use Carbon\Carbon;
 
 class TambahPengajuanProposal extends Controller
 {
@@ -104,7 +105,7 @@ class TambahPengajuanProposal extends Controller
         // Tentukan nilai status_spj berdasarkan jumlah_spj
         $statusSpj = $request->input('jumlah_spj') == 0 ? 1 : 0;
 
-        $query = DB::table('proposal_kegiatan')->insert([
+        $data = [
             'nama_kegiatan' => $request->input('nama_kegiatan'),
             'tmpt_kegiatan' => $request->input('tempat_kegiatan'),
             // 'tgl_kegiatan' => $request->input('tanggal_kegiatan'),
@@ -140,9 +141,11 @@ class TambahPengajuanProposal extends Controller
             'jml_peserta' => $request->input('jml_peserta', 0),
             'jml_panitia' => $request->input('jml_panitia', 0),
             'link_surat_izin_ortu' => $request->input('link_surat_izin_ortu'),
-        ]);
+        ];
 
-        if ($query) {
+        $proposal = PengajuanProposal::create($data);
+
+        if ($proposal) {
             return redirect('/pengajuan-proposal')->with('sukses', 'Data berhasil tersimpan');
         } else {
             return redirect('/pengajuan-proposal')->with('error', 'Terjadi kesalahan');
