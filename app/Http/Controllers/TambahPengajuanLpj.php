@@ -73,21 +73,23 @@ class TambahPengajuanLpj extends Controller
             $fileSptb->move(public_path('uploads/sptb'), $fileSptbPath);
         }
 
-        $query = DB::table('lpj')->insert([
-            'id_ormawa' => session('id_ormawa'),
-            'jenis_lpj' => $request->input('jenis_lpj'),
-            'file_lpj' => $fileLpjPath,
-            'file_spj' => $fileSpjPath,
-            'file_sptb' => $fileSptbPath,
-            'tgl_upload' => now(),
-            'created_at' => now(),
-            'updated_at' => now(),
-            'created_by' => session('id'),
-            'updated_by' => 1,
-            'status_lpj' => 0,
-        ]);
+        $lpj = new Lpj();
 
-        if ($query) {
+        // Set atribut-atributnya
+        $lpj->id_ormawa = session('id_ormawa');
+        $lpj->jenis_lpj = $request->input('jenis_lpj');
+        $lpj->file_lpj = $fileLpjPath;
+        $lpj->file_spj = $fileSpjPath;
+        $lpj->file_sptb = $fileSptbPath;
+        $lpj->tgl_upload = now();
+        $lpj->created_at = now();
+        $lpj->updated_at = now();
+        $lpj->created_by = session('id');
+        $lpj->updated_by = 1;
+        $lpj->status_lpj = 0;
+
+        // Simpan data ke database dan cek hasilnya
+        if ($lpj->save()) {
             return redirect('/pengajuan-lpj')->with('sukses', 'Data berhasil tersimpan');
         } else {
             return redirect('/pengajuan-lpj')->with('error', 'Terjadi kesalahan');

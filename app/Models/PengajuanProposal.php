@@ -92,7 +92,7 @@ class PengajuanProposal extends Model
 
     protected static function booted()
 {
-    static::updating(function ($proposal) {
+    static::updated(function ($proposal) {
         Log::info('Proposal sebelum update:', $proposal->toArray()); // Log data sebelum update
         Log::info('Proposal yang berubah:', $proposal->getDirty());  // Log perubahan yang terjadi
         

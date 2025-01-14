@@ -289,7 +289,7 @@ class PengajuanProposalController extends Controller
             'link_surat_izin_ortu' => 'required|url|max:255',
         ]);
 
-        $proposal = DB::table('proposal_kegiatan')->where('id_proposal', $id_proposal)->first();
+        $proposal = PengajuanProposal::find($id_proposal);
 
         if (!$proposal) {
             return redirect()->back()->withErrors(['error' => 'Proposal tidak ditemukan.']);
@@ -344,44 +344,40 @@ class PengajuanProposalController extends Controller
         // Update status_revisi pada ReviewProposal menjadi 0
         $latestRevision->update(['status_revisi' => 0]);
 
-        $data = [
-            'nama_kegiatan' => $request->input('nama_kegiatan'),
-            'tmpt_kegiatan' => $request->input('tempat_kegiatan'),
-            'file_proposal' => $file_proposal_path,
-            'surat_berkegiatan_ketuplak' => $file_berkegiatan_ketuplak_path,
-            'surat_pernyataan_ormawa' => $file_pernyataan_ormawa_path,
-            'surat_peminjaman_sarpras' => $file_peminjaman_sarpras_path,
-            'id_jenis_kegiatan' => $request->input('id_jenis_kegiatan'),
-            'id_bidang_kegiatan' => $request->input('id_bidang_kegiatan'),
-            'id_ormawa' => session('id_ormawa'),
-            'updated_at' => now(),
-            // 'updated_by' => session('id'),
-            'tanggal_mulai' => $request->input('tanggal_mulai'),
-            'tanggal_akhir' => $request->input('tanggal_akhir'),
-            'dana_dipa' => $request->input('dana_dipa', 0),
-            'dana_swadaya' => $request->input('dana_swadaya', 0),
-            'dana_sponsor' => $request->input('dana_sponsor', 0),
-            'pengisi_acara' => $request->input('pengisi_acara'),
-            'sponsorship' => $request->input('sponsorship'),
-            'media_partner' => $request->input('media_partner'),
-            'jumlah_spj' => $request->input('jumlah_spj', 1),
-            'nama_penanggung_jawab' => $request->input('nama_penanggung_jawab'),
-            'email_penanggung_jawab' => $request->input('email_penanggung_jawab'),
-            'no_hp_penanggung_jawab' => $request->input('no_hp_penanggung_jawab'),
-            'poster_kegiatan' => $poster_path,
-            'caption_poster' => $request->input('caption_poster'),
-            'jml_peserta' => $request->input('jml_peserta', 0),
-            'jml_panitia' => $request->input('jml_panitia', 0),
-            'link_surat_izin_ortu' => $request->input('link_surat_izin_ortu'),
-        ];
-
-        $proposal = PengajuanProposal::where('id_proposal', $id_proposal)->update($data);
-
         if ($proposal) {
-            return redirect()->route('proposal.detail', $id_proposal)->with('success', 'Data revisi berhasil diunggah.');
-        } else {
-            return redirect('/pengajuan-proposal')->with('error', 'Terjadi kesalahan saat memperbarui data.');
-        }
+            $proposal->fill([
+                'nama_kegiatan' => $request->input('nama_kegiatan'),
+                'tmpt_kegiatan' => $request->input('tempat_kegiatan'),
+                'file_proposal' => $file_proposal_path,
+                'surat_berkegiatan_ketuplak' => $file_berkegiatan_ketuplak_path,
+                'surat_pernyataan_ormawa' => $file_pernyataan_ormawa_path,
+                'surat_peminjaman_sarpras' => $file_peminjaman_sarpras_path,
+                'id_jenis_kegiatan' => $request->input('id_jenis_kegiatan'),
+                'id_bidang_kegiatan' => $request->input('id_bidang_kegiatan'),
+                'id_ormawa' => session('id_ormawa'),
+                'tanggal_mulai' => $request->input('tanggal_mulai'),
+                'tanggal_akhir' => $request->input('tanggal_akhir'),
+                'dana_dipa' => $request->input('dana_dipa', 0),
+                'dana_swadaya' => $request->input('dana_swadaya', 0),
+                'dana_sponsor' => $request->input('dana_sponsor', 0),
+                'pengisi_acara' => $request->input('pengisi_acara'),
+                'sponsorship' => $request->input('sponsorship'),
+                'media_partner' => $request->input('media_partner'),
+                'jumlah_spj' => $request->input('jumlah_spj', 1),
+                'nama_penanggung_jawab' => $request->input('nama_penanggung_jawab'),
+                'email_penanggung_jawab' => $request->input('email_penanggung_jawab'),
+                'no_hp_penanggung_jawab' => $request->input('no_hp_penanggung_jawab'),
+                'poster_kegiatan' => $poster_path,
+                'caption_poster' => $request->input('caption_poster'),
+                'jml_peserta' => $request->input('jml_peserta', 0),
+                'jml_panitia' => $request->input('jml_panitia', 0),
+                'link_surat_izin_ortu' => $request->input('link_surat_izin_ortu'),
+            ]);
+        
+            if ($proposal->save()) {
+                return redirect()->route('proposal.detail', $id_proposal)->with('success', 'Data revisi berhasil diunggah.');
+            }
+        }        
     }
 
 }
