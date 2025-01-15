@@ -264,7 +264,7 @@ class ReviewController extends Controller
 
         // Ambil data revisi terbaru terkait proposal ini (semua revisi)
         $allRevisions = ReviewProposal::where('id_proposal', $proposal->id_proposal)
-                                        ->with(['reviewer.role']) // Eager loading reviewer dan role
+                                        ->with(['reviewer']) // Eager loading reviewer dan role
                                         ->select(
                                             'id_dosen',
                                             'catatan_revisi',
@@ -333,7 +333,7 @@ class ReviewController extends Controller
 
         // Ambil data revisi terbaru terkait spj ini (semua revisi)
         $allRevisions = ReviewSPJ::where('id_spj', $spj->id_spj)
-                                        ->with(['reviewer.role']) // Eager loading reviewer dan role
+                                        ->with(['reviewer']) // Eager loading reviewer dan role
                                         ->select(
                                             'id_dosen',
                                             'catatan_revisi',
@@ -402,7 +402,7 @@ class ReviewController extends Controller
 
         // Ambil data revisi terbaru terkait lpj ini (semua revisi)
         $allRevisions = ReviewLPJ::where('id_lpj', $lpj->id_lpj)
-                                        ->with(['reviewer.role']) // Eager loading reviewer dan role
+                                        ->with(['reviewer']) // Eager loading reviewer dan role
                                         ->select(
                                             'id_dosen',
                                             'catatan_revisi',

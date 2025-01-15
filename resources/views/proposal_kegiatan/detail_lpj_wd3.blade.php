@@ -137,9 +137,6 @@
                                 Reviewer
                             </th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Role
-                            </th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 Catatan Revisi
                             </th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -154,11 +151,8 @@
                         @forelse ($groupedRevisions as $idDosen => $revisions)
                             @foreach ($revisions as $revision)
                             <tr class="hover:bg-gray-50">
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                    {{ $revision->reviewer->username ?? 'Unknown' }}
-                                </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                    {{ $revision->reviewer->role->role ?? 'Unknown' }}
+                                    {{ $revision->reviewer->role ?? 'Unknown' }}
                                 </td>
                                 <td class="px-6 py-4 text-sm text-gray-500">
                                     {{ $revision->catatan_revisi }}
