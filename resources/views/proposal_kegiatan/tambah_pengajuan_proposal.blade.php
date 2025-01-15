@@ -1,15 +1,6 @@
 @extends('proposal_kegiatan\pengaju')
 
 @section('konten')
-@if ($errors->any())
-    <div class="mb-4 text-red-500">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
 
 <main class="max-w-4xl mx-auto px-4">
         <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
@@ -276,7 +267,7 @@
                         <div class="flex items-center space-x-3">
                             <div class="relative flex-1">
                                 <input type="file" class="file-input absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" 
-                                    name="file_proposal" />
+                                    name="file_proposal" value="{{ old('file_proposal') }}" />
                                 <div class="flex items-center px-4 py-3 border-2 border-dashed border-gray-300 hover:border-blue-500 rounded-xl transition-colors duration-300 bg-gray-50">
                                     <div class="flex items-center flex-1 space-x-2">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -318,7 +309,7 @@
                         <div class="flex items-center space-x-3">
                             <div class="relative flex-1">
                                 <input type="file" class="file-input absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" 
-                                    name="surat_berkegiatan_ketuplak" />
+                                    name="surat_berkegiatan_ketuplak" value="{{ old('surat_berkegiatan_ketuplak') }}" />
                                 <div class="flex items-center px-4 py-3 border-2 border-dashed border-gray-300 hover:border-blue-500 rounded-xl transition-colors duration-300 bg-gray-50">
                                     <div class="flex items-center flex-1 space-x-2">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -360,7 +351,7 @@
                         <div class="flex items-center space-x-3">
                             <div class="relative flex-1">
                                 <input type="file" class="file-input absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" 
-                                    name="surat_pernyataan_ormawa" />
+                                    name="surat_pernyataan_ormawa" value="{{ old('surat_pernyataan_ormawa') }}" />
                                 <div class="flex items-center px-4 py-3 border-2 border-dashed border-gray-300 hover:border-blue-500 rounded-xl transition-colors duration-300 bg-gray-50">
                                     <div class="flex items-center flex-1 space-x-2">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -402,7 +393,7 @@
                         <div class="flex items-center space-x-3">
                             <div class="relative flex-1">
                                 <input type="file" class="file-input absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" 
-                                    name="surat_peminjaman_sarpras" />
+                                    name="surat_peminjaman_sarpras" value="{{ old('surat_peminjaman_sarpras') }}" />
                                 <div class="flex items-center px-4 py-3 border-2 border-dashed border-gray-300 hover:border-blue-500 rounded-xl transition-colors duration-300 bg-gray-50">
                                     <div class="flex items-center flex-1 space-x-2">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -457,7 +448,7 @@
                         <div class="flex items-center space-x-3">
                             <div class="relative flex-1">
                                 <input type="file" class="file-input absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" 
-                                    name="poster_kegiatan" accept="image/*"/>
+                                    name="poster_kegiatan" accept="image/*" value="{{ old('poster_kegiatan') }}" />
                                 <div class="flex items-center px-4 py-3 border-2 border-dashed border-gray-300 hover:border-blue-500 rounded-xl transition-colors duration-300 bg-gray-50">
                                     <div class="flex items-center flex-1 space-x-2">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">

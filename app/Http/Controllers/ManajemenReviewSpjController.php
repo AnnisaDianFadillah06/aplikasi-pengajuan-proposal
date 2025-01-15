@@ -1,13 +1,14 @@
 <?php
 
 namespace App\Http\Controllers;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
-use App\Mail\kirimEmail; // Pastikan file Mail sesuai namespace
-use App\Models\ReviewSPJ;
 use App\Models\Spj;
+use App\Models\Ormawa;
+use App\Models\ReviewSPJ;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Symfony\Component\Mailer\Exception\TransportException;
+use App\Mail\kirimEmail; // Pastikan file Mail sesuai namespace
 
 
 class ManajemenReviewSpjController extends Controller
@@ -84,6 +85,12 @@ class ManajemenReviewSpjController extends Controller
                         Mail::to($pengaju->email)->send(new kirimEmail($data_email));
                     }
                 }
+
+                // Ambil data ormawa proposal terkait
+                $ormawa = Ormawa::find($proposal->id_ormawa);
+
+                // Nama ormawa yang diambil dari relasi tabel
+                $nama_ormawa = $ormawa->nama_ormawa ?? '';
     
                     // Update status SPJ di tabel proposal kegiatan jika sampai tahap akhir (session id = 6)
                     if (session()->has('id_role') && session('id_role') == 5) {
@@ -92,8 +99,15 @@ class ManajemenReviewSpjController extends Controller
                     }
     
                     // Update updated_by jika status revisi di tabel revisi SPJ = 1
-                    if ($request->input('status_revisi') == 1 && session()->has('id')) {
-                        $spj->updated_by = session('id_role') + 1; // Misal role yang melakukan revisi
+                    // Update updated_by jika status revisi = 1
+                    if ($request->input('status_revisi') == 1 && session()->has('id_role')) {
+                        // Kondisi khusus untuk Ormawa UKM, BEM, atau MPM
+                        if (str_contains($nama_ormawa, 'UKM') || str_contains($nama_ormawa, 'BEM') || str_contains($nama_ormawa, 'MPM')) {
+                            $spj->updated_by = session('id_role') + 2;
+                        } else {
+                            // Kondisi default untuk Ormawa lainnya
+                            $spj->updated_by = session('id_role') + 1;
+                        }
                     }
     
                     $spj->save(); 

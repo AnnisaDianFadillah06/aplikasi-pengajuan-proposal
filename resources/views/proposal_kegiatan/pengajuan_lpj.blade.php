@@ -1,4 +1,5 @@
 @extends('proposal_kegiatan\pengaju')
+@section('title', 'Pengajuan LPJ')
 @section('konten')
 
 {{-- Cek apakah ada sesi login dan tampilkan data pengguna --}}
@@ -80,7 +81,7 @@
                             }
                         } else {
                             // Jika tidak ada review terbaru, gunakan nilai default dari item
-                            $statusRevisi = null;
+                            $statusRevisi = $item->status_lpj;
                             $tahap = $item->updated_by;
                         }
                     @endphp

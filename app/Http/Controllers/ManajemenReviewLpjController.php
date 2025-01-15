@@ -1,13 +1,14 @@
 <?php
 
 namespace App\Http\Controllers;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
-use App\Mail\kirimEmail; // Pastikan file Mail sesuai namespace
-use App\Models\ReviewLPJ;
 use App\Models\Lpj;
+use App\Models\Ormawa;
+use App\Models\ReviewLPJ;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Symfony\Component\Mailer\Exception\TransportException;
+use App\Mail\kirimEmail; // Pastikan file Mail sesuai namespace
 
 
 class ManajemenReviewLpjController extends Controller
@@ -84,6 +85,12 @@ class ManajemenReviewLpjController extends Controller
                             Mail::to($pengaju->email)->send(new kirimEmail($data_email));
                         }
                     }
+
+                    // Ambil data ormawa proposal terkait
+                    $ormawa = Ormawa::find($lpj->id_ormawa);
+
+                    // Nama ormawa yang diambil dari relasi tabel
+                    $nama_ormawa = $ormawa->nama_ormawa ?? '';
     
                     // Update status LPJ di tabel proposal kegiatan jika sampai tahap akhir (session id = 6)
                     if (session()->has('id_role') && session('id_role') == 5) {
@@ -92,9 +99,15 @@ class ManajemenReviewLpjController extends Controller
     
                     // Update updated_by jika status revisi di tabel revisi LPJ = 1
                     if ($request->input('status_revisi') == 1 && session()->has('id_role')) {
-                        $lpj->updated_by = session('id_role') + 1; // Misal role yang melakukan revisi
+                        // Kondisi khusus untuk Ormawa UKM, BEM, atau MPM
+                        if (str_contains($nama_ormawa, 'UKM') || str_contains($nama_ormawa, 'BEM') || str_contains($nama_ormawa, 'MPM')) {
+                            $lpj->updated_by = session('id_role') + 2;
+                        } else {
+                            // Kondisi default untuk Ormawa lainnya
+                            $lpj->updated_by = session('id_role') + 1;
+                        }
                     }
-    
+                    
                     $lpj->save(); // Simpan perubahan pada tabel proposal kegiatan
                 }
             }

@@ -77,7 +77,7 @@ class PengajuanLpjController extends Controller
                 : $latestReview->status_revisi;
         } else {
             $updatedByStep = $lpj->updated_by;
-            $status = 0;
+            $status = $lpj->status;
         }
 
         // Periksa jika ini adalah akses pertama kali
@@ -96,7 +96,7 @@ class PengajuanLpjController extends Controller
         // Ambil data revisi terbaru terkait proposal ini (current step)
         $allRevision = ReviewLpj::where('id_lpj', $lpj->id_lpj)
                                         ->where('id_dosen', $currentStep) // Filter berdasarkan currentStep
-                                        ->with(['reviewer.role']) // Eager loading reviewer dan role
+                                        ->with(['reviewer']) // Eager loading reviewer dan role
                                         ->select(
                                             'id_dosen',
                                             'catatan_revisi',
@@ -232,7 +232,7 @@ class PengajuanLpjController extends Controller
         ]);
 
         // Cari data LPJ berdasarkan ID
-        $lpj = DB::table('lpj')->where('id_lpj', $id)->first();
+        $lpj = Lpj::findOrFail($id); 
 
         if (!$lpj) {
             return redirect()->back()->with('error', 'Data LPJ tidak ditemukan.');
@@ -280,19 +280,21 @@ class PengajuanLpjController extends Controller
         $latestRevision->update(['status_revisi' => 0]);
 
         // Update data ke database
-        $query = DB::table('lpj')->where('id_lpj', $id)->update([
-            'jenis_lpj' => $request->input('jenis_lpj'),
-            'file_lpj' => $fileLpjPath,
-            'file_spj' => $fileSpjPath,
-            'file_sptb' => $fileSptbPath,
-            'updated_at' => now(),
-            'updated_by' => session('id'),
-        ]);
-
-        if ($query) {
-            return redirect()->route('lpj.detail', $lpj->id_lpj)->with('success', 'SPJ berhasil diperbarui.');
-        } else {
-            return redirect('/pengajuan-lpj')->with('error', 'Terjadi kesalahan saat memperbarui data.');
+        if ($lpj) {
+            $lpj->fill([
+                'jenis_lpj' => $request->input('jenis_lpj'),
+                'file_lpj' => $fileLpjPath,
+                'file_spj' => $fileSpjPath,
+                'file_sptb' => $fileSptbPath,
+                'updated_at' => now(),
+                'updated_by' => session('id'),
+            ]);
+        
+            if ($lpj->save()) {
+                return redirect()->route('lpj.detail', $lpj->id_lpj)->with('success', 'SPJ berhasil diperbarui.');
+            }
         }
+        
+        return redirect('/pengajuan-lpj')->with('error', 'Terjadi kesalahan saat memperbarui data.');
     }
 }

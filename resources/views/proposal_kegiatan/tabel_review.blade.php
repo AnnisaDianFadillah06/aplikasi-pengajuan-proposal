@@ -1,6 +1,8 @@
 @extends('proposal_kegiatan\reviewer')
+@section('title', 'Manajemen Review')
 @section('konten')
 
+<title>@yield('title', 'Manajemen Review')</title>
 
 <!-- Link Tailwind CSS dan FontAwesome untuk ikon -->
 <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
@@ -31,7 +33,6 @@
         {{ session('error') }}
     </div>
 @endif
-
 
 <div class="flex flex-wrap -mx-3">
     <div class="flex-none w-full max-w-full px-3">
@@ -92,27 +93,38 @@
                             </td>
                             <td class="p-2 text-sm leading-normal text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
                                 @php
-                                    // Prioritaskan status dari latestRevision jika ada, gunakan item->status jika tidak
-                                    $status = $item->latestRevision ? $item->latestRevision->status_revisi : $item->status;
-                                    $tahap = $item->updated_by;
+                                    // Mengambil revisi terbaru yang sesuai dengan id_proposal
+                                    $latestReview = $item->latestRevision;
+
+                                    if ($latestReview) {
+                                        // Status revisi dan tahap berdasarkan review terbaru
+                                        $statusRevisi = $latestReview->status_revisi;
+                                        $tahap = $latestReview->id_dosen;
+
+                                        // Pengondisian tambahan: jika status revisi adalah 1
+                                        if ($statusRevisi == 1) {
+                                            $statusRevisi = 0; // Mengubah status revisi menjadi 0
+                                            $tahap += 1;       // Meningkatkan tahap
+                                        }
+                                    } else {
+                                        // Jika tidak ada review terbaru, gunakan nilai default dari item
+                                        $statusRevisi = $item->status;
+                                        $tahap = $item->updated_by;
+                                    }
                                 @endphp
-                                @if ($status == 0)
+                                @if ($statusRevisi == 0)
                                     <span class="bg-gradient-to-tl from-yellow-500 to-yellow-300 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">
-                                        Menunggu
+                                        Menunggu 
                                     </span>
-                                @elseif ($status == 1 && $tahap < $sessionId)
-                                    <span class="bg-gradient-to-tl from-yellow-500 to-yellow-300 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">
-                                        Menunggu
-                                    </span>
-                                @elseif ($status == 1 && $tahap >= $sessionId)
+                                @elseif ($statusRevisi == 1)
                                     <span class="bg-gradient-to-tl from-green-600 to-lime-400 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">
                                         Disetujui
                                     </span>
-                                @elseif ($status == 2)
+                                @elseif ($statusRevisi == 2)
                                     <span class="bg-gradient-to-tl from-red-600 to-red-400 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">
                                         Ditolak
                                     </span>
-                                @elseif ($status == 3)
+                                @elseif ($statusRevisi == 3)
                                     <span class="bg-gradient-to-tl from-blue-600 to-blue-400 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">
                                         Revisi
                                     </span>
@@ -140,9 +152,57 @@
                             <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
                                 <span class="text-xs font-semibold leading-tight text-slate-400">{{ $item->updated_at->format('Y-m-d')  }}</span>
                             </td>
+
+                            @php
+                                // Mapping tahap berdasarkan updated_by
+                                $tahapMapProposal = [
+                                    1 => 'BEM',
+                                    2 => 'Pembina',
+                                    3 => 'Ketua Jurusan',
+                                    4 => 'KLI',
+                                    5 => 'Wadir 3',
+                                    6 => 'Wadir 3', // Jika updated_by == 6, juga dianggap Wadir 3
+                                ];
+                            
+                                // Tentukan label tahap berdasarkan updated_by
+                                $tahapLabelProposal = $tahapMapProposal[$item->updated_by] ?? 'Tahap Tidak Diketahui';
+
+                                // Tentukan apakah tombol dinonaktifkan
+                                $isDisabledProposal = $idRole == 5 && $item->updated_by != 5 && $item->updated_by != 6 ;
+
+                                // Tentukan apakah updated_by == 6
+                                $isWadir3Proposal = $idRole == 5 && $item->updated_by == 6 ;
+
+                                // Tentukan apakah tombol dinonaktifkan
+                                $isDisabledProposal2 = $statusRevisi == 3 ;
+
+                                // Tentukan title dan class berdasarkan kondisi
+                                $buttonClassProposal = '';
+                                $titleTextProposal = '';
+
+                                if ($isDisabledProposal) {
+                                    $buttonClassProposal = 'cursor-not-allowed bg-gray-300 text-gray-500';
+                                    $titleTextProposal = 'Masih di tahap ' . $tahapLabelProposal;
+                                } elseif ($isWadir3Proposal) {
+                                    $buttonClassProposal = 'cursor-not-allowed bg-gray-300 text-gray-500'; // Style khusus untuk Wadir 3
+                                    $titleTextProposal = 'Sudah direview';
+                                } elseif ($isDisabledProposal2) {
+                                    $buttonClassProposal = 'cursor-not-allowed bg-gray-300 text-gray-500'; // Style khusus untuk Wadir 3
+                                    $titleTextProposal = 'Menunggu Revisi';
+                                } else {
+                                    $buttonClassProposal = 'bg-blue-500 text-white hover:bg-blue-600';
+                                    $titleTextProposal = 'Lanjutkan Review';
+                                }
+                            @endphp
+
                             <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                                <a href="{{ route('proposal.show', ['reviewProposal' => $item->id_proposal]) }}"  onclick="logProposalId({{ $item->id }})" class="bg-blue-500 text-white px-2 py-1 rounded hover:underline">Review</a>
-                            </td>
+                                <a href="{{ $isDisabledProposal ? '#' : route('proposal.show', ['reviewProposal' => $item->id_proposal]) }}" 
+                                    onclick="{{ $isDisabledProposal ? 'return false;' : 'logProposalId(' . $item->id . ')' }}" 
+                                    class="px-2 py-1 rounded hover:underline {{ $buttonClassProposal }}" 
+                                    title="{{ $titleTextProposal }}">
+                                     Review
+                                 </a>
+                            </td> 
                             @if($idRole == 5)
                                 <td class="p-2 text-sm leading-normal text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
                                     <form method="GET" action="{{ route('proposalWD3.detail', $item->id_proposal) }}">
@@ -174,7 +234,7 @@
                                 <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Tahap</th>
                             @endif
                             <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Tanggal Kegiatan</th>
-                            <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Tanggal Pengajuan LPJ</th>
+                            <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Tanggal Pengajuan SPJ</th>
                             <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Aksi</th>
                             @if($idRole == 5)
                                 <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Detail</th>
@@ -198,27 +258,43 @@
                             </td>
                             <td class="p-2 text-sm leading-normal text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
                                 @php
+                                    // Mengambil revisi terbaru yang sesuai dengan id_proposal
+                                    $latestReview = $spj->latestRevision;
+
+                                    if ($latestReview) {
+                                        // Status revisi dan tahap berdasarkan review terbaru
+                                        $statusRevisi = $latestReview->status_revisi;
+                                        $tahapSpj = $latestReview->id_dosen;
+
+                                        // Pengondisian tambahan: jika status revisi adalah 1
+                                        if ($statusRevisi == 1) {
+                                            $statusRevisi = 0; // Mengubah status revisi menjadi 0
+                                            $tahapSpj += 1;       // Meningkatkan tahap
+                                        }
+                                    } else {
+                                        // Jika tidak ada review terbaru, gunakan nilai default dari item
+                                        $statusRevisi = $spj->status;
+                                        $tahapSpj = $spj->updated_by;
+                                    }
+                                @endphp
+                                @php
                                     // Prioritaskan status dari latestRevision jika ada, gunakan item->status jika tidak
                                     $status = $spj->latestRevision ? $spj->latestRevision->status_revisi : $spj->status;
                                     $tahapSpj = $spj->updated_by;
                                 @endphp
-                                @if ($status == 0)
+                                @if ($statusRevisi == 0)
                                     <span class="bg-gradient-to-tl from-yellow-500 to-yellow-300 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">
-                                        Menunggu
+                                        Menunggu 
                                     </span>
-                                @elseif ($status == 1)
-                                    <span class="bg-gradient-to-tl from-yellow-500 to-yellow-300 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">
-                                        Menunggu
-                                    </span>
-                                @elseif ($status == 1)
+                                @elseif ($statusRevisi == 1)
                                     <span class="bg-gradient-to-tl from-green-600 to-lime-400 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">
                                         Disetujui
                                     </span>
-                                @elseif ($status == 2)
+                                @elseif ($statusRevisi == 2)
                                     <span class="bg-gradient-to-tl from-red-600 to-red-400 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">
                                         Ditolak
                                     </span>
-                                @elseif ($status == 3)
+                                @elseif ($statusRevisi == 3)
                                     <span class="bg-gradient-to-tl from-blue-600 to-blue-400 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">
                                         Revisi
                                     </span>
@@ -246,9 +322,56 @@
                             <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
                                 <span class="text-xs font-semibold leading-tight text-slate-400">{{ \Carbon\Carbon::parse($spj->updated_at)->format('Y-m-d') }}</span>
                             </td>
+
+                            @php
+                                // Mapping tahap berdasarkan updated_by
+                                $tahapMapSPJ = [
+                                    1 => 'BEM',
+                                    2 => 'Pembina',
+                                    3 => 'Ketua Jurusan',
+                                    4 => 'KLI',
+                                    5 => 'Wadir 3',
+                                    6 => 'Wadir 3', // Jika updated_by == 6, juga dianggap Wadir 3
+                                ];
+                            
+                                // Tentukan label tahap berdasarkan updated_by
+                                $tahapLabelSPJ = $tahapMapSPJ[$spj->updated_by] ?? 'Tahap Tidak Diketahui';
+
+                                // Tentukan apakah tombol dinonaktifkan
+                                $isDisabledSPJ = $idRole == 5 && $spj->updated_by != 5 && $spj->updated_by != 6;
+
+                                // Tentukan apakah updated_by == 6
+                                $isWadir3SPJ = $idRole == 5 && $spj->updated_by == 6;
+
+                                $isDisabledSPJ2 = $statusRevisi == 3;
+
+                                // Tentukan title dan class berdasarkan kondisi
+                                $buttonClassSPJ = '';
+                                $titleTextSPJ = '';
+
+                                if ($isDisabledSPJ) {
+                                    $buttonClassSPJ = 'cursor-not-allowed bg-gray-300 text-gray-500';
+                                    $titleTextSPJ = 'Masih di tahap ' . $tahapLabelSPJ;
+                                } elseif ($isWadir3SPJ) {
+                                    $buttonClassSPJ = 'cursor-not-allowed bg-gray-300 text-gray-500'; // Style khusus untuk Wadir 3
+                                    $titleTextSPJ = 'Sudah direview';
+                                } elseif ($isDisabledSPJ2) {
+                                    $buttonClassProposal = 'cursor-not-allowed bg-gray-300 text-gray-500'; // Style khusus untuk Wadir 3
+                                    $titleTextProposal = 'Menunggu Revisi';
+                                } else {
+                                    $buttonClassSPJ = 'bg-blue-500 text-white hover:bg-blue-600';
+                                    $titleTextSPJ = 'Lanjutkan Review';
+                                }
+                            @endphp
+
                             <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                                <a href="{{ route('reviewSPJ.show', ['reviewSPJ' => $spj->id_spj]) }}"  onclick="logProposalId({{ $spj->id_spj }})" class="bg-blue-500 text-white px-2 py-1 rounded hover:underline">Review</a>
-                            </td>
+                                <a href="{{ $isDisabledSPJ ? '#' : route('reviewSPJ.show', ['reviewSPJ' => $spj->id_spj]) }}" 
+                                    onclick="{{ $isDisabledSPJ ? 'return false;' : 'logProposalId(' . $spj->id_spj . ')' }}" 
+                                    class="px-2 py-1 rounded hover:underline {{ $buttonClassSPJ }}" 
+                                    title="{{ $titleTextSPJ }}">
+                                     Review
+                                 </a>
+                            </td> 
                             @if($idRole == 5)
                                 <td class="p-2 text-sm leading-normal text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
                                     <form method="GET" action="{{ route('spjWD3.detail', $spj->id_spj) }}">
@@ -306,27 +429,38 @@
                             </td>
                             <td class="p-2 text-sm leading-normal text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
                                 @php
-                                    // Prioritaskan status dari latestRevision jika ada, gunakan item->status jika tidak
-                                    $status = $lpj->latestRevision ? $lpj->latestRevision->status_revisi : $lpj->status_lpj;
-                                    $tahapLpj = $lpj->updated_by;
+                                    // Mengambil revisi terbaru yang sesuai dengan id_proposal
+                                    $latestReview = $lpj->latestRevision;
+
+                                    if ($latestReview) {
+                                        // Status revisi dan tahap berdasarkan review terbaru
+                                        $statusRevisi = $latestReview->status_revisi;
+                                        $tahapLpj = $latestReview->id_dosen;
+
+                                        // Pengondisian tambahan: jika status revisi adalah 1
+                                        if ($statusRevisi == 1) {
+                                            $statusRevisi = 0; // Mengubah status revisi menjadi 0
+                                            $tahapLpj += 1;       // Meningkatkan tahap
+                                        }
+                                    } else {
+                                        // Jika tidak ada review terbaru, gunakan nilai default dari item
+                                        $statusRevisi = $lpj->status;
+                                        $tahapLpj = $lpj->updated_by;
+                                    }
                                 @endphp
-                                @if ($status == 0)
+                                @if ($statusRevisi == 0)
                                     <span class="bg-gradient-to-tl from-yellow-500 to-yellow-300 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">
-                                        Menunggu
+                                        Menunggu 
                                     </span>
-                                @elseif ($status == 1)
-                                    <span class="bg-gradient-to-tl from-yellow-500 to-yellow-300 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">
-                                        Menunggu
-                                    </span>
-                                @elseif ($status == 1)
+                                @elseif ($statusRevisi == 1)
                                     <span class="bg-gradient-to-tl from-green-600 to-lime-400 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">
                                         Disetujui
                                     </span>
-                                @elseif ($status == 2)
+                                @elseif ($statusRevisi == 2)
                                     <span class="bg-gradient-to-tl from-red-600 to-red-400 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">
                                         Ditolak
                                     </span>
-                                @elseif ($status == 3)
+                                @elseif ($statusRevisi == 3)
                                     <span class="bg-gradient-to-tl from-blue-600 to-blue-400 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">
                                         Revisi
                                     </span>
@@ -351,9 +485,57 @@
                             <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
                                 <span class="text-xs font-semibold leading-tight text-slate-400">{{ \Carbon\Carbon::parse($lpj->updated_at)->format('Y-m-d') }}</span>
                             </td>
+
+                            @php
+                                // Mapping tahap berdasarkan updated_by
+                                $tahapMapLPJ = [
+                                    1 => 'BEM',
+                                    2 => 'Pembina',
+                                    3 => 'Ketua Jurusan',
+                                    4 => 'KLI',
+                                    5 => 'Wadir 3',
+                                    6 => 'Wadir 3', // Jika updated_by == 6, juga dianggap Wadir 3
+                                ];
+                            
+                                // Tentukan label tahap berdasarkan updated_by
+                                $tahapLabelLPJ = $tahapMapLPJ[$lpj->updated_by] ?? 'Tahap Tidak Diketahui';
+
+                                // Tentukan apakah tombol dinonaktifkan
+                                $isDisabledLPJ = $idRole == 5 && $lpj->updated_by != 5 && $lpj->updated_by != 6;
+
+                                // Tentukan apakah updated_by == 6
+                                $isWadir3LPJ = $idRole == 5 && $lpj->updated_by == 6;
+
+                                $isDisabledLPJ2 = $statusRevisi == 3;
+
+                                // Tentukan title dan class berdasarkan kondisi
+                                $buttonClassLPJ = '';
+                                $titleTextLPJ = '';
+
+                                if ($isDisabledLPJ) {
+                                    $buttonClassLPJ = 'cursor-not-allowed bg-gray-300 text-gray-500';
+                                    $titleTextLPJ = 'Masih di tahap ' . $tahapLabelLPJ;
+                                } elseif ($isWadir3LPJ) {
+                                    $buttonClassLPJ = 'cursor-not-allowed bg-gray-300 text-gray-500'; // Style khusus untuk Wadir 3
+                                    $titleTextLPJ = 'Sudah direview';
+                                } elseif ($isDisabledLPJ2) {
+                                    $buttonClassProposal = 'cursor-not-allowed bg-gray-300 text-gray-500'; // Style khusus untuk Wadir 3
+                                    $titleTextProposal = 'Menunggu Revisi';
+                                } else {
+                                    $buttonClassLPJ = 'bg-blue-500 text-white hover:bg-blue-600';
+                                    $titleTextLPJ = 'Lanjutkan Review';
+                                }
+                            @endphp
+
                             <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                            <a href="{{ route('reviewLPJ.show', ['reviewLPJ' => $lpj->id_lpj]) }}"  onclick="logProposalId({{ $lpj->id_lpj }})" class="bg-blue-500 text-white px-2 py-1 rounded hover:underline">Review</a>
-                            </td>
+                                <a href="{{ $isDisabledLPJ ? '#' : route('reviewLPJ.show', ['reviewLPJ' => $lpj->id_lpj]) }}" 
+                                   onclick="{{ $isDisabledLPJ ? 'return false;' : 'logProposalId(' . $lpj->id_lpj . ')' }}" 
+                                   class="px-2 py-1 rounded hover:underline {{ $buttonClassLPJ }}" 
+                                    title="{{ $titleTextLPJ }} ">
+                                    Review
+                                </a>
+                            </td>  
+
                             @if($idRole == 5)
                                 <td class="p-2 text-sm leading-normal text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
                                     <form method="GET" action="{{ route('lpjWD3.detail', $lpj->id_lpj) }}">

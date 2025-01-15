@@ -39,7 +39,7 @@
                         <div class="relative">
                             <div class="w-12 h-12 flex items-center justify-center rounded-full transition-all duration-300 
                                 {{ $currentStep >= 0 ? 'bg-blue-600 shadow-lg shadow-blue-200' : 'bg-gray-200' }} 
-                                {{ $updatedByStep == 0 ? 'step-pulse ring-4 ring-blue-200' : '' }}">
+                                {{ $updatedByStep == 0 ? 'ring-4 ring-blue-400 animate-pulse scale-110' : '' }}">
                                 <i class="fas fa-paper-plane text-lg {{ $currentStep >= 0 ? 'text-white' : 'text-gray-500' }}"></i>
                             </div>
                             @if($currentStep >= 0)
@@ -59,7 +59,7 @@
                         <div class="relative">
                             <div class="w-12 h-12 flex items-center justify-center rounded-full transition-all duration-300 
                                 {{ $currentStep >= 1 ? 'bg-blue-600 shadow-lg shadow-blue-200' : 'bg-gray-200' }}
-                                {{ $updatedByStep == 1 ? 'step-pulse ring-4 ring-blue-200' : '' }}">
+                                {{ $updatedByStep == 1 ? 'ring-4 ring-blue-400 animate-pulse scale-110' : '' }}">
                                 <i class="fas fa-users text-lg {{ $currentStep >= 1 ? 'text-white' : 'text-gray-500' }}"></i>
                             </div>
                             @if($currentStep >= 1)
@@ -79,7 +79,7 @@
                         <div class="relative">
                             <div class="w-12 h-12 flex items-center justify-center rounded-full transition-all duration-300 
                                 {{ $currentStep >= 2 ? 'bg-blue-600 shadow-lg shadow-blue-200' : 'bg-gray-200' }}
-                                {{ $updatedByStep == 2 ? 'step-pulse ring-4 ring-blue-200' : '' }}">
+                                {{ $updatedByStep == 2 ? 'ring-4 ring-blue-400 animate-pulse scale-110' : '' }}">
                                 <i class="fas fa-user-tie text-lg {{ $currentStep >= 2 ? 'text-white' : 'text-gray-500' }}"></i>
                             </div>
                             @if($currentStep >= 2)
@@ -100,7 +100,7 @@
                         <div class="relative">
                             <div class="w-12 h-12 flex items-center justify-center rounded-full transition-all duration-300 
                                 {{ $currentStep >= 3 ? 'bg-blue-600 shadow-lg shadow-blue-200' : 'bg-gray-200' }}
-                                {{ $updatedByStep == 3 ? 'step-pulse ring-4 ring-blue-200' : '' }}">
+                                {{ $updatedByStep == 3 ? 'ring-4 ring-blue-400 animate-pulse scale-110' : '' }}">
                                 <i class="fas fa-user-graduate text-lg {{ $currentStep >= 3 ? 'text-white' : 'text-gray-500' }}"></i>
                             </div>
                             @if($currentStep >= 3)
@@ -121,8 +121,8 @@
                         <div class="relative">
                             <div class="w-12 h-12 flex items-center justify-center rounded-full transition-all duration-300 
                                 {{ $currentStep >= 4 ? 'bg-blue-600 shadow-lg shadow-blue-200' : 'bg-gray-200' }}
-                                {{ $updatedByStep == 4 ? 'step-pulse ring-4 ring-blue-200' : '' }}">
-                                <i class="fas fa-building-user text-lg {{ $currentStep >= 4 ? 'text-white' : 'text-gray-500' }}"></i>
+                                {{ $updatedByStep == 4 ? 'ring-4 ring-blue-400 animate-pulse scale-110' : '' }}">
+                                <i class="fas fas fa-user-tie text-lg {{ $currentStep >= 4 ? 'text-white' : 'text-gray-500' }}"></i>
                             </div>
                             @if($currentStep >= 4)
                             <div class="absolute -right-1 -top-1 w-5 h-5 rounded-full bg-green-500 border-2 border-white flex items-center justify-center">
@@ -141,7 +141,7 @@
                         <div class="relative">
                             <div class="w-12 h-12 flex items-center justify-center rounded-full transition-all duration-300 
                                 {{ $currentStep >= 5 ? 'bg-blue-600 shadow-lg shadow-blue-200' : 'bg-gray-200' }}
-                                {{ $updatedByStep == 5 ? 'step-pulse ring-4 ring-blue-200' : '' }}">
+                                {{ $updatedByStep == 5 ? 'ring-4 ring-blue-400 animate-pulse scale-110' : '' }}">
                                 <i class="fas fa-user-shield text-lg {{ $currentStep >= 5 ? 'text-white' : 'text-gray-500' }}"></i>
                             </div>
                             @if($currentStep >= 5)
@@ -324,9 +324,6 @@
                                 Reviewer
                             </th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Role
-                            </th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 Catatan Revisi
                             </th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -341,11 +338,8 @@
                         @forelse ($groupedRevisions as $idDosen => $revisions)
                             @foreach ($revisions as $revision)
                             <tr class="hover:bg-gray-50">
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                    {{ $revision->reviewer->username ?? 'Unknown' }}
-                                </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                    {{ $revision->reviewer->role->role ?? 'Unknown' }}
+                                    {{ $revision->reviewer->role ?? 'Unknown' }}
                                 </td>
                                 <td class="px-6 py-4 text-sm text-gray-500">
                                     {{ $revision->catatan_revisi }}

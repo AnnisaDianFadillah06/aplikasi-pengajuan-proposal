@@ -1,4 +1,5 @@
 @extends('proposal_kegiatan\pengaju')
+@section('title', 'Pengajuan Kegiatan')
 @section('konten')
 
 <div class="min-h-screen bg-gray-50 py-8">
@@ -81,9 +82,24 @@
             <div id="proposalGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 @foreach ($proposals as $item)
                 @php
+                    // Mengambil revisi terbaru yang sesuai dengan id_proposal
                     $latestReview = $latestReviews->firstWhere('id_proposal', $item->id_proposal);
-                    $statusRevisi = $latestReview ? $latestReview->status_revisi : null;
-                    $tahap = $latestReview ? $latestReview->id_dosen : $item->updated_by;
+
+                    if ($latestReview) {
+                        // Status revisi dan tahap berdasarkan review terbaru
+                        $statusRevisi = $latestReview->status_revisi;
+                        $tahap = $latestReview->id_dosen;
+
+                        // Pengondisian tambahan: jika status revisi adalah 1
+                        if ($statusRevisi == 1) {
+                            $statusRevisi = 0; // Mengubah status revisi menjadi 0
+                            $tahap += 1;       // Meningkatkan tahap
+                        }
+                    } else {
+                        // Jika tidak ada review terbaru, gunakan nilai default dari item
+                        $statusRevisi = $item->status;
+                        $tahap = $item->updated_by;
+                    }
                 @endphp
                 
                 <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden">

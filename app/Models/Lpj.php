@@ -20,11 +20,16 @@ class Lpj extends Model
     protected $fillable = [
         'id_ormawa',
         'file_lpj',
+        'file_sptb',
         'jenis_lpj',
         'tgl_upload',
         'created_by',
+        'created_at',
+        'updated_at',
         'updated_by',
+        'status_lpj'
     ];
+
 
     // Tentukan relasi dengan model ProposalKegiatan
     public function ormawa()
