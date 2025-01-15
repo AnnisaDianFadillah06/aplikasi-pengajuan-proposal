@@ -11,7 +11,6 @@
 @section('konten')
 
 
-
 <div class="min-h-screen bg-gray-100">
     <!-- Header -->
     <div class="max-w-l mx-auto flex items-center bg-gradient-to-r from-blue-500 to-indigo-600 p-6 rounded-lg shadow-lg">
@@ -100,18 +99,10 @@
             </div>
 
             <!-- Statistik -->
+        @if ($profilPengaju)
             <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
                 <h2 class="text-lg font-bold text-gray-800 mb-4">Statistik</h2>
                 <ul class="text-gray-600 space-y-2">
-                    @if ($profilReviewer) 
-                        <!-- Statistik untuk Reviewer -->
-                        <li>
-                            <span class="font-medium text-gray-800">Proposal yang Masuk:</span> {{ $proposalStats['totalProposalDisetujui'] }}
-                        </li>
-                        {{-- <li>
-                            //<span class="font-medium text-gray-800">Proposal Ditolak:</span> {{ $proposalStats['data2'] }}
-                        </li> --}}
-                    @else
                         <!-- Statistik untuk Pengaju -->
                         <li>
                             <span class="font-medium text-gray-800">Proposal Diajukan:</span> {{ $proposalStats['lolos_validasi'] + $proposalStats['sedang_revisi'] + $proposalStats['ditolak'] }}
@@ -125,24 +116,15 @@
                         <li>
                             <span class="font-medium text-gray-800">Ditolak:</span> {{ $proposalStats['ditolak'] }}
                         </li>
-                    @endif
                 </ul>
-                @if ($profilReviewer)
-                    <!-- Button untuk Reviewer -->
-                    <a href="{{ url('/manajemen-review') }}"
-                        class="mt-4 bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-medium inline-block text-center">
-                        Lihat Riwayat
-                    </a>
-                @else
-                    <!-- Button untuk Pengaju -->
-                    <a href="{{ url('/pengajuan-proposal') }}"
-                        class="mt-4 bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-medium inline-block text-center">
-                        Lihat Riwayat
-                    </a>
-                @endif
+                <!-- Button untuk Pengaju -->
+                <a href="{{ url('/pengajuan-proposal') }}"
+                    class="mt-4 bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-medium inline-block text-center">
+                    Lihat Riwayat
+                </a>
             </div>
-            
         </div>
+        @endif
 
         <!-- Riwayat Aktivitas -->
         @if ($profilPengaju && !$profilReviewer)
