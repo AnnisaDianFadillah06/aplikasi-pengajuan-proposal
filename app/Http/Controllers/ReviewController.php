@@ -250,7 +250,6 @@ class ReviewController extends Controller
             abort(404, 'Proposal tidak ditemukan');
         }
 
-
         // Ambil data revisi terbaru terkait proposal ini (semua revisi)
         $allRevisions = ReviewProposal::where('id_proposal', $proposal->id_proposal)
                                         ->with(['reviewer.role']) // Eager loading reviewer dan role
@@ -293,6 +292,7 @@ class ReviewController extends Controller
 
         // Surat Peminjaman Sarpras
         $fileSarprasPath = $proposal->surat_peminjaman_sarpras;
+        $posterKegiatan = $proposal->poster_kegiatan;
                             
         return view('proposal_kegiatan.detail_proposal_wd3', [
             'proposal' => $proposal,
@@ -304,6 +304,7 @@ class ReviewController extends Controller
             'fileSarprasPath' => $fileSarprasPath,
             'jenis_kegiatans' => $jenis_kegiatans, 
             'bidang_kegiatans' => $bidang_kegiatans,
+            'posterKegiatan' => $posterKegiatan
         ]);
     }
 
@@ -354,14 +355,22 @@ class ReviewController extends Controller
         } else {
             $nama_ormawa = 'Nama Ormawa Tidak Ditemukan';
         }
-
+        
         // File spj
         $filePath = $spj->file_spj;
+        $filePathSptb = $spj->file_sptb;
+        $filePathBeritaAcara = $spj->dokumen_berita_acara;
+        $filePathBuktiSpj = $spj->gambar_bukti_spj;
+        $filePathVideoKegiatan = $spj->video_kegiatan;
                             
         return view('proposal_kegiatan.detail_spj_wd3', [
             'spj' => $spj,
             'groupedRevisions' => $allRevisions,
             'filePath' => $filePath,
+            'filePathSptb' => $filePathSptb,
+            'filePathBeritaAcara' => $filePathBeritaAcara,
+            'filePathBuktiSpj' => $filePathBuktiSpj,
+            'filePathVideoKegiatan' => $filePathVideoKegiatan,
             'nama_ormawa' => $nama_ormawa,
             'jenis_kegiatans' => $jenis_kegiatans, 
             'bidang_kegiatans' => $bidang_kegiatans,
@@ -412,11 +421,15 @@ class ReviewController extends Controller
 
         // File lpj
         $filePath = $lpj->file_lpj;
+        $filePathSPJFinal = $lpj->file_spj;
+        $filePathSPTBFinal = $lpj->file_sptb;
                             
         return view('proposal_kegiatan.detail_lpj_wd3', [
             'lpj' => $lpj,
             'groupedRevisions' => $allRevisions,
             'filePath' => $filePath,
+            'filePathSPJFinal' => $filePathSPJFinal,
+            'fileSPTBFinal' => $filePathSPTBFinal,
             'nama_ormawa' => $nama_ormawa,
             'jenis_kegiatans' => $jenis_kegiatans, 
             'bidang_kegiatans' => $bidang_kegiatans,
