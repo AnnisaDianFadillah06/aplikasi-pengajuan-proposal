@@ -91,38 +91,38 @@ class PengajuanProposal extends Model
     }
 
     protected static function booted()
-{
-    static::updated(function ($proposal) {
-        Log::info('Proposal sebelum update:', $proposal->toArray()); // Log data sebelum update
-        Log::info('Proposal yang berubah:', $proposal->getDirty());  // Log perubahan yang terjadi
-        
-        if ($proposal->isDirty([
-            'nama_kegiatan',
-            'tmpt_kegiatan',
-            'file_proposal',
-            'surat_berkegiatan_ketuplak',
-            'surat_pernyataan_ormawa',
-            'surat_kesediaan_pendampingan',
-            'surat_peminjaman_sarpras',
-            'id_jenis_kegiatan',
-            'id_bidang_kegiatan',
-            'updated_at',
-            'updated_by',
-            'status', // ini status umum event, revisi, dsb (status_spj jangan sampai dicek)
-            'tanggal_mulai',
-            'tanggal_akhir',
-            'jml_peserta',
-            'jml_panitia',
-            'link_surat_izin_ortu',
-        ])) {
-            Log::info('Data proposal berubah:', $proposal->getDirty());
-            $proposalController = new ReviewController();
-            $proposalController->sendReviewNotification($proposal);
-        } else {
-            Log::info('Tidak ada perubahan yang relevan pada proposal.');
-        }
-    });
-}
+    {
+        static::updated(function ($proposal) {
+            Log::info('Proposal sebelum update:', $proposal->toArray()); // Log data sebelum update
+            Log::info('Proposal yang berubah:', $proposal->getDirty());  // Log perubahan yang terjadi
+            
+            if ($proposal->isDirty([
+                'nama_kegiatan',
+                'tmpt_kegiatan',
+                'file_proposal',
+                'surat_berkegiatan_ketuplak',
+                'surat_pernyataan_ormawa',
+                'surat_kesediaan_pendampingan',
+                'surat_peminjaman_sarpras',
+                'id_jenis_kegiatan',
+                'id_bidang_kegiatan',
+                'updated_at',
+                'updated_by',
+                'status', // ini status umum event, revisi, dsb (status_spj jangan sampai dicek)
+                'tanggal_mulai',
+                'tanggal_akhir',
+                'jml_peserta',
+                'jml_panitia',
+                'link_surat_izin_ortu',
+            ])) {
+                Log::info('Data proposal berubah:', $proposal->getDirty());
+                $proposalController = new ReviewController();
+                $proposalController->sendReviewNotificationProposal($proposal);
+            } else {
+                Log::info('Tidak ada perubahan yang relevan pada proposal.');
+            }
+        });
+    }
 
     
 }

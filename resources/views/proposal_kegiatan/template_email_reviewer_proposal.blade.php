@@ -56,7 +56,7 @@
     <div class="email-container">
         <h1>Notifikasi Review</h1>
 
-        <p>Terdapat LPJ/SPJ/Proposal yang menunggu review Anda.</p>
+        <p>Terdapat Proposal yang menunggu review Anda.</p>
 
         <p><strong>Judul Proposal:</strong> {{ $data_email['judul'] }}</p>
 

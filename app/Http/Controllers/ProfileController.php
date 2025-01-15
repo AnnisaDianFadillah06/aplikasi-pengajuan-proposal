@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Pengguna;
 use App\Models\Reviewer;
+use App\Models\SPJ;
+
 
 class ProfileController extends Controller
 {
@@ -13,6 +15,10 @@ class ProfileController extends Controller
      */
     public function index(Request $request)
     {
+        // $proposal = SPJ::find(1);
+        // $proposal->file_spj = 'Kegiatan Bsssaru Loh';
+        // $proposal->save();  // Pastikan untuk menyimpan perubahan
+        
         // Asumsikan user login berdasarkan email untuk demonstrasi
         // $email = $request->user()->email; 
         // Pastikan sistem login mengirimkan data user
