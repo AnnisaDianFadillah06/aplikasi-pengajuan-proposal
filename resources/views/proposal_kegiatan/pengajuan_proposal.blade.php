@@ -154,6 +154,8 @@
                                         KLI
                                     @elseif ($tahap == 5)
                                         Wadir 3
+                                    @elseif ($tahap == 6)
+                                        Disetujui
                                     @endif
                                 </span>
                             </div>

@@ -385,6 +385,21 @@
                 $('.dataTables_filter input').removeClass('w-full mt-2');
             }
         }).trigger('resize');
+        // Function to adjust select width
+
+        function adjustSelectWidth() {
+            var select = $('.dataTables_length select');
+            select.each(function() {
+                var text = $(this).find('option:selected').text();
+                $(this).css('width', (text.length + 4) + 'ch');
+            });
+        }
+
+
+        adjustSelectWidth();
+
+        // Call function on select change
+        $('.dataTables_length select').change(adjustSelectWidth);
     });
 </script>
 @endsection
