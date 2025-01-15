@@ -15,7 +15,7 @@ use App\Models\PengajuanProposal;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\kirimEmail;
-use App\Mail\notifikasiReviewer;
+use App\Mail\notifikasiReviewerProposal;
 use App\Models\Reviewer;
 use Symfony\Component\Mailer\Exception\TransportException;
 
@@ -24,6 +24,10 @@ class ReviewController extends Controller
 {
     public function index()
     {
+        // $proposal = PengajuanProposal::find(1);
+        // $proposal->nama_kegiatan = 'Kegiatan Bsaru Loh';
+        // $proposal->save();  // Pastikan untuk menyimpan perubahan
+        
         // Ambil ID dari sesi
         $sessionId = session('id_role');
 
@@ -128,6 +132,10 @@ class ReviewController extends Controller
     
     public function show($id_proposal)
     {
+        // $proposal = LPJ::find(2);
+        // $proposal->file_lpj = 'Kegiatan Barffu sssLoh';
+        // $proposal->save();  // Pastikan untuk menyimpan perubahan
+
         // Ambil proposal saat ini berdasarkan id_proposal
         $reviewProposal = PengajuanProposal::where('id_proposal', $id_proposal)->firstOrFail();
 
@@ -456,7 +464,7 @@ class ReviewController extends Controller
     }
 
     // Method ini bisa dipanggil di event Proposal
-    public function sendReviewNotification($proposal)
+    public function sendReviewNotificationProposal($proposal)
     {
         // Ambil email reviewer berdasarkan updated_by yang ada pada proposal
         $reviewerEmails = $this->getReviewerEmail($proposal->updated_by);
@@ -468,7 +476,7 @@ class ReviewController extends Controller
 
         // Kirim email ke semua reviewer
         foreach ($reviewerEmails as $email) {
-            Mail::to($email)->send(new notifikasiReviewer($data_email));
+            Mail::to($email)->send(new notifikasiReviewerProposal($data_email));
         }
     }
 
