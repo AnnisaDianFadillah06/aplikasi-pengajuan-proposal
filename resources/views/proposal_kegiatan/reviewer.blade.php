@@ -134,7 +134,7 @@
                      'bg-blue-50 text-blue-600' : 
                      'text-gray-700 hover:bg-orange-400' }}">
             <div class="flex items-center justify-center w-8 h-8 mr-3 rounded-lg bg-white shadow-sm group-hover:shadow">
-                <i class="fas fa-file-upload {{ Route::currentRouteName() == 'histori.pengajuan-reviewer' ? 'text-blue-600' : 'text-gray-500' }}"></i>
+                <i class="fas fa-history {{ Route::currentRouteName() == 'histori.pengajuan-reviewer' ? 'text-blue-600' : 'text-gray-500' }}"></i>
             </div>
             <span>Histori Pengajuan</span>
         </a>
@@ -146,7 +146,7 @@
                      'bg-blue-50 text-blue-600' : 
                      'text-gray-700 hover:bg-orange-400' }}">
             <div class="flex items-center justify-center w-8 h-8 mr-3 rounded-lg bg-white shadow-sm group-hover:shadow">
-                <i class="fas fa-history {{ Route::currentRouteName() == 'event-list.index' ? 'text-blue-600' : 'text-gray-500' }}"></i>
+                <i class="fas fa-calendar-alt {{ Route::currentRouteName() == 'event-list.index' ? 'text-blue-600' : 'text-gray-500' }}"></i>
             </div>
             <span>Event List</span>
         </a>
@@ -159,7 +159,7 @@
                      'bg-blue-50 text-blue-600' : 
                      'text-gray-700 hover:bg-orange-400' }}">
             <div class="flex items-center justify-center w-8 h-8 mr-3 rounded-lg bg-white shadow-sm group-hover:shadow">
-                <i class="fas fa-calendar {{ Route::currentRouteName() == 'pedoman.index' ? 'text-blue-600' : 'text-gray-500' }}"></i>
+                <i class="fas fa-book-open {{ Route::currentRouteName() == 'pedoman.index' ? 'text-blue-600' : 'text-gray-500' }}"></i>
             </div>
             <span>Pedoman Kemahasiswaan</span>
         </a>
@@ -172,7 +172,7 @@
                      'bg-blue-50 text-blue-600' : 
                      'text-gray-700 hover:bg-orange-400' }}">
             <div class="flex items-center justify-center w-8 h-8 mr-3 rounded-lg bg-white shadow-sm group-hover:shadow">
-                <i class="fas fa-calendar {{ Route::currentRouteName() == 'organisasi-mahasiswa.index' ? 'text-blue-600' : 'text-gray-500' }}"></i>
+                <i class="fas fa-users {{ Route::currentRouteName() == 'organisasi-mahasiswa.index' ? 'text-blue-600' : 'text-gray-500' }}"></i>
             </div>
             <span>Organisasi Mahasiswa</span>
         </a>
@@ -185,7 +185,7 @@
                      'bg-blue-50 text-blue-600' : 
                      'text-gray-700 hover:bg-orange-400' }}">
             <div class="flex items-center justify-center w-8 h-8 mr-3 rounded-lg bg-white shadow-sm group-hover:shadow">
-                <i class="fas fa-calendar {{ Route::currentRouteName() == 'jenis-kegiatan.index' ? 'text-blue-600' : 'text-gray-500' }}"></i>
+                <i class="fas fa-list-alt {{ Route::currentRouteName() == 'jenis-kegiatan.index' ? 'text-blue-600' : 'text-gray-500' }}"></i>
             </div>
             <span>Jenis Kegiatan</span>
         </a>
@@ -198,7 +198,7 @@
                      'bg-blue-50 text-blue-600' : 
                      'text-gray-700 hover:bg-orange-400' }}">
             <div class="flex items-center justify-center w-8 h-8 mr-3 rounded-lg bg-white shadow-sm group-hover:shadow">
-                <i class="fas fa-calendar {{ Route::currentRouteName() == 'admin.manageRoles' ? 'text-blue-600' : 'text-gray-500' }}"></i>
+                <i class="fas fa-user-cog {{ Route::currentRouteName() == 'admin.manageRoles' ? 'text-blue-600' : 'text-gray-500' }}"></i>
             </div>
             <span>Atur Peran User</span>
         </a>
@@ -211,7 +211,7 @@
                      'bg-blue-50 text-blue-600' : 
                      'text-gray-700 hover:bg-orange-400' }}">
             <div class="flex items-center justify-center w-8 h-8 mr-3 rounded-lg bg-white shadow-sm group-hover:shadow">
-                <i class="fas fa-calendar {{ Route::currentRouteName() == 'bidang-kegiatan.index' ? 'text-blue-600' : 'text-gray-500' }}"></i>
+                <i class="fas fa-tasks {{ Route::currentRouteName() == 'bidang-kegiatan.index' ? 'text-blue-600' : 'text-gray-500' }}"></i>
             </div>
             <span>Bidang Kegiatan</span>
         </a>
@@ -320,14 +320,14 @@
               <!-- Pengajuan LPJ -->
               <a href="{{ route('histori.pengajuan-reviewer') }}" 
                  class="block px-4 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 hover:text-blue-600">
-                  <i class="fas fa-file-upload mr-3"></i>
+                  <i class="fas fa-history mr-3"></i>
                   Histori Pengajuan
               </a>
 
               <!-- Histori Pengajuan -->
               <a href="{{ route('event-list.index') }}" 
                  class="block px-4 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 hover:text-blue-600">
-                  <i class="fas fa-history mr-3"></i>
+                  <i class="fas fa-calendar-alt mr-3"></i>
                   Event List
               </a>
               
@@ -335,7 +335,7 @@
               <!-- Event List -->
               <a href="{{ route('pedoman.index') }}" 
                  class="block px-4 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 hover:text-blue-600">
-                  <i class="fas fa-calendar mr-3"></i>
+                  <i class="fas fa-book-open mr-3"></i>
                   Pedoman Kemahasiswaan
               </a>
               @endif
@@ -344,7 +344,7 @@
               <!-- Event List -->
               <a href="{{ route('organisasi-mahasiswa.index') }}" 
                  class="block px-4 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 hover:text-blue-600">
-                  <i class="fas fa-calendar mr-3"></i>
+                  <i class="fas fa-users mr-3"></i>
                   Organisasi Mahasiswa
               </a>
               @endif
@@ -353,7 +353,7 @@
               <!-- Event List -->
               <a href="{{ route('jenis-kegiatan.index') }}" 
                  class="block px-4 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 hover:text-blue-600">
-                  <i class="fas fa-calendar mr-3"></i>
+                  <i class="fas fa-list-alt mr-3"></i>
                   Jenis Kegiatan
               </a>
               @endif
@@ -362,8 +362,8 @@
               <!-- Event List -->
               <a href="{{ route('admin.manageRoles') }}" 
                  class="block px-4 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 hover:text-blue-600">
-                  <i class="fas fa-calendar mr-3"></i>
-                  Atur User
+                  <i class="fas fa-user-cog mr-3"></i>
+                  Atur Peran User
               </a>
               @endif
 
@@ -371,7 +371,7 @@
               <!-- Event List -->
               <a href="{{ route('bidang-kegiatan.index') }}" 
                  class="block px-4 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 hover:text-blue-600">
-                  <i class="fas fa-calendar mr-3"></i>
+                  <i class="fas fa-tasks mr-3"></i>
                   Bidang Kegiatan
               </a>
               @endif
@@ -384,9 +384,9 @@
               </a>
 
               <!-- Mobile-only buttons -->
-              <div class="px-4 py-2 space-y-2 xl:hidden">
+              {{-- <div class="px-4 py-2 space-y-2 xl:hidden"> --}}
                   <!-- Notifications -->
-                  <button type="button" class="flex items-center w-full px-4 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 hover:text-blue-600">
+                  {{-- <button type="button" class="flex items-center w-full px-4 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 hover:text-blue-600">
                       <i class="fas fa-bell mr-3"></i>
                       Notifications
                   </button>
@@ -395,7 +395,7 @@
                   <button type="button" class="flex items-center w-full px-4 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 hover:text-blue-600">
                       <i class="fas fa-cog mr-3"></i>
                       Settings
-                  </button>
+                  </button> --}}
 
                   <!-- Sign Out -->
                   <form action="{{ route('logout.dosen') }}" method="POST" class="block">
@@ -482,7 +482,7 @@
             <div class="flex items-center space-x-4">
                 <!-- Notifications -->
                 <div class="relative">
-                    <button type="button" class="relative p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                    {{-- <button type="button" class="relative p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
                         <span class="sr-only">View notifications</span>
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
@@ -504,17 +504,17 @@
                                 </div>
                             </a>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
 
                 <!-- Settings -->
-                <button type="button" class="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                {{-- <button type="button" class="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
                     <span class="sr-only">Settings</span>
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
                     </svg>
-                </button>
+                </button> --}}
 
                 <!-- Sign Out -->
                 <!-- Profile Dropdown -->

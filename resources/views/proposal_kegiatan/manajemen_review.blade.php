@@ -37,7 +37,7 @@
       </div>
 
       <!-- Main Content Grid -->
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div class="grid grid-cols-1 lg:grid-cols-1 gap-6">
         <!-- Left Column - Document Preview -->
         <div class="bg-white rounded-xl shadow-sm overflow-hidden">
           <!-- Proposal Tab -->
@@ -45,7 +45,7 @@
             <div class="p-4 border-b">
               <h3 class="font-semibold text-gray-800">Proposal Kegiatan</h3>
             </div>
-            <div class="p-4">
+            <div class="p-4 flex justify-center">
               <iframe src="{{ asset($reviewProposal->file_proposal) }}" class="w-full h-[600px] rounded-lg border"></iframe>
             </div>
           </div>

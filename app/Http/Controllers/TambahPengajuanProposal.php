@@ -142,6 +142,8 @@ class TambahPengajuanProposal extends Controller
             'link_surat_izin_ortu' => $request->input('link_surat_izin_ortu'),
         ]);
 
+        
+
         if ($query) {
             return redirect('/pengajuan-proposal')->with('sukses', 'Data berhasil tersimpan');
         } else {
