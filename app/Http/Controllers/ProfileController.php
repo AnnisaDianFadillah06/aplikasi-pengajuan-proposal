@@ -59,6 +59,25 @@ class ProfileController extends Controller
         $totalProposalDisetujui = PengajuanProposal::whereYear('created_at', $year)
             ->where('status', 1)
             ->count();
+
+            $labels1 = [];
+            $data1Disetujui = [];
+            $data1Ditolak = [];
+            $labels2 = [];
+            $data2 = [];
+
+            $years = PengajuanProposal::select(DB::raw('EXTRACT(YEAR FROM tanggal_mulai) as year'))
+            ->distinct()
+            ->orderBy('year', 'desc')
+            ->pluck('year');
+
+            $totalDisetujui = PengajuanProposal::whereYear('tanggal_mulai', $year)
+            ->where('status', 1)
+            ->count();
+    
+            $totalDitolak = PengajuanProposal::whereYear('tanggal_mulai', $year)
+                ->where('status', 2)
+                ->count();
  
 
         // Hitung statistik proposal untuk ditampilkan di grafik
@@ -70,10 +89,19 @@ class ProfileController extends Controller
             'totalProposalDisetujui' => $totalProposalDisetujui,
             'lastProposalDate' => $lastProposalDate,
             'profilPengaju' => $profilPengaju,
-            'profilReviewer' => $profilReviewer
+            'profilReviewer' => $profilReviewer,
+            'labels1' => $labels1,
+            'data1Disetujui' => array_values($data1Disetujui),
+            'data1Ditolak' => array_values($data1Ditolak),
+            'labels2' => $labels2,
+            'data2' => $data2,
+            'years' => $years,
+            'selectedYear' => $year, // Kirimkan tahun yang dipilih ke view
+            'totalDisetujui' => $totalDisetujui,  // Total disetujui
+            'totalDitolak' => $totalDitolak,      // Total ditolak
         ];
 
-        return view('proposal_kegiatan.profil_pengaju', compact('totalProposalDisetujui','profilPengaju', 'profilReviewer', 'proposalStats', 'lastProposalDate', 'profilPengaju'));
+        return view('proposal_kegiatan.profil_pengaju', compact('totalProposalDisetujui','profilPengaju', 'profilReviewer', 'proposalStats', 'lastProposalDate', 'profilPengaju', 'labels1', 'data1Disetujui', 'data1Ditolak', 'labels2', 'data2', 'totalDisetujui', 'totalDitolak'));
     }
 
 }
