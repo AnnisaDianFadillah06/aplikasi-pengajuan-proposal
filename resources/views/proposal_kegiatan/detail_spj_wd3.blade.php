@@ -88,7 +88,7 @@
                         Berita Acara
                     </div>
                 </button>
-                <button onclick="toggleDocSection('doc-videokegitan')" 
+                <button onclick="toggleDocSection('doc-videokegiatan')" 
                         class="nav-btn px-4 py-2 rounded-lg font-medium transition-all duration-200 hover:bg-blue-600 focus:ring-2 focus:ring-blue-300">
                     <div class="flex items-center gap-2">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -110,12 +110,12 @@
                 <div id="doc-beritaacara" class="doc-section hidden w-full">
                     <iframe src="{{ asset($filePathBeritaAcara) }}" class="w-full h-[700px] rounded-lg"></iframe>
                 </div>
-                <div class="p-4">
+                <div id="doc-videokegiatan" class="doc-section hidden w-full">
                     <video controls class="w-full max-w-xl mx-auto">
                           <source src="{{ asset($filePathVideoKegiatan) }}" type="video/mp4">
                           Browser Anda tidak mendukung pemutaran video ini.
                     </video>
-                  </div>
+                </div>
             </div>
         </div>
     </div>
