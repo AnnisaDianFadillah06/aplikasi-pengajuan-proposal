@@ -16,7 +16,10 @@ class DashboardController extends Controller
     public function index_pengaju()
     {
     // Ambil semua dokumen dari database
-    $documents = PedomanKemahasiswaan::select('nama_pedoman', 'file_pedoman')->get();
+    $documents = PedomanKemahasiswaan::select('nama_pedoman', 'file_pedoman')
+    ->where('status', '1')
+    ->get();
+    
     $userId = session('id'); // Ambil ID pengguna yang sedang login
     $proposals = PengajuanProposal::where('id_pengguna', $userId)->get();
 

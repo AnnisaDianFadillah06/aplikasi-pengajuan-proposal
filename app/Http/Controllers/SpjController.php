@@ -103,22 +103,28 @@ class SpjController extends Controller
             ->where('id_proposal', $request->id_proposal)
             ->max('spj_ke') + 1;
 
-        DB::table('spj')->insert([
-            'id_proposal' => $request->id_proposal, // Pastikan id_proposal dikirim melalui request
-            'file_sptb' => $file_sptb_path,
-            'file_spj' => $file_spj_path,
-            'spj_ke' => $spjKe,
-            'video_kegiatan' => $video_kegiatan_path,
-            'dokumen_berita_acara' => $dokumen_berita_acara_path,
-            'gambar_bukti_spj' => $gambar_bukti_spj_path,
-            'caption_video' => $request->caption_video,
-            'status' => 0,
-            'tgl_upload' => now(),
-            'created_by' => session('id'),
-            'updated_by' => 1,
-        ]);
+        $spj = new Spj();
 
-        return redirect()->route('spj.index', $request->id_proposal)->with('success', 'SPJ berhasil diunggah.');
+        // Set atribut-atributnya
+        $spj->id_proposal = $request->id_proposal; // Pastikan id_proposal dikirim melalui request
+        $spj->file_sptb = $file_sptb_path;
+        $spj->file_spj = $file_spj_path;
+        $spj->spj_ke = $spjKe;
+        $spj->video_kegiatan = $video_kegiatan_path;
+        $spj->dokumen_berita_acara = $dokumen_berita_acara_path;
+        $spj->gambar_bukti_spj = $gambar_bukti_spj_path;
+        $spj->caption_video = $request->caption_video;
+        $spj->status = 0;
+        $spj->tgl_upload = now();
+        $spj->created_by = session('id');
+        $spj->updated_by = 1;
+
+        // Simpan data ke database dan cek hasilnya
+        if ($spj->save()) {
+            return redirect()->route('spj.index', $request->id_proposal)->with('success', 'SPJ berhasil diunggah.');
+        } else {
+            return redirect()->route('spj.index', $request->id_proposal)->with('error', 'Terjadi kesalahan saat mengunggah SPJ.');
+        }
     }
 
     // detail
@@ -325,7 +331,7 @@ class SpjController extends Controller
             'caption_video' => 'nullable|string|max:255',
         ]);
 
-        $spj = DB::table('spj')->where('id_spj', $id)->first();
+        $spj = Spj::findOrFail($id);
 
         if (!$spj) {
             return redirect()->back()->with('error', 'Data SPJ tidak ditemukan.');
@@ -382,17 +388,21 @@ class SpjController extends Controller
         // Update status_revisi pada ReviewProposal menjadi 0
         $latestRevision->update(['status_revisi' => 0]);
 
-        DB::table('spj')->where('id_spj', $id)->update([
-            'file_sptb' => $file_sptb_path,
-            'file_spj' => $file_spj_path,
-            'video_kegiatan' => $video_kegiatan_path,
-            'dokumen_berita_acara' => $dokumen_berita_acara_path,
-            'gambar_bukti_spj' => $gambar_bukti_spj_path,
-            'caption_video' => $request->caption_video,
-            // 'tgl_upload' => now(),
-        ]);
-
-        return redirect()->route('spj.detail', $spj->id_spj)->with('success', 'SPJ berhasil diperbarui.');
+        if ($spj) {
+            $spj->fill([
+                'file_sptb' => $file_sptb_path,
+                'file_spj' => $file_spj_path,
+                'video_kegiatan' => $video_kegiatan_path,
+                'dokumen_berita_acara' => $dokumen_berita_acara_path,
+                'gambar_bukti_spj' => $gambar_bukti_spj_path,
+                'caption_video' => $request->caption_video,
+                // 'tgl_upload' => now(), // Jika ingin menambahkan tanggal upload, bisa diaktifkan
+            ]);
+        
+            if ($spj->save()) {
+                return redirect()->route('spj.detail', $spj->id_spj)->with('success', 'SPJ berhasil diperbarui.');
+            }
+        }
     }
     // // upload pdf revisi
     // public function uploadFile(Request $request, $id_proposal)

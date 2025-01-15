@@ -38,6 +38,76 @@
 
 {{-- File Proposal terkini --}}
 <div class="container mx-auto p-6 space-y-6">
+    <!-- Dokumen Section -->
+    <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+        <div class="border-b border-gray-100">
+            <button class="w-full p-6 text-left focus:outline-none" onclick="toggleCollapse('doc-container')">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        <h2 class="text-2xl font-bold text-gray-800">Detail Laporan Pertanggung Jawaban</h2>
+                    </div>
+                    <span id="toggle-doc-container" class="text-lg text-gray-500 transition-transform duration-200">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </span>
+                </div>
+            </button>
+        </div>
+
+        <div id="doc-container" class="p-6">
+            <!-- Tab Navigation -->
+            <div class="flex flex-wrap gap-2 mb-6">
+                <button onclick="toggleDocSection('doc-lpjfinal')" 
+                        class="nav-btn px-4 py-2 rounded-lg font-medium transition-all duration-200 hover:bg-blue-600 focus:ring-2 focus:ring-blue-300 active">
+                    <div class="flex items-center gap-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        LPJ Ormawa
+                    </div>
+                </button>
+                <button onclick="toggleDocSection('doc-spjfinal')" 
+                        class="nav-btn px-4 py-2 rounded-lg font-medium text-gray-500 transition-all duration-200 hover:bg-blue-600 focus:ring-2 focus:ring-blue-300">
+                    <div class="flex items-center gap-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        SPJ Ormawa
+                    </div>
+                </button>
+                <button onclick="toggleDocSection('doc-sptb')" 
+                        class="nav-btn px-4 py-2 rounded-lg font-medium transition-all duration-200 hover:bg-blue-600 focus:ring-2 focus:ring-blue-300">
+                    <div class="flex items-center gap-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        SPTB Ormawa
+                    </div>
+                </button>
+            </div>
+
+            <!-- Content Sections -->
+            <div class="bg-gray-50 rounded-lg p-4">
+                <div id="doc-lpjfinal" class="doc-section w-full">
+                    <iframe src="{{ asset($filePath) }}" class="w-full h-[700px] rounded-lg"></iframe>
+                </div>
+                <div id="doc-spjfinal" class="doc-section hidden w-full">
+                    <iframe src="{{ asset($filePathSPJFinal) }}" class="w-full h-[700px] rounded-lg"></iframe>
+                </div>
+                <div id="doc-sptb" class="doc-section hidden w-full">
+                    <iframe src="{{ asset($fileSPTBFinal) }}" class="w-full h-[700px] rounded-lg"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{{-- File Proposal terkini --}}
+<div class="container mx-auto p-6 space-y-6">
     <!-- Revisi Section -->
     <div class="bg-white rounded-xl shadow-lg overflow-hidden">
         <div class="border-b border-gray-100">
@@ -67,9 +137,6 @@
                                 Reviewer
                             </th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Role
-                            </th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 Catatan Revisi
                             </th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -84,11 +151,8 @@
                         @forelse ($groupedRevisions as $idDosen => $revisions)
                             @foreach ($revisions as $revision)
                             <tr class="hover:bg-gray-50">
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                    {{ $revision->reviewer->username ?? 'Unknown' }}
-                                </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                    {{ $revision->reviewer->role->role ?? 'Unknown' }}
+                                    {{ $revision->reviewer->role ?? 'Unknown' }}
                                 </td>
                                 <td class="px-6 py-4 text-sm text-gray-500">
                                     {{ $revision->catatan_revisi }}

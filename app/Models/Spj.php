@@ -19,10 +19,18 @@ class Spj extends Model
     // Tentukan kolom yang bisa diisi massal
     protected $fillable = [
         'id_proposal',
+        'spj_ke',
+        'file_sptb',
         'file_spj',
+        'dokumen_berita_acara',
+        'gambar_bukti_spj',
+        'caption_video',
+        'video_kegiatan',
         'status',
         'tgl_upload',
+        'created_at',
         'created_by',
+        'updated_at',
         'updated_by',
     ];
 
