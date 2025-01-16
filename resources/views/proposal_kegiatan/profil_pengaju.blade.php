@@ -43,7 +43,7 @@
                             @if ($profilPengaju && !$profilReviewer)
                                 {{ $profilPengaju->username }}
                             @elseif ($profilReviewer && !$profilPengaju)
-                                {{ $profilReviewer->username }}
+                                {{ $profilReviewer->nama_lengkap }}
                             @else
                                 Nama Tidak Tersedia
                             @endif
@@ -104,13 +104,23 @@
                     @elseif ($profilReviewer && !$profilPengaju)
                     <div class="space-y-4">
                         <div class="flex items-center justify-between p-4 rounded-2xl bg-gradient-to-r from-violet-500/5 to-blue-500/5 hover:from-violet-500/10 hover:to-blue-500/10 transition duration-300">
-                            <span class="text-gray-600">Nama</span>
+                            <span class="text-gray-600">Nama Lengkap</span>
+                            <span class="font-medium text-gray-900">{{ $profilReviewer->nama_lengkap }}</span>
+                        </div>
+
+                        <div class="flex items-center justify-between p-4 rounded-2xl bg-gradient-to-r from-violet-500/5 to-blue-500/5 hover:from-violet-500/10 hover:to-blue-500/10 transition duration-300">
+                            <span class="text-gray-600">Username</span>
                             <span class="font-medium text-gray-900">{{ $profilReviewer->username }}</span>
                         </div>
-                        
+
                         <div class="flex items-center justify-between p-4 rounded-2xl bg-gradient-to-r from-violet-500/5 to-blue-500/5 hover:from-violet-500/10 hover:to-blue-500/10 transition duration-300">
                             <span class="text-gray-600">Email</span>
                             <span class="font-medium text-gray-900">{{ $profilReviewer->email }}</span>
+                        </div>
+
+                        <div class="flex items-center justify-between p-4 rounded-2xl bg-gradient-to-r from-violet-500/5 to-blue-500/5 hover:from-violet-500/10 hover:to-blue-500/10 transition duration-300">
+                            <span class="text-gray-600">Tanggal Bergabung</span>
+                            <span class="font-medium text-gray-900">{{ $profilReviewer->tanggal_bergabung }}</span>
                         </div>
 
                         <div class="flex items-center justify-between p-4 rounded-2xl bg-gradient-to-r from-violet-500/5 to-blue-500/5 hover:from-violet-500/10 hover:to-blue-500/10 transition duration-300">
