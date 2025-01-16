@@ -9,7 +9,7 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class notifikasiReviewer extends Mailable
+class notifikasiReviewerSpj extends Mailable
 {
     use Queueable, SerializesModels;
     public $data_email;
@@ -38,7 +38,7 @@ class notifikasiReviewer extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'proposal_kegiatan.template_email_reviewer',
+            view: 'proposal_kegiatan.template_email_reviewer_spj',
         );
     }
 

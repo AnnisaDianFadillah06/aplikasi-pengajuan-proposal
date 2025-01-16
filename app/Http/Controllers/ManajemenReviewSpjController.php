@@ -8,7 +8,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Symfony\Component\Mailer\Exception\TransportException;
-use App\Mail\kirimEmail; // Pastikan file Mail sesuai namespace
+use App\Mail\notifikasiReviewerSpj;
+use App\Mail\kirimEmail;
+use App\Models\Reviewer;
 
 
 class ManajemenReviewSpjController extends Controller
@@ -127,6 +129,30 @@ class ManajemenReviewSpjController extends Controller
             return redirect('/manajemen-review')
                 ->with('error', 'Email gagal dikirim. Data revisi tidak disimpan. Periksa koneksi jaringan Anda.');
         } 
+    }
+
+    public function getReviewerEmail($roleId)
+    {
+        // Ambil email reviewer berdasarkan role_id
+        $reviewerEmails = Reviewer::where('id_role', $roleId)->pluck('email');
+        return $reviewerEmails;
+    }
+
+    // Method ini bisa dipanggil di event Lpj
+    public function sendReviewNotificationSpj($spj)
+    {
+        // Ambil email reviewer berdasarkan updated_by yang ada pada proposal
+        $reviewerEmails = $this->getReviewerEmail($spj->updated_by);
+
+        // Siapkan data untuk email
+        $data_email = [
+            'judul' => $spj->proposalKegiatan->nama_kegiatan,
+        ];
+
+        // Kirim email ke semua reviewer
+        foreach ($reviewerEmails as $email) {
+            Mail::to($email)->send(new notifikasiReviewerSpj($data_email));
+        }
     }
     
 }

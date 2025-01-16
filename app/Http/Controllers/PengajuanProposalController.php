@@ -330,6 +330,10 @@ class PengajuanProposalController extends Controller
             $poster->move(public_path('laraview'), $poster_path);
         }
 
+        if ($request->hasFile('file_proposal')) {
+            session()->flash('file_proposal_name', $request->file('file_proposal')->getClientOriginalName());
+        }
+
         // Cari revisi terbaru berdasarkan id_proposal
         $latestRevision = ReviewProposal::where('id_proposal', $id_proposal)
                                         // ->orderBy('tgl_revisi', 'desc')
