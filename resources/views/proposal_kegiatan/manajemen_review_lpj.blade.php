@@ -36,7 +36,7 @@
               <h3 class="font-semibold text-gray-800">LPJ Ormawa</h3>
             </div>
             <div class="p-4">
-              <iframe src="{{ asset($reviewLpj->file_lpj) }}" class="w-full h-[600px] rounded-lg border"></iframe>
+              <iframe src="{{ route('file.show', ['filename' => $reviewLpj->file_lpj]) }}" class="w-full h-[600px] rounded-lg border"></iframe>
             </div>
           </div>
 
@@ -46,7 +46,7 @@
               <h3 class="font-semibold text-gray-800">SPJ Ormawa</h3>
             </div>
             <div class="p-4">
-              <iframe src="{{ asset($reviewLpj->file_spj) }}" class="w-full h-[600px] rounded-lg border"></iframe>
+              <iframe src="{{ route('file.show', ['filename' => $reviewLpj->file_spj]) }}" class="w-full h-[600px] rounded-lg border"></iframe>
             </div>
           </div>
 
@@ -56,7 +56,7 @@
               <h3 class="font-semibold text-gray-800">SPTB Ormawa</h3>
             </div>
             <div class="p-4">
-              <iframe src="{{ asset($reviewLpj->file_sptb) }}" class="w-full h-[600px] rounded-lg border"></iframe>
+              <iframe src="{{ route('file.show', ['filename' => $reviewLpj->file_sptb]) }}" class="w-full h-[600px] rounded-lg border"></iframe>
             </div>
           </div>
           </div>

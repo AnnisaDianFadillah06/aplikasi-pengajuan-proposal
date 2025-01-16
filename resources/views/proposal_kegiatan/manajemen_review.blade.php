@@ -46,7 +46,7 @@
               <h3 class="font-semibold text-gray-800">Proposal Kegiatan</h3>
             </div>
             <div class="p-4">
-              <iframe src="{{ asset($reviewProposal->file_proposal) }}" class="w-full h-[600px] rounded-lg border"></iframe>
+              <iframe src="{{ route('file.show', ['filename' => $reviewProposal->file_proposal]) }}" class="w-full h-[600px] rounded-lg border"></iframe>
             </div>
           </div>
 
@@ -56,7 +56,7 @@
               <h3 class="font-semibold text-gray-800">Surat Berkegiatan Ketuplak</h3>
             </div>
             <div class="p-4">
-              <iframe src="{{ asset($reviewProposal->surat_berkegiatan_ketuplak) }}" class="w-full h-[600px] rounded-lg border"></iframe>
+              <iframe src="{{ route('file.show', ['filename' => $reviewProposal->surat_berkegiatan_ketuplak]) }}" class="w-full h-[600px] rounded-lg border"></iframe>
             </div>
           </div>
 
@@ -66,7 +66,7 @@
               <h3 class="font-semibold text-gray-800">Surat Pernyataan Ormawa</h3>
             </div>
             <div class="p-4">
-              <iframe src="{{ asset($reviewProposal->surat_pernyataan_ormawa) }}" class="w-full h-[600px] rounded-lg border"></iframe>
+              <iframe src="{{ route('file.show', ['filename' => $reviewProposal->surat_pernyataan_ormawa]) }}" class="w-full h-[600px] rounded-lg border"></iframe>
             </div>
           </div>
 
@@ -76,7 +76,7 @@
               <h3 class="font-semibold text-gray-800">Surat Peminjaman Sarpras</h3>
             </div>
             <div class="p-4">
-              <iframe src="{{ asset($reviewProposal->surat_peminjaman_sarpras) }}" class="w-full h-[600px] rounded-lg border"></iframe>
+              <iframe src="{{ route('file.show', ['filename' => $reviewProposal->surat_peminjaman_sarpras]) }}" class="w-full h-[600px] rounded-lg border"></iframe>
             </div>
           </div>
 
@@ -86,8 +86,7 @@
               <h3 class="font-semibold text-gray-800">Poster Kegiatan</h3>
             </div>
             <div class="p-4">
-            <img src="{{ asset($reviewProposal->poster_kegiatan) }}" alt="Gambar Kegiatan" class="w-full rounded-lg shadow-md">
-              
+            <img src="{{ route('file.show', ['filename' => $reviewProposal->poster_kegiatan]) }}" alt="Gambar Kegiatan" class="w-full rounded-lg shadow-md">
             </div>
           </div>
         </div>

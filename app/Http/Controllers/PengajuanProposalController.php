@@ -16,6 +16,7 @@ use App\Models\BidangKegiatan;
 use App\Models\ReviewProposal;
 use App\Models\PengajuanProposal;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class PengajuanProposalController extends Controller
 {
@@ -153,7 +154,10 @@ class PengajuanProposalController extends Controller
 
         // Surat Peminjaman Sarpras
         $fileSarprasPath = $proposal->surat_peminjaman_sarpras;
-                            
+        
+        // poster
+        $filePosterPath = $proposal->poster_kegiatan;
+        
         return view('proposal_kegiatan.detail_proposal', [
             'proposal' => $proposal,
             'currentStep' => $currentStep,
@@ -167,6 +171,7 @@ class PengajuanProposalController extends Controller
             'fileKetuplakPath' => $fileKetuplakPath,
             'fileOrmawaPath' => $fileOrmawaPath,
             'fileSarprasPath' => $fileSarprasPath,
+            'filePosterPath' => $filePosterPath,
             'jenis_kegiatans' => $jenis_kegiatans, 
             'bidang_kegiatans' => $bidang_kegiatans,
             'hasPendingSpj' => $hasPendingSpj, // Variabel notifikasi
@@ -295,39 +300,50 @@ class PengajuanProposalController extends Controller
             return redirect()->back()->withErrors(['error' => 'Proposal tidak ditemukan.']);
         }
 
-        $file_proposal_path = $proposal->file_proposal;
+        // Direktori untuk menyimpan file
+        $folderPath = 'uploads/';
+        if (!Storage::exists($folderPath)) {
+            Storage::makeDirectory($folderPath); // Membuat folder jika belum ada
+        }
+
+        // Update dan simpan file proposal
         if ($request->hasFile('file_proposal')) {
             $file = $request->file('file_proposal');
-            $file_proposal_path = 'laraview/' . time() . '_' . $file->getClientOriginalName();
-            $file->move(public_path('laraview'), $file_proposal_path);
+            $newFileName = time() . '_' . $file->getClientOriginalName();
+            $file->storeAs($folderPath, $newFileName); // Simpan file ke storage
+            $proposal->file_proposal = $newFileName; // Simpan nama file ke database
         }
 
-        $file_berkegiatan_ketuplak_path = $proposal->surat_berkegiatan_ketuplak;
+        // Update dan simpan surat berkegiatan ketuplak
         if ($request->hasFile('surat_berkegiatan_ketuplak')) {
             $file = $request->file('surat_berkegiatan_ketuplak');
-            $file_berkegiatan_ketuplak_path = 'laraview/' . time() . '_' . $file->getClientOriginalName();
-            $file->move(public_path('laraview'), $file_berkegiatan_ketuplak_path);
+            $newFileName = time() . '_' . $file->getClientOriginalName();
+            $file->storeAs($folderPath, $newFileName);
+            $proposal->surat_berkegiatan_ketuplak = $newFileName;
         }
 
-        $file_pernyataan_ormawa_path = $proposal->surat_pernyataan_ormawa;
+        // Update dan simpan surat pernyataan ormawa
         if ($request->hasFile('surat_pernyataan_ormawa')) {
             $file = $request->file('surat_pernyataan_ormawa');
-            $file_pernyataan_ormawa_path = 'laraview/' . time() . '_' . $file->getClientOriginalName();
-            $file->move(public_path('laraview'), $file_pernyataan_ormawa_path);
+            $newFileName = time() . '_' . $file->getClientOriginalName();
+            $file->storeAs($folderPath, $newFileName);
+            $proposal->surat_pernyataan_ormawa = $newFileName;
         }
 
-        $file_peminjaman_sarpras_path = $proposal->surat_peminjaman_sarpras;
+        // Update dan simpan surat peminjaman sarpras
         if ($request->hasFile('surat_peminjaman_sarpras')) {
             $file = $request->file('surat_peminjaman_sarpras');
-            $file_peminjaman_sarpras_path = 'laraview/' . time() . '_' . $file->getClientOriginalName();
-            $file->move(public_path('laraview'), $file_peminjaman_sarpras_path);
+            $newFileName = time() . '_' . $file->getClientOriginalName();
+            $file->storeAs($folderPath, $newFileName);
+            $proposal->surat_peminjaman_sarpras = $newFileName;
         }
 
-        $poster_path = $proposal->poster_kegiatan;
+        // Update dan simpan poster kegiatan
         if ($request->hasFile('poster_kegiatan')) {
             $poster = $request->file('poster_kegiatan');
-            $poster_path = 'laraview/' . time() . '_' . $poster->getClientOriginalName();
-            $poster->move(public_path('laraview'), $poster_path);
+            $newFileName = time() . '_' . $poster->getClientOriginalName();
+            $poster->storeAs($folderPath, $newFileName);
+            $proposal->poster_kegiatan = $newFileName;
         }
 
         // Cari revisi terbaru berdasarkan id_proposal
@@ -348,10 +364,6 @@ class PengajuanProposalController extends Controller
             $proposal->fill([
                 'nama_kegiatan' => $request->input('nama_kegiatan'),
                 'tmpt_kegiatan' => $request->input('tempat_kegiatan'),
-                'file_proposal' => $file_proposal_path,
-                'surat_berkegiatan_ketuplak' => $file_berkegiatan_ketuplak_path,
-                'surat_pernyataan_ormawa' => $file_pernyataan_ormawa_path,
-                'surat_peminjaman_sarpras' => $file_peminjaman_sarpras_path,
                 'id_jenis_kegiatan' => $request->input('id_jenis_kegiatan'),
                 'id_bidang_kegiatan' => $request->input('id_bidang_kegiatan'),
                 'id_ormawa' => session('id_ormawa'),
@@ -367,7 +379,6 @@ class PengajuanProposalController extends Controller
                 'nama_penanggung_jawab' => $request->input('nama_penanggung_jawab'),
                 'email_penanggung_jawab' => $request->input('email_penanggung_jawab'),
                 'no_hp_penanggung_jawab' => $request->input('no_hp_penanggung_jawab'),
-                'poster_kegiatan' => $poster_path,
                 'caption_poster' => $request->input('caption_poster'),
                 'jml_peserta' => $request->input('jml_peserta', 0),
                 'jml_panitia' => $request->input('jml_panitia', 0),

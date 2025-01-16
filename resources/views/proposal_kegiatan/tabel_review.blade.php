@@ -444,7 +444,7 @@
                                         }
                                     } else {
                                         // Jika tidak ada review terbaru, gunakan nilai default dari item
-                                        $statusRevisi = $lpj->status;
+                                        $statusRevisi = $lpj->status_lpj;
                                         $tahapLpj = $lpj->updated_by;
                                     }
                                 @endphp

@@ -35,6 +35,6 @@ class ReviewSPJ extends Model
     }
     public function reviewer()
     {
-        return $this->belongsTo(Reviewer::class, 'id_dosen'); // 'id_dosen' adalah foreign key
+        return $this->belongsTo(Role::class, 'id_dosen','id_role'); // 'id_dosen' adalah foreign key
     }
 }

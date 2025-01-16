@@ -283,13 +283,13 @@
             <!-- Content Sections -->
             <div class="bg-gray-50 rounded-lg p-4">
                 <div id="doc-proposal" class="doc-section w-full">
-                    <iframe src="{{ asset($fileLpjPath) }}" class="w-full h-[700px] rounded-lg"></iframe>
+                    <iframe src="{{ route('file.show', ['filename' => $fileLpjPath]) }}" class="w-full h-[700px] rounded-lg"></iframe>
                 </div>
                 <div id="doc-ketuplak" class="doc-section hidden w-full">
-                    <iframe src="{{ asset($fileSpjPath) }}" class="w-full h-[700px] rounded-lg"></iframe>
+                    <iframe src="{{ route('file.show', ['filename' => $fileSpjPath]) }}" class="w-full h-[700px] rounded-lg"></iframe>
                 </div>
                 <div id="doc-ormawa" class="doc-section hidden w-full">
-                    <iframe src="{{ asset($fileSptbPath) }}" class="w-full h-[700px] rounded-lg"></iframe>
+                    <iframe src="{{ route('file.show', ['filename' => $fileSptbPath]) }}" class="w-full h-[700px] rounded-lg"></iframe>
                 </div>
             </div>
         </div>

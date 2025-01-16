@@ -100,7 +100,7 @@ class ManajemenReviewLpjController extends Controller
                     // Update updated_by jika status revisi di tabel revisi LPJ = 1
                     if ($request->input('status_revisi') == 1 && session()->has('id_role')) {
                         // Kondisi khusus untuk Ormawa UKM, BEM, atau MPM
-                        if (str_contains($nama_ormawa, 'UKM') || str_contains($nama_ormawa, 'BEM') || str_contains($nama_ormawa, 'MPM')) {
+                        if ((str_contains($nama_ormawa, 'UKM') || str_contains($nama_ormawa, 'BEM') || str_contains($nama_ormawa, 'MPM')) && session('id_role') == 2) {
                             $lpj->updated_by = session('id_role') + 2;
                         } else {
                             // Kondisi default untuk Ormawa lainnya

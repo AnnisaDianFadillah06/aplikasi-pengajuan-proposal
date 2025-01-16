@@ -102,19 +102,23 @@
             <!-- Content Sections -->
             <div class="bg-gray-50 rounded-lg p-4">
                 <div id="doc-sptb" class="doc-section w-full">
-                    <iframe src="{{ asset($filePathSptb) }}" class="w-full h-[700px] rounded-lg"></iframe>
+                    <iframe src="{{ route('file.show', ['filename' => $filePathSptb]) }}" class="w-full h-[700px] rounded-lg"></iframe>
                 </div>
                 <div id="doc-spj" class="doc-section hidden w-full">
-                    <iframe src="{{ asset($filePath) }}" class="w-full h-[700px] rounded-lg"></iframe>
+                    <iframe src="{{ route('file.show', ['filename' => $filePath]) }}" class="w-full h-[700px] rounded-lg"></iframe>
                 </div>
                 <div id="doc-beritaacara" class="doc-section hidden w-full">
-                    <iframe src="{{ asset($filePathBeritaAcara) }}" class="w-full h-[700px] rounded-lg"></iframe>
+                    <iframe src="{{ route('file.show', ['filename' => $filePathBeritaAcara]) }}" class="w-full h-[700px] rounded-lg"></iframe>
                 </div>
                 <div class="p-4">
-                    <video controls class="w-full max-w-xl mx-auto">
-                          <source src="{{ asset($filePathVideoKegiatan) }}" type="video/mp4">
-                          Browser Anda tidak mendukung pemutaran video ini.
-                    </video>
+                    @if ($filePathVideoKegiatan)
+                        <video controls class="w-full max-w-xl mx-auto">
+                            <source src="{{ route('file.show', ['filename' => $filePathVideoKegiatan]) }}"  type="video/mp4">
+                            Browser Anda tidak mendukung pemutaran video ini.
+                        </video>
+                    @else
+                        <p class="text-center text-gray-600">Video kegiatan tidak tersedia.</p>
+                    @endif
                   </div>
             </div>
         </div>
