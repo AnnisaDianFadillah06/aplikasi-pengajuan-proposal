@@ -213,6 +213,50 @@
     </div>
 </div>
 
+<style>
+    /* Tambahkan CSS untuk modal backdrop dan prevent scroll */
+    .modal-active {
+        overflow: hidden !important;
+        padding-right: 15px; /* Prevent layout shift */
+    }
+    
+    .modal-backdrop {
+        position: fixed;
+        inset: 0;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 40;
+    }
+    
+    .modal-container {
+        position: fixed;
+        inset: 0;
+        z-index: 50;
+        overflow-y: auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    /* Pastikan modal selalu di atas navbar */
+    #addOrganisasiMahasiswaModal,
+    #editModal {
+        z-index: 9999;
+    }
+    
+    /* Prevent interaction dengan elements di belakang modal */
+    .modal-open {
+        pointer-events: none;
+    }
+    
+    .modal-open .modal-container,
+    .modal-open .modal-backdrop {
+        pointer-events: auto;
+    }
+</style>
+
+
+
+
 <script>
 // Search
 document.addEventListener('DOMContentLoaded', function() {
@@ -366,6 +410,11 @@ function showNotification(message, type = 'success') {
         }, 300);
     }, 3000);
 }
+</script>
+
+<script>
+    
+
 </script>
 
 @endsection

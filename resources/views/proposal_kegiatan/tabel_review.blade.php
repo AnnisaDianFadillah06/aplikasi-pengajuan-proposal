@@ -208,7 +208,7 @@
                                     <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
                                         <a href="{{ $isDisabledProposal ? '#' : route('proposal.show', ['reviewProposal' => $proposal->id_proposal]) }}"
                                             onclick="{{ $isDisabledProposal ? 'return false;' : 'logProposalId(' . $proposal->id . ')' }}" 
-                                            class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-150 {{ $buttonClassProposal }}"
+                                            class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-150 {{ $isDisabledProposal ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : 'bg-indigo-600 text-white hover:bg-indigo-700' }}"
                                             title="{{ $titleTextProposal }}">
                                             <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -408,7 +408,7 @@
                     <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
                         <a href="{{ $isDisabledSPJ ? '#' : route('reviewSPJ.show', ['reviewSPJ' => $spj->id_spj]) }}" 
                             onclick="{{ $isDisabledSPJ ? 'return false;' : 'logProposalId(' . $spj->id_spj . ')' }}"
-                            class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-150 {{ $buttonClassSPJ }}"
+                            class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-150 {{ $isDisabledSPJ ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : 'bg-indigo-600 text-white hover:bg-indigo-700' }}"
                             title="{{ $titleTextSPJ }}">
                             <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
