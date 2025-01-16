@@ -169,9 +169,47 @@
                                             {{ \Carbon\Carbon::parse($proposal->updated_at)->diffForHumans() }}
                                         </div>
                                     </td>
+                                    @php
+                                        // Mapping tahap berdasarkan updated_by
+                                        $tahapMapProposal = [
+                                            1 => 'BEM',
+                                            2 => 'Pembina',
+                                            3 => 'Ketua Jurusan',
+                                            4 => 'KLI',
+                                            5 => 'Wadir 3',
+                                            6 => 'Wadir 3', // Jika updated_by == 6, juga dianggap Wadir 3
+                                        ];
+                                    
+                                        // Tentukan label tahap berdasarkan updated_by
+                                        $tahapLabelProposal = $tahapMapProposal[$proposal->updated_by] ?? 'Tahap Tidak Diketahui';
+                                        // Tentukan apakah tombol dinonaktifkan
+                                        $isDisabledProposal = $idRole == 5 && $proposal->updated_by != 5 && $proposal->updated_by != 6 ;
+                                        // Tentukan apakah updated_by == 6
+                                        $isWadir3Proposal = $idRole == 5 && $proposal->updated_by == 6 ;
+                                        // Tentukan apakah tombol dinonaktifkan
+                                        $isDisabledProposal2 = $statusRevisi == 3 ;
+                                        // Tentukan title dan class berdasarkan kondisi
+                                        $buttonClassProposal = '';
+                                        $titleTextProposal = '';
+                                        if ($isDisabledProposal) {
+                                            $buttonClassProposal = 'cursor-not-allowed bg-gray-300 text-gray-500';
+                                            $titleTextProposal = 'Masih di tahap ' . $tahapLabelProposal;
+                                        } elseif ($isWadir3Proposal) {
+                                            $buttonClassProposal = 'cursor-not-allowed bg-gray-300 text-gray-500'; // Style khusus untuk Wadir 3
+                                            $titleTextProposal = 'Sudah direview';
+                                        } elseif ($isDisabledProposal2) {
+                                            $buttonClassProposal = 'cursor-not-allowed bg-gray-300 text-gray-500'; // Style khusus untuk Wadir 3
+                                            $titleTextProposal = 'Menunggu Revisi';
+                                        } else {
+                                            $buttonClassProposal = 'bg-blue-500 text-white hover:bg-blue-600';
+                                            $titleTextProposal = 'Lanjutkan Review';
+                                        }
+                                    @endphp 
                                     <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
-                                        <a href="{{ route('proposal.show', ['reviewProposal' => $proposal->id_proposal]) }}" 
-                                           class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-150">
+                                        <a href="{{ $isDisabledProposal ? '#' : route('proposal.show', ['reviewProposal' => $proposal->id_proposal]) }}"
+                                            onclick="{{ $isDisabledProposal ? 'return false;' : 'logProposalId(' . $proposal->id . ')' }}" 
+                                            class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-150 {{ $isDisabledProposal ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : 'bg-indigo-600 text-white hover:bg-indigo-700' }}"
+                                            title="{{ $titleTextProposal }}">
                                             <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
@@ -333,9 +371,45 @@
                             {{ \Carbon\Carbon::parse($spj->updated_at)->diffForHumans() }}
                         </div>
                     </td>
+                    @php
+                        // Mapping tahap berdasarkan updated_by
+                        $tahapMapSPJ = [
+                            1 => 'BEM',
+                            2 => 'Pembina',
+                            3 => 'Ketua Jurusan',
+                            4 => 'KLI',
+                            5 => 'Wadir 3',
+                            6 => 'Wadir 3', // Jika updated_by == 6, juga dianggap Wadir 3
+                        ];
+                        // Tentukan label tahap berdasarkan updated_by
+                        $tahapLabelSPJ = $tahapMapSPJ[$spj->updated_by] ?? 'Tahap Tidak Diketahui';
+                        // Tentukan apakah tombol dinonaktifkan
+                        $isDisabledSPJ = $idRole == 5 && $spj->updated_by != 5 && $spj->updated_by != 6;
+                        // Tentukan apakah updated_by == 6
+                        $isWadir3SPJ = $idRole == 5 && $spj->updated_by == 6;
+                        $isDisabledSPJ2 = $statusRevisi == 3;
+                        // Tentukan title dan class berdasarkan kondisi
+                        $buttonClassSPJ = '';
+                        $titleTextSPJ = '';
+                        if ($isDisabledSPJ) {
+                            $buttonClassSPJ = 'cursor-not-allowed bg-gray-300 text-gray-500';
+                            $titleTextSPJ = 'Masih di tahap ' . $tahapLabelSPJ;
+                        } elseif ($isWadir3SPJ) {
+                            $buttonClassSPJ = 'cursor-not-allowed bg-gray-300 text-gray-500'; // Style khusus untuk Wadir 3
+                            $titleTextSPJ = 'Sudah direview';
+                        } elseif ($isDisabledSPJ2) {
+                            $buttonClassProposal = 'cursor-not-allowed bg-gray-300 text-gray-500'; // Style khusus untuk Wadir 3
+                            $titleTextProposal = 'Menunggu Revisi';
+                        } else {
+                            $buttonClassSPJ = 'bg-blue-500 text-white hover:bg-blue-600';
+                            $titleTextSPJ = 'Lanjutkan Review';
+                        }
+                    @endphp
                     <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
-                        <a href="{{ route('reviewSPJ.show', ['reviewSPJ' => $spj->id_spj]) }}" 
-                           class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-150">
+                        <a href="{{ $isDisabledSPJ ? '#' : route('reviewSPJ.show', ['reviewSPJ' => $spj->id_spj]) }}" 
+                            onclick="{{ $isDisabledSPJ ? 'return false;' : 'logProposalId(' . $spj->id_spj . ')' }}"
+                            class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-150 {{ $isDisabledSPJ ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : 'bg-indigo-600 text-white hover:bg-indigo-700' }}"
+                            title="{{ $titleTextSPJ }}">
                             <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
@@ -496,9 +570,47 @@
                             {{ \Carbon\Carbon::parse($lpj->updated_at)->diffForHumans() }}
                         </div>
                     </td>
+                    
+                    @php
+                        // Mapping tahap berdasarkan updated_by
+                        $tahapMapLPJ = [
+                            1 => 'BEM',
+                            2 => 'Pembina',
+                            3 => 'Ketua Jurusan',
+                            4 => 'KLI',
+                            5 => 'Wadir 3',
+                            6 => 'Wadir 3', // Jika updated_by == 6, juga dianggap Wadir 3
+                        ];
+                    
+                        // Tentukan label tahap berdasarkan updated_by
+                        $tahapLabelLPJ = $tahapMapLPJ[$lpj->updated_by] ?? 'Tahap Tidak Diketahui';
+                        // Tentukan apakah tombol dinonaktifkan
+                        $isDisabledLPJ = $idRole == 5 && $lpj->updated_by != 5 && $lpj->updated_by != 6;
+                        // Tentukan apakah updated_by == 6
+                        $isWadir3LPJ = $idRole == 5 && $lpj->updated_by == 6;
+                        $isDisabledLPJ2 = $statusRevisi == 3;
+                        // Tentukan title dan class berdasarkan kondisi
+                        $buttonClassLPJ = '';
+                        $titleTextLPJ = '';
+                        if ($isDisabledLPJ) {
+                            $buttonClassLPJ = 'cursor-not-allowed bg-gray-300 text-gray-500';
+                            $titleTextLPJ = 'Masih di tahap ' . $tahapLabelLPJ;
+                        } elseif ($isWadir3LPJ) {
+                            $buttonClassLPJ = 'cursor-not-allowed bg-gray-300 text-gray-500'; // Style khusus untuk Wadir 3
+                            $titleTextLPJ = 'Sudah direview';
+                        } elseif ($isDisabledLPJ2) {
+                            $buttonClassProposal = 'cursor-not-allowed bg-gray-300 text-gray-500'; // Style khusus untuk Wadir 3
+                            $titleTextProposal = 'Menunggu Revisi';
+                        } else {
+                            $buttonClassLPJ = 'bg-blue-500 text-white hover:bg-blue-600';
+                            $titleTextLPJ = 'Lanjutkan Review';
+                        }
+                    @endphp
                     <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
-                        <a href="{{ route('reviewLPJ.show', ['reviewLPJ' => $lpj->id_lpj]) }}" 
-                           class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-150">
+                        <a href="{{ $isDisabledLPJ ? '#' : route('reviewLPJ.show', ['reviewLPJ' => $lpj->id_lpj]) }}"
+                            onclick="{{ $isDisabledLPJ ? 'return false;' : 'logProposalId(' . $lpj->id_lpj . ')' }}"  
+                            class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-150 {{ $buttonClassLPJ }}"
+                            title="{{ $titleTextLPJ }}">
                             <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />

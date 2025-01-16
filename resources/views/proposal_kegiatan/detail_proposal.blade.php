@@ -22,6 +22,15 @@
 {{-- Progress bar --}}
 <div class="flex justify-center items-center p-6 bg-gray-50">
     <div class="w-full max-w-5xl">
+        <div class="mb-8">
+            <div class="flex items-center gap-4 mb-4">
+                <a href="{{ route('pengajuan-proposal') }}" class="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 rounded-lg border border-gray-200 shadow-sm transition-all duration-200 hover:shadow">
+                    <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                    </svg>
+                    Kembali
+                </a>
+            </div>
         <!-- Stepper Container -->
         <div class="relative">
             <!-- Progress Bar Background -->
@@ -170,6 +179,7 @@
     </ol>
 </div>
 
+
 @if ($updatedByStep == 6 && $status == 1)
     <div class="bg-green-50 border-l-4 border-green-400 p-4 rounded-md shadow-md my-4">
         <div class="flex items-center">
@@ -220,6 +230,8 @@
     </div>
 </div>
 @endif
+
+
 
 {{-- Bagian Detail Proposal --}}
 @if ($status == 1 || $currentStep < $updatedByStep)
