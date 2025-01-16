@@ -24,6 +24,7 @@
             <div class="relative px-6 py-24 sm:px-12 sm:py-32">
                 <div class="flex flex-col sm:flex-row items-center gap-8">
                     <!-- Profile Image with Status -->
+                    {{-- Ganti src img --}}
                     <div class="relative group">
                         <div class="absolute -inset-0.5 bg-gradient-to-r from-pink-600 to-purple-600 rounded-full opacity-75 group-hover:opacity-100 transition duration-300 blur"></div>
                         <div class="relative">
