@@ -2,661 +2,605 @@
 @section('title', 'Manajemen Review')
 @section('konten')
 
-<title>@yield('title', 'Manajemen Review')</title>
-
-<!-- Link Tailwind CSS dan FontAwesome untuk ikon -->
-<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-<link rel="stylesheet" href="//cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
-
-{{-- Cek apakah ada sesi login dan tampilkan data pengguna --}}
-{{-- @if (session()->has('username') && session()->has('id'))
-    <p>Selamat datang, {{ session('username') }}!</p>
-    <p>id Anda: {{ session('id') }}</p>
-    <p>role  Anda: {{ session('role') }}</p>
-@else
-    <p>Anda belum login.</p>
-@endif --}}
-
-<!-- Link Tailwind CSS dan FontAwesome untuk ikon -->
-<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-<link rel="stylesheet" href="//cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
-<title>@yield('title', 'Manajemen Review')</title>
-
-@if (session('success'))
-    <div class="alert alert-success">
-        {{ session('success') }}
-    </div>
-@endif
-
-@if (session('error'))
-    <div class="alert alert-danger">
-        {{ session('error') }}
-    </div>
-@endif
-
-<div class="flex flex-wrap -mx-3">
-    <div class="flex-none w-full max-w-full px-3">
-        <div class="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-soft-xl rounded-2xl bg-clip-border">
-            <div class="container mx-auto mt-8 mb-8">
-                <div class="mb-4">
-                    <!-- Tabs Navigation -->
-                    <ul class="flex border-b">
-                        <li class="-mb-px mr-1">
-                            <a id="tab-proposal" href="#" class="tab-button bg-white inline-block py-2 px-4 text-blue-500 font-semibold border-l border-t border-r rounded-t focus:outline-none">Daftar Review Proposal</a>
-                        </li>
-                        <li class="mr-1">
-                            <a id="tab-spj" href="#" class="tab-button inline-block py-2 px-4 text-gray-500 hover:text-blue-500 font-semibold">Daftar Review SPJ</a>
-                        </li>
-                        <li class="mr-1">
-                            <a id="tab-lpj" href="#" class="tab-button inline-block py-2 px-4 text-gray-500 hover:text-blue-500 font-semibold">Daftar Review LPJ</a>
-                        </li>
-                    </ul>
-                </div>
-            
-                <!-- Tab Content -->
-                <div id="content-proposal" class="tab-content">
-                    <div class="flex justify-between items-center mb-4">
-                        <h3 class="text-xl font-bold">List Proposal</h3>
-                    </div>
-                    {{-- ======================= TABEL 1 ======================= --}}
-                    <table id="table-proposal" class="items-center w-full mb-0 align-top border-gray-200 text-slate-500">
-                        <thead class="align-bottom">
-                        <tr class="w-full bg-gray-100 text-gray-700 uppercase text-sm leading-normal">
-                            <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Penyelenggara</th>
-                            <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Nama kegiatan</th>
-                            <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Status</th>
-                            @if($idRole == 5)
-                                <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Tahap</th>
-                            @endif
-                            <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Tanggal Kegiatan</th>
-                            <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Tanggal Pengajuan Proposal</th>
-                            <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Aksi</th>
-                            @if($idRole == 5)
-                                <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Detail</th>
-                            @endif
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @foreach ($proposals as $item)
-                        <tr>
-                            <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                            <div class="flex px-2 py-1">
-                                <div class="flex flex-col justify-center">
-                                <h6 class="mb-0 text-sm leading-normal">{{ $item->pengguna->username }}</h6>
-                                <!-- <p class="mb-0 text-xs leading-tight text-slate-400">john@creative-tim.com</p> -->
-                                </div>
-                            </div>
-                            </td>
-                            <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                            <p class="mb-0 text-xs font-semibold leading-tight">{{ $item->nama_kegiatan }}</p>
-                            <!-- <p class="mb-0 text-xs leading-tight text-slate-400">Organization</p> -->
-                            </td>
-                            <td class="p-2 text-sm leading-normal text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                                @php
-                                    // Mengambil revisi terbaru yang sesuai dengan id_proposal
-                                    $latestReview = $item->latestRevision;
-
-                                    if ($latestReview) {
-                                        // Status revisi dan tahap berdasarkan review terbaru
-                                        $statusRevisi = $latestReview->status_revisi;
-                                        $tahap = $latestReview->id_dosen;
-
-                                        // Pengondisian tambahan: jika status revisi adalah 1
-                                        if ($statusRevisi == 1) {
-                                            $statusRevisi = 0; // Mengubah status revisi menjadi 0
-                                            $tahap += 1;       // Meningkatkan tahap
-                                        }
-                                    } else {
-                                        // Jika tidak ada review terbaru, gunakan nilai default dari item
-                                        $statusRevisi = $item->status;
-                                        $tahap = $item->updated_by;
-                                    }
-                                @endphp
-                                @if ($statusRevisi == 0)
-                                    <span class="bg-gradient-to-tl from-yellow-500 to-yellow-300 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">
-                                        Menunggu 
-                                    </span>
-                                @elseif ($statusRevisi == 1)
-                                    <span class="bg-gradient-to-tl from-green-600 to-lime-400 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">
-                                        Disetujui
-                                    </span>
-                                @elseif ($statusRevisi == 2)
-                                    <span class="bg-gradient-to-tl from-red-600 to-red-400 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">
-                                        Ditolak
-                                    </span>
-                                @elseif ($statusRevisi == 3)
-                                    <span class="bg-gradient-to-tl from-blue-600 to-blue-400 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">
-                                        Revisi
-                                    </span>
-                                @endif
-                            </td>
-                            @if($idRole == 5)
-                                <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                                    {{-- <a href="javascript:;" class="text-xs font-semibold leading-tight text-slate-400"> </a> --}}
-                                    @if ($tahap == 1)
-                                        <p class="mb-0 text-xs font-semibold leading-tight">BEM</p>
-                                    @elseif ($tahap == 2)
-                                        <p class="mb-0 text-xs font-semibold leading-tight">Pembina</p>
-                                    @elseif ($tahap == 3)
-                                        <p class="mb-0 text-xs font-semibold leading-tight">Ketua Jurusan</p>
-                                    @elseif ($tahap == 4)
-                                        <p class="mb-0 text-xs font-semibold leading-tight">KLI</p>
-                                    @elseif ($tahap == 5 || 6)
-                                        <p class="mb-0 text-xs font-semibold leading-tight">Wadir 3</p>
-                                    @endif
-                                </td>
-                            @endif
-                            <td class="p-2 text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                                <span class="text-xs font-semibold leading-tight text-slate-400">{{ $item->tanggal_mulai }}</span>
-                            </td>
-                            <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                                <span class="text-xs font-semibold leading-tight text-slate-400">{{ $item->updated_at->format('Y-m-d')  }}</span>
-                            </td>
-
-                            @php
-                                // Mapping tahap berdasarkan updated_by
-                                $tahapMapProposal = [
-                                    1 => 'BEM',
-                                    2 => 'Pembina',
-                                    3 => 'Ketua Jurusan',
-                                    4 => 'KLI',
-                                    5 => 'Wadir 3',
-                                    6 => 'Wadir 3', // Jika updated_by == 6, juga dianggap Wadir 3
-                                ];
-                            
-                                // Tentukan label tahap berdasarkan updated_by
-                                $tahapLabelProposal = $tahapMapProposal[$item->updated_by] ?? 'Tahap Tidak Diketahui';
-
-                                // Tentukan apakah tombol dinonaktifkan
-                                $isDisabledProposal = $idRole == 5 && $item->updated_by != 5 && $item->updated_by != 6 ;
-
-                                // Tentukan apakah updated_by == 6
-                                $isWadir3Proposal = $idRole == 5 && $item->updated_by == 6 ;
-
-                                // Tentukan apakah tombol dinonaktifkan
-                                $isDisabledProposal2 = $statusRevisi == 3 ;
-
-                                // Tentukan title dan class berdasarkan kondisi
-                                $buttonClassProposal = '';
-                                $titleTextProposal = '';
-
-                                if ($isDisabledProposal) {
-                                    $buttonClassProposal = 'cursor-not-allowed bg-gray-300 text-gray-500';
-                                    $titleTextProposal = 'Masih di tahap ' . $tahapLabelProposal;
-                                } elseif ($isWadir3Proposal) {
-                                    $buttonClassProposal = 'cursor-not-allowed bg-gray-300 text-gray-500'; // Style khusus untuk Wadir 3
-                                    $titleTextProposal = 'Sudah direview';
-                                } elseif ($isDisabledProposal2) {
-                                    $buttonClassProposal = 'cursor-not-allowed bg-gray-300 text-gray-500'; // Style khusus untuk Wadir 3
-                                    $titleTextProposal = 'Menunggu Revisi';
-                                } else {
-                                    $buttonClassProposal = 'bg-blue-500 text-white hover:bg-blue-600';
-                                    $titleTextProposal = 'Lanjutkan Review';
-                                }
-                            @endphp
-
-                            <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                                <a href="{{ $isDisabledProposal ? '#' : route('proposal.show', ['reviewProposal' => $item->id_proposal]) }}" 
-                                    onclick="{{ $isDisabledProposal ? 'return false;' : 'logProposalId(' . $item->id . ')' }}" 
-                                    class="px-2 py-1 rounded hover:underline {{ $buttonClassProposal }}" 
-                                    title="{{ $titleTextProposal }}">
-                                     Review
-                                 </a>
-                            </td> 
-                            @if($idRole == 5)
-                                <td class="p-2 text-sm leading-normal text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                                    <form method="GET" action="{{ route('proposalWD3.detail', $item->id_proposal) }}">
-                                        @csrf
-                                        <button type="submit" class="bg-blue-500 text-white px-2 py-1 rounded">
-                                            Detail
-                                        </button>
-                                    </form>
-                                </td>
-                            @endif
-                        </tr>
-                        @endforeach
-                        </tbody>
-                    </table>
-                </div>
-            
-                <div id="content-spj" class="tab-content hidden">
-                    <div class="flex justify-between items-center mb-4">
-                        <h3 class="text-xl font-bold">List SPJ</h3>
-                    </div>
-                    {{-- ======================= TABEL 2 ======================= --}}
-                    <table id="table-spj" class="items-center w-full mb-0 align-top border-gray-200 text-slate-500">
-                        <thead class="align-bottom">
-                        <tr class="w-full bg-gray-100 text-gray-700 uppercase text-sm leading-normal">
-                            <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Penyelenggara</th>
-                            <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Nama kegiatan</th>
-                            <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Status</th>
-                            @if($idRole == 5)
-                                <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Tahap</th>
-                            @endif
-                            <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Tanggal Kegiatan</th>
-                            <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Tanggal Pengajuan SPJ</th>
-                            <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Aksi</th>
-                            @if($idRole == 5)
-                                <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Detail</th>
-                            @endif
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @foreach ($spjAll as $spj)
-                        <tr>
-                            <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                            <div class="flex px-2 py-1">
-                                <div class="flex flex-col justify-center">
-                                <h6 class="mb-0 text-sm leading-normal">{{ $spj->proposalKegiatan->pengguna->username }}</h6>
-                                <!-- <p class="mb-0 text-xs leading-tight text-slate-400">john@creative-tim.com</p> -->
-                                </div>
-                            </div>
-                            </td>
-                            <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                            <p class="mb-0 text-xs font-semibold leading-tight">{{ $spj->proposalKegiatan->nama_kegiatan }}</p>
-                            <!-- <p class="mb-0 text-xs leading-tight text-slate-400">Organization</p> -->
-                            </td>
-                            <td class="p-2 text-sm leading-normal text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                                @php
-                                    // Mengambil revisi terbaru yang sesuai dengan id_proposal
-                                    $latestReview = $spj->latestRevision;
-
-                                    if ($latestReview) {
-                                        // Status revisi dan tahap berdasarkan review terbaru
-                                        $statusRevisi = $latestReview->status_revisi;
-                                        $tahapSpj = $latestReview->id_dosen;
-
-                                        // Pengondisian tambahan: jika status revisi adalah 1
-                                        if ($statusRevisi == 1) {
-                                            $statusRevisi = 0; // Mengubah status revisi menjadi 0
-                                            $tahapSpj += 1;       // Meningkatkan tahap
-                                        }
-                                    } else {
-                                        // Jika tidak ada review terbaru, gunakan nilai default dari item
-                                        $statusRevisi = $spj->status;
-                                        $tahapSpj = $spj->updated_by;
-                                    }
-                                @endphp
-                                @php
-                                    // Prioritaskan status dari latestRevision jika ada, gunakan item->status jika tidak
-                                    $status = $spj->latestRevision ? $spj->latestRevision->status_revisi : $spj->status;
-                                    $tahapSpj = $spj->updated_by;
-                                @endphp
-                                @if ($statusRevisi == 0)
-                                    <span class="bg-gradient-to-tl from-yellow-500 to-yellow-300 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">
-                                        Menunggu 
-                                    </span>
-                                @elseif ($statusRevisi == 1)
-                                    <span class="bg-gradient-to-tl from-green-600 to-lime-400 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">
-                                        Disetujui
-                                    </span>
-                                @elseif ($statusRevisi == 2)
-                                    <span class="bg-gradient-to-tl from-red-600 to-red-400 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">
-                                        Ditolak
-                                    </span>
-                                @elseif ($statusRevisi == 3)
-                                    <span class="bg-gradient-to-tl from-blue-600 to-blue-400 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">
-                                        Revisi
-                                    </span>
-                                @endif
-                            </td>
-                            @if($idRole == 5)
-                                <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                                    {{-- <a href="javascript:;" class="text-xs font-semibold leading-tight text-slate-400"> </a> --}}
-                                    @if ($tahapSpj == 1)
-                                        <p class="mb-0 text-xs font-semibold leading-tight">BEM</p>
-                                    @elseif ($tahapSpj == 2)
-                                        <p class="mb-0 text-xs font-semibold leading-tight">Pembina</p>
-                                    @elseif ($tahapSpj == 3)
-                                        <p class="mb-0 text-xs font-semibold leading-tight">Ketua Jurusan</p>
-                                    @elseif ($tahapSpj == 4)
-                                        <p class="mb-0 text-xs font-semibold leading-tight">KLI</p>
-                                    @elseif ($tahapSpj == 5 || 6)  {{-- Akan selalu bertambah 1 jika telah di acc jadi 5 atau 6 --}}
-                                        <p class="mb-0 text-xs font-semibold leading-tight">Wadir 3</p>
-                                    @endif
-                                </td>
-                            @endif
-                            <td class="p-2 text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                                <span class="text-xs font-semibold leading-tight text-slate-400">{{ $spj->proposalKegiatan->tanggal_mulai }}</span>
-                            </td>
-                            <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                                <span class="text-xs font-semibold leading-tight text-slate-400">{{ \Carbon\Carbon::parse($spj->updated_at)->format('Y-m-d') }}</span>
-                            </td>
-
-                            @php
-                                // Mapping tahap berdasarkan updated_by
-                                $tahapMapSPJ = [
-                                    1 => 'BEM',
-                                    2 => 'Pembina',
-                                    3 => 'Ketua Jurusan',
-                                    4 => 'KLI',
-                                    5 => 'Wadir 3',
-                                    6 => 'Wadir 3', // Jika updated_by == 6, juga dianggap Wadir 3
-                                ];
-                            
-                                // Tentukan label tahap berdasarkan updated_by
-                                $tahapLabelSPJ = $tahapMapSPJ[$spj->updated_by] ?? 'Tahap Tidak Diketahui';
-
-                                // Tentukan apakah tombol dinonaktifkan
-                                $isDisabledSPJ = $idRole == 5 && $spj->updated_by != 5 && $spj->updated_by != 6;
-
-                                // Tentukan apakah updated_by == 6
-                                $isWadir3SPJ = $idRole == 5 && $spj->updated_by == 6;
-
-                                $isDisabledSPJ2 = $statusRevisi == 3;
-
-                                // Tentukan title dan class berdasarkan kondisi
-                                $buttonClassSPJ = '';
-                                $titleTextSPJ = '';
-
-                                if ($isDisabledSPJ) {
-                                    $buttonClassSPJ = 'cursor-not-allowed bg-gray-300 text-gray-500';
-                                    $titleTextSPJ = 'Masih di tahap ' . $tahapLabelSPJ;
-                                } elseif ($isWadir3SPJ) {
-                                    $buttonClassSPJ = 'cursor-not-allowed bg-gray-300 text-gray-500'; // Style khusus untuk Wadir 3
-                                    $titleTextSPJ = 'Sudah direview';
-                                } elseif ($isDisabledSPJ2) {
-                                    $buttonClassProposal = 'cursor-not-allowed bg-gray-300 text-gray-500'; // Style khusus untuk Wadir 3
-                                    $titleTextProposal = 'Menunggu Revisi';
-                                } else {
-                                    $buttonClassSPJ = 'bg-blue-500 text-white hover:bg-blue-600';
-                                    $titleTextSPJ = 'Lanjutkan Review';
-                                }
-                            @endphp
-
-                            <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                                <a href="{{ $isDisabledSPJ ? '#' : route('reviewSPJ.show', ['reviewSPJ' => $spj->id_spj]) }}" 
-                                    onclick="{{ $isDisabledSPJ ? 'return false;' : 'logProposalId(' . $spj->id_spj . ')' }}" 
-                                    class="px-2 py-1 rounded hover:underline {{ $buttonClassSPJ }}" 
-                                    title="{{ $titleTextSPJ }}">
-                                     Review
-                                 </a>
-                            </td> 
-                            @if($idRole == 5)
-                                <td class="p-2 text-sm leading-normal text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                                    <form method="GET" action="{{ route('spjWD3.detail', $spj->id_spj) }}">
-                                        @csrf
-                                        <button type="submit" class="bg-blue-500 text-white px-2 py-1 rounded">
-                                            Detail
-                                        </button>
-                                    </form>
-                                </td>
-                            @endif
-                        </tr>
-                        @endforeach
-                        </tbody>
-                    </table>
-                </div> 
-
-                <div id="content-lpj" class="tab-content hidden">
-                    <div class="flex justify-between items-center mb-4">
-                        <h3 class="text-xl font-bold">List LPJ</h3>
-                    </div>
-                    {{-- ======================= TABEL 3 ======================= --}}
-                    <table id="table-lpj" class="items-center w-full mb-0 align-top border-gray-200 text-slate-500">
-                    <thead class="align-bottom">
-                        <tr class="w-full bg-gray-100 text-gray-700 uppercase text-sm leading-normal">
-                            <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Penyelenggara</th>
-                            <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Jenis LPJ</th>
-                            <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Status</th>
-                            @if($idRole == 5)
-                                <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Tahap</th>
-                            @endif
-                            <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Tanggal Pengajuan LPJ</th>
-                            <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Aksi</th>
-                            @if($idRole == 5)
-                                <th class="max-w-[240px] px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Detail</th>
-                            @endif
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @foreach ($lpjAll as $lpj)
-                        <tr>
-                            <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                            <div class="flex px-2 py-1">
-                                <div class="flex flex-col justify-center">
-                                <h6 class="mb-0 text-sm leading-normal">{{ $lpj->ormawa->nama_ormawa }}</h6>
-                                </div>
-                            </div>
-                            
-                            </td>
-                            <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                                    @if ($lpj->jenis_lpj == 1)
-                                        <p class="mb-0 text-xs font-semibold leading-tight">60%</p>
-                                    @elseif ($lpj->jenis_lpj == 2)
-                                        <p class="mb-0 text-xs font-semibold leading-tight">100%</p>
-                                    @endif
-                            </td>
-                            <td class="p-2 text-sm leading-normal text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                                @php
-                                    // Mengambil revisi terbaru yang sesuai dengan id_proposal
-                                    $latestReview = $lpj->latestRevision;
-
-                                    if ($latestReview) {
-                                        // Status revisi dan tahap berdasarkan review terbaru
-                                        $statusRevisi = $latestReview->status_revisi;
-                                        $tahapLpj = $latestReview->id_dosen;
-
-                                        // Pengondisian tambahan: jika status revisi adalah 1
-                                        if ($statusRevisi == 1) {
-                                            $statusRevisi = 0; // Mengubah status revisi menjadi 0
-                                            $tahapLpj += 1;       // Meningkatkan tahap
-                                        }
-                                    } else {
-                                        // Jika tidak ada review terbaru, gunakan nilai default dari item
-                                        $statusRevisi = $lpj->status_lpj;
-                                        $tahapLpj = $lpj->updated_by;
-                                    }
-                                @endphp
-                                @if ($statusRevisi == 0)
-                                    <span class="bg-gradient-to-tl from-yellow-500 to-yellow-300 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">
-                                        Menunggu 
-                                    </span>
-                                @elseif ($statusRevisi == 1)
-                                    <span class="bg-gradient-to-tl from-green-600 to-lime-400 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">
-                                        Disetujui
-                                    </span>
-                                @elseif ($statusRevisi == 2)
-                                    <span class="bg-gradient-to-tl from-red-600 to-red-400 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">
-                                        Ditolak
-                                    </span>
-                                @elseif ($statusRevisi == 3)
-                                    <span class="bg-gradient-to-tl from-blue-600 to-blue-400 px-2.5 text-xs rounded-1.8 py-1.4 inline-block whitespace-nowrap text-center align-baseline font-bold uppercase leading-none text-white">
-                                        Revisi
-                                    </span>
-                                @endif
-                            </td>
-                            @if($idRole == 5)
-                                <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                                    {{-- <a href="javascript:;" class="text-xs font-semibold leading-tight text-slate-400"> </a> --}}
-                                    @if ($tahapLpj == 1)
-                                        <p class="mb-0 text-xs font-semibold leading-tight">BEM</p>
-                                    @elseif ($tahapLpj == 2)
-                                        <p class="mb-0 text-xs font-semibold leading-tight">Pembina</p>
-                                    @elseif ($tahapLpj == 3)
-                                        <p class="mb-0 text-xs font-semibold leading-tight">Ketua Jurusan</p>
-                                    @elseif ($tahapLpj == 4)
-                                        <p class="mb-0 text-xs font-semibold leading-tight">KLI</p>
-                                    @elseif ($tahapLpj == 5 || 6) 
-                                        <p class="mb-0 text-xs font-semibold leading-tight">Wadir 3</p>
-                                    @endif
-                                </td>
-                            @endif
-                            <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                                <span class="text-xs font-semibold leading-tight text-slate-400">{{ \Carbon\Carbon::parse($lpj->updated_at)->format('Y-m-d') }}</span>
-                            </td>
-
-                            @php
-                                // Mapping tahap berdasarkan updated_by
-                                $tahapMapLPJ = [
-                                    1 => 'BEM',
-                                    2 => 'Pembina',
-                                    3 => 'Ketua Jurusan',
-                                    4 => 'KLI',
-                                    5 => 'Wadir 3',
-                                    6 => 'Wadir 3', // Jika updated_by == 6, juga dianggap Wadir 3
-                                ];
-                            
-                                // Tentukan label tahap berdasarkan updated_by
-                                $tahapLabelLPJ = $tahapMapLPJ[$lpj->updated_by] ?? 'Tahap Tidak Diketahui';
-
-                                // Tentukan apakah tombol dinonaktifkan
-                                $isDisabledLPJ = $idRole == 5 && $lpj->updated_by != 5 && $lpj->updated_by != 6;
-
-                                // Tentukan apakah updated_by == 6
-                                $isWadir3LPJ = $idRole == 5 && $lpj->updated_by == 6;
-
-                                $isDisabledLPJ2 = $statusRevisi == 3;
-
-                                // Tentukan title dan class berdasarkan kondisi
-                                $buttonClassLPJ = '';
-                                $titleTextLPJ = '';
-
-                                if ($isDisabledLPJ) {
-                                    $buttonClassLPJ = 'cursor-not-allowed bg-gray-300 text-gray-500';
-                                    $titleTextLPJ = 'Masih di tahap ' . $tahapLabelLPJ;
-                                } elseif ($isWadir3LPJ) {
-                                    $buttonClassLPJ = 'cursor-not-allowed bg-gray-300 text-gray-500'; // Style khusus untuk Wadir 3
-                                    $titleTextLPJ = 'Sudah direview';
-                                } elseif ($isDisabledLPJ2) {
-                                    $buttonClassProposal = 'cursor-not-allowed bg-gray-300 text-gray-500'; // Style khusus untuk Wadir 3
-                                    $titleTextProposal = 'Menunggu Revisi';
-                                } else {
-                                    $buttonClassLPJ = 'bg-blue-500 text-white hover:bg-blue-600';
-                                    $titleTextLPJ = 'Lanjutkan Review';
-                                }
-                            @endphp
-
-                            <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                                <a href="{{ $isDisabledLPJ ? '#' : route('reviewLPJ.show', ['reviewLPJ' => $lpj->id_lpj]) }}" 
-                                   onclick="{{ $isDisabledLPJ ? 'return false;' : 'logProposalId(' . $lpj->id_lpj . ')' }}" 
-                                   class="px-2 py-1 rounded hover:underline {{ $buttonClassLPJ }}" 
-                                    title="{{ $titleTextLPJ }} ">
-                                    Review
-                                </a>
-                            </td>  
-
-                            @if($idRole == 5)
-                                <td class="p-2 text-sm leading-normal text-center align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                                    <form method="GET" action="{{ route('lpjWD3.detail', $lpj->id_lpj) }}">
-                                        @csrf
-                                        <button type="submit" class="bg-blue-500 text-white px-2 py-1 rounded">
-                                            Detail
-                                        </button>
-                                    </form>
-                                </td>
-                            @endif
-                        </tr>
-                        @endforeach
-                        </tbody>
-                    </table>
-                </div>
+<div class="min-h-screen bg-gray-50 py-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Alert Messages -->
+        @if (session('success'))
+            <div class="mb-4 rounded-lg bg-green-100 p-4 text-sm text-green-700">
+                {{ session('success') }}
             </div>
-            
-            <script>
-                // Handle Tab Switching
-                document.querySelectorAll('.tab-button').forEach(button => {
-                    button.addEventListener('click', function(e) {
-                        e.preventDefault();
-            
-                        // Remove active classes
-                        document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('bg-white', 'text-blue-500'));
-                        document.querySelectorAll('.tab-content').forEach(content => content.classList.add('hidden'));
-            
-                        // Add active classes to current tab
-                        this.classList.add('bg-white', 'text-blue-500');
-                        const contentId = this.id.replace('tab-', 'content-');
-                        document.getElementById(contentId).classList.remove('hidden');
-                    });
-                });
-            </script>
+        @endif
+
+        @if (session('error'))
+            <div class="mb-4 rounded-lg bg-red-100 p-4 text-sm text-red-700">
+                {{ session('error') }}
+            </div>
+        @endif
+
+        <!-- Main Content -->
+        <div class="bg-white rounded-xl shadow-sm overflow-hidden">
+            <!-- Tab Navigation -->
+            <div class="border-b border-gray-200">
+                <nav class="flex space-x-4 px-6 py-4" aria-label="Tabs">
+                    <button id="tab-proposal" class="tab-button px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 bg-blue-50 text-blue-600">
+                        Proposal Review
+                    </button>
+                    <button id="tab-spj" class="tab-button px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 focus:outline-none hover:bg-gray-50 text-gray-500">
+                        SPJ Review
+                    </button>
+                    <button id="tab-lpj" class="tab-button px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 focus:outline-none hover:bg-gray-50 text-gray-500">
+                        LPJ Review
+                    </button>
+                </nav>
+            </div>
+
+            <!-- Tab Contents -->
+            <div class="p-6">
+                <!-- Proposal Tab Content -->
+                <div id="content-proposal" class="tab-content">
+                    <div class="sm:flex sm:items-center sm:justify-between mb-6">
+                        <h3 class="text-lg font-semibold text-gray-900">Daftar Review Proposal</h3>
+                    </div>
+                    
+                    <div class="overflow-x-auto">
+                        <table id="table-proposal" class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Penyelenggara
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Nama Kegiatan
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Status
+                                    </th>
+                                    @if($idRole == 5)
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Tahap
+                                        </th>
+                                    @endif
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Tanggal Kegiatan
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Tanggal Pengajuan Proposal
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Aksi
+                                    </th>
+                                    @if($idRole == 5)
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Detail
+                                        </th>
+                                    @endif
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                @foreach ($proposals as $proposal)
+                                <tr class="hover:bg-gray-50 transition-colors">
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <div class="flex-shrink-0 h-10 w-10 bg-indigo-100 rounded-full flex items-center justify-center">
+                                                <span class="text-sm font-medium text-indigo-600">
+                                                    {{ substr($proposal->pengguna->username, 0, 2) }}
+                                                </span>
+                                            </div>
+                                            <div class="ml-4">
+                                                <div class="text-sm font-medium text-gray-900">
+                                                    {{ $proposal->pengguna->username }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="text-sm text-gray-900 max-w-xs truncate">
+                                            {{ $proposal->nama_kegiatan }}
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        @php
+                                            $latestReview = $proposal->latestRevision;
+                                            if ($latestReview) {
+                                                $statusRevisi = $latestReview->status_revisi;
+                                                $tahap = $latestReview->id_dosen;
+                                                if ($statusRevisi == 1) {
+                                                    $statusRevisi = 0;
+                                                    $tahap += 1;
+                                                }
+                                            } else {
+                                                $statusRevisi = $proposal->status;
+                                                $tahap = $proposal->updated_by;
+                                            }
+                                        @endphp
+                
+                                        @if ($statusRevisi == 0)
+                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                                                <span class="w-2 h-2 mr-1.5 bg-yellow-400 rounded-full"></span>
+                                                Menunggu
+                                            </span>
+                                        @elseif ($statusRevisi == 1)
+                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                                <span class="w-2 h-2 mr-1.5 bg-green-400 rounded-full"></span>
+                                                Disetujui
+                                            </span>
+                                        @elseif ($statusRevisi == 2)
+                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                                                <span class="w-2 h-2 mr-1.5 bg-red-400 rounded-full"></span>
+                                                Ditolak
+                                            </span>
+                                        @elseif ($statusRevisi == 3)
+                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                                <span class="w-2 h-2 mr-1.5 bg-blue-400 rounded-full"></span>
+                                                Revisi
+                                            </span>
+                                        @endif
+                                    </td>
+                                    @if($idRole == 5)
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-medium bg-gray-100 text-gray-800">
+                                                @if ($tahap == 1)
+                                                    BEM
+                                                @elseif ($tahap == 2)
+                                                    Pembina
+                                                @elseif ($tahap == 3)
+                                                    Ketua Jurusan
+                                                @elseif ($tahap == 4)
+                                                    KLI
+                                                @elseif ($tahap == 5 || 6)
+                                                    Wadir 3
+                                                @endif
+                                            </span>
+                                        </td>
+                                    @endif
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-900">
+                                            {{ $proposal->tanggal_mulai }}
+                                        </div>
+                                        <div class="text-xs text-gray-500">
+                                            {{ \Carbon\Carbon::parse($proposal->tanggal_mulai)->format('l') }}
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-900">
+                                            {{ \Carbon\Carbon::parse($proposal->updated_at)->format('Y-m-d') }}
+                                        </div>
+                                        <div class="text-xs text-gray-500">
+                                            {{ \Carbon\Carbon::parse($proposal->updated_at)->diffForHumans() }}
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
+                                        <a href="{{ route('proposal.show', ['reviewProposal' => $proposal->id_proposal]) }}" 
+                                           class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-150">
+                                            <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                            </svg>
+                                            Review
+                                        </a>
+                                    </td>
+                                    @if($idRole == 5)
+                                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                            <form method="GET" action="{{ route('proposalWD3.detail', $proposal->id_proposal) }}">
+                                                @csrf
+                                                <button type="submit" 
+                                                        class="inline-flex items-center px-3 py-2 border border-indigo-100 text-sm leading-4 font-medium rounded-md text-indigo-700 bg-indigo-50 hover:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-150">
+                                                    <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                    </svg>
+                                                    Detail
+                                                </button>
+                                            </form>
+                                        </td>
+                                    @endif
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- SPJ Tab Content -->
+<div id="content-spj" class="tab-content hidden">
+    <div class="sm:flex sm:items-center sm:justify-between mb-6">
+        <h3 class="text-lg font-semibold text-gray-900">Daftar Review SPJ</h3>
+    </div>
+    
+    <div class="overflow-x-auto">
+        <table id="table-spj" class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+                <tr>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Penyelenggara
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Nama Kegiatan
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Status
+                    </th>
+                    @if($idRole == 5)
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Tahap
+                        </th>
+                    @endif
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Tanggal Kegiatan
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Tanggal Pengajuan SPJ
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Aksi
+                    </th>
+                    @if($idRole == 5)
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Detail
+                        </th>
+                    @endif
+                </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+                @foreach ($spjAll as $spj)
+                <tr class="hover:bg-gray-50 transition-colors">
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0 h-10 w-10 bg-indigo-100 rounded-full flex items-center justify-center">
+                                <span class="text-sm font-medium text-indigo-600">
+                                    {{ substr($spj->proposalKegiatan->pengguna->username, 0, 2) }}
+                                </span>
+                            </div>
+                            <div class="ml-4">
+                                <div class="text-sm font-medium text-gray-900">
+                                    {{ $spj->proposalKegiatan->pengguna->username }}
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="px-6 py-4">
+                        <div class="text-sm text-gray-900 max-w-xs truncate">
+                            {{ $spj->proposalKegiatan->nama_kegiatan }}
+                        </div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        @php
+                            $latestReview = $spj->latestRevision;
+                            if ($latestReview) {
+                                $statusRevisi = $latestReview->status_revisi;
+                                $tahapSpj = $latestReview->id_dosen;
+                                if ($statusRevisi == 1) {
+                                    $statusRevisi = 0;
+                                    $tahapSpj += 1;
+                                }
+                            } else {
+                                $statusRevisi = $spj->status;
+                                $tahapSpj = $spj->updated_by;
+                            }
+                        @endphp
+
+                        @if ($statusRevisi == 0)
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                                <span class="w-2 h-2 mr-1.5 bg-yellow-400 rounded-full"></span>
+                                Menunggu
+                            </span>
+                        @elseif ($statusRevisi == 1)
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                <span class="w-2 h-2 mr-1.5 bg-green-400 rounded-full"></span>
+                                Disetujui
+                            </span>
+                        @elseif ($statusRevisi == 2)
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                                <span class="w-2 h-2 mr-1.5 bg-red-400 rounded-full"></span>
+                                Ditolak
+                            </span>
+                        @elseif ($statusRevisi == 3)
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                <span class="w-2 h-2 mr-1.5 bg-blue-400 rounded-full"></span>
+                                Revisi
+                            </span>
+                        @endif
+                    </td>
+                    @if($idRole == 5)
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-medium bg-gray-100 text-gray-800">
+                                @if ($tahapSpj == 1)
+                                    BEM
+                                @elseif ($tahapSpj == 2)
+                                    Pembina
+                                @elseif ($tahapSpj == 3)
+                                    Ketua Jurusan
+                                @elseif ($tahapSpj == 4)
+                                    KLI
+                                @elseif ($tahapSpj == 5 || 6)
+                                    Wadir 3
+                                @endif
+                            </span>
+                        </td>
+                    @endif
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="text-sm text-gray-900">
+                            {{ $spj->proposalKegiatan->tanggal_mulai }}
+                        </div>
+                        <div class="text-xs text-gray-500">
+                            {{ \Carbon\Carbon::parse($spj->proposalKegiatan->tanggal_mulai)->format('l') }}
+                        </div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="text-sm text-gray-900">
+                            {{ \Carbon\Carbon::parse($spj->updated_at)->format('Y-m-d') }}
+                        </div>
+                        <div class="text-xs text-gray-500">
+                            {{ \Carbon\Carbon::parse($spj->updated_at)->diffForHumans() }}
+                        </div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
+                        <a href="{{ route('reviewSPJ.show', ['reviewSPJ' => $spj->id_spj]) }}" 
+                           class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-150">
+                            <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                            </svg>
+                            Review
+                        </a>
+                    </td>
+                    @if($idRole == 5)
+                        <td class="px-6 py-4 whitespace-nowrap center text-sm font-medium">
+                            <form method="GET" action="{{ route('spjWD3.detail', $spj->id_spj) }}">
+                                @csrf
+                                <button type="submit" 
+                                        class="inline-flex items-center px-3 py-2 border border-indigo-100 text-sm leading-4 font-medium rounded-md text-indigo-700 bg-indigo-50 hover:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-150">
+                                    <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                    Detail
+                                </button>
+                            </form>
+                        </td>
+                    @endif
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+</div>
+        <!-- LPJ Tab Content -->
+<div id="content-lpj" class="tab-content hidden">
+    <div class="sm:flex sm:items-center sm:justify-between mb-6">
+        <h3 class="text-lg font-semibold text-gray-900">Daftar Review LPJ</h3>
+    </div>
+    
+    <div class="overflow-x-auto">
+        <table id="table-lpj" class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+                <tr>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Penyelenggara
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Nama Kegiatan
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Status
+                    </th>
+                    @if($idRole == 5)
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Tahap
+                        </th>
+                    @endif
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Tanggal Kegiatan
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Tanggal Pengajuan LPJ
+                    </th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Aksi
+                    </th>
+                    @if($idRole == 5)
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Detail
+                        </th>
+                    @endif
+                </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+                @foreach ($lpjAll as $lpj)
+                <tr class="hover:bg-gray-50 transition-colors">
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0 h-10 w-10 bg-indigo-100 rounded-full flex items-center justify-center">
+                                <span class="text-sm font-medium text-indigo-600">
+                                    {{ substr($lpj->ormawa->nama_ormawa, 0, 2) }}
+                                </span>
+                            </div>
+                            <div class="ml-4">
+                                <div class="text-sm font-medium text-gray-900">
+                                    {{ $lpj->ormawa->nama_ormawa }}
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="px-6 py-4">
+                        <div class="text-sm text-gray-900 max-w-xs truncate">
+                            {{ $lpj->jenis_lpj == 1 ? '60%' : '100%' }}
+                        </div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        @php
+                            $latestReview = $lpj->latestRevision;
+                            if ($latestReview) {
+                                $statusRevisi = $latestReview->status_revisi;
+                                $tahapLpj = $latestReview->id_dosen;
+                                if ($statusRevisi == 1) {
+                                    $statusRevisi = 0;
+                                    $tahapLpj += 1;
+                                }
+                            } else {
+                                $statusRevisi = $lpj->status_lpj;
+                                $tahapLpj = $lpj->updated_by;
+                            }
+                        @endphp
+
+                        @if ($statusRevisi == 0)
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                                <span class="w-2 h-2 mr-1.5 bg-yellow-400 rounded-full"></span>
+                                Menunggu
+                            </span>
+                        @elseif ($statusRevisi == 1)
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                <span class="w-2 h-2 mr-1.5 bg-green-400 rounded-full"></span>
+                                Disetujui
+                            </span>
+                        @elseif ($statusRevisi == 2)
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                                <span class="w-2 h-2 mr-1.5 bg-red-400 rounded-full"></span>
+                                Ditolak
+                            </span>
+                        @elseif ($statusRevisi == 3)
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                <span class="w-2 h-2 mr-1.5 bg-blue-400 rounded-full"></span>
+                                Revisi
+                            </span>
+                        @endif
+                    </td>
+                    @if($idRole == 5)
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-medium bg-gray-100 text-gray-800">
+                                @if ($tahapLpj == 1)
+                                    BEM
+                                @elseif ($tahapLpj == 2)
+                                    Pembina
+                                @elseif ($tahapLpj == 3)
+                                    Ketua Jurusan
+                                @elseif ($tahapLpj == 4)
+                                    KLI
+                                @elseif ($tahapLpj == 5 || 6)
+                                    Wadir 3
+                                @endif
+                            </span>
+                        </td>
+                    @endif
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="text-sm text-gray-900">
+                            {{ $lpj->tanggal_kegiatan }}
+                        </div>
+                        <div class="text-xs text-gray-500">
+                            {{ \Carbon\Carbon::parse($lpj->tanggal_kegiatan)->format('l') }}
+                        </div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="text-sm text-gray-900">
+                            {{ \Carbon\Carbon::parse($lpj->updated_at)->format('Y-m-d') }}
+                        </div>
+                        <div class="text-xs text-gray-500">
+                            {{ \Carbon\Carbon::parse($lpj->updated_at)->diffForHumans() }}
+                        </div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
+                        <a href="{{ route('reviewLPJ.show', ['reviewLPJ' => $lpj->id_lpj]) }}" 
+                           class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-150">
+                            <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                            </svg>
+                            Review
+                        </a>
+                    </td>
+                    @if($idRole == 5)
+                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                            <form method="GET" action="{{ route('lpjWD3.detail', $lpj->id_lpj) }}">
+                                @csrf
+                                <button type="submit" 
+                                        class="inline-flex items-center px-3 py-2 border border-indigo-100 text-sm leading-4 font-medium rounded-md text-indigo-700 bg-indigo-50 hover:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-150">
+                                    <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                    Detail
+                                </button>
+                            </form>
+                        </td>
+                    @endif
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+</div>
+        
+            </div>
+        </div>
     </div>
 </div>
 
-
-<!-- Script DataTables -->
-
+<style>
+    .dataTables_wrapper .dataTables_length select {
+        @apply bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5;
+    }
+    
+    .dataTables_wrapper .dataTables_filter input {
+        @apply bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5;
+    }
+    
+    .dataTables_wrapper .dataTables_paginate .paginate_button {
+        @apply px-3 py-1 text-sm text-gray-700 hover:bg-gray-100 rounded-md mx-1;
+    }
+    
+    .dataTables_wrapper .dataTables_paginate .paginate_button.current {
+        @apply bg-blue-600 text-white hover:bg-blue-700;
+    }
+</style>
 
 <script>
+    // Tab switching logic
+    document.querySelectorAll('.tab-button').forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Remove active classes
+            document.querySelectorAll('.tab-button').forEach(btn => {
+                btn.classList.remove('bg-blue-50', 'text-blue-600');
+                btn.classList.add('text-gray-500');
+            });
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.add('hidden');
+            });
+            
+            // Add active classes
+            this.classList.remove('text-gray-500');
+            this.classList.add('bg-blue-50', 'text-blue-600');
+            
+            const contentId = this.id.replace('tab-', 'content-');
+            document.getElementById(contentId).classList.remove('hidden');
+        });
+    });
+
+    // DataTables initialization with modern styling
     $(document).ready(function() {
-        $('#table-proposal').DataTable({
-            "paging": true,
-            "searching": true,
-            "ordering": true,
-            "info": true,
-            "lengthMenu": [5, 10, 25, 50],
-            "language": {
-                "search": "Cari:",
-                "lengthMenu": "Tampilkan _MENU_ entri",
-                "info": "Menampilkan _START_ hingga _END_ dari _TOTAL_ entri",
-                "infoEmpty": "Menampilkan 0 hingga 0 dari 0 entri",
-                "infoFiltered": "(disaring dari _MAX_ total entri)",
-                "paginate": {
-                    "first": "Pertama",
-                    "last": "Terakhir",
-                    "next": "Selanjutnya",
-                    "previous": "Sebelumnya"
+        const tableConfig = {
+            pageLength: 10,
+            lengthMenu: [5, 10, 25, 50],
+            language: {
+                search: "🔍",
+                lengthMenu: "Tampilkan _MENU_",
+                info: "Menampilkan _START_ to _END_ dari _TOTAL_ entries",
+                paginate: {
+                    first: "«",
+                    previous: "‹",
+                    next: "›",
+                    last: "»"
                 }
             },
-            "drawCallback": function() {
-                // Adjust select width after draw
+            drawCallback: function() {
                 adjustSelectWidth();
             }
+        };
+
+        ['#table-proposal', '#table-spj', '#table-lpj'].forEach(tableId => {
+            $(tableId).DataTable(tableConfig);
         });
+    });
 
-        $('#table-spj').DataTable({
-            "paging": true,
-            "searching": true,
-            "ordering": true,
-            "info": true,
-            "lengthMenu": [5, 10, 25, 50],
-            "language": {
-                "search": "Cari:",
-                "lengthMenu": "Tampilkan _MENU_ entri",
-                "info": "Menampilkan _START_ hingga _END_ dari _TOTAL_ entri",
-                "infoEmpty": "Menampilkan 0 hingga 0 dari 0 entri",
-                "infoFiltered": "(disaring dari _MAX_ total entri)",
-                "paginate": {
-                    "first": "Pertama",
-                    "last": "Terakhir",
-                    "next": "Selanjutnya",
-                    "previous": "Sebelumnya"
-                }
-            },
-            "drawCallback": function() {
-                // Adjust select width after draw
-                adjustSelectWidth();
-            }
-        });
-
-        $('#table-lpj').DataTable({
-            "paging": true,
-            "searching": true,
-            "ordering": true,
-            "info": true,
-            "lengthMenu": [5, 10, 25, 50],
-            "language": {
-                "search": "Cari:",
-                "lengthMenu": "Tampilkan _MENU_ entri",
-                "info": "Menampilkan _START_ hingga _END_ dari _TOTAL_ entri",
-                "infoEmpty": "Menampilkan 0 hingga 0 dari 0 entri",
-                "infoFiltered": "(disaring dari _MAX_ total entri)",
-                "paginate": {
-                    "first": "Pertama",
-                    "last": "Terakhir",
-                    "next": "Selanjutnya",
-                    "previous": "Sebelumnya"
-                }
-            },
-            "drawCallback": function() {
-                // Adjust select width after draw
-                adjustSelectWidth();
-            }
-        });
-
-        // Function to adjust select width
-
-        function adjustSelectWidth() {
+    function adjustSelectWidth() {
             var select = $('.dataTables_length select');
             select.each(function() {
                 var text = $(this).find('option:selected').text();
@@ -669,15 +613,6 @@
 
         // Call function on select change
         $('.dataTables_length select').change(adjustSelectWidth);
-    });
-
-    function adjustSelectWidth() {
-            var select = $('.dataTables_length select');
-            select.each(function() {
-                var text = $(this).find('option:selected').text();
-                $(this).css('width', (text.length + 4) + 'ch');
-            });
-        }
 </script>
 
 @endsection

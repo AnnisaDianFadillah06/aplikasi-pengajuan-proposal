@@ -30,7 +30,7 @@
       </div>
 
       <!-- Main Content Grid -->
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div class="grid grid-cols-1 lg:grid-cols-1 gap-14">
         <!-- Left Column - Document Preview -->
         <div class="bg-white rounded-xl shadow-sm overflow-hidden">
           <!-- file_sptb Tab -->

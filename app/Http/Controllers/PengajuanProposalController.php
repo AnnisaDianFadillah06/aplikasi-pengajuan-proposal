@@ -346,6 +346,10 @@ class PengajuanProposalController extends Controller
             $proposal->poster_kegiatan = $newFileName;
         }
 
+        if ($request->hasFile('file_proposal')) {
+            session()->flash('file_proposal_name', $request->file('file_proposal')->getClientOriginalName());
+        }
+
         // Cari revisi terbaru berdasarkan id_proposal
         $latestRevision = ReviewProposal::where('id_proposal', $id_proposal)
                                         // ->orderBy('tgl_revisi', 'desc')
