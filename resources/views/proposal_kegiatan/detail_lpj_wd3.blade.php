@@ -93,13 +93,13 @@
             <!-- Content Sections -->
             <div class="bg-gray-50 rounded-lg p-4">
                 <div id="doc-lpjfinal" class="doc-section w-full">
-                    <iframe src="{{ asset($filePath) }}" class="w-full h-[700px] rounded-lg"></iframe>
+                    <iframe src="{{ route('file.show', ['filename' => $filePath]) }}" class="w-full h-[700px] rounded-lg"></iframe>
                 </div>
                 <div id="doc-spjfinal" class="doc-section hidden w-full">
-                    <iframe src="{{ asset($filePathSPJFinal) }}" class="w-full h-[700px] rounded-lg"></iframe>
+                    <iframe src="{{ route('file.show', ['filename' => $filePathSPJFinal]) }}" class="w-full h-[700px] rounded-lg"></iframe>
                 </div>
                 <div id="doc-sptb" class="doc-section hidden w-full">
-                    <iframe src="{{ asset($fileSPTBFinal) }}" class="w-full h-[700px] rounded-lg"></iframe>
+                    <iframe src="{{ route('file.show', ['filename' => $fileSPTBFinal]) }}" class="w-full h-[700px] rounded-lg"></iframe>
                 </div>
             </div>
         </div>

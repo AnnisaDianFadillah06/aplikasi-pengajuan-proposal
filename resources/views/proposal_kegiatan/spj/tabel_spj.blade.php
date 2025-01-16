@@ -73,7 +73,7 @@
                     @foreach ($spjs as $item)
                     @php
                         // Mengambil revisi terbaru yang sesuai dengan id_proposal
-                        $latestReview = $latestReviews->firstWhere('id_proposal', $item->id_proposal);
+                        $latestReview = $latestReviews->firstWhere('id_spj', $item->id_spj);
 
                         if ($latestReview) {
                             // Status revisi dan tahap berdasarkan review terbaru
@@ -87,7 +87,7 @@
                             }
                         } else {
                             // Jika tidak ada review terbaru, gunakan nilai default dari item
-                            $statusRevisi = null;
+                            $statusRevisi = $item->status;
                             $tahap = $item->updated_by;
                         }
                     @endphp

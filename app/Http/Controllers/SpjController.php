@@ -8,6 +8,7 @@ use App\Models\ReviewSPJ;
 use Illuminate\Http\Request;
 use App\Models\PengajuanProposal;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class SpjController extends Controller
 {
@@ -65,37 +66,53 @@ class SpjController extends Controller
             'file_sptb' => 'required|mimes:pdf|max:2048', // Maksimum 2MB
             'file_spj' => 'required|mimes:pdf|max:2048', // Maksimum 2MB
             'video_kegiatan' => 'nullable|mimes:mp4|max:51200', // Maksimum 50MB
-            'dokumen_berita_acara' => 'nullable|mimes:pdf|max:2048', // Maksimum 2MB
+            'dokumen_berita_acara' => 'required|mimes:pdf|max:2048', // Maksimum 2MB
             'gambar_bukti_spj' => 'nullable|image|max:2048', // Maksimum 2MB
             'caption_video' => 'nullable|string|max:255',
         ]);
 
-        $file_sptb = $request->file('file_sptb');
-        $file_spj = $request->file('file_spj');
-        $video_kegiatan = $request->file('video_kegiatan');
-        $dokumen_berita_acara = $request->file('dokumen_berita_acara');
-        $gambar_bukti_spj = $request->file('gambar_bukti_spj');
+        // Folder penyimpanan
+        $basePath = 'uploads/'; // Path relatif untuk Laravel Storage
+        if (!Storage::exists($basePath)) {
+            Storage::makeDirectory($basePath); // Membuat folder jika belum ada
+        }
 
-        $file_sptb_path = $file_sptb ? 'laraview/' . time() . '_' . $file_sptb->getClientOriginalName() : null;
-        $file_spj_path = $file_spj ? 'laraview/' . time() . '_' . $file_spj->getClientOriginalName() : null;
-        $video_kegiatan_path = $video_kegiatan ? 'laraview/' . time() . '_' . $video_kegiatan->getClientOriginalName() : null;
-        $dokumen_berita_acara_path = $dokumen_berita_acara ? 'laraview/' . time() . '_' . $dokumen_berita_acara->getClientOriginalName() : null;
-        $gambar_bukti_spj_path = $gambar_bukti_spj ? 'laraview/' . time() . '_' . $gambar_bukti_spj->getClientOriginalName() : null;
-
-        if ($file_sptb) {
-            $file_sptb->move(public_path('laraview'), $file_sptb_path);
+        $filePaths = [];
+        
+        // Menyimpan file di folder uploads/spj/{userId}/...
+        if ($request->hasFile('file_sptb')) {
+            $file = $request->file('file_sptb');
+            $newFileName = time() . '_' . $file->getClientOriginalName();
+            $file->storeAs($basePath, $newFileName);
+            $filePaths['file_sptb'] = $newFileName;
         }
-        if ($file_spj) {
-            $file_spj->move(public_path('laraview'), $file_spj_path);
+    
+        if ($request->hasFile('file_spj')) {
+            $file = $request->file('file_spj');
+            $newFileName = time() . '_' . $file->getClientOriginalName();
+            $filePaths['file_spj'] = $file->storeAs($basePath, $newFileName);
+            $filePaths['file_spj'] = $newFileName;
+            }
+            
+        if ($request->hasFile('video_kegiatan')) {
+            $file = $request->file('video_kegiatan');
+            $newFileName = time() . '_' . $file->getClientOriginalName();
+            $filePaths['video_kegiatan'] = $file->storeAs($basePath, $newFileName);
+            $filePaths['video_kegiatan'] = $newFileName;
         }
-        if ($video_kegiatan) {
-            $video_kegiatan->move(public_path('laraview'), $video_kegiatan_path);
+    
+        if ($request->hasFile('dokumen_berita_acara')) {
+            $file = $request->file('dokumen_berita_acara');
+            $newFileName = time() . '_' . $file->getClientOriginalName();
+            $filePaths['dokumen_berita_acara'] = $file->storeAs($basePath, $newFileName);
+            $filePaths['dokumen_berita_acara'] = $newFileName;
         }
-        if ($dokumen_berita_acara) {
-            $dokumen_berita_acara->move(public_path('laraview'), $dokumen_berita_acara_path);
-        }
-        if ($gambar_bukti_spj) {
-            $gambar_bukti_spj->move(public_path('laraview'), $gambar_bukti_spj_path);
+    
+        if ($request->hasFile('gambar_bukti_spj')) {
+            $file = $request->file('gambar_bukti_spj');
+            $newFileName = time() . '_' . $file->getClientOriginalName();
+            $filePaths['gambar_bukti_spj'] = $file->storeAs($basePath, $newFileName);
+            $filePaths['gambar_bukti_spj'] = $newFileName;
         }
 
         // menghitung spj ke berapa
@@ -107,12 +124,12 @@ class SpjController extends Controller
 
         // Set atribut-atributnya
         $spj->id_proposal = $request->id_proposal; // Pastikan id_proposal dikirim melalui request
-        $spj->file_sptb = $file_sptb_path;
-        $spj->file_spj = $file_spj_path;
+        $spj->file_sptb = $filePaths['file_sptb'] ?? null;
+        $spj->file_spj = $filePaths['file_spj'] ?? null;
         $spj->spj_ke = $spjKe;
-        $spj->video_kegiatan = $video_kegiatan_path;
-        $spj->dokumen_berita_acara = $dokumen_berita_acara_path;
-        $spj->gambar_bukti_spj = $gambar_bukti_spj_path;
+        $spj->video_kegiatan = $filePaths['video_kegiatan'] ?? null;
+        $spj->dokumen_berita_acara = $filePaths['dokumen_berita_acara'] ?? null;
+        $spj->gambar_bukti_spj = $filePaths['gambar_bukti_spj'] ?? null;
         $spj->caption_video = $request->caption_video;
         $spj->status = 0;
         $spj->tgl_upload = now();
@@ -337,42 +354,51 @@ class SpjController extends Controller
             return redirect()->back()->with('error', 'Data SPJ tidak ditemukan.');
         }
 
-        $file_sptb = $request->file('file_sptb');
-        $file_spj = $request->file('file_spj');
-        $video_kegiatan = $request->file('video_kegiatan');
-        $dokumen_berita_acara = $request->file('dokumen_berita_acara');
-        $gambar_bukti_spj = $request->file('gambar_bukti_spj');
-
-        $file_sptb_path = $spj->file_sptb;
-        $file_spj_path = $spj->file_spj;
-        $video_kegiatan_path = $spj->video_kegiatan;
-        $dokumen_berita_acara_path = $spj->dokumen_berita_acara;
-        $gambar_bukti_spj_path = $spj->gambar_bukti_spj;
-
-        if ($file_sptb) {
-            $file_sptb_path = 'laraview/' . time() . '_' . $file_sptb->getClientOriginalName();
-            $file_sptb->move(public_path('laraview'), $file_sptb_path);
+        // Direktori untuk menyimpan file
+        $folderPath = 'uploads/';
+        if (!Storage::exists($folderPath)) {
+            Storage::makeDirectory($folderPath); // Membuat folder jika belum ada
         }
 
-        if ($file_spj) {
-            $file_spj_path = 'laraview/' . time() . '_' . $file_spj->getClientOriginalName();
-            $file_spj->move(public_path('laraview'), $file_spj_path);
+        // Update dan simpan file
+        if ($request->hasFile('file_sptb')) {
+            $file = $request->file('file_sptb');
+            $newFileName = time() . '_' . $file->getClientOriginalName();
+            $file->storeAs($folderPath, $newFileName); // Simpan file ke storage
+            $spj->file_sptb = $newFileName; // Simpan nama file ke database
         }
 
-        if ($video_kegiatan) {
-            $video_kegiatan_path = 'laraview/' . time() . '_' . $video_kegiatan->getClientOriginalName();
-            $video_kegiatan->move(public_path('laraview'), $video_kegiatan_path);
+        if ($request->hasFile('file_spj')) {
+            $file = $request->file('file_spj');
+            $newFileName = time() . '_' . $file->getClientOriginalName();
+            $file->storeAs($folderPath, $newFileName); // Simpan file ke storage
+            $spj->file_spj = $newFileName; // Simpan nama file ke database
         }
 
-        if ($dokumen_berita_acara) {
-            $dokumen_berita_acara_path = 'laraview/' . time() . '_' . $dokumen_berita_acara->getClientOriginalName();
-            $dokumen_berita_acara->move(public_path('laraview'), $dokumen_berita_acara_path);
+        if ($request->hasFile('video_kegiatan')) {
+            $file = $request->file('video_kegiatan');
+            $newFileName = time() . '_' . $file->getClientOriginalName();
+            $file->storeAs($folderPath, $newFileName); // Simpan file ke storage
+            $spj->video_kegiatan = $newFileName; // Simpan nama file ke database
         }
 
-        if ($gambar_bukti_spj) {
-            $gambar_bukti_spj_path = 'laraview/' . time() . '_' . $gambar_bukti_spj->getClientOriginalName();
-            $gambar_bukti_spj->move(public_path('laraview'), $gambar_bukti_spj_path);
+        if ($request->hasFile('dokumen_berita_acara')) {
+            $file = $request->file('dokumen_berita_acara');
+            $newFileName = time() . '_' . $file->getClientOriginalName();
+            $file->storeAs($folderPath, $newFileName); // Simpan file ke storage
+            $spj->dokumen_berita_acara = $newFileName; // Simpan nama file ke database
         }
+
+        if ($request->hasFile('gambar_bukti_spj')) {
+            $file = $request->file('gambar_bukti_spj');
+            $newFileName = time() . '_' . $file->getClientOriginalName();
+            $file->storeAs($folderPath, $newFileName); // Simpan file ke storage
+            $spj->gambar_bukti_spj = $newFileName; // Simpan nama file ke database
+        }
+
+        // Update data lainnya
+        $spj->caption_video = $request->input('caption_video', $spj->caption_video);
+        $spj->save();
 
         // mengambil review terakhir untuk mengambil proposal sedang di tahap mana
         $latestRevision = ReviewSpj::where('id_spj', $spj->id_spj)
@@ -388,21 +414,7 @@ class SpjController extends Controller
         // Update status_revisi pada ReviewProposal menjadi 0
         $latestRevision->update(['status_revisi' => 0]);
 
-        if ($spj) {
-            $spj->fill([
-                'file_sptb' => $file_sptb_path,
-                'file_spj' => $file_spj_path,
-                'video_kegiatan' => $video_kegiatan_path,
-                'dokumen_berita_acara' => $dokumen_berita_acara_path,
-                'gambar_bukti_spj' => $gambar_bukti_spj_path,
-                'caption_video' => $request->caption_video,
-                // 'tgl_upload' => now(), // Jika ingin menambahkan tanggal upload, bisa diaktifkan
-            ]);
-        
-            if ($spj->save()) {
-                return redirect()->route('spj.detail', $spj->id_spj)->with('success', 'SPJ berhasil diperbarui.');
-            }
-        }
+        return redirect()->route('spj.detail', $spj->id_spj)->with('success', 'SPJ berhasil diperbarui.');
     }
     // // upload pdf revisi
     // public function uploadFile(Request $request, $id_proposal)

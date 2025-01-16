@@ -7,6 +7,7 @@ use App\Models\Ormawa;
 use App\Models\ReviewLPJ;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class PengajuanLpjController extends Controller
 {
@@ -238,31 +239,34 @@ class PengajuanLpjController extends Controller
             return redirect()->back()->with('error', 'Data LPJ tidak ditemukan.');
         }
 
-        // File LPJ
-        $fileLpj = $request->file('file_lpj');
-        $fileLpjPath = $lpj->file_lpj; // Tetap gunakan path lama jika tidak ada file baru
-
-        if ($fileLpj) {
-            $fileLpjPath = 'uploads/lpj/' . time() . '_' . $fileLpj->getClientOriginalName();
-            $fileLpj->move(public_path('uploads/lpj'), $fileLpjPath);
+        // Direktori untuk menyimpan file
+        $folderPath = 'uploads/';
+        if (!Storage::exists($folderPath)) {
+            Storage::makeDirectory($folderPath); // Membuat folder jika belum ada
         }
 
-        // File SPJ
-        $fileSpj = $request->file('file_spj');
-        $fileSpjPath = $lpj->file_spj; // Tetap gunakan path lama jika tidak ada file baru
-
-        if ($fileSpj) {
-            $fileSpjPath = 'uploads/spj/' . time() . '_' . $fileSpj->getClientOriginalName();
-            $fileSpj->move(public_path('uploads/spj'), $fileSpjPath);
+        // Update dan simpan file LPJ
+        if ($request->hasFile('file_lpj')) {
+            $file = $request->file('file_lpj');
+            $newFileName = time() . '_' . $file->getClientOriginalName();
+            $file->storeAs($folderPath, $newFileName); // Simpan file ke storage
+            $lpj->file_lpj = $newFileName; // Simpan nama file ke database
         }
 
-        // File SPTB
-        $fileSptb = $request->file('file_sptb');
-        $fileSptbPath = $lpj->file_sptb; // Tetap gunakan path lama jika tidak ada file baru
+        // Update dan simpan file SPJ
+        if ($request->hasFile('file_spj')) {
+            $file = $request->file('file_spj');
+            $newFileName = time() . '_' . $file->getClientOriginalName();
+            $file->storeAs($folderPath, $newFileName);
+            $lpj->file_spj = $newFileName;
+        }
 
-        if ($fileSptb) {
-            $fileSptbPath = 'uploads/sptb/' . time() . '_' . $fileSptb->getClientOriginalName();
-            $fileSptb->move(public_path('uploads/sptb'), $fileSptbPath);
+        // Update dan simpan file SPTB
+        if ($request->hasFile('file_sptb')) {
+            $file = $request->file('file_sptb');
+            $newFileName = time() . '_' . $file->getClientOriginalName();
+            $file->storeAs($folderPath, $newFileName);
+            $lpj->file_sptb = $newFileName;
         }
 
         // mengambil review terakhir untuk mengambil proposal sedang di tahap mana
@@ -283,11 +287,7 @@ class PengajuanLpjController extends Controller
         if ($lpj) {
             $lpj->fill([
                 'jenis_lpj' => $request->input('jenis_lpj'),
-                'file_lpj' => $fileLpjPath,
-                'file_spj' => $fileSpjPath,
-                'file_sptb' => $fileSptbPath,
                 'updated_at' => now(),
-                'updated_by' => session('id'),
             ]);
         
             if ($lpj->save()) {

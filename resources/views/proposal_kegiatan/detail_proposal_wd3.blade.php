@@ -113,23 +113,23 @@
             <!-- Content Sections -->
             <div class="bg-gray-50 rounded-lg p-4">
                 <div id="doc-proposal" class="doc-section w-full">
-                    <iframe src="{{ asset($filePath) }}" class="w-full h-[700px] rounded-lg"></iframe>
+                    <iframe src="{{ route('file.show', ['filename' => $filePath]) }}" class="w-full h-[700px] rounded-lg"></iframe>
                 </div>
                 <div id="doc-ketuplak" class="doc-section hidden w-full">
-                    <iframe src="{{ asset($fileKetuplakPath) }}" class="w-full h-[700px] rounded-lg"></iframe>
+                    <iframe src="{{ route('file.show', ['filename' => $fileKetuplakPath]) }}" class="w-full h-[700px] rounded-lg"></iframe>
                 </div>
                 <div id="doc-ormawa" class="doc-section hidden w-full">
-                    <iframe src="{{ asset($fileOrmawaPath) }}" class="w-full h-[700px] rounded-lg"></iframe>
+                    <iframe src="{{ route('file.show', ['filename' => $fileOrmawaPath]) }}" class="w-full h-[700px] rounded-lg"></iframe>
                 </div>
                 <div id="doc-sarpras" class="doc-section hidden w-full">
-                    <iframe src="{{ asset($fileSarprasPath) }}" class="w-full h-[700px] rounded-lg"></iframe>
+                    <iframe src="{{ route('file.show', ['filename' => $fileSarprasPath]) }}" class="w-full h-[700px] rounded-lg"></iframe>
                 </div>
                 <div class="p-4 flex flex-col items-center">
                     <!-- Gambar Poster -->
-                    <img src="{{ asset($posterKegiatan) }}" class="w-auto h-auto rounded-lg shadow-md mb-4">
+                    <img src="{{ route('file.show', ['filename' => $posterKegiatan]) }}" class="w-auto h-auto rounded-lg shadow-md mb-4">
                 
                     <!-- Tombol Download -->
-                    <a href="{{ asset($posterKegiatan) }}" download="{{ pathinfo($posterKegiatan, PATHINFO_BASENAME) }}"
+                    <a href="{{ route('file.download', ['filename' => $posterKegiatan]) }}" 
                     class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2">
                         <i class="fas fa-download"></i> Download Poster
                     </a>

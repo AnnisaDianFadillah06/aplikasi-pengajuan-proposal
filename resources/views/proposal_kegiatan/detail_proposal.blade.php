@@ -293,21 +293,35 @@
                         Surat Sarpras
                     </div>
                 </button>
+                <button onclick="toggleDocSection('poster')" 
+                        class="nav-btn px-4 py-2 rounded-lg font-medium transition-all duration-200 hover:bg-blue-600 focus:ring-2 focus:ring-blue-300">
+                    <div class="flex items-center gap-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        Poster
+                    </div>
+                </button>
             </div>
 
             <!-- Content Sections -->
             <div class="bg-gray-50 rounded-lg p-4">
                 <div id="doc-proposal" class="doc-section w-full">
-                    <iframe src="{{ asset($filePath) }}" class="w-full h-[700px] rounded-lg"></iframe>
+                    <iframe src="{{ route('file.show', ['filename' => $filePath]) }}" class="w-full h-[700px] rounded-lg"></iframe>
                 </div>
                 <div id="doc-ketuplak" class="doc-section hidden w-full">
-                    <iframe src="{{ asset($fileKetuplakPath) }}" class="w-full h-[700px] rounded-lg"></iframe>
+                    <iframe src="{{ route('file.show', ['filename' => $fileKetuplakPath]) }}" class="w-full h-[700px] rounded-lg"></iframe>
                 </div>
                 <div id="doc-ormawa" class="doc-section hidden w-full">
-                    <iframe src="{{ asset($fileOrmawaPath) }}" class="w-full h-[700px] rounded-lg"></iframe>
+                    <iframe src="{{ route('file.show', ['filename' => $fileOrmawaPath]) }}" class="w-full h-[700px] rounded-lg"></iframe>
                 </div>
                 <div id="doc-sarpras" class="doc-section hidden w-full">
-                    <iframe src="{{ asset($fileSarprasPath) }}" class="w-full h-[700px] rounded-lg"></iframe>
+                    <iframe src="{{ route('file.show', ['filename' => $fileSarprasPath]) }}" class="w-full h-[700px] rounded-lg"></iframe>
+                </div>
+                <div id="poster" class="doc-section hidden w-full">
+                    <div class="p-4">
+                        <img src="{{ route('file.show', ['filename' => $filePosterPath]) }}" alt="Gambar Kegiatan" class="w-full rounded-lg shadow-md">
+                    </div>
                 </div>
             </div>
         </div>

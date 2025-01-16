@@ -33,46 +33,50 @@
       <div class="grid grid-cols-1 lg:grid-cols-1 gap-14">
         <!-- Left Column - Document Preview -->
         <div class="bg-white rounded-xl shadow-sm overflow-hidden">
-          <!-- Proposal Tab -->
+          <!-- file_sptb Tab -->
           <div class="tab-content hidden" id="tab-sptb">
             <div class="p-4 border-b">
               <h3 class="font-semibold text-gray-800">SPTB</h3>
             </div>
-            <div class="p-4 flex justify-center">
-              <iframe src="{{ asset($reviewSpj->file_sptb) }}" class="w-full h-[600px] rounded-lg border"></iframe>
+            <div class="p-4">
+              <iframe src="{{ route('file.show', ['filename' => $reviewSpj->file_sptb]) }}" class="w-full h-[600px] rounded-lg border"></iframe>
             </div>
           </div>
 
-          <!-- Ketuplak Tab -->
+          <!-- file_spj Tab -->
           <div class="tab-content hidden" id="tab-spj">
             <div class="p-4 border-b">
               <h3 class="font-semibold text-gray-800">SPJ</h3>
             </div>
             <div class="p-4">
-              <iframe src="{{ asset($reviewSpj->file_spj) }}" class="w-full h-[600px] rounded-lg border"></iframe>
+              <iframe src="{{ route('file.show', ['filename' => $reviewSpj->file_spj]) }}" class="w-full h-[600px] rounded-lg border"></iframe>
             </div>
           </div>
 
-          <!-- Ormawa Tab -->
+          <!-- dokumen_berita_acara Tab -->
           <div class="tab-content hidden" id="tab-berita-acara">
             <div class="p-4 border-b">
               <h3 class="font-semibold text-gray-800">Berita Acara</h3>
             </div>
             <div class="p-4">
-              <iframe src="{{ asset($reviewSpj->dokumen_berita_acara) }}" class="w-full h-[600px] rounded-lg border"></iframe>
+              <iframe src="{{ route('file.show', ['filename' => $reviewSpj->dokumen_berita_acara]) }}" class="w-full h-[600px] rounded-lg border"></iframe>
             </div>
           </div>
 
-          <!-- Sarpras Tab -->
+          <!-- video_kegiatan Tab -->
           <div class="tab-content hidden" id="tab-video-kegiatan">
             <div class="p-4 border-b">
               <h3 class="font-semibold text-gray-800">Video Kegiatan</h3>
             </div>
             <div class="p-4">
+              @if ($reviewSpj->video_kegiatan)
               <video controls class="w-full max-w-xl mx-auto">
-                    <source src="{{ asset($reviewSpj->video_kegiatan) }}" type="video/mp4">
+                    <source src="{{ route('file.show', ['filename' => $reviewSpj->video_kegiatan]) }}" type="video/mp4">
                     Browser Anda tidak mendukung pemutaran video ini.
               </video>
+              @else
+                    <p class="text-center text-gray-600">Video kegiatan tidak tersedia.</p>
+                @endif
             </div>
           </div>
         </div>

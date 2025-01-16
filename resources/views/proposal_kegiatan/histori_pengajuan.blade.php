@@ -80,13 +80,13 @@
                                         <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
                                             Disetujui
                                         </span>
-                                    @elseif($proposal->status === 2)
+                                    {{-- @elseif($proposal->status === 2)
                                         <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
                                             Dalam Review
-                                        </span>
-                                    @else
+                                        </span> --}}
+                                    @elseif($proposal->status === 2)
                                         <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
-                                            Menunggu
+                                            Ditolak
                                         </span>
                                     @endif
                                 </td>
@@ -128,11 +128,11 @@
             <button data-status="all" class="mobile-filter px-3 py-1.5 bg-blue-50 text-blue-600 rounded-full text-sm font-medium whitespace-nowrap">
                 Semua
             </button>
-            <button data-status="menunggu" class="mobile-filter px-3 py-1.5 bg-gray-100 text-gray-600 rounded-full text-sm font-medium whitespace-nowrap">
+            {{-- <button data-status="menunggu" class="mobile-filter px-3 py-1.5 bg-gray-100 text-gray-600 rounded-full text-sm font-medium whitespace-nowrap">
                 Menunggu
-            </button>
+            </button> --}}
             <button data-status="review" class="mobile-filter px-3 py-1.5 bg-gray-100 text-gray-600 rounded-full text-sm font-medium whitespace-nowrap">
-                Dalam Review
+                Ditolak
             </button>
             <button data-status="disetujui" class="mobile-filter px-3 py-1.5 bg-gray-100 text-gray-600 rounded-full text-sm font-medium whitespace-nowrap">
                 Disetujui
@@ -153,12 +153,12 @@
                     </span>
                 @elseif($proposal->status === 2)
                     <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                        Dalam Review
+                        Ditolak
                     </span>
-                @else
+                {{-- @else
                     <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
                         Menunggu
-                    </span>
+                    </span> --}}
                 @endif
             </div>
 

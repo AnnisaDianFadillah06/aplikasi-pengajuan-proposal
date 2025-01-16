@@ -206,18 +206,18 @@
             </div>
 
             <div id="proposal-section" class="content-section">
-                <iframe src="{{ asset($filePath) }}" width="800px" height="700px"></iframe>
+                <iframe src="{{ route('file.show', ['filename' => $filePath]) }}" width="800px" height="700px"></iframe>
             </div>
             <div id="sptb-section" class="content-section">
-                <iframe src="{{ asset($filePathSptb) }}" width="800px" height="700px"></iframe>
+                <iframe src="{{ route('file.show', ['filename' => $filePathSptb]) }}"  width="800px" height="700px"></iframe>
             </div>
             <div id="berita-acara-section" class="content-section hidden">
-                <iframe src="{{ asset($filePathBeritaAcara) }}" width="800px" height="700px"></iframe>
+                <iframe src="{{ route('file.show', ['filename' => $filePathBeritaAcara]) }}"  width="800px" height="700px"></iframe>
             </div>
             <!-- Bukti SPJ Section -->
             <div id="bukti-spj-section" class="content-section hidden">
                 @if ($filePathBuktiSpj)
-                    <img src="{{ asset($filePathBuktiSpj) }}" alt="Bukti SPJ" class="w-full max-w-xl mx-auto">
+                    <img src="{{ route('file.show', ['filename' => $filePathBuktiSpj]) }}"  alt="Bukti SPJ" class="w-full max-w-xl mx-auto">
                 @else
                     <p class="text-center text-gray-600">Dokumen bukti SPJ tidak tersedia.</p>
                 @endif
@@ -227,7 +227,7 @@
             <div id="video-kegiatan-section" class="content-section hidden">
                 @if ($filePathVideoKegiatan)
                     <video controls class="w-full max-w-xl mx-auto">
-                        <source src="{{ asset($filePathVideoKegiatan) }}" type="video/mp4">
+                        <source src="{{ route('file.show', ['filename' => $filePathVideoKegiatan]) }}"  type="video/mp4">
                         Browser Anda tidak mendukung pemutaran video ini.
                     </video>
                 @else

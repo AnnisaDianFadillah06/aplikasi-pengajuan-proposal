@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use App\Models\Lpj;
 use App\Models\Ormawa;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\JenisKegiatan;
 use App\Models\BidangKegiatan;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class TambahPengajuanLpj extends Controller
 {
@@ -49,38 +51,35 @@ class TambahPengajuanLpj extends Controller
             'file_sptb' => 'required|file|mimes:pdf|max:2048',
         ]);
     
-        // File LPJ
-        $fileLpj = $request->file('file_lpj');
-        $fileLpjPath = $fileLpj ? 'uploads/lpj/' . time() . '_' . $fileLpj->getClientOriginalName() : null;
-
-        if ($fileLpj) {
-            $fileLpj->move(public_path('uploads/lpj'), $fileLpjPath);
+        $basePath = 'uploads/';
+        if (!Storage::exists($basePath)) {
+            Storage::makeDirectory($basePath); // Membuat folder jika belum ada
         }
 
-        // File SPJ
-        $fileSpj = $request->file('file_spj');
-        $fileSpjPath = $fileSpj ? 'uploads/spj/' . time() . '_' . $fileSpj->getClientOriginalName() : null;
+        $filePaths = [];
 
-        if ($fileSpj) {
-            $fileSpj->move(public_path('uploads/spj'), $fileSpjPath);
-        }
+        // Fungsi untuk menyimpan file dan menghasilkan nama file
+        $saveFile = function ($file, $key) use ($basePath, &$filePaths) {
+            if ($file) {
+                $newFileName = time() . '_' . Str::slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME), '_') . '.' . $file->getClientOriginalExtension();
+                $file->storeAs($basePath, $newFileName);
+                $filePaths[$key] = $newFileName; // Simpan nama file saja
+            }
+        };
 
-        // File SPTB
-        $fileSptb = $request->file('file_sptb');
-        $fileSptbPath = $fileSptb ? 'uploads/sptb/' . time() . '_' . $fileSptb->getClientOriginalName() : null;
-
-        if ($fileSptb) {
-            $fileSptb->move(public_path('uploads/sptb'), $fileSptbPath);
-        }
+        // Simpan setiap file
+        $saveFile($request->file('file_lpj'), 'file_lpj');
+        $saveFile($request->file('file_spj'), 'file_spj');
+        $saveFile($request->file('file_sptb'), 'file_sptb');
 
         $lpj = new Lpj();
 
         // Set atribut-atributnya
         $lpj->id_ormawa = session('id_ormawa');
         $lpj->jenis_lpj = $request->input('jenis_lpj');
-        $lpj->file_lpj = $fileLpjPath;
-        $lpj->file_spj = $fileSpjPath;
-        $lpj->file_sptb = $fileSptbPath;
+        $lpj->file_lpj = $filePaths['file_lpj'] ?? null;
+        $lpj->file_spj = $filePaths['file_spj'] ?? null;
+        $lpj->file_sptb = $filePaths['file_sptb'] ?? null;
         $lpj->tgl_upload = now();
         $lpj->created_at = now();
         $lpj->updated_at = now();

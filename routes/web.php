@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LpjController;
 use App\Http\Controllers\SpjController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\FileController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\OrmawaController;
 use App\Http\Controllers\ReviewController;
@@ -24,15 +25,19 @@ use App\Http\Controllers\FrontendDetailController;
 use App\Http\Controllers\HistoriPengajuanController;
 use App\Http\Controllers\HalamanPengesahanController;
 use App\Http\Controllers\PengajuanProposalController;
+use App\Http\Controllers\ManajemenReviewLpjController;
+use App\Http\Controllers\ManajemenReviewSpjController;
 use App\Http\Controllers\OrganisasiMahasiswaController;
 use App\Http\Controllers\PedomanKemahasiswaanController;
 use App\Http\Controllers\HistoriPengajuanReviewerController;
-use App\Http\Controllers\ManajemenReviewSpjController;
-use App\Http\Controllers\ManajemenReviewLpjController;
 
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/file/{filename}', [FileController::class, 'show'])
+    ->name('file.show');
+Route::get('/file/download/{filename}', [FileController::class, 'download'])->name('file.download');
 
 // Route DHEA PUTRI ANANDA
 Route::get('/modal', function () {
