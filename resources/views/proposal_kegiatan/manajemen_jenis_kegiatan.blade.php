@@ -1,4 +1,4 @@
-@extends('proposal_kegiatan\reviewer')
+@extends('proposal_kegiatan/reviewer')
 @section('title', 'Manajemen Jenis Kegiatan')
 @section('konten')
 <head>

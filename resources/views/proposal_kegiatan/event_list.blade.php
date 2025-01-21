@@ -3,10 +3,10 @@
 
 @php
     $layout = Auth::guard('mahasiswa')->check() 
-                ? 'proposal_kegiatan\pengaju' 
+                ? 'proposal_kegiatan/pengaju' 
                 : (Auth::guard('dosen')->check() 
-                    ? 'proposal_kegiatan\reviewer' 
-                    : 'proposal_kegiatan\non_auth_sidebar');
+                    ? 'proposal_kegiatan/reviewer' 
+                    : 'proposal_kegiatan/non_auth_sidebar');
 @endphp
 @extends($layout)
 @section('konten')

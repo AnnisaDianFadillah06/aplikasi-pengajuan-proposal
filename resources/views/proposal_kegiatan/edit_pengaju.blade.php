@@ -1,5 +1,5 @@
 
-@extends('proposal_kegiatan\reviewer')
+@extends('proposal_kegiatan/reviewer')
 @section('konten')
 <div class="container mt-5">
     <h1>Edit Pengaju</h1>

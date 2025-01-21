@@ -1,4 +1,4 @@
-@extends('proposal_kegiatan\reviewer')
+@extends('proposal_kegiatan/reviewer')
 @section('title', 'Histori Pengajuan')
 @section('konten')
 

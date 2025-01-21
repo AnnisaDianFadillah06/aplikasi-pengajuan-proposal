@@ -1,4 +1,4 @@
-@extends('proposal_kegiatan\reviewer')
+@extends('proposal_kegiatan/reviewer')
 @section('title', 'Bidang Kegiatan')
 @section('konten')
 <div class="flex flex-wrap -mx-3">

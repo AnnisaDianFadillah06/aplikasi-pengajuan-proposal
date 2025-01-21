@@ -1,4 +1,4 @@
-@extends('proposal_kegiatan\pengaju')
+@extends('proposal_kegiatan/pengaju')
 @section('konten')
 
 <!-- Main Container -->

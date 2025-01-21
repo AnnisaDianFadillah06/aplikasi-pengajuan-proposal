@@ -1,5 +1,5 @@
 
-@extends('proposal_kegiatan\reviewer')
+@extends('proposal_kegiatan/reviewer')
 @section('konten')
 
 <div class="p-8">

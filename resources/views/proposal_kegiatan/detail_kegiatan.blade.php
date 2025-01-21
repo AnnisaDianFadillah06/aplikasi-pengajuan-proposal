@@ -1,4 +1,4 @@
-@extends('proposal_kegiatan\pengaju')
+@extends('proposal_kegiatan/pengaju')
 @section('konten')
 
 <div class="container mx-auto p-6">

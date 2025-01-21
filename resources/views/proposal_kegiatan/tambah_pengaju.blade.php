@@ -1,5 +1,5 @@
 
-@extends('proposal_kegiatan\reviewer')
+@extends('proposal_kegiatan/reviewer')
 @section('konten')
 <div class="p-8">
     <h1 class="text-2xl font-semibold text-gray-700 mb-6">Tambah Pengaju</h1>

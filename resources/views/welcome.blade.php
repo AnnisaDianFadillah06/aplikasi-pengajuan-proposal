@@ -68,7 +68,7 @@
             <!-- Cards Container -->
             <div class="grid md:grid-cols-2 gap-8">
                 <!-- Pengaju Card -->
-                <a href="/dashboard-pengaju" class="block">
+                <a href="{{ route('login.mahasiswa') }}" class="block">
                     <div class="glass-effect p-8 rounded-2xl card-hover">
                         <div class="mb-6">
                             <div class="w-20 h-20 bg-gradient-to-br from-blue-400 to-blue-600 rounded-2xl flex items-center justify-center mx-auto shadow-lg">
@@ -91,7 +91,7 @@
                 </a>
 
                 <!-- Reviewer Card -->
-                <a href="/dashboard-reviewer" class="block">
+                <a href="{{ route('login.dosen') }}" class="block">
                     <div class="glass-effect p-8 rounded-2xl card-hover">
                         <div class="mb-6">
                             <div class="w-20 h-20 bg-gradient-to-br from-emerald-400 to-emerald-600 rounded-2xl flex items-center justify-center mx-auto shadow-lg">
