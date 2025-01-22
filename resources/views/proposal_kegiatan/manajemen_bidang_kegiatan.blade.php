@@ -1,200 +1,270 @@
 @extends('proposal_kegiatan/reviewer')
-@section('title', 'Bidang Kegiatan')
+@section('title', 'Manajemen Bidang Kegiatan')
 @section('konten')
-
 <head>
     <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 
-
 <div class="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-6">
     <div class="max-w-7xl mx-auto">
-    <div class="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-6">
-        <div class="max-w-7xl mx-auto">
-            <div class="bg-white rounded-2xl shadow-lg mb-8 p-8">
+        <!-- Header Section -->
+        <div class="bg-white rounded-2xl shadow-lg mb-8 p-8">
             <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
                 <div class="space-y-2">
                     <h1 class="text-3xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-                    Daftar Bidang Kegiatan
-                </h1>
-                <p class="text-gray-500">Kelola semua daftar bidang kegiatan</p>
+                        Manajemen Bidang Kegiatan
+                    </h1>
+                    <p class="text-gray-500">Kelola semua bidang kegiatan dalam satu dashboard terintegrasi</p>
+                </div>
+                <button data-modal-target="addJenisKegiatanModal" data-modal-toggle="addJenisKegiatanModal"
+                    class="flex items-center px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200 group">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 group-hover:rotate-90 transition-transform duration-200" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
+                    </svg>
+                    Tambah Bidang Kegiatan
+                </button>
             </div>
-            <button data-modal-target="addBidangKegiatanModal" data-modal-toggle="addBidangKegiatanModal"
-                class="flex items-center px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200 group">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 group-hover:rotate-90 transition-transform duration-200" viewBox="0 0 20 20" fill="currentColor">
-                    <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
-                </svg>
-                Tambah Bidang Kegiatan
-            </button>
         </div>
-    </div>
 
-        <!-- Modal Form Tambah Bidang Kegiatan -->
-        <div id="addBidangKegiatanModal" tabindex="-1" class="fixed inset-0 flex items-center justify-center hidden z-50 p-4 overflow-x-hidden overflow-y-auto" role="dialog" aria-labelledby="modalTitle" aria-hidden="true">
-            <div class="relative w-full max-w-md">
-                <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-                    <div class="flex items-start justify-between p-4 border-b rounded-t">
-                        <h3 class="text-xl font-semibold text-gray-900" id="modalTitle">Tambah Bidang Kegiatan</h3>
-                        <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center" onclick="closeModal()">
-                            <span class="sr-only">Close</span>
-                        </button>
+        <!-- Search & Filter Section -->
+        <div class="bg-white rounded-2xl shadow-lg mb-8 p-6">
+            <div class="flex flex-col sm:flex-row gap-4">
+                <div class="flex-1">
+                    <div class="relative">
+                        <input type="text" id="searchInput" placeholder="Cari bidang kegiatan..."
+                            class="w-full pl-12 pr-4 py-3 border-2 border-gray-100 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200">
+                        <svg class="absolute left-4 top-3.5 h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
                     </div>
+                </div>
+                <div class="flex-none">
+                    <select class="w-full sm:w-48 px-4 py-3 border-2 border-gray-100 rounded-xl focus:ring-2 focus:ring-blue-500 transition-all duration-200">
+                        <option value="">Semua Status</option>
+                        <option value="aktif">Aktif</option>
+                        <option value="tidak_aktif">Tidak Aktif</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Table Section -->
+        <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead>
+                        <tr class="bg-gray-50">
+                            <th class="px-6 py-4 text-xs font-semibold text-gray-600 uppercase tracking-wider text-left">No</th>
+                            <th class="px-6 py-4 text-xs font-semibold text-gray-600 uppercase tracking-wider text-left">Bidang Kegiatan</th>
+                            <th class="px-6 py-4 text-xs font-semibold text-gray-600 uppercase tracking-wider text-center">Tanggal Dibuat</th>
+                            <th class="px-6 py-4 text-xs font-semibold text-gray-600 uppercase tracking-wider text-center">Dibuat Oleh</th>
+                            <th class="px-6 py-4 text-xs font-semibold text-gray-600 uppercase tracking-wider text-center">Tanggal Diedit</th>
+                            <th class="px-6 py-4 text-xs font-semibold text-gray-600 uppercase tracking-wider text-center">Diedit Oleh</th>
+                            <th class="px-6 py-4 text-xs font-semibold text-gray-600 uppercase tracking-wider text-center">Status</th>
+                            <th class="px-6 py-4 text-xs font-semibold text-gray-600 uppercase tracking-wider text-center">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-100">
+                        @foreach($kegiatan as $key => $item)
+                        <tr data-id="{{ $item->id_bidang_kegiatan }}" class="hover:bg-gray-50 transition-colors duration-200">
+                            <td class="px-6 py-4 text-sm text-gray-800">{{ $key + 1 }}</td>
+                            <td class="px-6 py-4">
+                                <div class="text-sm font-medium text-gray-900">{{ $item->nama_bidang_kegiatan }}</div>
+                            </td>
+                            <td class="px-6 py-4 text-sm text-gray-500 text-center">{{ $item->created_at->format('d/m/Y') }}</td>
+                            <td class="px-6 py-4 text-sm text-gray-500 text-center">{{ $item->created_by }}</td>
+                            <td class="px-6 py-4 text-sm text-gray-500 text-center">{{ $item->updated_at->format('d/m/Y') }}</td>
+                            <td class="px-6 py-4 text-sm text-gray-500 text-center">{{ $item->updated_by }}</td>
+                            <td class="px-6 py-4 text-center">
+                                <span class="px-3 py-1 text-xs font-medium rounded-full 
+                                    {{ $item->status == 'aktif' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
+                                    {{ $item->status }}
+                                </span>
+                            </td>
+                            <td class="px-6 py-4 text-center">
+                                <button onclick="openEditModal('{{ $item->id_bidang_kegiatan }}', '{{ $item->nama_bidang_kegiatan }}', '{{ $item->status }}')"
+                                    class="inline-flex items-center px-3 py-1.5 bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100 transition-colors duration-200">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                    </svg>
+                                    Edit
+                                </button>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Add Modal -->
+        <div id="addJenisKegiatanModal" tabindex="-1" class="fixed inset-0 flex items-center justify-center hidden z-50">
+            <div class="fixed inset-0 bg-black bg-opacity-50 transition-opacity"></div>
+            <div class="relative w-full max-w-md transform transition-all">
+                <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
+                    <!-- Modal Header -->
+                    <div class="px-6 py-4 border-b border-gray-100">
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-xl font-semibold text-gray-900">Tambah Jenis Kegiatan</h3>
+                            <button type="button" onclick="closeModal()" class="text-gray-400 hover:text-gray-500">
+                                <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Modal Form -->
                     <form id="bidangKegiatanForm" action="{{ route('bidang-kegiatan.store') }}" method="POST">
                         @csrf
-                        <div class="p-6 space-y-6">
+                        <div class="px-6 py-4 space-y-4">
                             <div>
-                                <label for="nama_bidang_kegiatan" class="block mb-2 text-sm font-medium text-gray-900">Nama Bidang Kegiatan</label>
-                                <input type="text" name="nama_bidang_kegiatan" id="nama_bidang_kegiatan" class="w-full p-2.5 border border-gray-300 rounded" required autofocus>
+                                <label for="nama_bidang_kegiatan" class="block text-sm font-medium text-gray-700 mb-2">
+                                    Nama Bidang Kegiatan
+                                </label>
+                                <input type="text" name="nama_bidang_kegiatan" id="nama_bidang_kegiatan" required
+                                    class="w-full px-4 py-2 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                                    placeholder="Masukkan nama bidang kegiatan">
                             </div>
                             <div>
-                                <label for="status" class="block mb-2 text-sm font-medium text-gray-900">Status</label>
-                                <select name="status" id="status" class="w-full p-2.5 border border-gray-300 rounded" required>
-                                    <option value="aktif" selected>Aktif</option>
+                                <label for="status" class="block text-sm font-medium text-gray-700 mb-2">
+                                    Status
+                                </label>
+                                <select name="status" id="status" required
+                                    class="w-full px-4 py-2 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200">
+                                    <option value="aktif">Aktif</option>
                                     <option value="tidak aktif">Tidak Aktif</option>
                                 </select>
                             </div>
                         </div>
-                        <div class="flex items-center p-6 space-x-2 border-t rounded-b">
-                            <button type="button" id="submitEdit" class="bg-blue-700 text-white px-4 py-2 rounded" onclick="submitForm()">Simpan</button>
-                            <button type="button" class="text-gray-500 bg-white border rounded px-4 py-2" onclick="closeModal()">Batal</button>
+
+                        <!-- Modal Footer -->
+                        <div class="px-6 py-4 bg-gray-50 flex justify-end space-x-3">
+                            <button type="button" onclick="closeModal()"
+                                class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200">
+                                Batal
+                            </button>
+                            <button type="button" onclick="submitForm()"
+                                class="px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-blue-600 to-indigo-600 rounded-lg hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200">
+                                Simpan
+                            </button>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
 
+        <!-- Edit Modal -->
+        <div id="editModal" tabindex="-1" class="fixed inset-0 flex items-center justify-center hidden z-50">
+            <div class="fixed inset-0 bg-black bg-opacity-50 transition-opacity"></div>
+            <div class="relative w-full max-w-md transform transition-all">
+                <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
+                    <!-- Modal Header -->
+                    <div class="px-6 py-4 border-b border-gray-100">
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-xl font-semibold text-gray-900">Edit Jenis Kegiatan</h3>
+                            <button type="button" onclick="closeEditModal()" class="text-gray-400 hover:text-gray-500">
+                                <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
 
-      <!-- Modal Form Edit Bidang Kegiatan -->
-      <div id="editModal" tabindex="-1" class="fixed inset-0 flex items-center justify-center hidden z-50 p-4 overflow-x-hidden overflow-y-auto">
-          <div class="relative w-full max-w-md">
-              <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-                    <div class="flex items-start justify-between p-4 border-b rounded-t">
-                        <h3 class="text-xl font-semibold text-gray-900" id="modalTitle">Edit Bidang Kegiatan</h3>
-                        <button type="button" data-modal-hide="editModal" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center">
-                            <span class="sr-only">Close</span>
-                        </button>
-                    </div>  
-                    <form id="editBidangKegiatanForm" action="" method="POST">
+                    <!-- Modal Form -->
+                    <form id="editJenisKegiatanForm" method="POST">
                         @csrf
                         @method('PUT')
-                        <div class="p-6 space-y-6">
-                            <div class="form-group">
-                                <label for="edit_nama_bidang_kegiatan">Nama Bidang Kegiatan:</label>
-                                <input type="text" class="form-control" id="edit_nama_bidang_kegiatan" name="nama_bidang_kegiatan" required>
+                        <div class="px-6 py-4 space-y-4">
+                            <div>
+                                <label for="edit_nama_bidang_kegiatan" class="block text-sm font-medium text-gray-700 mb-2">
+                                    Nama Jenis Kegiatan
+                                </label>
+                                <input type="text" name="nama_bidang_kegiatan" id="edit_nama_bidang_kegiatan" required
+                                    class="w-full px-4 py-2 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200">
                             </div>
-                            <div class="form-group">
-                                <label for="edit_status">Status:</label>
-                                <select id="edit_status" name="status" class="form-control" required>
-                                    <option value="Aktif">Aktif</option>
-                                    <option value="Tidak aktif">Tidak Aktif</option>
+                            <div>
+                                <label for="edit_status" class="block text-sm font-medium text-gray-700 mb-2">
+                                    Status
+                                </label>
+                                <select name="status" id="edit_status" required
+                                    class="w-full px-4 py-2 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200">
+                                    <option value="aktif">Aktif</option>
+                                    <option value="tidak aktif">Tidak Aktif</option>
                                 </select>
                             </div>
                         </div>
-                        <div class="flex items-center p-6 space-x-2 border-t rounded-b">
-                            <button type="button" class="bg-blue-700 text-white px-4 py-2 rounded" onclick="submitEditForm()">Simpan</button>
-                            <button type="button" class="text-gray-500 bg-white border rounded px-4 py-2" onclick="closeEditModal()">Batal</button>
-                        </div>
-                    </form>                    
-                </div>
-            </div>
-          </div>
-      </div>
 
-      <!-- Search & Filter Section -->
-      <div class="bg-white rounded-2xl shadow-lg mb-8 p-6">
-        <div class="flex flex-col sm:flex-row gap-4">
-            <div class="flex-1">
-                <div class="relative">
-                    <input type="text" id="searchInput" placeholder="Cari organisasi mahasiswa..."
-                        class="w-full pl-12 pr-4 py-3 border-2 border-gray-100 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200">
-                    <svg class="absolute left-4 top-3.5 h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                    </svg>
-                </div>
-            </div>
-            <div class="flex-none">
-                <select class="w-full sm:w-48 px-4 py-3 border-2 border-gray-100 rounded-xl focus:ring-2 focus:ring-blue-500 transition-all duration-200">
-                    <option value="">Semua Status</option>
-                    <option value="aktif">Aktif</option>
-                    <option value="tidak aktif">Tidak Aktif</option>
-                </select>
-            </div>
-        </div>
-    </div>
-
-    {{-- tabel --}}
-    <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
-        <div class="overflow-x-auto">
-            <table class="w-full">
-                <thead>
-                    <tr class="bg-gray-50">
-                        <th class="px-6 py-4 text-xs font-semibold text-gray-600 uppercase tracking-wider text-left">No</th>
-                        <th class="px-6 py-4 text-xs font-semibold text-gray-600 uppercase tracking-wider text-left">Bidang Kegiatan</th>
-                        <th class="px-6 py-4 text-xs font-semibold text-gray-600 uppercase tracking-wider text-center">Tanggal Dibuat</th>
-                        <th class="px-6 py-4 text-xs font-semibold text-gray-600 uppercase tracking-wider text-center">Dibuat Oleh</th>
-                        <th class="px-6 py-4 text-xs font-semibold text-gray-600 uppercase tracking-wider text-center">Tanggal Diedit</th>
-                        <th class="px-6 py-4 text-xs font-semibold text-gray-600 uppercase tracking-wider text-center">Diedit Oleh</th>
-                        <th class="px-6 py-4 text-xs font-semibold text-gray-600 uppercase tracking-wider text-center">Status</th>
-                        <th class="px-6 py-4 text-xs font-semibold text-gray-600 uppercase tracking-wider text-center">Aksi</th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-gray-100">
-                    @foreach($kegiatan as $key => $item)
-                    <tr data-id="{{ $item->id_bidang_kegiatan }}" class="hover:bg-gray-50 transition-colors duration-200">
-                        <td class="px-6 py-4 text-sm text-gray-800">{{ $key + 1 }}</td>
-                        <td class="px-6 py-4">
-                            <div class="text-sm font-medium text-gray-900">{{ $item->nama_bidang_kegiatan }}</div>
-                        </td>
-                        <td class="px-6 py-4 text-sm text-gray-500 text-center">{{ $item->created_at->format('d/m/Y') }}</td>
-                        <td class="px-6 py-4 text-sm text-gray-500 text-center">{{ $item->created_by }}</td>
-                        <td class="px-6 py-4 text-sm text-gray-500 text-center">{{ $item->updated_at->format('d/m/Y') }}</td>
-                        <td class="px-6 py-4 text-sm text-gray-500 text-center">{{ $item->updated_by }}</td>
-                        <td class="px-6 py-4 text-center">
-                            <span class="px-3 py-1 text-xs font-medium rounded-full 
-                                {{ $item->status == 'aktif' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
-                                {{ $item->status }}
-                            </span>
-                        </td>
-                        <td class="px-6 py-4 text-center">
-                            <button onclick="openEditModal('{{ $item->id_ormawa }}', '{{ $item->nama_ormawa }}', '{{ $item->status }}')"
-                                class="inline-flex items-center px-3 py-1.5 bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100 transition-colors duration-200">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                                </svg>
-                                Edit
+                        <!-- Modal Footer -->
+                        <div class="px-6 py-4 bg-gray-50 flex justify-end space-x-3">
+                            <button type="button" onclick="closeEditModal()"
+                                class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200">
+                                Batal
                             </button>
-                        </td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                            <button type="button" onclick="submitEditForm()"
+                                class="px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-blue-600 to-indigo-600 rounded-lg hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200">
+                                Simpan
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
-
-  </div>
 </div>
 
-
-
 <script>
-document.querySelector('button[data-modal-toggle="addBidangKegiatanModal"]').addEventListener('click', function() { 
-    document.getElementById('addBidangKegiatanModal').classList.remove('hidden');
+// Search functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('searchInput');
+    if (searchInput) {
+        searchInput.addEventListener('keyup', function() {
+            const searchTerm = this.value.toLowerCase();
+            const tableRows = document.querySelectorAll('tbody tr');
+            
+            tableRows.forEach(row => {
+                const activityName = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
+                const shouldShow = activityName.includes(searchTerm);
+                
+                if (shouldShow) {
+                    row.classList.remove('opacity-0');
+                    row.classList.add('opacity-100');
+                    row.style.display = '';
+                } else {
+                    row.classList.remove('opacity-100');
+                    row.classList.add('opacity-0');
+                    setTimeout(() => {
+                        row.style.display = 'none';
+                    }, 200);
+                }
+            });
+        });
+    }
 });
 
-// Fungsi untuk menutup modal
+// Add Modal Functions
+document.querySelector('button[data-modal-toggle="addJenisKegiatanModal"]').addEventListener('click', function() {
+    const modal = document.getElementById('addJenisKegiatanModal');
+    modal.classList.remove('hidden');
+    setTimeout(() => {
+        modal.querySelector('.relative').classList.add('translate-y-0', 'opacity-100');
+        modal.querySelector('.relative').classList.remove('translate-y-4', 'opacity-0');
+    }, 50);
+});
+
 function closeModal() {
-    const modal = document.getElementById('addBidangKegiatanModal');
-    modal.classList.add('hidden');
+    const modal = document.getElementById('addJenisKegiatanModal');
+    modal.querySelector('.relative').classList.add('translate-y-4', 'opacity-0');
+    modal.querySelector('.relative').classList.remove('translate-y-0', 'opacity-100');
+    setTimeout(() => {
+        modal.classList.add('hidden');
+    }, 300);
 }
 
-// Fungsi untuk mengirimkan data form menggunakan AJAX
 function submitForm() {
     const form = document.getElementById('bidangKegiatanForm');
-    
-    // Mengambil data form
     const formData = new FormData(form);
     
-    // Kirim form menggunakan AJAX (fetch API)
     fetch(form.action, {
         method: 'POST',
         body: formData,
@@ -204,132 +274,97 @@ function submitForm() {
     })
     .then(response => response.json())
     .then(data => {
-        // Jika data berhasil disimpan, kita tutup modal dan beri pesan sukses
         if (data.success) {
-            closeModal();  // Menutup modal jika pengiriman berhasil
-            alert('Bidang Kegiatan berhasil disimpan!');
-            // Opsional: Anda bisa menambahkan kode untuk memperbarui tampilan daftar bidang kegiatan
-            location.reload(); // Tambahkan ini untuk refresh halaman
+            closeModal();
+            showNotification('Jenis Kegiatan berhasil disimpan!', 'success');
+            location.reload();
         } else {
-            alert('Gagal menyimpan data. Periksa kembali input Anda.');
+            showNotification('Gagal menyimpan data. Periksa kembali input Anda.', 'error');
         }
     })
     .catch(error => {
         console.error('Error:', error);
-        alert('Terjadi kesalahan saat menyimpan data.');
+        showNotification('Terjadi kesalahan saat menyimpan data.', 'error');
     });
 }
 
-</script>
-
-<script>
-// Fungsi untuk membuka modal dan mengisi form dengan data yang di-passing dari tombol
-function openEditModal(id, namaBidangKegiatan, status) {
-    // Mengisi form dengan data yang di-passing
-    document.getElementById('edit_nama_bidang_kegiatan').value = namaBidangKegiatan;
+// Edit Modal Functions
+function openEditModal(id, namaJenisKegiatan, status) {
+    document.getElementById('edit_nama_bidang_kegiatan').value = namaJenisKegiatan;
     document.getElementById('edit_status').value = status;
+    document.getElementById('editJenisKegiatanForm').action = `/update-bidang-kegiatan/${id}`;
 
-    // Mengubah action URL dari form agar sesuai dengan bidang kegiatan yang sedang diedit
-    document.getElementById('editBidangKegiatanForm').action = "/update-bidang-kegiatan/" + id;
-
-    // Menampilkan modal
-    document.getElementById('editModal').classList.remove('hidden');
+    const modal = document.getElementById('editModal');
+    modal.classList.remove('hidden');
+    setTimeout(() => {
+        modal.querySelector('.relative').classList.add('translate-y-0', 'opacity-100');
+        modal.querySelector('.relative').classList.remove('translate-y-4', 'opacity-0');
+    }, 50);
     
-    // Nonaktifkan scroll pada body
     document.body.classList.add('overflow-hidden');
 }
 
-
-// Fungsi untuk menutup modal
 function closeEditModal() {
     const modal = document.getElementById('editModal');
-    modal.classList.add('hidden');
-    document.body.classList.remove('overflow-hidden');
+    modal.querySelector('.relative').classList.add('translate-y-4', 'opacity-0');
+    modal.querySelector('.relative').classList.remove('translate-y-0', 'opacity-100');
+    setTimeout(() => {
+        modal.classList.add('hidden');
+        document.body.classList.remove('overflow-hidden');
+    }, 300);
 }
 
-</script> 
-
-<script>
 function submitEditForm() {
-    let formData = new FormData(document.getElementById('editBidangKegiatanForm'));
+    const form = document.getElementById('editJenisKegiatanForm');
+    const formData = new FormData(form);
     
-    // Mendapatkan URL action dari form
-    let actionUrl = document.getElementById('editBidangKegiatanForm').action;
-
-    // Mengirim data menggunakan AJAX
-    fetch(actionUrl, {
+    fetch(form.action, {
         method: 'POST',
         body: formData,
         headers: {
             'X-Requested-With': 'XMLHttpRequest',
-            'X-CSRF-TOKEN': '{{ csrf_token() }}' // Untuk proteksi CSRF
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
         }
     })
     .then(response => response.json())
     .then(data => {
         if (data.success) {
-            // Jika sukses, tutup modal dan perbarui tabel
             closeEditModal();
-            
-            // Update tampilan data di tabel secara dinamis
-            const row = document.querySelector(`tr[data-id="${data.id_bidang_kegiatan}"]`);
-            row.querySelector('td:nth-child(2)').textContent = data.nama_bidang_kegiatan;
-            row.querySelector('td:nth-child(7)').textContent = data.status;
-            
-            // Optionally, beri notifikasi bahwa data telah berhasil diubah
-            alert('Data berhasil diubah');
-            location.reload(); // Tambahkan ini untuk refresh halaman
+            showNotification('Data berhasil diubah!', 'success');
+            location.reload();
         } else {
-            alert('Terjadi kesalahan, coba lagi');
+            showNotification('Terjadi kesalahan, coba lagi', 'error');
         }
     })
     .catch(error => {
-        console.error('Error:', error);  // Tambahkan log untuk melihat error dari fetch
-        alert('Terjadi kesalahan di fetch: ' + error.message);
+        console.error('Error:', error);
+        showNotification('Terjadi kesalahan: ' + error.message, 'error');
     });
 }
-</script> 
 
-<!-- Script DataTables -->
-<script>
-    $(document).ready(function() {
-        $('#myTable').DataTable({
-            "paging": true,
-            "searching": true,
-            "ordering": true,
-            "info": true,
-            "lengthMenu": [5, 10, 25, 50],
-            "language": {
-                "search": "Cari:",
-                "lengthMenu": "Tampilkan _MENU_ entri",
-                "info": "Menampilkan _START_ hingga _END_ dari _TOTAL_ entri",
-                "infoEmpty": "Menampilkan 0 hingga 0 dari 0 entri",
-                "infoFiltered": "(disaring dari _MAX_ total entri)",
-                "paginate": {
-                    "first": "Pertama",
-                    "last": "Terakhir",
-                    "next": "Selanjutnya",
-                    "previous": "Sebelumnya"
-                }
-            },
-            "drawCallback": function() {
-                // Adjust select width after draw
-                adjustSelectWidth();
-            }
-        });
-
-        // Function to adjust select width
-        function adjustSelectWidth() {
-            var select = $('.dataTables_length select');
-            select.each(function() {
-                var text = $(this).find('option:selected').text();
-                $(this).css('width', (text.length + 4) + 'ch');
-            });
-        }
-
-        // Call function on select change
-        $('.dataTables_length select').change(adjustSelectWidth);
-    });
+// Notification System
+function showNotification(message, type = 'success') {
+    const notification = document.createElement('div');
+    notification.className = `fixed top-4 right-4 px-6 py-3 rounded-lg text-white ${
+        type === 'success' ? 'bg-green-500' : 'bg-red-500'
+    } transform transition-all duration-300 translate-y-0 opacity-0 z-50`;
+    notification.textContent = message;
+    
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        notification.classList.remove('translate-y-0', 'opacity-0');
+        notification.classList.add('translate-y-2', 'opacity-100');
+    }, 100);
+    
+    setTimeout(() => {
+        notification.classList.remove('translate-y-2', 'opacity-100');
+        notification.classList.add('translate-y-0', 'opacity-0');
+        setTimeout(() => {
+            notification.remove();
+        }, 300);
+    }, 3000);
+}
 </script>
 
 @endsection

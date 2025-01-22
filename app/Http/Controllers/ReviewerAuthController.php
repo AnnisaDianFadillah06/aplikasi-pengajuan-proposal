@@ -33,6 +33,7 @@ class ReviewerAuthController extends Controller
                 'id_ormawa' => $reviewer->id_ormawa,
                 'id' => $reviewer->id,
                 'email' => $reviewer->email,
+                'foto_profil' => $reviewer->foto_profil,
             ]);
             return redirect()->intended('/dashboard-reviewer');
         } else {

@@ -6,6 +6,7 @@ use App\Models\Role;
 use App\Models\Ormawa;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class RoleController extends Controller
 { 
@@ -25,7 +26,10 @@ class RoleController extends Controller
     public function editPengaju($id)
     {
         $pengaju = DB::connection('pgsql')->table('pengaju')->where('id', $id)->first();
-        return view('proposal_kegiatan.edit_pengaju', compact('pengaju'));
+
+        $ormawas = Ormawa::where('status', 'aktif')->pluck('nama_ormawa', 'id_ormawa');
+
+        return view('proposal_kegiatan.edit_pengaju', compact('pengaju', 'ormawas'));
     }
 
     public function updatePengaju(Request $request, $id)
@@ -33,18 +37,37 @@ class RoleController extends Controller
         $validated = $request->validate([
             'username' => 'required',
             'email' => 'required|email',
-            'nama_lengkap' => 'required',
+            'id_ormawa' => 'required',
             'status' => 'required|in:0,1', // Validasi status, hanya 0 atau 1
+            'foto_profil' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         // Cari username lama dari tabel pengaju
         $pengaju = DB::connection('pgsql')->table('pengaju')->where('id', $id)->first();
 
+        if (!$pengaju) {
+            return back()->withErrors(['message' => 'Data Pengaju tidak ditemukan.']);
+        }
+
+        // Proses upload foto profil jika ada
+        $fotoProfilPath = $pengaju->foto_profil; // Simpan path foto profil lama
+        if ($request->hasFile('foto_profil')) {
+            // Hapus foto profil lama jika ada
+            if ($pengaju->foto_profil) {
+                Storage::disk('public')->delete($pengaju->foto_profil);
+            }
+
+            // Simpan foto profil baru
+            $fotoProfilPath = $request->file('foto_profil')->store('foto_profil', 'public');
+        }
+
+        // Update data pengaju
         DB::connection('pgsql')->table('pengaju')->where('id', $id)->update([
             'username' => $validated['username'],
             'email' => $validated['email'],
-            'nama_lengkap' => $validated['nama_lengkap'],
             'status' => $validated['status'], // Menyimpan status
+            'id_ormawa' => $validated['id_ormawa'], // Menyimpan
+            'foto_profil' => $fotoProfilPath, // Menyimpan path foto profil
         ]);
 
         if ($pengaju) {
@@ -66,7 +89,9 @@ class RoleController extends Controller
         // Ambil data roles untuk dropdown
         $roles = DB::connection('pgsql')->table('roles')->get();
 
-        return view('proposal_kegiatan.edit_reviewer', compact('reviewer','roles'));
+        $ormawas = Ormawa::where('status', 'aktif')->pluck('nama_ormawa', 'id_ormawa');
+
+        return view('proposal_kegiatan.edit_reviewer', compact('reviewer','roles','ormawas'));
     }
 
     public function updateReviewer(Request $request, $id)
@@ -75,17 +100,37 @@ class RoleController extends Controller
             'username' => 'required',
             'email' => 'required|email',
             'id_role' => 'required|integer',
+            'id_ormawa' => 'required',
             'status' => 'required|in:0,1', // Validasi status, hanya 0 atau 1
+            'foto_profil' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         // Cari username lama dari tabel pengaju
         $reviewer = DB::connection('pgsql')->table('reviewer')->where('id', $id)->first();
 
+        if (!$reviewer) {
+            return back()->withErrors(['message' => 'Data Pengaju tidak ditemukan.']);
+        }
+
+        // Proses upload foto profil jika ada
+        $fotoProfilPath = $reviewer->foto_profil; // Simpan path foto profil lama
+        if ($request->hasFile('foto_profil')) {
+            // Hapus foto profil lama jika ada
+            if ($reviewer->foto_profil) {
+                Storage::disk('public')->delete($reviewer->foto_profil);
+            }
+
+            // Simpan foto profil baru
+            $fotoProfilPath = $request->file('foto_profil')->store('foto_profil', 'public');
+        }
+        
         DB::connection('pgsql')->table('reviewer')->where('id', $id)->update([
             'username' => $validated['username'],
             'email' => $validated['email'],
             'id_role' => $validated['id_role'],
+            'id_ormawa' => $validated['id_ormawa'],
             'status' => $validated['status'], // Menyimpan status
+            'foto_profil' => $fotoProfilPath,
         ]);
 
         if ($reviewer) {
@@ -101,7 +146,7 @@ class RoleController extends Controller
 
     public function createPengaju()
     {
-        $ormawas = Ormawa::where('status', 'Aktif')->pluck('nama_ormawa', 'id_ormawa');
+        $ormawas = Ormawa::where('status', 'aktif')->pluck('nama_ormawa', 'id_ormawa');
 
         return view('proposal_kegiatan.tambah_pengaju', compact('ormawas'));
     }
@@ -150,7 +195,7 @@ class RoleController extends Controller
         $roles = Role::all(); // Mengambil semua data dari tabel roles
 
         // Mengambil data ormawa yang statusnya 'aktif' untuk dropdown
-        $ormawas = Ormawa::where('status', 'Aktif')->pluck('nama_ormawa', 'id_ormawa');
+        $ormawas = Ormawa::where('status', 'aktif')->pluck('nama_ormawa', 'id_ormawa');
 
 
         return view('proposal_kegiatan.tambah_reviewer', compact('roles','ormawas'));
@@ -166,7 +211,14 @@ class RoleController extends Controller
             'id_ormawa' => 'nullable|exists:pgsql.ormawa,id_ormawa',
             'nama_lengkap' => 'required', // Validasi nama lengkap
             'password' => 'required|min:8', // Validasi password
+            'foto_profil' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
+
+        // Proses upload foto profil jika ada
+        $fotoProfilPath = null;
+        if ($request->hasFile('foto_profil')) {
+            $fotoProfilPath = $request->file('foto_profil')->store('foto_profil', 'public'); // Simpan di folder foto_profil
+        }
 
         // Simpan ke tabel reviewer
         DB::connection('pgsql')->table('reviewer')->insert([
@@ -175,6 +227,7 @@ class RoleController extends Controller
             'id_role' => $validated['id_role'],
             'id_ormawa' => $validated['id_ormawa'],
             'nama_lengkap' => $validated['nama_lengkap'],
+            'foto_profil' => $fotoProfilPath,
         ]);
 
         // Simpan ke tabel dosen di koneksi 'users'
