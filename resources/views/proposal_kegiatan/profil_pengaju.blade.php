@@ -29,7 +29,13 @@
                         <div class="absolute -inset-0.5 bg-gradient-to-r from-pink-600 to-purple-600 rounded-full opacity-75 group-hover:opacity-100 transition duration-300 blur"></div>
                         <div class="relative">
                             <img
-                                src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
+                                src="{{ 
+                                    isset($profilPengaju) && $profilPengaju->foto_profil 
+                                        ? asset('storage/' . $profilPengaju->foto_profil) 
+                                        : (isset($profilReviewer) && $profilReviewer->foto_profil 
+                                            ? asset('storage/' . $profilReviewer->foto_profil) 
+                                            : 'https://flowbite.com/docs/images/people/profile-picture-5.jpg') 
+                                }}"
                                 alt="Profile Picture"
                                 class="w-40 h-40 rounded-full object-cover ring-4 ring-white"
                             />
