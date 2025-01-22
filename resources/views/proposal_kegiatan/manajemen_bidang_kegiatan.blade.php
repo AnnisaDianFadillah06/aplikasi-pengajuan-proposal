@@ -105,7 +105,7 @@
                     <!-- Modal Header -->
                     <div class="px-6 py-4 border-b border-gray-100">
                         <div class="flex items-center justify-between">
-                            <h3 class="text-xl font-semibold text-gray-900">Tambah Jenis Kegiatan</h3>
+                            <h3 class="text-xl font-semibold text-gray-900">Tambah Bidang Kegiatan</h3>
                             <button type="button" onclick="closeModal()" class="text-gray-400 hover:text-gray-500">
                                 <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -162,7 +162,7 @@
                     <!-- Modal Header -->
                     <div class="px-6 py-4 border-b border-gray-100">
                         <div class="flex items-center justify-between">
-                            <h3 class="text-xl font-semibold text-gray-900">Edit Jenis Kegiatan</h3>
+                            <h3 class="text-xl font-semibold text-gray-900">Edit Bidang Kegiatan</h3>
                             <button type="button" onclick="closeEditModal()" class="text-gray-400 hover:text-gray-500">
                                 <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -178,7 +178,7 @@
                         <div class="px-6 py-4 space-y-4">
                             <div>
                                 <label for="edit_nama_bidang_kegiatan" class="block text-sm font-medium text-gray-700 mb-2">
-                                    Nama Jenis Kegiatan
+                                    Nama Bidang Kegiatan
                                 </label>
                                 <input type="text" name="nama_bidang_kegiatan" id="edit_nama_bidang_kegiatan" required
                                     class="w-full px-4 py-2 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200">
@@ -276,7 +276,7 @@ function submitForm() {
     .then(data => {
         if (data.success) {
             closeModal();
-            showNotification('Jenis Kegiatan berhasil disimpan!', 'success');
+            showNotification('Bidang Kegiatan berhasil disimpan!', 'success');
             location.reload();
         } else {
             showNotification('Gagal menyimpan data. Periksa kembali input Anda.', 'error');
