@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Role;
 use App\Models\Ormawa;
+use App\Models\Pengguna;
+use App\Models\Reviewer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -14,10 +16,10 @@ class RoleController extends Controller
     public function manageRoles()
     {
         // Ambil data dari tabel 'pengaju' di koneksi 'pgsql'
-        $pengajus = DB::connection('pgsql')->table('pengaju')->get();
+        $pengajus = Pengguna::all();
 
         // Ambil data dari tabel 'reviewer' di koneksi 'pgsql'
-        $reviewers = DB::connection('pgsql')->table('reviewer')->get();
+        $reviewers = Reviewer::all();
 
         return view('proposal_kegiatan.manage_roles', compact('pengajus', 'reviewers'));
     }

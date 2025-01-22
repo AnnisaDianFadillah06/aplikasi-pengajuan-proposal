@@ -62,6 +62,7 @@
                                             <th class="px-6 py-4 text-xs font-semibold text-gray-600 uppercase tracking-wider text-left">No</th>
                                             <th class="px-6 py-4 text-xs font-semibold text-gray-600 uppercase tracking-wider text-left">Username</th>
                                             <th class="px-6 py-4 text-xs font-semibold text-gray-600 uppercase tracking-wider text-left">Email</th>
+                                            <th class="px-6 py-4 text-xs font-semibold text-gray-600 uppercase tracking-wider text-left">Ormawa</th>
                                             <th class="px-6 py-4 text-xs font-semibold text-gray-600 uppercase tracking-wider text-center">Aksi</th>
                                         </tr>
                                     </thead>
@@ -76,6 +77,7 @@
                                                 <div class="text-sm font-medium text-gray-900">{{ $pengaju->username }}</div>
                                             </td>
                                             <td class="px-6 py-4 text-sm text-gray-500">{{ $pengaju->email }}</td>
+                                            <td class="px-6 py-4 text-sm text-gray-500">{{ $pengaju->ormawa->nama_ormawa }}</td>
                                             <td class="px-6 py-4 text-center">
                                                 <a href="{{ route('edit.pengaju', $pengaju->id) }}" 
                                                    class="inline-flex items-center px-3 py-1.5 bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100 transition-colors duration-200">
@@ -125,7 +127,8 @@
                                     <th class="px-6 py-4 text-xs font-semibold text-gray-600 uppercase tracking-wider text-left">No</th>
                                     <th class="px-6 py-4 text-xs font-semibold text-gray-600 uppercase tracking-wider text-left">Username</th>
                                     <th class="px-6 py-4 text-xs font-semibold text-gray-600 uppercase tracking-wider text-left">Email</th>
-                                    <th class="px-6 py-4 text-xs font-semibold text-gray-600 uppercase tracking-wider text-center">ID Role</th>
+                                    <th class="px-6 py-4 text-xs font-semibold text-gray-600 uppercase tracking-wider text-left"> Role</th>
+                                    <th class="px-6 py-4 text-xs font-semibold text-gray-600 uppercase tracking-wider text-left"> Ormawa</th>
                                     <th class="px-6 py-4 text-xs font-semibold text-gray-600 uppercase tracking-wider text-center">Aksi</th>
                                 </tr>
                             </thead>
@@ -140,7 +143,8 @@
                                         <div class="text-sm font-medium text-gray-900">{{ $reviewer->username }}</div>
                                     </td>
                                     <td class="px-6 py-4 text-sm text-gray-500">{{ $reviewer->email }}</td>
-                                    <td class="px-6 py-4 text-sm text-center text-gray-500">{{ $reviewer->id_role }}</td>
+                                    <td class="px-6 py-4 text-sm text-gray-500">{{ $reviewer->role->role }}</td>
+                                    <td class="px-6 py-4 text-sm text-gray-500">{{ $reviewer->ormawa->nama_ormawa }}</td>
                                     <td class="px-6 py-4 text-center">
                                         <a href="{{ route('edit.reviewer', $reviewer->id) }}" 
                                            class="inline-flex items-center px-3 py-1.5 bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100 transition-colors duration-200">
