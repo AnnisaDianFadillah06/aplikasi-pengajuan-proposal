@@ -206,12 +206,12 @@
                                         }
                                     @endphp 
                                     <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
-                                        <a href="{{ $isDisabledProposal ? '#' : route('proposal.show', ['reviewProposal' => $proposal->id_proposal]) }}"
-                                            onclick="{{ $isDisabledProposal ? 'return false;' : 'logProposalId(' . $proposal->id . ')' }}" 
-                                            class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-150 {{ $isDisabledProposal ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : 'bg-indigo-600 text-white hover:bg-indigo-700' }}"
+                                        <a href="{{ $isDisabledProposal || $isDisabledProposal2 ? '#' : route('proposal.show', ['reviewProposal' => $proposal->id_proposal]) }}"
+                                            onclick="{{ $isDisabledProposal || $isDisabledProposal2 ? 'return false;' : 'logProposalId(' . $proposal->id . ')' }}" 
+                                            class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-150 {{ $buttonClassProposal }}"
                                             title="{{ $titleTextProposal }}">
                                             <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 3 0 016 0z" />
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                                             </svg>
                                             Review
@@ -406,9 +406,9 @@
                         }
                     @endphp
                     <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
-                        <a href="{{ $isDisabledSPJ ? '#' : route('reviewSPJ.show', ['reviewSPJ' => $spj->id_spj]) }}" 
-                            onclick="{{ $isDisabledSPJ ? 'return false;' : 'logProposalId(' . $spj->id_spj . ')' }}"
-                            class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-150 {{ $isDisabledSPJ ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : 'bg-indigo-600 text-white hover:bg-indigo-700' }}"
+                        <a href="{{ $isDisabledSPJ || $isDisabledSPJ2 ? '#' : route('reviewSPJ.show', ['reviewSPJ' => $spj->id_spj]) }}" 
+                            onclick="{{ $isDisabledSPJ || $isDisabledSPJ2 ? 'return false;' : 'logProposalId(' . $spj->id_spj . ')' }}"
+                            class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-150 {{ $buttonClassSPJ }}"
                             title="{{ $titleTextSPJ }}">
                             <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -607,8 +607,8 @@
                         }
                     @endphp
                     <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
-                        <a href="{{ $isDisabledLPJ ? '#' : route('reviewLPJ.show', ['reviewLPJ' => $lpj->id_lpj]) }}"
-                            onclick="{{ $isDisabledLPJ ? 'return false;' : 'logProposalId(' . $lpj->id_lpj . ')' }}"  
+                        <a href="{{ $isDisabledLPJ || $isDisabledLPJ2 ? '#' : route('reviewLPJ.show', ['reviewLPJ' => $lpj->id_lpj]) }}"
+                            onclick="{{ $isDisabledLPJ || $isDisabledLPJ2 ? 'return false;' : 'logProposalId(' . $lpj->id_lpj . ')' }}"  
                             class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-150 {{ $buttonClassLPJ }}"
                             title="{{ $titleTextLPJ }}">
                             <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
