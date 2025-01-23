@@ -46,9 +46,6 @@ class Spj extends Model
     protected static function booted()
     {
         static::updated(function ($spj) {
-            Log::info('Spj sebelum update:', $spj->toArray()); // Log data sebelum update
-            Log::info('Spj yang berubah:', $spj->getDirty());  // Log perubahan yang terjadi
-            
             if ($spj->isDirty([
                 'file_sptb',
                 'file_spj',
@@ -60,12 +57,9 @@ class Spj extends Model
                 'updated_at',
                 'updated_by',
             ])) {
-                Log::info('Data Spj berubah:', $spj->getDirty());
                 $proposalController = new ManajemenReviewSpjController();
                 $proposalController->sendReviewNotificationSpj($spj);
-            } else {
-                Log::info('Tidak ada perubahan yang relevan pada spj.');
             }
-        });
+        });        
     }
 }

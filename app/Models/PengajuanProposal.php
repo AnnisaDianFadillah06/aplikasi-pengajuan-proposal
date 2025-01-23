@@ -93,9 +93,6 @@ class PengajuanProposal extends Model
     protected static function booted()
     {
         static::updated(function ($proposal) {
-            Log::info('Proposal sebelum update:', $proposal->toArray()); // Log data sebelum update
-            Log::info('Proposal yang berubah:', $proposal->getDirty());  // Log perubahan yang terjadi
-            
             if ($proposal->isDirty([
                 'nama_kegiatan',
                 'tmpt_kegiatan',
@@ -115,14 +112,9 @@ class PengajuanProposal extends Model
                 'jml_panitia',
                 'link_surat_izin_ortu',
             ])) {
-                Log::info('Data proposal berubah:', $proposal->getDirty());
                 $proposalController = new ReviewController();
                 $proposalController->sendReviewNotificationProposal($proposal);
-            } else {
-                Log::info('Tidak ada perubahan yang relevan pada proposal.');
             }
-        });
+        });        
     }
-
-    
 }

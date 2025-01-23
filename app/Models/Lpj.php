@@ -43,9 +43,6 @@ class Lpj extends Model
     protected static function booted()
     {
         static::updated(function ($lpj) {
-            Log::info('Lpj sebelum update:', $lpj->toArray()); // Log data sebelum update
-            Log::info('Lpj yang berubah:', $lpj->getDirty());  // Log perubahan yang terjadi
-            
             if ($lpj->isDirty([
                 'file_lpj',
                 'file_sptb',
@@ -55,11 +52,8 @@ class Lpj extends Model
                 'updated_by',
                 'status_lpj'
             ])) {
-                Log::info('Data Lpj berubah:', $lpj->getDirty());
                 $proposalController = new ManajemenReviewLpjController();
                 $proposalController->sendReviewNotificationLpj($lpj);
-            } else {
-                Log::info('Tidak ada perubahan yang relevan pada lpj.');
             }
         });
     }
