@@ -73,7 +73,7 @@ class ManajemenReviewLpjController extends Controller
                             // Siapkan data email
                             $data_email = [
                                 'subject' => 'Revisi LPJ',
-                                'sender_name' => 'proposalkupolban@gmail.com',
+                                'sender_name' => 'Kemahasiswaan Polban',
                                 'username' => $pengaju->username, // Username dari pengguna
                                 'revisi_items' => $revisi_items_string,
                                 'jenis_lpj' => $lpj->jenis_lpj,

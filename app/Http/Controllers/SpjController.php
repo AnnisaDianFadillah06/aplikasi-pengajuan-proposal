@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Models\PengajuanProposal;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Controllers\ManajemenReviewSpjController;
 
 class SpjController extends Controller
 {
@@ -138,6 +139,8 @@ class SpjController extends Controller
 
         // Simpan data ke database dan cek hasilnya
         if ($spj->save()) {
+            $proposalController = new ManajemenReviewSpjController();
+            $proposalController->sendReviewNotificationSpj($spj);
             return redirect()->route('spj.index', $request->id_proposal)->with('success', 'SPJ berhasil diunggah.');
         } else {
             return redirect()->route('spj.index', $request->id_proposal)->with('error', 'Terjadi kesalahan saat mengunggah SPJ.');

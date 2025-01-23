@@ -11,6 +11,8 @@ use App\Models\JenisKegiatan;
 use App\Models\BidangKegiatan;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\ManajemenReviewLpjController;
 
 class TambahPengajuanLpj extends Controller
 {
@@ -89,6 +91,8 @@ class TambahPengajuanLpj extends Controller
 
         // Simpan data ke database dan cek hasilnya
         if ($lpj->save()) {
+            $proposalController = new ManajemenReviewLpjController();
+            $proposalController->sendReviewNotificationLpj($lpj);
             return redirect('/pengajuan-lpj')->with('sukses', 'Data berhasil tersimpan');
         } else {
             return redirect('/pengajuan-lpj')->with('error', 'Terjadi kesalahan');

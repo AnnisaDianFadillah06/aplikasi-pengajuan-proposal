@@ -203,7 +203,7 @@ class ReviewController extends Controller
 
                     $data_email = [
                         'subject' => 'Revisi Proposal',
-                        'sender_name' => 'proposalkupolban@gmail.com',
+                        'sender_name' => 'Kemahasiswaan Polban',
                         'judul' => $proposal->nama_kegiatan,
                         'username' => $pengaju->username,
                         'revisi_items' => $revisi_items_string,
@@ -217,6 +217,22 @@ class ReviewController extends Controller
                     Mail::to($pengaju->email)->send(new kirimEmail($data_email));
                 }
             }
+
+            // Kirim email ke penanggung jawab
+            $data_email_penanggung = [
+                'subject' => 'Revisi Proposal - Penanggung Jawab',
+                'sender_name' => 'Kemahasiswaan Polban',
+                'judul' => $proposal->nama_kegiatan,
+                'username' => $proposal->nama_penanggung_jawab,
+                'revisi_items' => implode("\n", $request->input('revisi_items', [])),
+                'isi' => $request->input('catatan_revisi'),
+                'route' => 'proposal',
+                'status_revisi' => $request->input('status_revisi'),
+                'id_role' => session('id_role'),
+            ];
+
+            // Kirim email ke penanggung jawab
+            Mail::to($proposal->email_penanggung_jawab)->send(new kirimEmail($data_email_penanggung));
 
             // Ambil data ormawa proposal terkait
             $ormawa = Ormawa::find($proposal->id_ormawa);

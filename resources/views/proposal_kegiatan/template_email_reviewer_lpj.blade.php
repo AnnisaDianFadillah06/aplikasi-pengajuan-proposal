@@ -60,7 +60,7 @@
 
         <p><strong>Asal ormawa LPJ:</strong> {{ $data_email['judul'] }}</p>
 
-        <p>Batas waktu review adalah 3 hari dari hari ini, yaitu tanggal <strong>{{ $data_email['judul'] }}</strong>.</p>
+        <p>Batas waktu review adalah 3 hari dari hari ini, yaitu tanggal <strong>{{ \Carbon\Carbon::now()->addDays(3)->format('d M Y') }}</strong>.</p>
 
         <p>Silakan login untuk melakukan review.</p>
         <div class="footer">

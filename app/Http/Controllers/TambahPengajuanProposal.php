@@ -11,6 +11,7 @@ use App\Models\BidangKegiatan;
 use App\Models\PengajuanProposal;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Controllers\ReviewController;
 
 class TambahPengajuanProposal extends Controller
 {
@@ -152,6 +153,8 @@ class TambahPengajuanProposal extends Controller
         $pengajuan->save();
         // Simpan data ke database dan cek hasilnya
         if ($pengajuan->save()) {
+            $proposalController = new ReviewController();
+            $proposalController->sendReviewNotificationProposal($pengajuan);
             return redirect('/pengajuan-proposal')->with('sukses', 'Data berhasil tersimpan');
         } else {
             return redirect('/pengajuan-proposal')->with('error', 'Terjadi kesalahan saat menyimpan data');
