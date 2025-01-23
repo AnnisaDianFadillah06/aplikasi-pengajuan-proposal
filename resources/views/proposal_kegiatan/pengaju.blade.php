@@ -432,9 +432,9 @@
             data-dropdown-toggle="profileDropdown">
         <!-- Profile Image - Ganti src dengan foto profil mahasiswa -->
         <img class="w-10 h-10 rounded-full border-2 border-gray-200" 
-                src="{{ session('foto_profil') 
-                ? asset('storage/' . session('foto_profil')) 
-                : 'https://img.icons8.com/?size=100&id=zj0HDoXpmTPF&format=png&color=000000' }}" 
+        src="{{ session('foto_profil') 
+            ? route('file.show', ['filename' => session('foto_profil')]) 
+            : 'https://img.icons8.com/?size=100&id=zj0HDoXpmTPF&format=png&color=000000' }}" 
             alt="Foto Profil" class="w-40 h-40 rounded-full object-cover ring-4 ring-white">
 
         <!-- Optional: Tambahkan nama user -->

@@ -31,9 +31,9 @@
                             <img
                                 src="{{ 
                                     isset($profilPengaju) && $profilPengaju->foto_profil 
-                                        ? asset('storage/' . $profilPengaju->foto_profil) 
+                                        ? route('file.show', ['filename' => $profilPengaju->foto_profil]) 
                                         : (isset($profilReviewer) && $profilReviewer->foto_profil 
-                                            ? asset('storage/' . $profilReviewer->foto_profil) 
+                                            ? route('file.show', ['filename' => $profilReviewer->foto_profil]) 
                                             : 'https://flowbite.com/docs/images/people/profile-picture-5.jpg') 
                                 }}"
                                 alt="Profile Picture"

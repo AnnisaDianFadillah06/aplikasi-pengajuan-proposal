@@ -6,6 +6,7 @@ use App\Models\Role;
 use App\Models\Ormawa;
 use App\Models\Pengguna;
 use App\Models\Reviewer;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -51,16 +52,24 @@ class RoleController extends Controller
             return back()->withErrors(['message' => 'Data Pengaju tidak ditemukan.']);
         }
 
-        // Proses upload foto profil jika ada
-        $fotoProfilPath = $pengaju->foto_profil; // Simpan path foto profil lama
+        // Tentukan base path untuk penyimpanan file
+        $basePath = 'uploads/';
+        if (!Storage::exists($basePath)) {
+            Storage::makeDirectory($basePath); // Buat folder jika belum ada
+        }
+
+        // Simpan file dan path lama
+        $fotoProfilPath = $pengaju->foto_profil; // Path lama
         if ($request->hasFile('foto_profil')) {
             // Hapus foto profil lama jika ada
-            if ($pengaju->foto_profil) {
-                Storage::disk('public')->delete($pengaju->foto_profil);
+            if ($pengaju->foto_profil && Storage::exists($basePath . $pengaju->foto_profil)) {
+                Storage::delete($basePath . $pengaju->foto_profil);
             }
 
-            // Simpan foto profil baru
-            $fotoProfilPath = $request->file('foto_profil')->store('foto_profil', 'public');
+            // Simpan file foto profil baru
+            $newFileName = time() . '_' . Str::slug(pathinfo($request->file('foto_profil')->getClientOriginalName(), PATHINFO_FILENAME), '_') . '.' . $request->file('foto_profil')->getClientOriginalExtension();
+            $request->file('foto_profil')->storeAs($basePath, $newFileName);
+            $fotoProfilPath = $newFileName; // Simpan nama file saja
         }
 
         // Update data pengaju
@@ -114,16 +123,24 @@ class RoleController extends Controller
             return back()->withErrors(['message' => 'Data Pengaju tidak ditemukan.']);
         }
 
-        // Proses upload foto profil jika ada
-        $fotoProfilPath = $reviewer->foto_profil; // Simpan path foto profil lama
+        // Tentukan base path untuk penyimpanan file
+        $basePath = 'uploads/';
+        if (!Storage::exists($basePath)) {
+            Storage::makeDirectory($basePath); // Buat folder jika belum ada
+        }
+
+        // Simpan file foto profil
+        $fotoProfilPath = $reviewer->foto_profil; // Path lama
         if ($request->hasFile('foto_profil')) {
-            // Hapus foto profil lama jika ada
-            if ($reviewer->foto_profil) {
-                Storage::disk('public')->delete($reviewer->foto_profil);
+            // Hapus file foto profil lama jika ada
+            if ($reviewer->foto_profil && Storage::exists($basePath . $reviewer->foto_profil)) {
+                Storage::delete($basePath . $reviewer->foto_profil);
             }
 
-            // Simpan foto profil baru
-            $fotoProfilPath = $request->file('foto_profil')->store('foto_profil', 'public');
+            // Simpan file baru dengan nama unik
+            $newFileName = time() . '_' . Str::slug(pathinfo($request->file('foto_profil')->getClientOriginalName(), PATHINFO_FILENAME), '_') . '.' . $request->file('foto_profil')->getClientOriginalExtension();
+            $request->file('foto_profil')->storeAs($basePath, $newFileName);
+            $fotoProfilPath = $newFileName; // Simpan nama file saja
         }
         
         DB::connection('pgsql')->table('reviewer')->where('id', $id)->update([
@@ -164,10 +181,19 @@ class RoleController extends Controller
             'foto_profil' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
+        // Tentukan base path untuk penyimpanan file
+        $basePath = 'uploads/';
+        if (!Storage::exists($basePath)) {
+            Storage::makeDirectory($basePath); // Buat folder jika belum ada
+        }
+
         // Proses upload foto profil jika ada
         $fotoProfilPath = null;
         if ($request->hasFile('foto_profil')) {
-            $fotoProfilPath = $request->file('foto_profil')->store('foto_profil', 'public'); // Simpan di folder foto_profil
+            // Simpan file foto profil dengan nama unik
+            $newFileName = time() . '_' . Str::slug(pathinfo($request->file('foto_profil')->getClientOriginalName(), PATHINFO_FILENAME), '_') . '.' . $request->file('foto_profil')->getClientOriginalExtension();
+            $request->file('foto_profil')->storeAs($basePath, $newFileName);
+            $fotoProfilPath = $newFileName; // Simpan nama file saja
         }
 
         // Ambil nama ormawa berdasarkan id_ormawa yang dipilih
@@ -216,10 +242,19 @@ class RoleController extends Controller
             'foto_profil' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
+        // Tentukan base path untuk penyimpanan file
+        $basePath = 'uploads/';
+        if (!Storage::exists($basePath)) {
+            Storage::makeDirectory($basePath); // Buat folder jika belum ada
+        }
+
         // Proses upload foto profil jika ada
         $fotoProfilPath = null;
         if ($request->hasFile('foto_profil')) {
-            $fotoProfilPath = $request->file('foto_profil')->store('foto_profil', 'public'); // Simpan di folder foto_profil
+            // Simpan file foto profil dengan nama unik
+            $newFileName = time() . '_' . Str::slug(pathinfo($request->file('foto_profil')->getClientOriginalName(), PATHINFO_FILENAME), '_') . '.' . $request->file('foto_profil')->getClientOriginalExtension();
+            $request->file('foto_profil')->storeAs($basePath, $newFileName);
+            $fotoProfilPath = $newFileName; // Simpan nama file saja
         }
 
         // Simpan ke tabel reviewer

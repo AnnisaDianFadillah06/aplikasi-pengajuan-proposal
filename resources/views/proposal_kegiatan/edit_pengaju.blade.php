@@ -40,7 +40,7 @@
             @enderror
             @if ($pengaju->foto_profil)
                 <p class="mt-2">Foto Profil Saat Ini:</p>
-                <img src="{{ asset('storage/' . $pengaju->foto_profil) }}" alt="Foto Profil" class="img-thumbnail" width="150">
+                <img src="{{ route('file.show', ['filename' => $pengaju->foto_profil]) }}" alt="Foto Profil" class="img-thumbnail" width="150">
             @endif
         </div>
         
