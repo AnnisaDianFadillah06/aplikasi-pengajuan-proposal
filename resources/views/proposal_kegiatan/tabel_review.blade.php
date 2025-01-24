@@ -188,6 +188,8 @@
                                         $isWadir3Proposal = $idRole == 5 && $proposal->updated_by == 6 ;
                                         // Tentukan apakah tombol dinonaktifkan
                                         $isDisabledProposal2 = $statusRevisi == 3 ;
+                                        // Tentukan apakah tombol dinonaktifkan
+                                        $isDisabledProposal3 = $statusRevisi == 2 ;
                                         // Tentukan title dan class berdasarkan kondisi
                                         $buttonClassProposal = '';
                                         $titleTextProposal = '';
@@ -198,16 +200,19 @@
                                             $buttonClassProposal = 'cursor-not-allowed bg-gray-300 text-gray-500'; // Style khusus untuk Wadir 3
                                             $titleTextProposal = 'Sudah direview';
                                         } elseif ($isDisabledProposal2) {
-                                            $buttonClassProposal = 'cursor-not-allowed bg-gray-300 text-gray-500'; // Style khusus untuk Wadir 3
+                                            $buttonClassProposal = 'cursor-not-allowed bg-gray-300 text-gray-500'; 
                                             $titleTextProposal = 'Menunggu Revisi';
+                                        } elseif ($isDisabledProposal3) {
+                                            $buttonClassProposal = 'cursor-not-allowed bg-gray-300 text-gray-500'; 
+                                            $titleTextProposal = 'Proposal Telah Ditolak';
                                         } else {
                                             $buttonClassProposal = 'bg-blue-500 text-white hover:bg-blue-600';
                                             $titleTextProposal = 'Lanjutkan Review';
                                         }
                                     @endphp 
                                     <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
-                                        <a href="{{ $isDisabledProposal || $isDisabledProposal2 ? '#' : route('proposal.show', ['reviewProposal' => $proposal->id_proposal]) }}"
-                                            onclick="{{ $isDisabledProposal || $isDisabledProposal2 ? 'return false;' : 'logProposalId(' . $proposal->id . ')' }}" 
+                                        <a href="{{ $isDisabledProposal || $isDisabledProposal2 || $isDisabledProposal3 ? '#' : route('proposal.show', ['reviewProposal' => $proposal->id_proposal]) }}"
+                                            onclick="{{ $isDisabledProposal || $isDisabledProposal2 || $isDisabledProposal3 ? 'return false;' : 'logProposalId(' . $proposal->id . ')' }}" 
                                             class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-150 {{ $buttonClassProposal }}"
                                             title="{{ $titleTextProposal }}">
                                             <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -387,7 +392,10 @@
                         $isDisabledSPJ = $idRole == 5 && $spj->updated_by != 5 && $spj->updated_by != 6;
                         // Tentukan apakah updated_by == 6
                         $isWadir3SPJ = $idRole == 5 && $spj->updated_by == 6;
+                        // status revisi
                         $isDisabledSPJ2 = $statusRevisi == 3;
+                        // status ditolak
+                        $isDisabledSPJ3 = $statusRevisi == 2;
                         // Tentukan title dan class berdasarkan kondisi
                         $buttonClassSPJ = '';
                         $titleTextSPJ = '';
@@ -398,16 +406,19 @@
                             $buttonClassSPJ = 'cursor-not-allowed bg-gray-300 text-gray-500'; // Style khusus untuk Wadir 3
                             $titleTextSPJ = 'Sudah direview';
                         } elseif ($isDisabledSPJ2) {
-                            $buttonClassSPJ = 'cursor-not-allowed bg-gray-300 text-gray-500'; // Style khusus untuk Wadir 3
+                            $buttonClassSPJ = 'cursor-not-allowed bg-gray-300 text-gray-500'; 
                             $titleTextSPJ = 'Menunggu Revisi';
+                        } elseif ($isDisabledSPJ3) {
+                            $buttonClassSPJ = 'cursor-not-allowed bg-gray-300 text-gray-500'; 
+                            $titleTextSPJ = 'SPJ Telah Ditolak';
                         } else {
                             $buttonClassSPJ = 'bg-blue-500 text-white hover:bg-blue-600';
                             $titleTextSPJ = 'Lanjutkan Review';
                         }
                     @endphp
                     <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
-                        <a href="{{ $isDisabledSPJ || $isDisabledSPJ2 ? '#' : route('reviewSPJ.show', ['reviewSPJ' => $spj->id_spj]) }}" 
-                            onclick="{{ $isDisabledSPJ || $isDisabledSPJ2 ? 'return false;' : 'logProposalId(' . $spj->id_spj . ')' }}"
+                        <a href="{{ $isDisabledSPJ || $isDisabledSPJ2 || $isDisabledSPJ3 ? '#' : route('reviewSPJ.show', ['reviewSPJ' => $spj->id_spj]) }}" 
+                            onclick="{{ $isDisabledSPJ || $isDisabledSPJ2 || $isDisabledSPJ3 ? 'return false;' : 'logProposalId(' . $spj->id_spj . ')' }}"
                             class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-150 {{ $buttonClassSPJ }}"
                             title="{{ $titleTextSPJ }}">
                             <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -588,7 +599,10 @@
                         $isDisabledLPJ = $idRole == 5 && $lpj->updated_by != 5 && $lpj->updated_by != 6;
                         // Tentukan apakah updated_by == 6
                         $isWadir3LPJ = $idRole == 5 && $lpj->updated_by == 6;
+                        // Status revisi
                         $isDisabledLPJ2 = $statusRevisi == 3;
+                        // Status Ditolak
+                        $isDisabledLPJ3 = $statusRevisi == 2;
                         // Tentukan title dan class berdasarkan kondisi
                         $buttonClassLPJ = '';
                         $titleTextLPJ = '';
@@ -599,16 +613,19 @@
                             $buttonClassLPJ = 'cursor-not-allowed bg-gray-300 text-gray-500'; // Style khusus untuk Wadir 3
                             $titleTextLPJ = 'Sudah direview';
                         } elseif ($isDisabledLPJ2) {
-                            $buttonClassLPJ = 'cursor-not-allowed bg-gray-300 text-gray-500'; // Style khusus untuk Wadir 3
+                            $buttonClassLPJ = 'cursor-not-allowed bg-gray-300 text-gray-500';
                             $titleTextLPJ = 'Menunggu Revisi';
+                        } elseif ($isDisabledLPJ3) {
+                            $buttonClassLPJ = 'cursor-not-allowed bg-gray-300 text-gray-500'; 
+                            $titleTextLPJ = 'LPJ telah ditolak';
                         } else {
                             $buttonClassLPJ = 'bg-blue-500 text-white hover:bg-blue-600';
                             $titleTextLPJ = 'Lanjutkan Review';
                         }
                     @endphp
                     <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
-                        <a href="{{ $isDisabledLPJ || $isDisabledLPJ2 ? '#' : route('reviewLPJ.show', ['reviewLPJ' => $lpj->id_lpj]) }}"
-                            onclick="{{ $isDisabledLPJ || $isDisabledLPJ2 ? 'return false;' : 'logProposalId(' . $lpj->id_lpj . ')' }}"  
+                        <a href="{{ $isDisabledLPJ || $isDisabledLPJ2 || $isDisabledLPJ3 ? '#' : route('reviewLPJ.show', ['reviewLPJ' => $lpj->id_lpj]) }}"
+                            onclick="{{ $isDisabledLPJ || $isDisabledLPJ2 || $isDisabledLPJ3 ? 'return false;' : 'logProposalId(' . $lpj->id_lpj . ')' }}"  
                             class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-150 {{ $buttonClassLPJ }}"
                             title="{{ $titleTextLPJ }}">
                             <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

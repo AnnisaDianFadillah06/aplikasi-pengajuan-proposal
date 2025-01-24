@@ -13,17 +13,23 @@ class DatabaseSeeder extends Seeder
     {
         // Panggil seeder lain di sini
         $this->call([
-            BidangKegiatanSeeder::class,  // Seeder untuk tabel 'roles'
-            DosenSeeder::class,
+            OrmawaASLISeeder::class,
+            PengajuASLISeeder::class,
+            MahasiswaASLISeeder::class,
+
+            BidangKegiatanSeeder::class,
             JenisKegiatanSeeder::class,
-            MahasiswaSeeder::class,
-            OrmawaSeeder::class,
             RolesSeeder::class,
+            
+            DosenSeeder::class,
             ReviewerSeeder::class,
-            PengajuSeeder::class,
-            ProposalKegiatanSeeder::class,
-            PedomanKemahasiswaanSeeder::class,
-            SpjSeeder::class,
+            
+            // MahasiswaSeeder::class,
+            // PengajuSeeder::class,
+            // OrmawaSeeder::class,
+            // ProposalKegiatanSeeder::class,
+            // PedomanKemahasiswaanSeeder::class,
+            // SpjSeeder::class,
         ]);
     }
 }

@@ -34,7 +34,7 @@
                                         ? route('file.show', ['filename' => $profilPengaju->foto_profil]) 
                                         : (isset($profilReviewer) && $profilReviewer->foto_profil 
                                             ? route('file.show', ['filename' => $profilReviewer->foto_profil]) 
-                                            : 'https://flowbite.com/docs/images/people/profile-picture-5.jpg') 
+                                            : 'https://img.icons8.com/?size=100&id=zj0HDoXpmTPF&format=png&color=000000') 
                                 }}"
                                 alt="Profile Picture"
                                 class="w-40 h-40 rounded-full object-cover ring-4 ring-white"

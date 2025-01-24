@@ -124,7 +124,7 @@
                 <div id="doc-sarpras" class="doc-section hidden w-full">
                     <iframe src="{{ route('file.show', ['filename' => $fileSarprasPath]) }}" class="w-full h-[700px] rounded-lg"></iframe>
                 </div>
-                <div class="p-4 flex flex-col items-center">
+                <div id="doc-poster" class="doc-section hidden w-full">
                     <!-- Gambar Poster -->
                     <img src="{{ route('file.show', ['filename' => $posterKegiatan]) }}" class="w-auto h-auto rounded-lg shadow-md mb-4">
                 
