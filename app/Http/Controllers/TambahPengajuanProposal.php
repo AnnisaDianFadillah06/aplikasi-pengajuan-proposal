@@ -56,7 +56,7 @@ class TambahPengajuanProposal extends Controller
             'pengisi_acara' => 'nullable|string|max:255',
             'sponsorship' => 'nullable|string|max:255',
             'media_partner' => 'nullable|string|max:255',
-            'jumlah_spj' => 'required|numeric|min:1',
+            'jumlah_spj' => 'required|numeric|min:0',
             'nama_penanggung_jawab' => 'required|string|max:255',
             'email_penanggung_jawab' => 'required|email|max:255',
             'no_hp_penanggung_jawab' => [

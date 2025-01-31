@@ -19,11 +19,6 @@ class DosenSeeder extends Seeder
                 'password' => bcrypt('linakscore')
             ],
             [
-                'username' => 'ucup', 
-                'email' => 'ucup@polban.ac.id', 
-                'password' => bcrypt('linakscore')
-            ],
-            [
                 'username' => 'idoy', 
                 'email' => 'idoy@polban.ac.id', 
                 'password' => bcrypt('linakscore')
@@ -43,16 +38,78 @@ class DosenSeeder extends Seeder
                 'email' => 'toni@polban.ac.id', 
                 'password' => bcrypt('linakscore')
             ],
+
+            // akun real kajur
             [
-                'username' => 'rizz', 
-                'email' => 'rizz@polban.ac.id', 
-                'password' => bcrypt('linakscore')
+                'username' => 'luthfi', 
+                'email' => 'luthfi-mm@polban.ac.id', 
+                'password' => bcrypt('*Polban1101')
             ],
             [
-                'username' => 'razz', 
-                'email' => 'razz@polban.ac.id', 
-                'password' => bcrypt('linakscore')
+                'username' => 'amaldi', 
+                'email' => 'amaldi@polban.ac.id', 
+                'password' => bcrypt('*Polban1102')
             ],
+            [
+                'username' => 'akangarman', 
+                'email' => 'akangarman@polban.ac.id', 
+                'password' => bcrypt('*Polban1103')
+            ],
+            [
+                'username' => 'wahyumursanto', 
+                'email' => 'wahyu.mursanto@polban.ac.id', 
+                'password' => bcrypt('*Polban1104')
+            ],
+            [
+                'username' => 'hepiludiyati', 
+                'email' => 'hepi.ludiyati@polban.ac.id', 
+                'password' => bcrypt('*Polban1105')
+            ],
+            [
+                'username' => 'shoeryashoelarta', 
+                'email' => 'shoerya.shoelarta@polban.ac.id', 
+                'password' => bcrypt('*Polban1106')
+            ],
+            [
+                'username' => 'yadhi', 
+                'email' => 'yadhi@polban.ac.id', 
+                'password' => bcrypt('*Polban1107')
+            ],
+            [
+                'username' => 'iwansetiawan', 
+                'email' => 'iwan.setiawan@polban.ac.id', 
+                'password' => bcrypt('*Polban1108')
+            ],
+            [
+                'username' => 'rivansutrisno', 
+                'email' => 'rivan.sutrisno@polban.ac.id', 
+                'password' => bcrypt('*Polban1109')
+            ],
+            [
+                'username' => 'linameilinda', 
+                'email' => 'lina.meilinda@polban.ac.id', 
+                'password' => bcrypt('*Polban1110')
+            ],
+
+            // Akun KLI
+            [
+                'username' => 'kli', 
+                'email' => 'KLI@polban.ac.id', 
+                'password' => bcrypt('*Polban1111')
+            ],
+
+            // Akun Wadir3
+            [
+                'username' => 'wadir3', 
+                'email' => 'wadir3@polban.ac.id', 
+                'password' => bcrypt('*Polban1112')
+            ],
+            [
+                'username' => 'publikasikemahasiswaan', 
+                'email' => 'publikasikemahasiswaan@polban.ac.id', 
+                'password' => bcrypt('*Polban1113')
+            ],
+            
         ]);
     }
 }

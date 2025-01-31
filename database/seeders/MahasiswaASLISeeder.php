@@ -14,6 +14,11 @@ class MahasiswaASLISeeder extends Seeder
     {
         DB::connection('users')->table('mahasiswa')->insert([
             [
+                'username' => 'Harish', 
+                'email' => 'muhammad.harish.tif23@polban.ac.id', 
+                'password' => '$2y$12$cZSKUXcfGfxccfOrcB3E3eSf3NuKwiw5JSFRa.EQbAruUUbDHfqbO'
+            ],
+            [
                 'username' => 'MPM',
                 'email' => 'MPM@polban.ac.id',
                 'password' => bcrypt('*Polban2501#')
