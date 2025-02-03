@@ -66,6 +66,8 @@
         <div class="footer">
             <p>Catatan: Email ini dikirim secara otomatis. Harap tidak membalas langsung ke email ini.</p>
         </div>
+        <p>Regards,</p>
+        <p><strong>Ormawa Kemahasiswaan</strong></p> 
     </div>
 </body>
 </html>
