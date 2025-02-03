@@ -14,6 +14,13 @@ class PengajuASLISeeder extends Seeder
     {
         DB::connection('pgsql')->table('pengaju')->insert([
             [
+                'username' => 'Harish',
+                'email' => 'muhammad.harish.tif23@polban.ac.id',
+                'foto_profil' => '',
+                'tanggal_bergabung' => '2023-02-15',
+                'id_ormawa' => 7,
+            ],
+            [
                 'username' => 'MPM',
                 'email' => 'MPM@polban.ac.id',
                 'foto_profil' => '',

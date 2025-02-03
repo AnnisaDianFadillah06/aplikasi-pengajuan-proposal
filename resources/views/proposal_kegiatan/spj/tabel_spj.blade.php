@@ -61,7 +61,7 @@
                 <div>
                     <p class="text-sm font-medium text-gray-500">Progress</p>
                     <h3 class="text-2xl font-bold text-gray-800">
-                        {{ round(($spjs->count() / $proposal->jumlah_spj) * 100) }}%
+                        {{ $proposal->jumlah_spj != 0 ? round(($spjs->count() / $proposal->jumlah_spj) * 100) : 100 }}%
                     </h3>
                 </div>
             </div>
