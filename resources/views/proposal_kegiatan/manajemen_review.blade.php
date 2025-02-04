@@ -212,7 +212,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <label class="flex items-center p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer">
                     <input type="checkbox" name="revisi_items[]" value="Proposal Kegiatan" class="w-4 h-4 text-blue-600 rounded focus:ring-blue-500">
-                    <span class="ml-3 text-sm font-medium text-gray-700">Proposal Kegiatan</span>
+                    <span class="ml-3 text-sm font-medium text-gray-700">Proposal Kegiatan / TOR</span>
                   </label>
                   <label class="flex items-center p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer">
                     <input type="checkbox" name="revisi_items[]" value="Surat Berkegiatan Ketuplak" class="w-4 h-4 text-blue-600 rounded focus:ring-blue-500">
