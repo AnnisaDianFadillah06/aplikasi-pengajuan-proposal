@@ -128,18 +128,26 @@ class ManajemenReviewLpjController extends Controller
         }
     }
 
-    public function getReviewerEmail($roleId)
+    public function getReviewerEmail($roleId, $idOrmawa, $checkOrmawa)
     {
-        // Ambil email reviewer berdasarkan role_id
-        $reviewerEmails = Reviewer::where('id_role', $roleId)->pluck('email');
-        return $reviewerEmails;
+        $query = Reviewer::where('id_role', $roleId);
+    
+        // Jika updated_by adalah 2 atau 3 (pembina atau kajur), tambahkan filter id_ormawa
+        if ($checkOrmawa) {
+            $query->where('id_ormawa', $idOrmawa);
+        }
+    
+        return $query->pluck('email');
     }
-
+    
     // Method ini bisa dipanggil di event Lpj
     public function sendReviewNotificationLpj($lpj)
     {
-        // Ambil email reviewer berdasarkan updated_by yang ada pada proposal
-        $reviewerEmails = $this->getReviewerEmail($lpj->updated_by);
+        // Cek apakah updated_by adalah 2 atau 3
+        $checkOrmawa = in_array($lpj->updated_by, [2, 3]);
+
+        // Ambil email reviewer berdasarkan kondisi
+        $reviewerEmails = $this->getReviewerEmail($lpj->updated_by, $lpj->id_ormawa, $checkOrmawa);
 
         // Siapkan data untuk email
         $data_email = [

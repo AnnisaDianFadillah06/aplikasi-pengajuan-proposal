@@ -135,7 +135,6 @@ class ReviewController extends Controller
         // $proposal = LPJ::find(2);
         // $proposal->file_lpj = 'Kegiatan Barffu sssLoh';
         // $proposal->save();  // Pastikan untuk menyimpan perubahan
-
         // Ambil proposal saat ini berdasarkan id_proposal
         $reviewProposal = PengajuanProposal::where('id_proposal', $id_proposal)->firstOrFail();
 
@@ -154,10 +153,23 @@ class ReviewController extends Controller
             session()->flash('error', 'Terdapat proposal lain pada ormawa ini yang belum menyelesaikan SPJ. Harap dipertimbangkan untuk menyetujui proposal ini.');
         }
 
+        $fileNameCheck = 'Daftar Periksa.pdf'; // daftar periksa
+
+        // Normalisasi nama bidang ke huruf kecil
+        $namaBidang = strtolower($reviewProposal->bidangKegiatan->nama_bidang_kegiatan);
+
+        // Daftar nama bidang yang dianggap sebagai "Proker" maka tampilkan Daftar Periksa
+        $validBidang = ['proker', 'program kerja'];
+
+        // Cek apakah nama bidang termasuk dalam daftar valid
+        $showChecklist = in_array($namaBidang, $validBidang);
+
         // Kirim data ke view untuk ditampilkan
         return view('proposal_kegiatan.manajemen_review', [
             'reviewProposal' => $reviewProposal,
             'pendingSpjProposals' => $pendingSpjProposals,
+            'fileNameCheck' => $fileNameCheck,
+            'showChecklist' => $showChecklist 
         ]);
     }
 
@@ -472,28 +484,37 @@ class ReviewController extends Controller
         ]);
     }
 
-    public function getReviewerEmail($roleId)
+    public function getReviewerEmail($roleId, $idOrmawa, $checkOrmawa)
     {
-        // Ambil email reviewer berdasarkan role_id
-        $reviewerEmails = Reviewer::where('id_role', $roleId)->pluck('email');
-        return $reviewerEmails;
+        $query = Reviewer::where('id_role', $roleId);
+    
+        // Jika updated_by adalah 2 atau 3 (pembina atau kajur), tambahkan filter id_ormawa
+        if ($checkOrmawa) {
+            $query->where('id_ormawa', $idOrmawa);
+        }
+    
+        return $query->pluck('email');
     }
+    
 
-    // Method ini bisa dipanggil di event Proposal
     public function sendReviewNotificationProposal($proposal)
     {
-        // Ambil email reviewer berdasarkan updated_by yang ada pada proposal
-        $reviewerEmails = $this->getReviewerEmail($proposal->updated_by);
+        // Cek apakah updated_by adalah 2 atau 3
+        $checkOrmawa = in_array($proposal->updated_by, [2, 3]);
+
+        // Ambil email reviewer berdasarkan kondisi
+        $reviewerEmails = $this->getReviewerEmail($proposal->updated_by, $proposal->id_ormawa, $checkOrmawa);
 
         // Siapkan data untuk email
         $data_email = [
             'judul' => $proposal->nama_kegiatan,
         ];
 
-        // Kirim email ke semua reviewer
+        // Kirim email ke semua reviewer yang sesuai
         foreach ($reviewerEmails as $email) {
             Mail::to($email)->send(new notifikasiReviewerProposal($data_email));
         }
     }
+
 
 }

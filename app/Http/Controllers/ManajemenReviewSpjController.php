@@ -148,25 +148,38 @@ class ManajemenReviewSpjController extends Controller
         } 
     }
 
-    public function getReviewerEmail($roleId)
+    public function getReviewerEmail($roleId, $idOrmawa, $checkOrmawa)
     {
-        // Ambil email reviewer berdasarkan role_id
-        $reviewerEmails = Reviewer::where('id_role', $roleId)->pluck('email');
-        return $reviewerEmails;
+        $query = Reviewer::where('id_role', $roleId);
+    
+        // Jika updated_by adalah 2 atau 3 (pembina atau kajur), tambahkan filter id_ormawa
+        if ($checkOrmawa) {
+            $query->where('id_ormawa', $idOrmawa);
+        }
+    
+        return $query->pluck('email');
     }
 
-    // Method ini bisa dipanggil di event Lpj
     public function sendReviewNotificationSpj($spj)
     {
-        // Ambil email reviewer berdasarkan updated_by yang ada pada proposal
-        $reviewerEmails = $this->getReviewerEmail($spj->updated_by);
+        // Ambil proposal terkait dengan SPJ
+        $proposal = $spj->proposalKegiatan;
+
+        // Pastikan proposal ditemukan sebelum mengambil id_ormawa
+        $idOrmawa = $proposal ? $proposal->id_ormawa : null;
+
+        // Cek apakah updated_by adalah 2 atau 3
+        $checkOrmawa = in_array($spj->updated_by, [2, 3]);
+
+        // Ambil email reviewer berdasarkan kondisi
+        $reviewerEmails = $this->getReviewerEmail($spj->updated_by, $idOrmawa, $checkOrmawa);
 
         // Siapkan data untuk email
         $data_email = [
             'judul' => $spj->proposalKegiatan->nama_kegiatan,
         ];
 
-        // Kirim email ke semua reviewer
+        // Kirim email ke semua reviewer yang sesuai
         foreach ($reviewerEmails as $email) {
             Mail::to($email)->send(new notifikasiReviewerSpj($data_email));
         }

@@ -11,15 +11,15 @@
     <div class="max-w-7xl mx-auto">
       <!-- Header Section -->
       <div class="mb-8">
-        <h1 class="text-3xl font-bold text-gray-800">Review Proposal</h1>
-        <p class="text-gray-600 mt-2">Review dan evaluasi proposal kegiatan mahasiswa</p>
+        <h1 class="text-3xl font-bold text-gray-800">Review Proposal / TOR </h1>
+        <p class="text-gray-600 mt-2">Review dan evaluasi proposal / TOR kegiatan mahasiswa</p>
       </div>
 
       <!-- Tabs Navigation -->
       <div class="mb-6 bg-white rounded-xl shadow-sm p-2">
         <div class="flex flex-wrap gap-2">
           <button class="tab-btn px-6 py-3 rounded-lg text-sm font-medium transition-all hover:bg-blue-50 hover:text-blue-600 focus:ring-2 focus:ring-blue-500 focus:outline-none" data-target="tab-proposal">
-            <i class="fas fa-file-alt mr-2"></i>Proposal Kegiatan
+            <i class="fas fa-file-alt mr-2"></i>Proposal Kegiatan / TOR
           </button>
           <button class="tab-btn px-6 py-3 rounded-lg text-sm font-medium transition-all hover:bg-blue-50 hover:text-blue-600" data-target="tab-ketuplak">
             <i class="fas fa-file-signature mr-2"></i>Surat Ketuplak
@@ -42,8 +42,16 @@
         <div class="bg-white rounded-xl shadow-sm overflow-hidden">
           <!-- Proposal Tab -->
           <div class="tab-content hidden" id="tab-proposal">
+          @if($showChecklist)
+              <div class="p-4 border-b">
+                  <h3 class="font-semibold text-gray-800">Daftar Periksa</h3>
+              </div>
+              <div class="p-4">
+                  <iframe src="{{ route('file.show', ['filename' => $fileNameCheck]) }}" class="w-full h-[600px] rounded-lg border"></iframe>
+              </div>
+          @endif
             <div class="p-4 border-b">
-              <h3 class="font-semibold text-gray-800">Proposal Kegiatan</h3>
+              <h3 class="font-semibold text-gray-800">Proposal Kegiatan / TOR</h3>
             </div>
             <div class="p-4">
               <iframe src="{{ route('file.show', ['filename' => $reviewProposal->file_proposal]) }}" class="w-full h-[600px] rounded-lg border"></iframe>
