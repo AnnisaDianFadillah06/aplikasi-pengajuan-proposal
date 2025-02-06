@@ -95,7 +95,7 @@
     <body class="overflow-hidden">
         <main class="min-h-screen overflow-y-auto">
             <main class="flex items-center justify-center h-screen bg-gray-100">
-        <section class="relative flex flex-col lg:flex-row w-full max-w-4xl h-auto lg:h-[30rem] rounded-3xl overflow-hidden shadow-lg">
+        <section class="hidden md:flex flex-col lg:flex-row w-full max-w-4xl h-auto lg:h-[30rem] rounded-3xl overflow-hidden shadow-lg">
             <!-- First Column (App Name + Background Image + Overlay) -->
             <div class="animated-gradient fixed inset-0 opacity-50"></div>
             <div class="relative lg:w-1/2 w-full h-64 lg:h-full bg-cover bg-center flex items-start justify-center" style="background-image: url('{{ asset('img/curved-images/curved14.jpg') }}');">
@@ -210,6 +210,60 @@
                 </div>
             </div>
         </section>
+
+
+        {{-- mobile view --}}
+        <section class="md:hidden flex flex-col w-full min-h-screen bg-gray-100 p-6">
+            <div class="w-full max-w-md mx-auto bg-white rounded-xl shadow-lg overflow-hidden">
+                <!-- Logo / Nama Aplikasi -->
+                <div class="bg-blue-500 text-white text-center py-6">
+                    <h1 class="text-2xl font-bold">Sistem Informasi Kemahasiswaan Polban</h1>
+                </div>
+        
+                <div class="p-6">
+                    <!-- Notifikasi -->
+                    @if (session('success'))
+                        <div id="notification" class="bg-green-500 text-white px-6 py-3 rounded shadow-md text-center mb-4">
+                            {{ session('success') }}
+                        </div>
+                    @endif
+        
+                    <!-- Login Form -->
+                    <div id="loginForm">
+                        <h2 class="text-xl font-semibold text-center mb-4">Login</h2>
+                        <form method="POST" action="{{ route('login.mahasiswa.submit') }}">
+                            @csrf
+                            <div class="space-y-4">
+                                <div>
+                                    <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                                    <input type="email" name="email" id="email" class="w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-300" placeholder="example@polban.ac.id">
+                                    @error('email')
+                                        <span class="text-red-500 text-sm">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                                <div>
+                                    <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+                                    <input type="password" name="password" id="password" class="w-full px-4 py-2 border rounded-lg focus:ring focus:ring-blue-300" placeholder="********">
+                                    @error('password')
+                                        <span class="text-red-500 text-sm">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="mt-6">
+                                <button type="submit" class="w-full bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded-lg">
+                                    Login
+                                </button>
+                            </div>
+                            <div class="mt-4 text-center">
+                                <button type="button" onclick="showForgotPasswordAlert()" class="text-blue-500 hover:underline">
+                                    Forgot Password?
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>        
     </main>
 
     {{-- script untuk send verifikasi kode --}}
@@ -322,6 +376,10 @@
                 alert('An unexpected error occurred. Please try again.');
             });
         });
+
+        function showForgotPasswordAlert() {
+            alert('Untuk mengganti password, akses website ini menggunakan desktop.');
+        }
 
         // Back to Login from Success
         backToLoginAfterSuccess.addEventListener('click', function (event) {
