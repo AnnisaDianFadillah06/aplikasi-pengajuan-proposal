@@ -1,4 +1,3 @@
-@extends('proposal_kegiatan/pengaju')
 @section('title', 'Event List')
 @section('konten')
 

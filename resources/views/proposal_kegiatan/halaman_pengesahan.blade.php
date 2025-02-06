@@ -151,11 +151,6 @@
                     <td>{{ $proposal->pengguna->username }}</td>
                 </tr>
                 <tr>
-                    <td> NIM Pengaju</td>
-                    <td>:</td>
-                    <td>{{ $proposal->pengguna->nim }}</td>
-                </tr>
-                <tr>
                     <td> Ormawa</td>
                     <td>:</td>
                     <td>{{ $proposal->ormawa->nama_ormawa }}</td>
