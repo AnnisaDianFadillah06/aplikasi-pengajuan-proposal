@@ -332,9 +332,13 @@
                 </div>
                 <div id="poster" class="doc-section hidden w-full">
                     <div class="p-4">
-                        <img src="{{ route('file.show', ['filename' => $filePosterPath]) }}" alt="Gambar Kegiatan" class="w-full rounded-lg shadow-md">
+                        @if (!empty($filePosterPath))
+                            <img src="{{ route('file.show', ['filename' => $filePosterPath]) }}" alt="Gambar Kegiatan" class="w-full rounded-lg shadow-md">
+                        @else
+                            <p class="text-gray-500 text-center">Tidak ada poster kegiatan</p>
+                        @endif
                     </div>
-                </div>
+                </div>                
             </div>
         </div>
     </div>

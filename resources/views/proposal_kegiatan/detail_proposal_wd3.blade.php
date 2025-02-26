@@ -125,15 +125,19 @@
                     <iframe src="{{ route('file.show', ['filename' => $fileSarprasPath]) }}" class="w-full h-[700px] rounded-lg"></iframe>
                 </div>
                 <div id="doc-poster" class="doc-section hidden w-full">
-                    <!-- Gambar Poster -->
-                    <img src="{{ route('file.show', ['filename' => $posterKegiatan]) }}" class="w-auto h-auto rounded-lg shadow-md mb-4">
-                
-                    <!-- Tombol Download -->
-                    <a href="{{ route('file.download', ['filename' => $posterKegiatan]) }}" 
-                    class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2">
-                        <i class="fas fa-download"></i> Download Poster
-                    </a>
-                </div>                
+                    @if ($posterKegiatan)
+                        <!-- Gambar Poster -->
+                        <img src="{{ route('file.show', ['filename' => $posterKegiatan]) }}" class="w-auto h-auto rounded-lg shadow-md mb-4">
+                        
+                        <!-- Tombol Download -->
+                        <a href="{{ route('file.download', ['filename' => $posterKegiatan]) }}" 
+                           class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2">
+                            <i class="fas fa-download"></i> Download Poster
+                        </a>
+                    @else
+                        <p class="text-gray-500">Tidak ada poster kegiatan yang tersedia.</p>
+                    @endif
+                </div>             
             </div>
         </div>
     </div>

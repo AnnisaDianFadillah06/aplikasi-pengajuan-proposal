@@ -91,12 +91,18 @@
           <!-- Poster Tab -->
           <div class="tab-content hidden" id="tab-poster">
             <div class="p-4 border-b">
-              <h3 class="font-semibold text-gray-800">Poster Kegiatan</h3>
+                <h3 class="font-semibold text-gray-800">Poster Kegiatan</h3>
             </div>
             <div class="p-4">
-            <img src="{{ route('file.show', ['filename' => $reviewProposal->poster_kegiatan]) }}" alt="Gambar Kegiatan" class="w-full rounded-lg shadow-md">
+                @if ($reviewProposal->poster_kegiatan)
+                    <img src="{{ route('file.show', ['filename' => $reviewProposal->poster_kegiatan]) }}" 
+                         alt="Gambar Kegiatan" class="w-full rounded-lg shadow-md">
+                @else
+                    <p class="text-gray-500">Tidak ada poster kegiatan yang tersedia.</p>
+                @endif
             </div>
-          </div>
+        </div>
+        
         </div>
 
         <!-- Right Column - Review Form -->
