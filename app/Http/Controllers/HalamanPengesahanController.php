@@ -9,6 +9,7 @@ use Dompdf\Dompdf;
 use App\Models\PengajuanProposal;
 use Illuminate\Support\Facades\DB;
 use SimpleSoftwareIO\QrCode\Facades\QrCode; 
+use Illuminate\Support\Facades\Storage;
 
 class HalamanPengesahanController extends Controller
 {
@@ -27,22 +28,31 @@ class HalamanPengesahanController extends Controller
 
         // Cek apakah QR Code path sudah ada di database
         if (empty($proposal->qr_code_path)) {
-            // Tentukan path untuk menyimpan gambar QR Code
-            $qrCodeFilePath = public_path('qr_codes/qrcode_' . $proposal->id_proposal . '.png');
-            
+            // Direktori penyimpanan QR Code di storage
+            $qrCodeFolder = 'qrcodes/';
+            if (!Storage::exists($qrCodeFolder)) {
+                Storage::makeDirectory($qrCodeFolder);
+            }
+
+            // Tentukan nama file QR Code
+            $qrCodeFileName = 'qrcode_' . $proposal->id_proposal . '.png';
+            $qrCodeFilePath = $qrCodeFolder . $qrCodeFileName;
+
             // Buat URL lengkap dari konfigurasi APP_URL
             $fullUrl = config('app.url') . $proposalUrlPath;
 
-            // Generate QR Code dan simpan ke dalam file
-            QrCode::size(300)->format('png')->generate($fullUrl, $qrCodeFilePath);
+            // Generate QR Code dan simpan ke dalam storage
+            $qrCode = QrCode::format('png')->size(300)->generate($fullUrl);
+            Storage::put($qrCodeFilePath, $qrCode); // Simpan ke storage
 
-            // Simpan path relatif QR Code dan URL proposal ke database
-            $proposal->qr_code_path = '/qr_codes/qrcode_' . $proposal->id_proposal . '.png'; // Path gambar QR Code
-            $proposal->proposal_url_path = $proposalUrlPath; // Path URL proposal
+            // Simpan path relatif ke database
+            $proposal->qr_code_path = $qrCodeFilePath;
+            $proposal->proposal_url_path = $proposalUrlPath;
             $proposal->save();
         }
-        $qrCodeFilePath2 = public_path('qr_codes/qrcode_' . $proposal->id_proposal . '.png');
-        // Ambil path QR Code dan URL dari database
+
+        // Ambil QR Code dari storage
+        $qrCodeFilePath2 = Storage::path($proposal->qr_code_path);
         $type2 = pathinfo($qrCodeFilePath2, PATHINFO_EXTENSION);
         $data2 = file_get_contents($qrCodeFilePath2);
         $pic2 = 'data:image/'.$type2.';base64,'. base64_encode($data2);
@@ -64,11 +74,17 @@ class HalamanPengesahanController extends Controller
             $revisions = $query->whereIn('id_dosen', [1, 2, 3, 4, 5])->get();
         }
 
-        // Baca gambar dan ubah ke base64
-        $path = public_path('img/LOGOPOLBAN4K.png'); // Gambar yang ingin disematkan
-        $type = pathinfo($path, PATHINFO_EXTENSION);
-        $data = file_get_contents($path);
-        $pic = 'data:image/'.$type.';base64,'. base64_encode($data);
+        // Path gambar di storage
+        $storagePath = 'uploads/LOGOPOLBAN4K.png'; 
+
+        // Pastikan file ada sebelum membaca
+        if (Storage::exists($storagePath)) {
+            $data = Storage::get($storagePath);
+            $type = pathinfo($storagePath, PATHINFO_EXTENSION);
+            $pic = 'data:image/'.$type.';base64,' . base64_encode($data);
+        } else {
+            $pic = null; // Handle jika file tidak ditemukan
+        }
 
         // Load view Blade yang ada di folder proposal_kegiatan
         $pdf = PDF::loadView('proposal_kegiatan.halaman_pengesahan', compact( 'revisions', 'pic', 'pic2', 'proposal'));

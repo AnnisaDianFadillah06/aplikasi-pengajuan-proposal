@@ -98,7 +98,7 @@
 
     <div class="kop-surat">
         <div class="logo">
-            <img src="{{ $pic }}" height="100" width="100" alt="Logo">
+            <img src="{{ Storage::url('uploads/LOGOPOLBAN4K.png') }}" height="100" width="100" alt="Logo">
         </div>
         <div class="isi-kop">
             {{-- <h1 style="font-size: 20px !important; text-align: center; margin: 0; font-weight: normal;">KEMENTERIAN PENDIDIKAN TINGGI, SAINS,<br> DAN TEKNOLOGI</h1> --}}
@@ -233,7 +233,7 @@
                     </td>
                     <td style="text-align: left; margin-left: 50px">
     
-                        <img src="{{ $pic2 }}" height="200" width="200" alt="Logo">
+                        <img src="{{ Storage::url($proposal->qr_code_path) }}" height="200" width="200" alt="Logo">
      
                     </td>
                 </tr>
