@@ -18,6 +18,7 @@ use App\Mail\kirimEmail;
 use App\Mail\notifikasiReviewerProposal;
 use App\Models\Reviewer;
 use Symfony\Component\Mailer\Exception\TransportException;
+use Illuminate\Support\Facades\Storage;
 
 
 class ReviewController extends Controller
@@ -516,5 +517,70 @@ class ReviewController extends Controller
         }
     }
 
+    public function destroy($id_proposal)
+    {
+        try {
+            DB::beginTransaction();
+            
+            // Cari proposal
+            $proposal = PengajuanProposal::findOrFail($id_proposal);
+            
+            // Hapus SPJ terkait jika ada
+            $spj = Spj::where('id_proposal', $id_proposal)->first();
+            if ($spj) {
+                // Hapus file SPJ jika ada
+                if ($spj->file_spj && Storage::exists('uploads/' . $spj->file_spj)) {
+                    Storage::delete('uploads/' . $spj->file_spj);
+                }
+                if ($spj->file_sptb && Storage::exists('uploads/' . $spj->file_sptb)) {
+                    Storage::delete('uploads/' . $spj->file_sptb);
+                }
+                if ($spj->dokumen_berita_acara && Storage::exists('uploads/' . $spj->dokumen_berita_acara)) {
+                    Storage::delete('uploads/' . $spj->dokumen_berita_acara);
+                }
+                if ($spj->gambar_bukti_spj && Storage::exists('uploads/' . $spj->gambar_bukti_spj)) {
+                    Storage::delete('uploads/' . $spj->gambar_bukti_spj);
+                }
+                if ($spj->video_kegiatan && Storage::exists('uploads/' . $spj->video_kegiatan)) {
+                    Storage::delete('uploads/' . $spj->video_kegiatan);
+                }
+                
+                // Hapus review SPJ terkait
+                ReviewSPJ::where('id_spj', $spj->id_spj)->delete();
+                
+                // Hapus SPJ
+                $spj->delete();
+            }
 
+            // Hapus file proposal jika ada
+            if ($proposal->file_proposal && Storage::exists('uploads/' . $proposal->file_proposal)) {
+                Storage::delete('uploads/' . $proposal->file_proposal);
+            }
+            if ($proposal->surat_berkegiatan_ketuplak && Storage::exists('uploads/' . $proposal->surat_berkegiatan_ketuplak)) {
+                Storage::delete('uploads/' . $proposal->surat_berkegiatan_ketuplak);
+            }
+            if ($proposal->surat_pernyataan_ormawa && Storage::exists('uploads/' . $proposal->surat_pernyataan_ormawa)) {
+                Storage::delete('uploads/' . $proposal->surat_pernyataan_ormawa);
+            }
+            if ($proposal->surat_peminjaman_sarpras && Storage::exists('uploads/' . $proposal->surat_peminjaman_sarpras)) {
+                Storage::delete('uploads/' . $proposal->surat_peminjaman_sarpras);
+            }
+            if ($proposal->poster_kegiatan && Storage::exists('uploads/' . $proposal->poster_kegiatan)) {
+                Storage::delete('uploads/' . $proposal->poster_kegiatan);
+            }
+            
+            // Hapus review proposal terkait
+            ReviewProposal::where('id_proposal', $id_proposal)->delete();
+            
+            // Hapus proposal
+            $proposal->delete();
+
+            DB::commit();
+            return redirect()->route('proposal.index')->with('success', 'Proposal dan data terkait berhasil dihapus');
+            
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->route('proposal.index')->with('error', 'Gagal menghapus proposal: ' . $e->getMessage());
+        }
+    }
 }
