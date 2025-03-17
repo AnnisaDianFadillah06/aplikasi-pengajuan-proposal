@@ -32,6 +32,12 @@
                             <p class="text-sm text-gray-500">Nomor Telepon</p>
                             <p class="font-medium">{{ $proposal->no_hp_penanggung_jawab }}</p>
                         </div>
+                        <div class="mt-4">
+                            <a href="{{ $proposal->link_surat_izin_ortu }}" 
+                               class="px-6 py-2.5 rounded-lg text-sm font-medium text-white bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                               Lihat Surat Izin Orang Tua
+                            </a>
+                        </div>
                     </div>
                 </div>
     
