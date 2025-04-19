@@ -30,6 +30,17 @@
             margin-top: 20px;
             font-size: 12px;
             color: #888;
+            text-align: center;
+        }
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #d9534f;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 20px;
         }
     </style>
 </head>
@@ -46,7 +57,6 @@
 
     // Mendapatkan tahap saat ini dan tahap berikutnya
     $tahap = $roles[$data_email['id_role']] ?? 'Tidak Diketahui';
-    $nextTahap = $roles[$data_email['id_role'] + 1] ?? 'Tidak Diketahui';
 @endphp
 
     <div class="email-container">
@@ -71,6 +81,10 @@
         @endif
 
         <p>{{ $data_email['isi'] }}</p>
+
+        <p style="text-align: center;">
+            <a href="{{ url('/login-mahasiswa') }}" class="button">Login</a>
+        </p>
 
         <p>Salam,</p>
         <p><strong>{{ $data_email['sender_name'] }}</strong></p>

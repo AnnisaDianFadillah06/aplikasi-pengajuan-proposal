@@ -62,10 +62,16 @@
 
         <p>Batas waktu review adalah 3 hari dari hari ini, yaitu tanggal <strong>{{ \Carbon\Carbon::now()->addDays(3)->format('d M Y') }}</strong>.</p>
 
-        <p>Silakan login untuk melakukan review.</p>
+        <p>Silakan login untuk melakukan review:</p>
+        
+        <p style="text-align: center;">
+            <a href="{{ url('/login-dosen') }}" class="button">Login</a>
+        </p>
+
         <div class="footer">
             <p>Catatan: Email ini dikirim secara otomatis. Harap tidak membalas langsung ke email ini.</p>
         </div>
+
         <p>Regards,</p>
         <p><strong>Ormawa Kemahasiswaan</strong></p> 
     </div>

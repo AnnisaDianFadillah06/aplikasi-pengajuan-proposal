@@ -30,6 +30,17 @@
             margin-top: 20px;
             font-size: 12px;
             color: #888;
+            text-align: center;
+        }
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #4CAF50;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 20px;
         }
     </style>
 </head>
@@ -48,7 +59,6 @@
     $tahap = $roles[$data_email['id_role']] ?? 'Tidak Diketahui';
     $nextTahap = $roles[$data_email['id_role'] + 1] ?? 'Tidak Diketahui';
 @endphp
-
 
     <div class="email-container">
         <!-- Judul Berdasarkan Tipe -->
@@ -72,11 +82,17 @@
         @endif
 
         <p>{{ $data_email['isi'] }}</p>
+
         @if ($data_email['id_role'] != 5 && $data_email['id_role'] != 6)
             <p>
                 <span class="highlight">Catatan:</span> Sekarang sedang menunggu direview oleh {{ $nextTahap }}.
             </p>
         @endif
+
+        <p style="text-align: center;">
+            <a href="{{ url('/login-mahasiswa') }}" class="button">Login</a>
+        </p>
+
         <p>Salam,</p>
         <p><strong>{{ $data_email['sender_name'] }}</strong></p>
         <div class="footer">
