@@ -160,6 +160,8 @@ Route::middleware('isReviewer')->group(function () {
     Route::get('/dashboard-reviewer', [DashboardController::class, 'index'])->name('proposal_kegiatan.dashboard-reviewer');
     
     Route::delete('/manajemen-review/{id_proposal}', [ReviewController::class, 'destroy'])->name('proposal.destroy');
+    Route::delete('/manajemen-review-spj/{id_spj}', [ReviewController::class, 'destroySpj'])->name('spj.destroy');
+    Route::delete('/manajemen-review-lpj/{id_lpj}', [ReviewController::class, 'destroyLpj'])->name('lpj.destroy');
 });
 
 Route::middleware('isPengaju')->group(function () {
