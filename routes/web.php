@@ -156,6 +156,10 @@ Route::middleware('isReviewer')->group(function () {
     Route::delete('/remove-pengaju/{id}', [RoleController::class, 'removePengaju'])->name('admin.removePengaju');
     Route::delete('/remove-reviewer/{id}', [RoleController::class, 'removeReviewer'])->name('admin.removeReviewer');
     
+    // Routes untuk reset password
+    Route::post('/reset-password-pengaju/{id}', [RoleController::class, 'resetPasswordPengaju'])->name('reset.password.pengaju');
+    Route::post('/reset-password-reviewer/{id}', [RoleController::class, 'resetPasswordReviewer'])->name('reset.password.reviewer');
+    
     // Timothy
     Route::get('/dashboard-reviewer', [DashboardController::class, 'index'])->name('proposal_kegiatan.dashboard-reviewer');
     
