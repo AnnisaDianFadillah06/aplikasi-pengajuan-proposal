@@ -181,7 +181,11 @@
                                 @elseif ($tahap == 2)
                                     <span class="px-3 py-1 text-xs font-medium text-indigo-700 bg-indigo-100 rounded-full">Pembina</span>
                                 @elseif ($tahap == 3)
-                                    <span class="px-3 py-1 text-xs font-medium text-teal-700 bg-teal-100 rounded-full">Wadir 3</span>
+                                    <span class="px-3 py-1 text-xs font-medium text-teal-700 bg-teal-100 rounded-full">Kajur</span>
+                                @elseif ($tahap == 4)
+                                    <span class="px-3 py-1 text-xs font-medium text-indigo-700 bg-indigo-100 rounded-full">KLI</span>
+                                @elseif ($tahap == 5)
+                                    <span class="px-3 py-1 text-xs font-medium text-indigo-700 bg-indigo-100 rounded-full">Wadir 3</span>
                                 @endif
                             </td>
                             <td class="px-6 py-4">
