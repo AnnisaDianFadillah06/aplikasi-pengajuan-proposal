@@ -104,7 +104,7 @@
                                             if ($latestReview) {
                                                 $statusRevisi = $latestReview->status_revisi;
                                                 $tahap = $latestReview->id_dosen;
-                                                if ($statusRevisi == 1) {
+                                                if ($statusRevisi == 1 && $tahap != 5) {
                                                     $statusRevisi = 0;
                                                     $tahap += 1;
                                                 }
@@ -122,7 +122,7 @@
                                         @elseif ($statusRevisi == 1)
                                             <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
                                                 <span class="w-2 h-2 mr-1.5 bg-green-400 rounded-full"></span>
-                                                Disetujui
+                                                Selesai
                                             </span>
                                         @elseif ($statusRevisi == 2)
                                             <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
@@ -326,7 +326,7 @@
                             if ($latestReview) {
                                 $statusRevisi = $latestReview->status_revisi;
                                 $tahapSpj = $latestReview->id_dosen;
-                                if ($statusRevisi == 1) {
+                                if ($statusRevisi == 1 && $tahapSpj != 5) {
                                     $statusRevisi = 0;
                                     $tahapSpj += 1;
                                 }
@@ -344,7 +344,7 @@
                         @elseif ($statusRevisi == 1)
                             <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
                                 <span class="w-2 h-2 mr-1.5 bg-green-400 rounded-full"></span>
-                                Disetujui
+                                Selesai
                             </span>
                         @elseif ($statusRevisi == 2)
                             <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
@@ -546,7 +546,7 @@
                             if ($latestReview) {
                                 $statusRevisi = $latestReview->status_revisi;
                                 $tahapLpj = $latestReview->id_dosen;
-                                if ($statusRevisi == 1) {
+                                if ($statusRevisi == 1 && $tahapLpj != 5) {
                                     $statusRevisi = 0;
                                     $tahapLpj += 1;
                                 }
@@ -564,7 +564,7 @@
                         @elseif ($statusRevisi == 1)
                             <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
                                 <span class="w-2 h-2 mr-1.5 bg-green-400 rounded-full"></span>
-                                Disetujui
+                                Selesai
                             </span>
                         @elseif ($statusRevisi == 2)
                             <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
