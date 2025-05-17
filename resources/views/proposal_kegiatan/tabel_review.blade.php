@@ -42,7 +42,7 @@
                         <h3 class="text-lg font-semibold text-gray-900">Daftar Review Proposal</h3>
                     </div>
                     
-                    <div class="overflow-x-auto">
+                    <div class="overflow-x-auto w-full mb-6">
                         <table id="table-proposal" class="min-w-full divide-y divide-gray-200">
                             <thead class="bg-gray-50">
                                 <tr>
@@ -264,7 +264,7 @@
         <h3 class="text-lg font-semibold text-gray-900">Daftar Review SPJ</h3>
     </div>
     
-    <div class="overflow-x-auto">
+    <div class="overflow-x-auto w-full mb-6">
         <table id="table-spj" class="min-w-full divide-y divide-gray-200">
             <thead class="bg-gray-50">
                 <tr>
@@ -484,7 +484,7 @@
         <h3 class="text-lg font-semibold text-gray-900">Daftar Review LPJ</h3>
     </div>
     
-    <div class="overflow-x-auto">
+    <div class="overflow-x-auto w-full mb-6">
         <table id="table-lpj" class="min-w-full divide-y divide-gray-200">
             <thead class="bg-gray-50">
                 <tr>
@@ -750,6 +750,7 @@
 
     // DataTables initialization with modern styling
     $(document).ready(function() {
+        // Modifikasi konfigurasi DataTables
         const tableConfig = {
             pageLength: 10,
             lengthMenu: [5, 10, 25, 50],
@@ -764,6 +765,10 @@
                     last: "»"
                 }
             },
+            scrollX: true,
+            scrollCollapse: true,
+            autoWidth: false,
+            responsive: true,
             drawCallback: function() {
                 adjustSelectWidth();
             }
