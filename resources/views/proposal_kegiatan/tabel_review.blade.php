@@ -163,10 +163,10 @@
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="text-sm text-gray-900">
-                                            {{ \Carbon\Carbon::parse($proposal->updated_at)->format('Y-m-d') }}
+                                            {{ \Carbon\Carbon::parse($proposal->created_at)->format('Y-m-d') }}
                                         </div>
                                         <div class="text-xs text-gray-500">
-                                            {{ \Carbon\Carbon::parse($proposal->updated_at)->diffForHumans() }}
+                                            {{ \Carbon\Carbon::parse($proposal->created_at)->diffForHumans() }}
                                         </div>
                                     </td>
                                     @php
@@ -385,10 +385,10 @@
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap">
                         <div class="text-sm text-gray-900">
-                            {{ \Carbon\Carbon::parse($spj->updated_at)->format('Y-m-d') }}
+                            {{ \Carbon\Carbon::parse($spj->created_at)->format('Y-m-d') }}
                         </div>
                         <div class="text-xs text-gray-500">
-                            {{ \Carbon\Carbon::parse($spj->updated_at)->diffForHumans() }}
+                            {{ \Carbon\Carbon::parse($spj->created_at)->diffForHumans() }}
                         </div>
                     </td>
                     @php
