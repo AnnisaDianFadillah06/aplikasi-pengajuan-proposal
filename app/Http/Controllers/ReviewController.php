@@ -198,7 +198,7 @@ class ReviewController extends Controller
             // Simpan data revisi ke dalam tabel revisi_file
             ReviewProposal::create([
                 'catatan_revisi' => $request->input('catatan_revisi'),
-                'tgl_revisi' => now()->format('Y-m-d'),
+                'tgl_revisi' => now(),
                 'id_dosen' => session('id_role'),
                 'id_proposal' => $request->input('id_proposal'),
                 'status_revisi' => $request->input('status_revisi'),
