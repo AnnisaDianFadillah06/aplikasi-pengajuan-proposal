@@ -156,6 +156,23 @@ npm run dev
 
 7. Akses aplikasi melalui browser di http://localhost:8000
 
+## 📚Panduan Pengguna
+Untuk memudahkan pengguna dalam mengoperasikan aplikasi ini, kami telah menyediakan buku panduan dan video tutorial:
+Buku Panduan
+<p align="center">
+  <a href="https://drive.google.com/file/d/1vz0Kj1iAmRPrpa5IiYta4you7gXBdlwg/view?usp=drive_link" target="_blank">
+    <br>
+    <b>Unduh Buku Panduan (PDF)</b>
+  </a>
+</p>
+Video Tutorial
+<p align="center">
+  <a href="https://drive.google.com/file/d/10Jmh58BRTp7AEzLdG72gHVM3lrW772tI/view?usp=drivesdk" target="_blank">
+    <br>
+    <b>Tonton Video Tutorial</b>
+  </a>
+</p>
+
 ## 📚 Proyek Ini Dikembangkan Oleh
 ### Proyek 3 - Kelompok 6
 
