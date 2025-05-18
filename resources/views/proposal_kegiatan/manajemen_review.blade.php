@@ -371,62 +371,66 @@
                 });
 
 
-                // Ambil id_role dari blade ke dalam JavaScript
-                const idRole = {{ session('id_role') }};
-                
-                if (idRole === 2) {
-                    const statusRevisi = document.getElementById('status_revisi');
-                    const checkboxContainer = document.getElementById('checkbox-container');
-                    const checkboxMenyetujui = document.getElementById('checkbox_menyetujui');
-                    const submitButton = document.getElementById('submit_button');
+    const idRole = {{ session('id_role') }};
+    const hasPendingSPJ = {{ $pendingSpjProposals->isNotEmpty() ? 'true' : 'false' }};
+    
+    const statusRevisi = document.getElementById('status_revisi');
+    const submitButton = document.getElementById('submit_button');
+    const checkboxContainer = document.getElementById('checkbox-container');
+    const checkboxMenyetujui = document.getElementById('checkbox_menyetujui');
 
-                    // Fungsi untuk mengecek kondisi dan mengaktifkan/menonaktifkan tombol submit
-                    function validateForm() {
-                        if (statusRevisi.value === '1') {
-                            // Jika status "Setujui" dipilih
-                            checkboxContainer.classList.remove('hidden');
-                            
-                            // Periksa kondisi checkbox
-                            if (checkboxMenyetujui.checked) {
-                                toggleButtonState(false, ""); // Aktifkan tombol
-                            } else {
-                                toggleButtonState(true, "Centang persetujuan untuk mengaktifkan tombol");
-                            }
-                        } else {
-                            // Jika status selain "Setujui" dipilih
-                            checkboxContainer.classList.add('hidden');
-                            toggleButtonState(false, ""); // Selalu aktifkan tombol
-                        }
-                    }
+    function validateForm() {
+        const selectedValue = statusRevisi.value;
 
-                    // Fungsi toggle untuk mengatur tombol disabled/aktif
-                    function toggleButtonState(isDisabled, tooltipText) {
-                        submitButton.disabled = isDisabled;
+        // Role 5: reviewer, pilih "Setujui", dan ada SPJ tertunda
+        if (idRole === 5 && selectedValue === "1" && hasPendingSPJ) {
+            submitButton.disabled = true;
+            submitButton.classList.add('cursor-not-allowed', 'bg-gray-400');
+            submitButton.classList.remove('bg-blue-600', 'hover:bg-blue-700');
+            submitButton.setAttribute('title', 'Terdapat SPJ tertunda, tidak bisa menyetujui');
+            checkboxContainer?.classList.add('hidden');
+            return;
+        }
 
-                        if (isDisabled) {
-                            // Jika tombol disabled
-                            submitButton.classList.add('cursor-not-allowed', 'bg-gray-400');
-                            submitButton.classList.remove('bg-blue-600', 'hover:bg-blue-700');
-                            submitButton.setAttribute('title', tooltipText);
-                        } else {
-                            // Jika tombol aktif
-                            submitButton.classList.remove('cursor-not-allowed', 'bg-gray-400');
-                            submitButton.classList.add('bg-blue-600', 'hover:bg-blue-700');
-                            submitButton.removeAttribute('title');
-                        }
-                    }
+        // Role 2: Koordinator harus mencentang checkbox menyetujui
+        if (idRole === 2 && selectedValue === "1") {
+            checkboxContainer.classList.remove('hidden');
+            if (checkboxMenyetujui.checked) {
+                toggleButtonState(false, "");
+            } else {
+                toggleButtonState(true, "Centang persetujuan untuk mengaktifkan tombol");
+            }
+        } else {
+            checkboxContainer?.classList.add('hidden');
+            toggleButtonState(false, "");
+        }
+    }
 
-                    // Event listener untuk dropdown status_revisi
-                    statusRevisi.addEventListener('change', validateForm);
+    function toggleButtonState(isDisabled, tooltipText) {
+        submitButton.disabled = isDisabled;
 
-                    // Event listener untuk checkbox_menyetujui
-                    checkboxMenyetujui.addEventListener('change', validateForm);
-                } else {
-                    // Jika id_role bukan 2, tombol tetap aktif
-                    const submitButton = document.getElementById('submit_button');
-                    submitButton.disabled = false;
-                }
+        if (isDisabled) {
+            submitButton.classList.add('cursor-not-allowed', 'bg-gray-400');
+            submitButton.classList.remove('bg-blue-600', 'hover:bg-blue-700');
+            submitButton.setAttribute('title', tooltipText);
+        } else {
+            submitButton.classList.remove('cursor-not-allowed', 'bg-gray-400');
+            submitButton.classList.add('bg-blue-600', 'hover:bg-blue-700');
+            submitButton.removeAttribute('title');
+        }
+    }
 
+    // Event listener untuk perubahan
+    if (statusRevisi) {
+        statusRevisi.addEventListener('change', validateForm);
+    }
+
+    if (checkboxMenyetujui) {
+        checkboxMenyetujui.addEventListener('change', validateForm);
+    }
+
+    // Jalankan validasi awal saat halaman dimuat
+    validateForm();
 
             </script>
         </div>
