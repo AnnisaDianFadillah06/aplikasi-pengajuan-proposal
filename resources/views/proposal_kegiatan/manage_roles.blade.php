@@ -1,8 +1,8 @@
 @extends('proposal_kegiatan/reviewer')
 @section('title', 'Manage Roles')
 @section('konten')
-{{-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script> --}}
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<!-- Bootstrap JS is already included at the bottom of the page -->
 
 <body>
 
@@ -86,6 +86,17 @@
                                                     </svg>
                                                     Edit
                                                 </a>
+                                                <button type="button" 
+                                                   class="reset-pengaju-btn inline-flex items-center px-3 py-1.5 bg-yellow-50 text-yellow-700 rounded-lg hover:bg-yellow-100 transition-colors duration-200 ml-2"
+                                                   data-bs-toggle="modal" 
+                                                   data-bs-target="#resetPengajuModal"
+                                                   data-id="{{ $pengaju->id }}"
+                                                   data-username="{{ $pengaju->username }}">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
+                                                    </svg>
+                                                    Reset Password
+                                                </button>
                                             </td>
                                         </tr>
                                         @endforeach
@@ -153,6 +164,17 @@
                                             </svg>
                                             Edit
                                         </a>
+                                        <button type="button" 
+                                           class="reset-reviewer-btn inline-flex items-center px-3 py-1.5 bg-yellow-50 text-yellow-700 rounded-lg hover:bg-yellow-100 transition-colors duration-200 ml-2"
+                                           data-bs-toggle="modal" 
+                                           data-bs-target="#resetReviewerModal"
+                                           data-id="{{ $reviewer->id }}"
+                                           data-username="{{ $reviewer->username }}">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
+                                            </svg>
+                                            Reset Password
+                                        </button>
                                     </td>
                                 </tr>
                                 @endforeach
@@ -165,6 +187,133 @@
         </div>
     </div>
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Reset Password Modal for Pengaju -->
+    <div class="modal fade" id="resetPengajuModal" tabindex="-1" aria-labelledby="resetPengajuModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="resetPengajuModalLabel">Reset Password</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="text-sm text-gray-500 mb-6">
+                        Reset password untuk user <span id="pengajuUsernameDisplay" class="font-bold"></span>
+                    </p>
+                    <form id="resetPengajuForm" method="POST" action="">
+                        @csrf
+                        <div class="mb-4">
+                            <label for="pengaju_password" class="form-label">Password Baru</label>
+                            <input type="password" name="password" id="pengaju_password" class="form-control" required minlength="8">
+                        </div>
+                        <div class="mb-4">
+                            <label for="pengaju_password_confirmation" class="form-label">Konfirmasi Password</label>
+                            <input type="password" name="password_confirmation" id="pengaju_password_confirmation" class="form-control" required minlength="8">
+                        </div>
+                        <div class="modal-footer px-0 pb-0">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                            <button type="submit" class="btn btn-warning">Reset</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Reset Password Modal for Reviewer -->
+    <div class="modal fade" id="resetReviewerModal" tabindex="-1" aria-labelledby="resetReviewerModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="resetReviewerModalLabel">Reset Password</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="text-sm text-gray-500 mb-6">
+                        Reset password untuk user <span id="reviewerUsernameDisplay" class="font-bold"></span>
+                    </p>
+                    <form id="resetReviewerForm" method="POST" action="">
+                        @csrf
+                        <div class="mb-4">
+                            <label for="reviewer_password" class="form-label">Password Baru</label>
+                            <input type="password" name="password" id="reviewer_password" class="form-control" required minlength="8">
+                        </div>
+                        <div class="mb-4">
+                            <label for="reviewer_password_confirmation" class="form-label">Konfirmasi Password</label>
+                            <input type="password" name="password_confirmation" id="reviewer_password_confirmation" class="form-control" required minlength="8">
+                        </div>
+                        <div class="modal-footer px-0 pb-0">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                            <button type="submit" class="btn btn-warning">Reset</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var tabEl = document.querySelector('a[data-bs-toggle="tab"]')
+            tabEl && tabEl.addEventListener('shown.bs.tab', function (event) {
+                // Tab changed event if needed
+            });
+            
+            // Debug output to verify functions are accessible
+            console.log('DOM Content Loaded');
+            
+            // Verify Bootstrap is available
+            if (typeof bootstrap !== 'undefined') {
+                console.log('Bootstrap is available');
+            } else {
+                console.error('Bootstrap is not available. Modal functionality will not work.');
+            }
+            
+            // Set up event listeners for modals
+            var resetPengajuModal = document.getElementById('resetPengajuModal');
+            resetPengajuModal.addEventListener('show.bs.modal', function (event) {
+                // Button that triggered the modal
+                var button = event.relatedTarget;
+                
+                // Extract info from data-* attributes
+                var id = button.getAttribute('data-id');
+                var username = button.getAttribute('data-username');
+                
+                console.log('Pengaju modal show event - ID:', id, 'Username:', username);
+                
+                // Update the modal's content
+                var modalTitle = resetPengajuModal.querySelector('.modal-title');
+                var usernameSpan = document.getElementById('pengajuUsernameDisplay');
+                var form = document.getElementById('resetPengajuForm');
+                
+                modalTitle.textContent = 'Reset Password';
+                usernameSpan.textContent = username;
+                form.action = "{{ url('/reset-password-pengaju') }}/" + id;
+            });
+            
+            var resetReviewerModal = document.getElementById('resetReviewerModal');
+            resetReviewerModal.addEventListener('show.bs.modal', function (event) {
+                // Button that triggered the modal
+                var button = event.relatedTarget;
+                
+                // Extract info from data-* attributes
+                var id = button.getAttribute('data-id');
+                var username = button.getAttribute('data-username');
+                
+                console.log('Reviewer modal show event - ID:', id, 'Username:', username);
+                
+                // Update the modal's content
+                var modalTitle = resetReviewerModal.querySelector('.modal-title');
+                var usernameSpan = document.getElementById('reviewerUsernameDisplay');
+                var form = document.getElementById('resetReviewerForm');
+                
+                modalTitle.textContent = 'Reset Password';
+                usernameSpan.textContent = username;
+                form.action = "{{ url('/reset-password-reviewer') }}/" + id;
+            });
+        });
+    </script>
 </body>
 @endsection

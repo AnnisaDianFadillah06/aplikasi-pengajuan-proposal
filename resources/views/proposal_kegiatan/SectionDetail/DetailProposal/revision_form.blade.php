@@ -67,7 +67,7 @@
             </div>
 
             {{-- <form class="p-8" action="add" method="post" enctype="multipart/form-data"> --}}
-            <form class="p-8" action="{{ route('proposal.uploadFileRevisi', $proposal->id_proposal) }}" method="POST" enctype="multipart/form-data" class="max-w-lg">
+            <form id="revisionForm" class="p-8" action="{{ route('proposal.uploadFileRevisi', $proposal->id_proposal) }}" method="POST" enctype="multipart/form-data" class="max-w-lg" onsubmit="return validateAndConfirm(event)">
                 @csrf
                 
                 <!-- Section: Informasi Penanggung Jawab -->
@@ -561,6 +561,27 @@
     </section>
 </main>
 
+<!-- Modal Konfirmasi Revisi -->
+<div id="confirmationModal" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center z-50 hidden">
+    <div class="bg-white p-6 rounded-lg shadow-xl max-w-md w-full mx-4">
+        <div class="text-center">
+            <svg class="w-16 h-16 text-blue-500 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            <h3 class="text-xl font-bold text-gray-900 mb-2">Konfirmasi Revisi</h3>
+            <p class="text-gray-600 mb-6">Apakah Anda yakin ingin mengirimkan revisi proposal ini? Pastikan semua data yang diisi sudah benar dan sesuai dengan catatan revisi.</p>
+            <div class="flex flex-col sm:flex-row gap-2 justify-center">
+                <button id="cancelSubmit" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition-colors duration-300">
+                    Kembali
+                </button>
+                <button id="confirmSubmit" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-300">
+                    Ya, Kirim Revisi
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <script>
     // Fungsi untuk menghapus file input
@@ -583,7 +604,38 @@
             handleCancel(container);
         }
     });
+    
+    // Inisialisasi handler untuk modal konfirmasi
+    const modal = document.getElementById('confirmationModal');
+    const cancelBtn = document.getElementById('cancelSubmit');
+    const confirmBtn = document.getElementById('confirmSubmit');
+    
+    cancelBtn.addEventListener('click', function() {
+        modal.classList.add('hidden');
+    });
+    
+    confirmBtn.addEventListener('click', function() {
+        modal.classList.add('hidden');
+        document.getElementById('revisionForm').submit();
+    });
 });
+
+    function validateAndConfirm(event) {
+        event.preventDefault();
+        
+        // Validasi form dasar (opsional, bisa ditambahkan sesuai kebutuhan)
+        const form = document.getElementById('revisionForm');
+        
+        if (form.checkValidity()) {
+            // Tampilkan modal konfirmasi
+            document.getElementById('confirmationModal').classList.remove('hidden');
+        } else {
+            // Trigger HTML5 validation
+            form.reportValidity();
+        }
+        
+        return false; // Selalu mencegah submit normal
+    }
 
     function handleFileSelect(input) {
         const container = input.closest('.file-upload-container');
@@ -596,6 +648,18 @@
             preview.classList.remove('hidden');
             nameElement.textContent = file.name;
             sizeElement.textContent = formatFileSize(file.size);
+
+            // Khusus untuk preview gambar poster
+            if (input.name === 'poster_kegiatan' && file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const imgPreview = preview.querySelector('.preview-image') || document.createElement('img');
+                    imgPreview.classList.add('preview-image', 'mt-2', 'rounded-lg', 'max-h-40', 'w-auto');
+                    imgPreview.src = e.target.result;
+                    preview.appendChild(imgPreview);
+                }
+                reader.readAsDataURL(file);
+            }
         }
     }
 

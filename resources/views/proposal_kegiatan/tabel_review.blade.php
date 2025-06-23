@@ -42,7 +42,7 @@
                         <h3 class="text-lg font-semibold text-gray-900">Daftar Review Proposal</h3>
                     </div>
                     
-                    <div class="overflow-x-auto">
+                    <div class="overflow-x-auto w-full mb-6">
                         <table id="table-proposal" class="min-w-full divide-y divide-gray-200">
                             <thead class="bg-gray-50">
                                 <tr>
@@ -104,7 +104,7 @@
                                             if ($latestReview) {
                                                 $statusRevisi = $latestReview->status_revisi;
                                                 $tahap = $latestReview->id_dosen;
-                                                if ($statusRevisi == 1) {
+                                                if ($statusRevisi == 1 && $tahap != 5) {
                                                     $statusRevisi = 0;
                                                     $tahap += 1;
                                                 }
@@ -122,7 +122,7 @@
                                         @elseif ($statusRevisi == 1)
                                             <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
                                                 <span class="w-2 h-2 mr-1.5 bg-green-400 rounded-full"></span>
-                                                Disetujui
+                                                Selesai
                                             </span>
                                         @elseif ($statusRevisi == 2)
                                             <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
@@ -264,7 +264,7 @@
         <h3 class="text-lg font-semibold text-gray-900">Daftar Review SPJ</h3>
     </div>
     
-    <div class="overflow-x-auto">
+    <div class="overflow-x-auto w-full mb-6">
         <table id="table-spj" class="min-w-full divide-y divide-gray-200">
             <thead class="bg-gray-50">
                 <tr>
@@ -326,7 +326,7 @@
                             if ($latestReview) {
                                 $statusRevisi = $latestReview->status_revisi;
                                 $tahapSpj = $latestReview->id_dosen;
-                                if ($statusRevisi == 1) {
+                                if ($statusRevisi == 1 && $tahapSpj != 5) {
                                     $statusRevisi = 0;
                                     $tahapSpj += 1;
                                 }
@@ -344,7 +344,7 @@
                         @elseif ($statusRevisi == 1)
                             <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
                                 <span class="w-2 h-2 mr-1.5 bg-green-400 rounded-full"></span>
-                                Disetujui
+                                Selesai
                             </span>
                         @elseif ($statusRevisi == 2)
                             <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
@@ -442,6 +442,21 @@
                             </svg>
                             Review
                         </a>
+                        @if($idRole == 5)
+                            <form method="POST" action="{{ route('spj.destroy', $spj->id_spj) }}" 
+                                  class="inline-block ml-2" 
+                                  onsubmit="return confirm('Apakah Anda yakin ingin menghapus SPJ ini? Semua data terkait akan ikut terhapus.');">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" 
+                                        class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors duration-150">
+                                    <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                    </svg>
+                                    Hapus
+                                </button>
+                            </form>
+                        @endif
                     </td>
                     @if($idRole == 5)
                         <td class="px-6 py-4 whitespace-nowrap center text-sm font-medium">
@@ -469,7 +484,7 @@
         <h3 class="text-lg font-semibold text-gray-900">Daftar Review LPJ</h3>
     </div>
     
-    <div class="overflow-x-auto">
+    <div class="overflow-x-auto w-full mb-6">
         <table id="table-lpj" class="min-w-full divide-y divide-gray-200">
             <thead class="bg-gray-50">
                 <tr>
@@ -531,7 +546,7 @@
                             if ($latestReview) {
                                 $statusRevisi = $latestReview->status_revisi;
                                 $tahapLpj = $latestReview->id_dosen;
-                                if ($statusRevisi == 1) {
+                                if ($statusRevisi == 1 && $tahapLpj != 5) {
                                     $statusRevisi = 0;
                                     $tahapLpj += 1;
                                 }
@@ -549,7 +564,7 @@
                         @elseif ($statusRevisi == 1)
                             <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
                                 <span class="w-2 h-2 mr-1.5 bg-green-400 rounded-full"></span>
-                                Disetujui
+                                Selesai
                             </span>
                         @elseif ($statusRevisi == 2)
                             <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
@@ -649,6 +664,21 @@
                             </svg>
                             Review
                         </a>
+                        @if($idRole == 5)
+                            <form method="POST" action="{{ route('lpj.destroy', $lpj->id_lpj) }}" 
+                                  class="inline-block ml-2" 
+                                  onsubmit="return confirm('Apakah Anda yakin ingin menghapus LPJ ini? Semua data terkait akan ikut terhapus.');">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" 
+                                        class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors duration-150">
+                                    <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                    </svg>
+                                    Hapus
+                                </button>
+                            </form>
+                        @endif
                     </td>
                     @if($idRole == 5)
                         <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
@@ -720,6 +750,7 @@
 
     // DataTables initialization with modern styling
     $(document).ready(function() {
+        // Modifikasi konfigurasi DataTables
         const tableConfig = {
             pageLength: 10,
             lengthMenu: [5, 10, 25, 50],
@@ -734,6 +765,10 @@
                     last: "»"
                 }
             },
+            scrollX: true,
+            scrollCollapse: true,
+            autoWidth: false,
+            responsive: true,
             drawCallback: function() {
                 adjustSelectWidth();
             }

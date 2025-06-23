@@ -583,4 +583,78 @@ class ReviewController extends Controller
             return redirect()->route('proposal.index')->with('error', 'Gagal menghapus proposal: ' . $e->getMessage());
         }
     }
+
+    public function destroySpj($id_spj)
+    {
+        try {
+            DB::beginTransaction();
+            
+            // Cari SPJ
+            $spj = Spj::findOrFail($id_spj);
+            
+            // Hapus file SPJ jika ada
+            if ($spj->file_spj && Storage::exists('uploads/' . $spj->file_spj)) {
+                Storage::delete('uploads/' . $spj->file_spj);
+            }
+            if ($spj->file_sptb && Storage::exists('uploads/' . $spj->file_sptb)) {
+                Storage::delete('uploads/' . $spj->file_sptb);
+            }
+            if ($spj->dokumen_berita_acara && Storage::exists('uploads/' . $spj->dokumen_berita_acara)) {
+                Storage::delete('uploads/' . $spj->dokumen_berita_acara);
+            }
+            if ($spj->gambar_bukti_spj && Storage::exists('uploads/' . $spj->gambar_bukti_spj)) {
+                Storage::delete('uploads/' . $spj->gambar_bukti_spj);
+            }
+            if ($spj->video_kegiatan && Storage::exists('uploads/' . $spj->video_kegiatan)) {
+                Storage::delete('uploads/' . $spj->video_kegiatan);
+            }
+            
+            // Hapus review SPJ terkait
+            ReviewSPJ::where('id_spj', $id_spj)->delete();
+            
+            // Hapus SPJ
+            $spj->delete();
+
+            DB::commit();
+            return redirect()->route('proposal.index')->with('success', 'SPJ dan data terkait berhasil dihapus');
+            
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->route('proposal.index')->with('error', 'Gagal menghapus SPJ: ' . $e->getMessage());
+        }
+    }
+
+    public function destroyLpj($id_lpj)
+    {
+        try {
+            DB::beginTransaction();
+            
+            // Cari LPJ
+            $lpj = Lpj::findOrFail($id_lpj);
+            
+            // Hapus file LPJ jika ada
+            if ($lpj->file_lpj && Storage::exists('uploads/' . $lpj->file_lpj)) {
+                Storage::delete('uploads/' . $lpj->file_lpj);
+            }
+            if ($lpj->file_spj && Storage::exists('uploads/' . $lpj->file_spj)) {
+                Storage::delete('uploads/' . $lpj->file_spj);
+            }
+            if ($lpj->file_sptb && Storage::exists('uploads/' . $lpj->file_sptb)) {
+                Storage::delete('uploads/' . $lpj->file_sptb);
+            }
+            
+            // Hapus review LPJ terkait
+            ReviewLPJ::where('id_lpj', $id_lpj)->delete();
+            
+            // Hapus LPJ
+            $lpj->delete();
+
+            DB::commit();
+            return redirect()->route('proposal.index')->with('success', 'LPJ dan data terkait berhasil dihapus');
+            
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->route('proposal.index')->with('error', 'Gagal menghapus LPJ: ' . $e->getMessage());
+        }
+    }
 }

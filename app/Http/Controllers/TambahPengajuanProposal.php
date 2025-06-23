@@ -43,9 +43,9 @@ class TambahPengajuanProposal extends Controller
                 'required',
                 'date',
                 function ($attribute, $value, $fail) {
-                    $minDate = now()->addDays(6)->startOfDay();
+                    $minDate = now()->addDays(14)->startOfDay();
                     if (Carbon::parse($value)->lt($minDate)) {
-                        $fail('Tanggal kegiatan harus lebih dari 5 hari dari hari ini.');
+                        $fail('Tanggal kegiatan harus lebih dari 14 hari dari hari ini.');
                     }
                 },
             ],
@@ -56,7 +56,7 @@ class TambahPengajuanProposal extends Controller
             'pengisi_acara' => 'nullable|string|max:255',
             'sponsorship' => 'nullable|string|max:255',
             'media_partner' => 'nullable|string|max:255',
-            'jumlah_spj' => 'required|numeric|min:0',
+            'jumlah_spj' => 'required|numeric|min:1',
             'nama_penanggung_jawab' => 'required|string|max:255',
             'email_penanggung_jawab' => 'required|email|max:255',
             'no_hp_penanggung_jawab' => [

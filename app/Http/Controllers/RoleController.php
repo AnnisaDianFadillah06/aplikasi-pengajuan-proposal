@@ -277,5 +277,51 @@ class RoleController extends Controller
         return redirect()->route('admin.manageRoles')->with('success', 'Reviewer berhasil ditambahkan.');
     }
 
+    public function resetPasswordPengaju(Request $request, $id)
+    {
+        // Validasi input
+        $validated = $request->validate([
+            'password' => 'required|min:8|confirmed', // Memerlukan input password_confirmation
+        ]);
 
+        // Cari pengaju berdasarkan ID
+        $pengaju = DB::connection('pgsql')->table('pengaju')->where('id', $id)->first();
+
+        if (!$pengaju) {
+            return back()->withErrors(['message' => 'Data Pengaju tidak ditemukan.']);
+        }
+
+        // Update password di tabel mahasiswa di koneksi 'users'
+        DB::connection('users')->table('mahasiswa')
+            ->where('username', $pengaju->username)
+            ->update([
+                'password' => bcrypt($validated['password']), // Enkripsi password baru
+            ]);
+
+        return redirect()->route('admin.manageRoles')->with('success', 'Password pengaju berhasil diperbarui.');
+    }
+
+    public function resetPasswordReviewer(Request $request, $id)
+    {
+        // Validasi input
+        $validated = $request->validate([
+            'password' => 'required|min:8|confirmed', // Memerlukan input password_confirmation
+        ]);
+
+        // Cari reviewer berdasarkan ID
+        $reviewer = DB::connection('pgsql')->table('reviewer')->where('id', $id)->first();
+
+        if (!$reviewer) {
+            return back()->withErrors(['message' => 'Data Reviewer tidak ditemukan.']);
+        }
+
+        // Update password di tabel dosen di koneksi 'users'
+        DB::connection('users')->table('dosen')
+            ->where('username', $reviewer->username)
+            ->update([
+                'password' => bcrypt($validated['password']), // Enkripsi password baru
+            ]);
+
+        return redirect()->route('admin.manageRoles')->with('success', 'Password reviewer berhasil diperbarui.');
+    }
 }
